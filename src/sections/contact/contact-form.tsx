@@ -1,11 +1,11 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 // components
-import { MotionViewport, varFade } from 'src/components/animate';
+import { MotionViewport, varFade } from "src/components/animate";
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +33,12 @@ export default function ContactForm() {
         </m.div>
 
         <m.div variants={varFade().inUp}>
-          <TextField fullWidth label="Enter your message here." multiline rows={4} />
+          <TextField
+            fullWidth
+            label="Enter your message here."
+            multiline
+            rows={4}
+          />
         </m.div>
       </Stack>
 

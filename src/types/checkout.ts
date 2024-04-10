@@ -1,4 +1,4 @@
-import { IAddressItem } from './address';
+import { IAddressItem } from "./address";
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ export type ICheckoutValue = {
 export type CheckoutContextProps = ICheckoutValue & {
   completed: boolean;
   //
-  onAddToCart: (newItem: Omit<ICheckoutItem, 'subTotal'>) => void;
+  onAddToCart: (newItem: Omit<ICheckoutItem, "subTotal">) => void;
   onDeleteCart: (itemId: string) => void;
   //
   onIncreaseQuantity: (itemId: string) => void;

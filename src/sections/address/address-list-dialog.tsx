@@ -1,18 +1,20 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Dialog from '@mui/material/Dialog';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
-import ListItemButton, { listItemButtonClasses } from '@mui/material/ListItemButton';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Dialog from "@mui/material/Dialog";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
+import ListItemButton, {
+  listItemButtonClasses,
+} from "@mui/material/ListItemButton";
 // types
-import { IAddressItem } from 'src/types/address';
+import { IAddressItem } from "src/types/address";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import SearchNotFound from 'src/components/search-not-found';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import SearchNotFound from "src/components/search-not-found";
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +31,7 @@ type Props = {
 };
 
 export default function AddressListDialog({
-  title = 'Address Book',
+  title = "Address Book",
   list,
   action,
   //
@@ -39,7 +41,7 @@ export default function AddressListDialog({
   selected,
   onSelect,
 }: Props) {
-  const [searchAddress, setSearchAddress] = useState('');
+  const [searchAddress, setSearchAddress] = useState("");
 
   const dataFiltered = applyFilter({
     inputData: list,
@@ -48,17 +50,20 @@ export default function AddressListDialog({
 
   const notFound = !dataFiltered.length && !!searchAddress;
 
-  const handleSearchAddress = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchAddress(event.target.value);
-  }, []);
+  const handleSearchAddress = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchAddress(event.target.value);
+    },
+    [],
+  );
 
   const handleSelectAddress = useCallback(
     (address: IAddressItem | null) => {
       onSelect(address);
-      setSearchAddress('');
+      setSearchAddress("");
       onClose();
     },
-    [onClose, onSelect]
+    [onClose, onSelect],
   );
 
   const renderList = (
@@ -67,7 +72,7 @@ export default function AddressListDialog({
       sx={{
         p: 0.5,
         maxHeight: 80 * 8,
-        overflowX: 'hidden',
+        overflowX: "hidden",
       }}
     >
       {dataFiltered.map((address) => (
@@ -81,12 +86,12 @@ export default function AddressListDialog({
             py: 1,
             px: 1.5,
             borderRadius: 1,
-            flexDirection: 'column',
-            alignItems: 'flex-start',
+            flexDirection: "column",
+            alignItems: "flex-start",
             [`&.${listItemButtonClasses.selected}`]: {
-              bgcolor: 'action.selected',
-              '&:hover': {
-                bgcolor: 'action.selected',
+              bgcolor: "action.selected",
+              "&:hover": {
+                bgcolor: "action.selected",
               },
             },
           }}
@@ -98,15 +103,17 @@ export default function AddressListDialog({
           </Stack>
 
           {address.company && (
-            <Box sx={{ color: 'primary.main', typography: 'caption' }}>{address.company}</Box>
+            <Box sx={{ color: "primary.main", typography: "caption" }}>
+              {address.company}
+            </Box>
           )}
 
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             {address.fullAddress}
           </Typography>
 
           {address.phoneNumber && (
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {address.phoneNumber}
             </Typography>
           )}
@@ -136,7 +143,10 @@ export default function AddressListDialog({
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ color: "text.disabled" }}
+                />
               </InputAdornment>
             ),
           }}
@@ -154,13 +164,19 @@ export default function AddressListDialog({
 
 // ----------------------------------------------------------------------
 
-function applyFilter({ inputData, query }: { inputData: IAddressItem[]; query: string }) {
+function applyFilter({
+  inputData,
+  query,
+}: {
+  inputData: IAddressItem[];
+  query: string;
+}) {
   if (query) {
     return inputData.filter(
       (address) =>
         address.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         address.fullAddress.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-        `${address.company}`.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        `${address.company}`.toLowerCase().indexOf(query.toLowerCase()) !== -1,
     );
   }
 

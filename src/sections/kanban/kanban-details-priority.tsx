@@ -1,9 +1,9 @@
 // @mui
-import { alpha } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import ButtonBase from '@mui/material/ButtonBase';
+import { alpha } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import ButtonBase from "@mui/material/ButtonBase";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -12,10 +12,13 @@ type Props = {
   onChangePriority: (newValue: string) => void;
 };
 
-export default function KanbanDetailsPriority({ priority, onChangePriority }: Props) {
+export default function KanbanDetailsPriority({
+  priority,
+  onChangePriority,
+}: Props) {
   return (
     <Stack direction="row" flexWrap="wrap" spacing={1}>
-      {['low', 'medium', 'hight'].map((option) => (
+      {["low", "medium", "hight"].map((option) => (
         <ButtonBase
           key={option}
           onClick={() => onChangePriority(option)}
@@ -25,31 +28,35 @@ export default function KanbanDetailsPriority({ priority, onChangePriority }: Pr
             pr: 1.25,
             fontSize: 12,
             borderRadius: 1,
-            lineHeight: '20px',
-            textTransform: 'capitalize',
-            fontWeight: 'fontWeightBold',
-            boxShadow: (theme) => `inset 0 0 0 1px ${alpha(theme.palette.grey[500], 0.24)}`,
+            lineHeight: "20px",
+            textTransform: "capitalize",
+            fontWeight: "fontWeightBold",
+            boxShadow: (theme) =>
+              `inset 0 0 0 1px ${alpha(theme.palette.grey[500], 0.24)}`,
             ...(option === priority && {
-              boxShadow: (theme) => `inset 0 0 0 2px ${theme.palette.text.primary}`,
+              boxShadow: (theme) =>
+                `inset 0 0 0 2px ${theme.palette.text.primary}`,
             }),
           }}
         >
           <Iconify
             icon={
-              (option === 'low' && 'solar:double-alt-arrow-down-bold-duotone') ||
-              (option === 'medium' && 'solar:double-alt-arrow-right-bold-duotone') ||
-              'solar:double-alt-arrow-up-bold-duotone'
+              (option === "low" &&
+                "solar:double-alt-arrow-down-bold-duotone") ||
+              (option === "medium" &&
+                "solar:double-alt-arrow-right-bold-duotone") ||
+              "solar:double-alt-arrow-up-bold-duotone"
             }
             sx={{
               mr: 0.5,
-              ...(option === 'low' && {
-                color: 'info.main',
+              ...(option === "low" && {
+                color: "info.main",
               }),
-              ...(option === 'medium' && {
-                color: 'warning.main',
+              ...(option === "medium" && {
+                color: "warning.main",
               }),
-              ...(option === 'hight' && {
-                color: 'error.main',
+              ...(option === "hight" && {
+                color: "error.main",
               }),
             }}
           />

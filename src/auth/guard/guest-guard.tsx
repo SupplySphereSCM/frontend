@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from "react";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter, useSearchParams } from "src/routes/hooks";
 //
-import { useAuthContext } from '../hooks';
+import { useAuthContext } from "../hooks";
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ export default function GuestGuard({ children }: Props) {
 
   const searchParams = useSearchParams();
 
-  const returnTo = searchParams.get('returnTo') || paths.dashboard.root;
+  const returnTo = searchParams.get("returnTo") || paths.dashboard.root;
 
   const { authenticated } = useAuthContext();
 

@@ -1,31 +1,32 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import { useTheme, styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Radio from '@mui/material/Radio';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Unstable_Grid2';
+import { useTheme, styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Radio from "@mui/material/Radio";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Unstable_Grid2";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
-const LABELS = ['1col', '2col', '3col', '4col', '6col', '12col'];
+const LABELS = ["1col", "2col", "3col", "4col", "6col", "12col"];
 
 const StyledBlockContainer = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5),
   border: `solid 1px ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius * 1.5,
-  backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 100 : 800],
+  backgroundColor:
+    theme.palette.grey[theme.palette.mode === "light" ? 100 : 800],
 }));
 
 // ----------------------------------------------------------------------
@@ -50,7 +51,7 @@ export default function GridView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: theme.palette.mode === 'light' ? 'grey.200' : 'grey.800',
+          bgcolor: theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -58,10 +59,10 @@ export default function GridView() {
             heading="Grid"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Grid' },
+              { name: "Grid" },
             ]}
           />
         </Container>
@@ -71,7 +72,7 @@ export default function GridView() {
         <Stack spacing={5}>
           <ComponentBlock title="Spacing">
             <StyledBlockContainer variant="outlined">
-              <Typography variant="body2" sx={{ mb: 3, textAlign: 'center' }}>
+              <Typography variant="body2" sx={{ mb: 3, textAlign: "center" }}>
                 Spacing: <strong>{theme.spacing(Number(spacing))}</strong>
               </Typography>
 
@@ -95,8 +96,8 @@ export default function GridView() {
                 onChange={handleChangeSpacing}
                 sx={{
                   mt: 3,
-                  display: 'flex',
-                  justifyContent: 'center',
+                  display: "flex",
+                  justifyContent: "center",
                 }}
               >
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
@@ -119,7 +120,7 @@ export default function GridView() {
                     <Paper
                       sx={{
                         py: 3,
-                        textAlign: 'center',
+                        textAlign: "center",
                         boxShadow: theme.customShadows.z8,
                       }}
                     >
@@ -134,7 +135,7 @@ export default function GridView() {
                 name="column"
                 value={column.toString()}
                 onChange={handleChangeColumn}
-                sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}
+                sx={{ mt: 3, display: "flex", justifyContent: "center" }}
               >
                 {[12, 6, 4, 3, 2, 1].map((value, index) => (
                   <FormControlLabel

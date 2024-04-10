@@ -1,35 +1,39 @@
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // assets
-import { EmailInboxIcon } from 'src/assets/icons';
+import { EmailInboxIcon } from "src/assets/icons";
 // components
-import Iconify from 'src/components/iconify';
-import { RouterLink } from 'src/routes/components';
-import FormProvider, { RHFCode, RHFTextField } from 'src/components/hook-form';
+import Iconify from "src/components/iconify";
+import { RouterLink } from "src/routes/components";
+import FormProvider, { RHFCode, RHFTextField } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
 export default function ClassicVerifyView() {
   const VerifySchema = Yup.object().shape({
-    code: Yup.string().min(6, 'Code must be at least 6 characters').required('Code is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    code: Yup.string()
+      .min(6, "Code must be at least 6 characters")
+      .required("Code is required"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Email must be a valid email address"),
   });
 
   const defaultValues = {
-    code: '',
-    email: '',
+    code: "",
+    email: "",
   };
 
   const methods = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: yupResolver(VerifySchema),
     defaultValues,
   });
@@ -42,7 +46,7 @@ export default function ClassicVerifyView() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
+      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -74,7 +78,7 @@ export default function ClassicVerifyView() {
         <Link
           variant="subtitle2"
           sx={{
-            cursor: 'pointer',
+            cursor: "pointer",
           }}
         >
           Resend code
@@ -87,8 +91,8 @@ export default function ClassicVerifyView() {
         color="inherit"
         variant="subtitle2"
         sx={{
-          alignItems: 'center',
-          display: 'inline-flex',
+          alignItems: "center",
+          display: "inline-flex",
         }}
       >
         <Iconify icon="eva:arrow-ios-back-fill" width={16} />
@@ -104,9 +108,9 @@ export default function ClassicVerifyView() {
       <Stack spacing={1} sx={{ my: 5 }}>
         <Typography variant="h3">Please check your email!</Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          We have emailed a 6-digit confirmation code to acb@domain, please enter the code in below
-          box to verify your email.
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          We have emailed a 6-digit confirmation code to acb@domain, please
+          enter the code in below box to verify your email.
         </Typography>
       </Stack>
     </>

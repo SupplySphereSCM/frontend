@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // _mock
-import { _mock } from 'src/_mock';
+import { _mock } from "src/_mock";
 // components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,8 @@ export default function AccordionView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -50,12 +51,12 @@ export default function AccordionView() {
             heading="Accordion"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Accordion' },
+              { name: "Accordion" },
             ]}
-            moreLink={['https://mui.com/components/accordion']}
+            moreLink={["https://mui.com/components/accordion"]}
           />
         </Container>
       </Box>
@@ -65,8 +66,12 @@ export default function AccordionView() {
           <ComponentBlock title="Simple" spacing={0}>
             {_accordions.map((accordion, index) => (
               <Accordion key={accordion.value} disabled={index === 3}>
-                <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
-                  <Typography variant="subtitle1">{accordion.heading}</Typography>
+                <AccordionSummary
+                  expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+                >
+                  <Typography variant="subtitle1">
+                    {accordion.heading}
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>{accordion.detail}</Typography>
@@ -83,11 +88,18 @@ export default function AccordionView() {
                 expanded={controlled === item.value}
                 onChange={handleChangeControlled(item.value)}
               >
-                <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
-                  <Typography variant="subtitle1" sx={{ width: '33%', flexShrink: 0 }}>
+                <AccordionSummary
+                  expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ width: "33%", flexShrink: 0 }}
+                  >
                     {item.heading}
                   </Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{item.subHeading}</Typography>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    {item.subHeading}
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>{item.detail}</Typography>

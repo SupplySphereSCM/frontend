@@ -1,14 +1,14 @@
 // @mui
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
 // utils
-import { fToNow } from 'src/utils/format-time';
+import { fToNow } from "src/utils/format-time";
 // types
-import { IKanbanComment } from 'src/types/kanban';
+import { IKanbanComment } from "src/types/kanban";
 // components
-import Image from 'src/components/image';
-import Lightbox, { useLightBox } from 'src/components/lightbox';
+import Image from "src/components/image";
+import Lightbox, { useLightBox } from "src/components/lightbox";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ type Props = {
 
 export default function KanbanDetailsCommentList({ comments }: Props) {
   const slides = comments
-    .filter((comment) => comment.messageType === 'image')
+    .filter((comment) => comment.messageType === "image")
     .map((slide) => ({ src: slide.message }));
 
   const lightbox = useLightBox(slides);
@@ -31,31 +31,39 @@ export default function KanbanDetailsCommentList({ comments }: Props) {
         sx={{
           py: 3,
           px: 2.5,
-          bgcolor: 'background.neutral',
+          bgcolor: "background.neutral",
         }}
       >
         {comments.map((comment) => (
           <Stack key={comment.id} direction="row" spacing={2}>
             <Avatar src={comment.avatarUrl} />
 
-            <Stack spacing={comment.messageType === 'image' ? 1 : 0.5} flexGrow={1}>
-              <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Stack
+              spacing={comment.messageType === "image" ? 1 : 0.5}
+              flexGrow={1}
+            >
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <Typography variant="subtitle2"> {comment.name}</Typography>
-                <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+                <Typography variant="caption" sx={{ color: "text.disabled" }}>
                   {fToNow(comment.createdAt)}
                 </Typography>
               </Stack>
 
-              {comment.messageType === 'image' ? (
+              {comment.messageType === "image" ? (
                 <Image
                   alt={comment.message}
                   src={comment.message}
                   onClick={() => lightbox.onOpen(comment.message)}
                   sx={{
                     borderRadius: 1.5,
-                    cursor: 'pointer',
-                    transition: (theme) => theme.transitions.create(['opacity']),
-                    '&:hover': {
+                    cursor: "pointer",
+                    transition: (theme) =>
+                      theme.transitions.create(["opacity"]),
+                    "&:hover": {
                       opacity: 0.8,
                     },
                   }}

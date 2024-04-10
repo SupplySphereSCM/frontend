@@ -1,28 +1,28 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // utils
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { fDate } from "src/utils/format-time";
+import { fShortenNumber } from "src/utils/format-number";
 // types
-import { IPostItem } from 'src/types/blog';
+import { IPostItem } from "src/types/blog";
 // components
-import Label from 'src/components/label';
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
-import TextMaxLine from 'src/components/text-max-line';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Label from "src/components/label";
+import Image from "src/components/image";
+import Iconify from "src/components/iconify";
+import TextMaxLine from "src/components/text-max-line";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ export default function PostItemHorizontal({ post }: Props) {
 
   const router = useRouter();
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
   const {
     title,
@@ -57,30 +57,48 @@ export default function PostItemHorizontal({ post }: Props) {
             p: (theme) => theme.spacing(3, 3, 2, 3),
           }}
         >
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-            <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ mb: 2 }}
+          >
+            <Label
+              variant="soft"
+              color={(publish === "published" && "info") || "default"}
+            >
               {publish}
             </Label>
 
-            <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
+            <Box
+              component="span"
+              sx={{ typography: "caption", color: "text.disabled" }}
+            >
               {fDate(createdAt)}
             </Box>
           </Stack>
 
           <Stack spacing={1} flexGrow={1}>
-            <Link color="inherit" component={RouterLink} href={paths.dashboard.post.details(title)}>
+            <Link
+              color="inherit"
+              component={RouterLink}
+              href={paths.dashboard.post.details(title)}
+            >
               <TextMaxLine variant="subtitle2" line={2}>
                 {title}
               </TextMaxLine>
             </Link>
 
-            <TextMaxLine variant="body2" sx={{ color: 'text.secondary' }}>
+            <TextMaxLine variant="body2" sx={{ color: "text.secondary" }}>
               {description}
             </TextMaxLine>
           </Stack>
 
           <Stack direction="row" alignItems="center">
-            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+            <IconButton
+              color={popover.open ? "inherit" : "default"}
+              onClick={popover.onOpen}
+            >
               <Iconify icon="eva:more-horizontal-fill" />
             </IconButton>
 
@@ -90,12 +108,16 @@ export default function PostItemHorizontal({ post }: Props) {
               direction="row"
               justifyContent="flex-end"
               sx={{
-                typography: 'caption',
-                color: 'text.disabled',
+                typography: "caption",
+                color: "text.disabled",
               }}
             >
               <Stack direction="row" alignItems="center">
-                <Iconify icon="eva:message-circle-fill" width={16} sx={{ mr: 0.5 }} />
+                <Iconify
+                  icon="eva:message-circle-fill"
+                  width={16}
+                  sx={{ mr: 0.5 }}
+                />
                 {fShortenNumber(totalComments)}
               </Stack>
 
@@ -117,7 +139,7 @@ export default function PostItemHorizontal({ post }: Props) {
             sx={{
               width: 180,
               height: 240,
-              position: 'relative',
+              position: "relative",
               flexShrink: 0,
               p: 1,
             }}
@@ -125,9 +147,13 @@ export default function PostItemHorizontal({ post }: Props) {
             <Avatar
               alt={author.name}
               src={author.avatarUrl}
-              sx={{ position: 'absolute', top: 16, right: 16, zIndex: 9 }}
+              sx={{ position: "absolute", top: 16, right: 16, zIndex: 9 }}
             />
-            <Image alt={title} src={coverUrl} sx={{ height: 1, borderRadius: 1.5 }} />
+            <Image
+              alt={title}
+              src={coverUrl}
+              sx={{ height: 1, borderRadius: 1.5 }}
+            />
           </Box>
         )}
       </Stack>
@@ -162,7 +188,7 @@ export default function PostItemHorizontal({ post }: Props) {
           onClick={() => {
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete

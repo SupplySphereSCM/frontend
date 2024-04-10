@@ -1,7 +1,7 @@
 // @mui
-import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
-import Stack, { StackProps } from '@mui/material/Stack';
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+import Stack, { StackProps } from "@mui/material/Stack";
 
 // ----------------------------------------------------------------------
 
@@ -38,8 +38,8 @@ export default function TableSelectedAction({
         width: 1,
         zIndex: 9,
         height: 58,
-        position: 'absolute',
-        bgcolor: 'primary.lighter',
+        position: "absolute",
+        bgcolor: "primary.lighter",
         ...(dense && {
           height: 38,
         }),
@@ -60,7 +60,7 @@ export default function TableSelectedAction({
         sx={{
           ml: 2,
           flexGrow: 1,
-          color: 'primary.main',
+          color: "primary.main",
           ...(dense && {
             ml: 3,
           }),

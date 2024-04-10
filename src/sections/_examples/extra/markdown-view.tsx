@@ -1,16 +1,16 @@
 // @mui
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import Container from '@mui/material/Container';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import Container from "@mui/material/Container";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Markdown from 'src/components/markdown';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Markdown from "src/components/markdown";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 
 // ----------------------------------------------------------------------
 
@@ -169,23 +169,27 @@ export default function MarkdownView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
           <CustomBreadcrumbs
             heading="Markdown"
-            links={[{ name: 'Components', href: paths.components }, { name: 'Markdown' }]}
-            moreLink={['https://www.npmjs.com/package/react-markdown']}
+            links={[
+              { name: "Components", href: paths.components },
+              { name: "Markdown" },
+            ]}
+            moreLink={["https://www.npmjs.com/package/react-markdown"]}
           />
         </Container>
       </Box>
 
       <Container sx={{ my: 10 }}>
-        <Stack spacing={3} direction={{ xs: 'column', md: 'row' }}>
+        <Stack spacing={3} direction={{ xs: "column", md: "row" }}>
           <Card>
             <CardHeader title="Html content" sx={{ pb: 3 }} />
-            <Divider sx={{ borderStyle: 'dashed' }} />
+            <Divider sx={{ borderStyle: "dashed" }} />
             <CardContent>
               <Markdown children={htmlContent} />
             </CardContent>
@@ -193,7 +197,7 @@ export default function MarkdownView() {
 
           <Card>
             <CardHeader title="Mardown content" sx={{ pb: 3 }} />
-            <Divider sx={{ borderStyle: 'dashed' }} />
+            <Divider sx={{ borderStyle: "dashed" }} />
             <CardContent>
               <Markdown children={mardownContent} />
             </CardContent>

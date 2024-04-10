@@ -1,19 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 // @mui
-import List from '@mui/material/List';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
+import List from "@mui/material/List";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // routes
-import { usePathname } from 'src/routes/hooks';
+import { usePathname } from "src/routes/hooks";
 // components
-import Logo from 'src/components/logo';
-import SvgColor from 'src/components/svg-color';
-import Scrollbar from 'src/components/scrollbar';
+import Logo from "src/components/logo";
+import SvgColor from "src/components/svg-color";
+import Scrollbar from "src/components/scrollbar";
 //
-import { NavProps } from '../types';
-import NavList from './nav-list';
+import { NavProps } from "../types";
+import NavList from "./nav-list";
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ export default function NavMobile({ offsetTop, data }: NavProps) {
         sx={{
           ml: 1,
           ...(offsetTop && {
-            color: 'text.primary',
+            color: "text.primary",
           }),
         }}
       >

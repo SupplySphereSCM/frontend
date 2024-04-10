@@ -1,26 +1,26 @@
-import isEqual from 'lodash/isEqual';
-import { useState, useEffect, useCallback } from 'react';
+import isEqual from "lodash/isEqual";
+import { useState, useEffect, useCallback } from "react";
 // @mui
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
+import Card from "@mui/material/Card";
+import Table from "@mui/material/Table";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import TableBody from "@mui/material/TableBody";
+import IconButton from "@mui/material/IconButton";
+import TableContainer from "@mui/material/TableContainer";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // _mock
-import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
+import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
 // api
-import { useGetProducts } from 'src/api/product';
+import { useGetProducts } from "src/api/product";
 // components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from "src/components/settings";
 import {
   useTable,
   getComparator,
@@ -31,36 +31,40 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
-} from 'src/components/table';
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+} from "src/components/table";
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 // types
-import { IProductItem, IProductTableFilters, IProductTableFilterValue } from 'src/types/product';
+import {
+  IProductItem,
+  IProductTableFilters,
+  IProductTableFilterValue,
+} from "src/types/product";
 //
-import ProductTableRow from '../product-table-row';
-import ProductTableToolbar from '../product-table-toolbar';
-import ProductTableFiltersResult from '../product-table-filters-result';
+import ProductTableRow from "../product-table-row";
+import ProductTableToolbar from "../product-table-toolbar";
+import ProductTableFiltersResult from "../product-table-filters-result";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Product' },
-  { id: 'createdAt', label: 'Create at', width: 160 },
-  { id: 'inventoryType', label: 'Stock', width: 160 },
-  { id: 'price', label: 'Price', width: 140 },
-  { id: 'publish', label: 'Publish', width: 110 },
-  { id: '', width: 88 },
+  { id: "name", label: "Product" },
+  { id: "createdAt", label: "Create at", width: 160 },
+  { id: "inventoryType", label: "Stock", width: 160 },
+  { id: "price", label: "Price", width: 140 },
+  { id: "publish", label: "Publish", width: 110 },
+  { id: "", width: 88 },
 ];
 
 const PUBLISH_OPTIONS = [
-  { value: 'published', label: 'Published' },
-  { value: 'draft', label: 'Draft' },
+  { value: "published", label: "Published" },
+  { value: "draft", label: "Draft" },
 ];
 
 const defaultFilters: IProductTableFilters = {
-  name: '',
+  name: "",
   publish: [],
   stock: [],
 };
@@ -96,7 +100,7 @@ export default function ProductListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 60 : 80;
@@ -113,7 +117,7 @@ export default function ProductListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -123,11 +127,13 @@ export default function ProductListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+    const deleteRows = tableData.filter(
+      (row) => !table.selected.includes(row.id),
+    );
     setTableData(deleteRows);
 
     table.onUpdatePageDeleteRows({
@@ -141,14 +147,14 @@ export default function ProductListView() {
     (id: string) => {
       router.push(paths.dashboard.product.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.product.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleResetFilters = useCallback(() => {
@@ -157,16 +163,16 @@ export default function ProductListView() {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+      <Container maxWidth={settings.themeStretch ? false : "lg"}>
         <CustomBreadcrumbs
           heading="List"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
+            { name: "Dashboard", href: paths.dashboard.root },
             {
-              name: 'Product',
+              name: "Product",
               href: paths.dashboard.product.root,
             },
-            { name: 'List' },
+            { name: "List" },
           ]}
           action={
             <Button
@@ -202,7 +208,7 @@ export default function ProductListView() {
             />
           )}
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <TableContainer sx={{ position: "relative", overflow: "unset" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -210,7 +216,7 @@ export default function ProductListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -223,7 +229,10 @@ export default function ProductListView() {
             />
 
             <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <Table
+                size={table.dense ? "small" : "medium"}
+                sx={{ minWidth: 960 }}
+              >
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -234,7 +243,7 @@ export default function ProductListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -249,7 +258,7 @@ export default function ProductListView() {
                       {dataFiltered
                         .slice(
                           table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage
+                          table.page * table.rowsPerPage + table.rowsPerPage,
                         )
                         .map((row) => (
                           <ProductTableRow
@@ -267,7 +276,11 @@ export default function ProductListView() {
 
                   <TableEmptyRows
                     height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                    emptyRows={emptyRows(
+                      table.page,
+                      table.rowsPerPage,
+                      tableData.length,
+                    )}
                   />
 
                   <TableNoData notFound={notFound} />
@@ -295,7 +308,8 @@ export default function ProductListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete{" "}
+            <strong> {table.selected.length} </strong> items?
           </>
         }
         action={
@@ -340,16 +354,21 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (product) =>
+        product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
   if (stock.length) {
-    inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+    inputData = inputData.filter((product) =>
+      stock.includes(product.inventoryType),
+    );
   }
 
   if (publish.length) {
-    inputData = inputData.filter((product) => publish.includes(product.publish));
+    inputData = inputData.filter((product) =>
+      publish.includes(product.publish),
+    );
   }
 
   return inputData;

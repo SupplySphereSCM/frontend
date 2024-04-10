@@ -1,13 +1,15 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import CustomDateRangePicker, { useDateRangePicker } from 'src/components/custom-date-range-picker';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import CustomDateRangePicker, {
+  useDateRangePicker,
+} from "src/components/custom-date-range-picker";
 // utils
-import { fDate } from 'src/utils/format-time';
+import { fDate } from "src/utils/format-time";
 //
-import ComponentBlock from '../../component-block';
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -18,12 +20,12 @@ export default function PickerDateRange() {
 
   return (
     <>
-      <Stack sx={{ typography: 'body2', mb: 3, color: 'text.secondary' }}>
+      <Stack sx={{ typography: "body2", mb: 3, color: "text.secondary" }}>
         <div>This is the custom component from minimal.</div>
         <div>You can use more advanced components by MUI.</div>
 
         <Link href="https://mui.com/x/react-date-pickers/date-range-picker/">
-          https://mui.com/x/react-date-pickers/date-range-picker/{' '}
+          https://mui.com/x/react-date-pickers/date-range-picker/{" "}
         </Link>
       </Stack>
 
@@ -31,8 +33,8 @@ export default function PickerDateRange() {
         gap={3}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(2, 1fr)',
+          xs: "repeat(1, 1fr)",
+          md: "repeat(2, 1fr)",
         }}
       >
         <ComponentBlock title="Input">
@@ -40,7 +42,7 @@ export default function PickerDateRange() {
             Click me!
           </Button>
 
-          <Stack sx={{ typography: 'body2', mt: 3 }}>
+          <Stack sx={{ typography: "body2", mt: 3 }}>
             <div>
               <strong>Start:</strong> {fDate(rangeInputPicker.startDate)}
             </div>
@@ -65,7 +67,7 @@ export default function PickerDateRange() {
             Click me!
           </Button>
 
-          <Stack sx={{ typography: 'body2', mt: 3 }}>
+          <Stack sx={{ typography: "body2", mt: 3 }}>
             <div>
               <strong>Start:</strong> {fDate(rangeCalendarPicker.startDate)}
             </div>

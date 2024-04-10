@@ -1,25 +1,25 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Autocomplete from "@mui/material/Autocomplete";
+import FormControlLabel from "@mui/material/FormControlLabel";
 // types
-import { ITourFilters, ITourGuide, ITourFilterValue } from 'src/types/tour';
+import { ITourFilters, ITourGuide, ITourFilterValue } from "src/types/tour";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
 
 // ----------------------------------------------------------------------
 
@@ -68,37 +68,37 @@ export default function TourFilters({
       const checked = filters.services.includes(newValue)
         ? filters.services.filter((value) => value !== newValue)
         : [...filters.services, newValue];
-      onFilters('services', checked);
+      onFilters("services", checked);
     },
-    [filters.services, onFilters]
+    [filters.services, onFilters],
   );
 
   const handleFilterStartDate = useCallback(
     (newValue: Date | null) => {
-      onFilters('startDate', newValue);
+      onFilters("startDate", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterEndDate = useCallback(
     (newValue: Date | null) => {
-      onFilters('endDate', newValue);
+      onFilters("endDate", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterDestination = useCallback(
     (newValue: string[]) => {
-      onFilters('destination', newValue);
+      onFilters("destination", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterTourGuide = useCallback(
     (newValue: ITourGuide[]) => {
-      onFilters('tourGuides', newValue);
+      onFilters("tourGuides", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const renderHead = (
@@ -132,7 +132,11 @@ export default function TourFilters({
         Durations
       </Typography>
       <Stack spacing={2.5}>
-        <DatePicker label="Start date" value={filters.startDate} onChange={handleFilterStartDate} />
+        <DatePicker
+          label="Start date"
+          value={filters.startDate}
+          onChange={handleFilterStartDate}
+        />
 
         <DatePicker
           label="End date"
@@ -141,7 +145,7 @@ export default function TourFilters({
           slotProps={{
             textField: {
               error: dateError,
-              helperText: dateError && 'End date must be later than start date',
+              helperText: dateError && "End date must be later than start date",
             },
           }}
         />
@@ -162,10 +166,12 @@ export default function TourFilters({
         getOptionLabel={(option) => option}
         value={filters.destination}
         onChange={(event, newValue) => handleFilterDestination(newValue)}
-        renderInput={(params) => <TextField placeholder="Select Destination" {...params} />}
+        renderInput={(params) => (
+          <TextField placeholder="Select Destination" {...params} />
+        )}
         renderOption={(props, option) => {
           const { code, label, phone } = destinationOptions.filter(
-            (country) => country.label === option
+            (country) => country.label === option,
           )[0];
 
           if (!label) {
@@ -212,7 +218,9 @@ export default function TourFilters({
         value={filters.tourGuides}
         onChange={(event, newValue) => handleFilterTourGuide(newValue)}
         getOptionLabel={(option) => option.name}
-        renderInput={(params) => <TextField placeholder="Select Tour Guides" {...params} />}
+        renderInput={(params) => (
+          <TextField placeholder="Select Tour Guides" {...params} />
+        )}
         renderOption={(props, tourGuide) => (
           <li {...props} key={tourGuide.id}>
             <Avatar

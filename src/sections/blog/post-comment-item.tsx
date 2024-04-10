@@ -1,17 +1,17 @@
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import ListItem from '@mui/material/ListItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import ListItem from "@mui/material/ListItem";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // utils
-import { fDate } from 'src/utils/format-time';
+import { fDate } from "src/utils/format-time";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -39,13 +39,17 @@ export default function PostCommentItem({
       sx={{
         p: 0,
         pt: 3,
-        alignItems: 'flex-start',
+        alignItems: "flex-start",
         ...(hasReply && {
           pl: 8,
         }),
       }}
     >
-      <Avatar alt={name} src={avatarUrl} sx={{ mr: 2, width: 48, height: 48 }} />
+      <Avatar
+        alt={name}
+        src={avatarUrl}
+        sx={{ mr: 2, width: 48, height: 48 }}
+      />
 
       <Stack
         flexGrow={1}
@@ -58,7 +62,7 @@ export default function PostCommentItem({
           {name}
         </Typography>
 
-        <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+        <Typography variant="caption" sx={{ color: "text.disabled" }}>
           {fDate(postedAt)}
         </Typography>
 
@@ -81,10 +85,10 @@ export default function PostCommentItem({
       {!hasReply && (
         <Button
           size="small"
-          color={reply.value ? 'primary' : 'inherit'}
+          color={reply.value ? "primary" : "inherit"}
           startIcon={<Iconify icon="solar:pen-bold" width={16} />}
           onClick={reply.onToggle}
-          sx={{ right: 0, position: 'absolute' }}
+          sx={{ right: 0, position: "absolute" }}
         >
           Reply
         </Button>

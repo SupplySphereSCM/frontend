@@ -1,20 +1,20 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import Badge, { badgeClasses } from '@mui/material/Badge';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import ListItemText from "@mui/material/ListItemText";
+import Badge, { badgeClasses } from "@mui/material/Badge";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // components
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 // ----------------------------------------------------------------------
 
@@ -23,24 +23,34 @@ export default function ChatNavAccount() {
 
   const popover = usePopover();
 
-  const [status, setStatus] = useState<'online' | 'alway' | 'busy' | 'offline'>('online');
+  const [status, setStatus] = useState<"online" | "alway" | "busy" | "offline">(
+    "online",
+  );
 
   const handleChangeStatus = useCallback((event: SelectChangeEvent) => {
-    setStatus(event.target.value as 'online' | 'alway' | 'busy' | 'offline');
+    setStatus(event.target.value as "online" | "alway" | "busy" | "offline");
   }, []);
 
   return (
     <>
-      <Badge variant={status} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Badge
+        variant={status}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
         <Avatar
           src={user?.photoURL}
           alt={user?.displayName}
           onClick={popover.onOpen}
-          sx={{ cursor: 'pointer', width: 48, height: 48 }}
+          sx={{ cursor: "pointer", width: 48, height: 48 }}
         />
       </Badge>
 
-      <CustomPopover open={popover.open} onClose={popover.onClose} arrow="top-left" sx={{ p: 0 }}>
+      <CustomPopover
+        open={popover.open}
+        onClose={popover.onClose}
+        arrow="top-left"
+        sx={{ p: 0 }}
+      >
         <Stack
           direction="row"
           alignItems="center"
@@ -54,7 +64,7 @@ export default function ChatNavAccount() {
           <ListItemText
             primary={user?.displayName}
             secondary={user?.email}
-            secondaryTypographyProps={{ component: 'span' }}
+            secondaryTypographyProps={{ component: "span" }}
           />
 
           <Tooltip title="Log out">
@@ -64,7 +74,7 @@ export default function ChatNavAccount() {
           </Tooltip>
         </Stack>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <Stack sx={{ p: 1 }}>
           <MenuItem>
@@ -72,7 +82,7 @@ export default function ChatNavAccount() {
               variant={status}
               sx={{
                 [`& .${badgeClasses.badge}`]: {
-                  position: 'static',
+                  position: "static",
                   m: 0.75,
                   width: 12,
                   height: 12,
@@ -88,10 +98,10 @@ export default function ChatNavAccount() {
               onChange={handleChangeStatus}
               input={<InputBase sx={{ pl: 2 }} />}
               inputProps={{
-                sx: { textTransform: 'capitalize' },
+                sx: { textTransform: "capitalize" },
               }}
             >
-              {['online', 'alway', 'busy', 'offline'].map((option) => (
+              {["online", "alway", "busy", "offline"].map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>

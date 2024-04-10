@@ -1,20 +1,20 @@
-import { useDropzone } from 'react-dropzone';
+import { useDropzone } from "react-dropzone";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 // assets
-import { UploadIllustration } from 'src/assets/illustrations';
+import { UploadIllustration } from "src/assets/illustrations";
 //
-import Iconify from '../iconify';
+import Iconify from "../iconify";
 //
-import { UploadProps } from './types';
-import RejectionFiles from './errors-rejection-files';
-import MultiFilePreview from './preview-multi-file';
-import SingleFilePreview from './preview-single-file';
+import { UploadProps } from "./types";
+import RejectionFiles from "./errors-rejection-files";
+import MultiFilePreview from "./preview-multi-file";
+import SingleFilePreview from "./preview-single-file";
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +35,13 @@ export default function Upload({
   sx,
   ...other
 }: UploadProps) {
-  const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragReject,
+    fileRejections,
+  } = useDropzone({
     multiple,
     disabled,
     ...other,
@@ -48,18 +54,23 @@ export default function Upload({
   const hasError = isDragReject || !!error;
 
   const renderPlaceholder = (
-    <Stack spacing={3} alignItems="center" justifyContent="center" flexWrap="wrap">
+    <Stack
+      spacing={3}
+      alignItems="center"
+      justifyContent="center"
+      flexWrap="wrap"
+    >
       <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />
-      <Stack spacing={1} sx={{ textAlign: 'center' }}>
+      <Stack spacing={1} sx={{ textAlign: "center" }}>
         <Typography variant="h6">Drop or Select file</Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           Drop files here or click
           <Box
             component="span"
             sx={{
               mx: 0.5,
-              color: 'primary.main',
-              textDecoration: 'underline',
+              color: "primary.main",
+              textDecoration: "underline",
             }}
           >
             browse
@@ -71,7 +82,9 @@ export default function Upload({
   );
 
   const renderSinglePreview = (
-    <SingleFilePreview imgUrl={typeof file === 'string' ? file : file?.preview} />
+    <SingleFilePreview
+      imgUrl={typeof file === "string" ? file : file?.preview}
+    />
   );
 
   const removeSinglePreview = hasFile && onDelete && (
@@ -82,10 +95,10 @@ export default function Upload({
         top: 16,
         right: 16,
         zIndex: 9,
-        position: 'absolute',
+        position: "absolute",
         color: (theme) => alpha(theme.palette.common.white, 0.8),
         bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-        '&:hover': {
+        "&:hover": {
           bgcolor: (theme) => alpha(theme.palette.grey[900], 0.48),
         },
       }}
@@ -97,12 +110,21 @@ export default function Upload({
   const renderMultiPreview = hasFiles && (
     <>
       <Box sx={{ my: 3 }}>
-        <MultiFilePreview files={files} thumbnail={thumbnail} onRemove={onRemove} />
+        <MultiFilePreview
+          files={files}
+          thumbnail={thumbnail}
+          onRemove={onRemove}
+        />
       </Box>
 
       <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
         {onRemoveAll && (
-          <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>
+          <Button
+            color="inherit"
+            variant="outlined"
+            size="small"
+            onClick={onRemoveAll}
+          >
             Remove All
           </Button>
         )}
@@ -122,20 +144,22 @@ export default function Upload({
   );
 
   return (
-    <Box sx={{ width: 1, position: 'relative', ...sx }}>
+    <Box sx={{ width: 1, position: "relative", ...sx }}>
       <Box
         {...getRootProps()}
         sx={{
           p: 5,
-          outline: 'none',
+          outline: "none",
           borderRadius: 1,
-          cursor: 'pointer',
-          overflow: 'hidden',
-          position: 'relative',
+          cursor: "pointer",
+          overflow: "hidden",
+          position: "relative",
           bgcolor: (theme) => alpha(theme.palette.grey[500], 0.08),
-          border: (theme) => `1px dashed ${alpha(theme.palette.grey[500], 0.2)}`,
-          transition: (theme) => theme.transitions.create(['opacity', 'padding']),
-          '&:hover': {
+          border: (theme) =>
+            `1px dashed ${alpha(theme.palette.grey[500], 0.2)}`,
+          transition: (theme) =>
+            theme.transitions.create(["opacity", "padding"]),
+          "&:hover": {
             opacity: 0.72,
           },
           ...(isDragActive && {
@@ -143,15 +167,15 @@ export default function Upload({
           }),
           ...(disabled && {
             opacity: 0.48,
-            pointerEvents: 'none',
+            pointerEvents: "none",
           }),
           ...(hasError && {
-            color: 'error.main',
-            borderColor: 'error.main',
+            color: "error.main",
+            borderColor: "error.main",
             bgcolor: (theme) => alpha(theme.palette.error.main, 0.08),
           }),
           ...(hasFile && {
-            padding: '24% 0',
+            padding: "24% 0",
           }),
         }}
       >

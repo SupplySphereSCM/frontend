@@ -1,37 +1,37 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 // utils
-import { fTimestamp } from 'src/utils/format-time';
+import { fTimestamp } from "src/utils/format-time";
 // _mock
-import { _allFiles, FILE_TYPE_OPTIONS } from 'src/_mock';
+import { _allFiles, FILE_TYPE_OPTIONS } from "src/_mock";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import EmptyContent from 'src/components/empty-content';
-import { fileFormat } from 'src/components/file-thumbnail';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { useSettingsContext } from 'src/components/settings';
-import { useTable, getComparator } from 'src/components/table';
+import Iconify from "src/components/iconify";
+import EmptyContent from "src/components/empty-content";
+import { fileFormat } from "src/components/file-thumbnail";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import { useSettingsContext } from "src/components/settings";
+import { useTable, getComparator } from "src/components/table";
 // types
-import { IFile, IFileFilters, IFileFilterValue } from 'src/types/file';
+import { IFile, IFileFilters, IFileFilterValue } from "src/types/file";
 //
-import FileManagerTable from '../file-manager-table';
-import FileManagerFilters from '../file-manager-filters';
-import FileManagerGridView from '../file-manager-grid-view';
-import FileManagerFiltersResult from '../file-manager-filters-result';
-import FileManagerNewFolderDialog from '../file-manager-new-folder-dialog';
+import FileManagerTable from "../file-manager-table";
+import FileManagerFilters from "../file-manager-filters";
+import FileManagerGridView from "../file-manager-grid-view";
+import FileManagerFiltersResult from "../file-manager-filters-result";
+import FileManagerNewFolderDialog from "../file-manager-new-folder-dialog";
 
 // ----------------------------------------------------------------------
 
 const defaultFilters: IFileFilters = {
-  name: '',
+  name: "",
   type: [],
   startDate: null,
   endDate: null,
@@ -50,7 +50,7 @@ export default function FileManagerView() {
 
   const upload = useBoolean();
 
-  const [view, setView] = useState('list');
+  const [view, setView] = useState("list");
 
   const [tableData, setTableData] = useState(_allFiles);
 
@@ -70,11 +70,13 @@ export default function FileManagerView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const canReset =
-    !!filters.name || !!filters.type.length || (!!filters.startDate && !!filters.endDate);
+    !!filters.name ||
+    !!filters.type.length ||
+    (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -84,7 +86,7 @@ export default function FileManagerView() {
         setView(newView);
       }
     },
-    []
+    [],
   );
 
   const handleFilters = useCallback(
@@ -95,7 +97,7 @@ export default function FileManagerView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteItem = useCallback(
@@ -105,11 +107,13 @@ export default function FileManagerView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteItems = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+    const deleteRows = tableData.filter(
+      (row) => !table.selected.includes(row.id),
+    );
     setTableData(deleteRows);
 
     table.onUpdatePageDeleteRows({
@@ -126,8 +130,8 @@ export default function FileManagerView() {
   const renderFilters = (
     <Stack
       spacing={2}
-      direction={{ xs: 'column', md: 'row' }}
-      alignItems={{ xs: 'flex-end', md: 'center' }}
+      direction={{ xs: "column", md: "row" }}
+      alignItems={{ xs: "flex-end", md: "center" }}
     >
       <FileManagerFilters
         openDateRange={openDateRange.value}
@@ -141,7 +145,12 @@ export default function FileManagerView() {
         typeOptions={FILE_TYPE_OPTIONS}
       />
 
-      <ToggleButtonGroup size="small" value={view} exclusive onChange={handleChangeView}>
+      <ToggleButtonGroup
+        size="small"
+        value={view}
+        exclusive
+        onChange={handleChangeView}
+      >
         <ToggleButton value="list">
           <Iconify icon="solar:list-bold" />
         </ToggleButton>
@@ -167,8 +176,12 @@ export default function FileManagerView() {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+      <Container maxWidth={settings.themeStretch ? false : "lg"}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Typography variant="h4">File Manager</Typography>
           <Button
             variant="contained"
@@ -200,7 +213,7 @@ export default function FileManagerView() {
           />
         ) : (
           <>
-            {view === 'list' ? (
+            {view === "list" ? (
               <FileManagerTable
                 table={table}
                 tableData={tableData}
@@ -222,7 +235,10 @@ export default function FileManagerView() {
         )}
       </Container>
 
-      <FileManagerNewFolderDialog open={upload.value} onClose={upload.onFalse} />
+      <FileManagerNewFolderDialog
+        open={upload.value}
+        onClose={upload.onFalse}
+      />
 
       <ConfirmDialog
         open={confirm.value}
@@ -230,7 +246,8 @@ export default function FileManagerView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete{" "}
+            <strong> {table.selected.length} </strong> items?
           </>
         }
         action={
@@ -277,12 +294,14 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (file) => file.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (file) => file.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
   if (type.length) {
-    inputData = inputData.filter((file) => type.includes(fileFormat(file.type)));
+    inputData = inputData.filter((file) =>
+      type.includes(fileFormat(file.type)),
+    );
   }
 
   if (!dateError) {
@@ -290,7 +309,7 @@ function applyFilter({
       inputData = inputData.filter(
         (file) =>
           fTimestamp(file.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(file.createdAt) <= fTimestamp(endDate)
+          fTimestamp(file.createdAt) <= fTimestamp(endDate),
       );
     }
   }

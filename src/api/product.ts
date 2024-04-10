@@ -1,9 +1,9 @@
-import useSWR from 'swr';
-import { useMemo } from 'react';
+import useSWR, { mutate } from "swr";
+import { useMemo } from "react";
 // utils
-import { fetcher, endpoints } from 'src/utils/axios';
+import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IProductItem } from 'src/types/product';
+import { IProductItem } from "src/types/product";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ export function useGetProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.products.length,
     }),
-    [data?.products, error, isLoading, isValidating]
+    [data?.products, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -29,7 +29,9 @@ export function useGetProducts() {
 // ----------------------------------------------------------------------
 
 export function useGetProduct(productId: string) {
-  const URL = productId ? [endpoints.product.details, { params: { productId } }] : null;
+  const URL = productId
+    ? [endpoints.product.details, { params: { productId } }]
+    : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
@@ -40,7 +42,7 @@ export function useGetProduct(productId: string) {
       productError: error,
       productValidating: isValidating,
     }),
-    [data?.product, error, isLoading, isValidating]
+    [data?.product, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -63,8 +65,35 @@ export function useSearchProducts(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export async function createProduct(product: IProductItem) {
+  const URL = endpoints.product.root;
+  /**
+   * Work on server
+   */
+  const data = { product };
+  await axiosInstance.post(URL, data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentData: any) => {
+      const products: IProductItem[] = [...currentData.products, product];
+
+      return {
+        ...currentData,
+        products,
+      };
+    },
+    false,
+  );
 }

@@ -1,35 +1,35 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Masonry from "@mui/lab/Masonry";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Slider from "@mui/material/Slider";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
 const marks = [
-  { value: 0, label: '0°C' },
-  { value: 20, label: '20°C' },
-  { value: 37, label: '37°C' },
-  { value: 100, label: '100°C' },
+  { value: 0, label: "0°C" },
+  { value: 20, label: "20°C" },
+  { value: 37, label: "37°C" },
+  { value: 100, label: "100°C" },
 ];
 
 const prices = [
-  { value: 0, label: '$0' },
-  { value: 25, label: '250' },
-  { value: 50, label: '500' },
-  { value: 75, label: '750' },
-  { value: 100, label: '1000' },
+  { value: 0, label: "$0" },
+  { value: 25, label: "250" },
+  { value: 50, label: "500" },
+  { value: 75, label: "750" },
+  { value: 100, label: "1000" },
 ];
 
 // ----------------------------------------------------------------------
@@ -70,7 +70,8 @@ export default function SliderView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -78,12 +79,12 @@ export default function SliderView() {
             heading="Slider"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Slider' },
+              { name: "Slider" },
             ]}
-            moreLink={['https://mui.com/components/slider']}
+            moreLink={["https://mui.com/components/slider"]}
           />
         </Container>
       </Box>
@@ -93,7 +94,11 @@ export default function SliderView() {
           <ComponentBlock title="Volume">
             <Stack direction="row" alignItems="center" spacing={1} width={1}>
               <Iconify icon="eva:volume-mute-fill" width={24} />
-              <Slider value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+              <Slider
+                value={value}
+                onChange={handleChange}
+                aria-labelledby="continuous-slider"
+              />
               <Iconify icon="eva:volume-up-fill" width={24} />
             </Stack>
           </ComponentBlock>
@@ -171,7 +176,7 @@ export default function SliderView() {
           </ComponentBlock>
 
           <ComponentBlock title="Range">
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: "100%" }}>
               <Slider
                 scale={(x) => x * 10}
                 step={10}
@@ -186,7 +191,7 @@ export default function SliderView() {
             <Box
               sx={{
                 p: 2,
-                width: '100%',
+                width: "100%",
                 borderRadius: 1,
                 bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
               }}
@@ -194,7 +199,9 @@ export default function SliderView() {
               <Typography variant="subtitle2" gutterBottom>
                 Min: {valuePrice(price[0])}
               </Typography>
-              <Typography variant="subtitle2">Max: {valuePrice(price[1])}</Typography>
+              <Typography variant="subtitle2">
+                Max: {valuePrice(price[1])}
+              </Typography>
             </Box>
           </ComponentBlock>
         </Masonry>

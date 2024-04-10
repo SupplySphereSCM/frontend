@@ -1,26 +1,26 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
+import { alpha, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Unstable_Grid2";
+import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // utils
-import { fPercent } from 'src/utils/format-number';
+import { fPercent } from "src/utils/format-number";
 // components
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
-import { MotionViewport, varFade } from 'src/components/animate';
+import Image from "src/components/image";
+import Iconify from "src/components/iconify";
+import { MotionViewport, varFade } from "src/components/animate";
 
 // ----------------------------------------------------------------------
 
 export const SKILLS = [...Array(3)].map((_, index) => ({
-  label: ['Development', 'Design', 'Marketing'][index],
+  label: ["Development", "Design", "Marketing"][index],
   value: [20, 40, 60][index],
 }));
 
@@ -29,13 +29,13 @@ export const SKILLS = [...Array(3)].map((_, index) => ({
 export default function AboutWhat() {
   const theme = useTheme();
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
-  const isLight = theme.palette.mode === 'light';
+  const isLight = theme.palette.mode === "light";
 
   const shadow = `-40px 40px 80px ${alpha(
     isLight ? theme.palette.grey[500] : theme.palette.common.black,
-    0.24
+    0.24,
   )}`;
 
   return (
@@ -43,12 +43,19 @@ export default function AboutWhat() {
       component={MotionViewport}
       sx={{
         py: { xs: 10, md: 15 },
-        textAlign: { xs: 'center', md: 'unset' },
+        textAlign: { xs: "center", md: "unset" },
       }}
     >
       <Grid container columnSpacing={{ md: 3 }} alignItems="flex-start">
         {mdUp && (
-          <Grid container xs={12} md={6} lg={7} alignItems="center" sx={{ pr: { md: 7 } }}>
+          <Grid
+            container
+            xs={12}
+            md={6}
+            lg={7}
+            alignItems="center"
+            sx={{ pr: { md: 7 } }}
+          >
             <Grid xs={6}>
               <m.div variants={varFade().inUp}>
                 <Image
@@ -83,31 +90,46 @@ export default function AboutWhat() {
           <m.div variants={varFade().inRight}>
             <Typography
               sx={{
-                color: theme.palette.mode === 'light' ? 'text.secondary' : 'common.white',
+                color:
+                  theme.palette.mode === "light"
+                    ? "text.secondary"
+                    : "common.white",
               }}
             >
-              Our theme is the most advanced and user-friendly theme you will find on the market, we
-              have documentation and video to help set your site really easily, pre-installed demos
-              you can import in one click and everything from the theme options to page content can
-              be edited from the front-end. This is the theme you are looking for.
+              Our theme is the most advanced and user-friendly theme you will
+              find on the market, we have documentation and video to help set
+              your site really easily, pre-installed demos you can import in one
+              click and everything from the theme options to page content can be
+              edited from the front-end. This is the theme you are looking for.
             </Typography>
           </m.div>
 
           <Stack spacing={3} sx={{ my: 5 }}>
             {SKILLS.map((progress, index) => (
-              <Box component={m.div} key={progress.label} variants={varFade().inRight}>
+              <Box
+                component={m.div}
+                key={progress.label}
+                variants={varFade().inRight}
+              >
                 <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
-                  <Typography variant="subtitle2" sx={{ flexGrow: 1, textAlign: 'left' }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ flexGrow: 1, textAlign: "left" }}
+                  >
                     {progress.label}
                   </Typography>
 
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {fPercent(progress.value)}
                   </Typography>
                 </Stack>
 
                 <LinearProgress
-                  color={(index === 0 && 'primary') || (index === 1 && 'warning') || 'error'}
+                  color={
+                    (index === 0 && "primary") ||
+                    (index === 1 && "warning") ||
+                    "error"
+                  }
                   variant="determinate"
                   value={progress.value}
                 />

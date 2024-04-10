@@ -1,10 +1,10 @@
-import useSWR from 'swr';
-import keyBy from 'lodash/keyBy';
-import { useMemo } from 'react';
+import useSWR from "swr";
+import keyBy from "lodash/keyBy";
+import { useMemo } from "react";
 // utils
-import { fetcher, endpoints } from 'src/utils/axios';
+import { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IMail, IMails, IMailLabel } from 'src/types/mail';
+import { IMail, IMails, IMailLabel } from "src/types/mail";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ export function useGetLabels() {
       labelsValidating: isValidating,
       labelsEmpty: !isLoading && !data?.labels.length,
     }),
-    [data?.labels, error, isLoading, isValidating]
+    [data?.labels, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -35,7 +35,7 @@ export function useGetMails(labelId: string) {
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(() => {
-    const byId = keyBy(data?.mails, 'id') || {};
+    const byId = keyBy(data?.mails, "id") || {};
     const allIds = Object.keys(byId) || [];
 
     return {
@@ -67,7 +67,7 @@ export function useGetMail(mailId: string) {
       mailError: error,
       mailValidating: isValidating,
     }),
-    [data?.mail, error, isLoading, isValidating]
+    [data?.mail, error, isLoading, isValidating],
   );
 
   return memoizedValue;

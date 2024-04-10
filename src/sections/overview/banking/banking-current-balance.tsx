@@ -1,21 +1,21 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import { Theme, useTheme, alpha, SxProps } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import { Theme, useTheme, alpha, SxProps } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 // theme
-import { bgGradient } from 'src/theme/css';
+import { bgGradient } from "src/theme/css";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import Carousel, { CarouselDots, useCarousel } from 'src/components/carousel';
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
+import Carousel, { CarouselDots, useCarousel } from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
@@ -43,8 +43,8 @@ export default function BankingCurrentBalance({ list, sx }: Props) {
       sx: {
         right: 16,
         bottom: 16,
-        position: 'absolute',
-        color: 'primary.light',
+        position: "absolute",
+        color: "primary.light",
       },
     }),
   });
@@ -54,16 +54,16 @@ export default function BankingCurrentBalance({ list, sx }: Props) {
       sx={{
         ...bgGradient({
           color: alpha(theme.palette.grey[900], 0.8),
-          imgUrl: '/assets/background/overlay_2.jpg',
+          imgUrl: "/assets/background/overlay_2.jpg",
         }),
         height: 262,
         borderRadius: 2,
-        position: 'relative',
-        color: 'common.white',
-        '.slick-slider, .slick-list, .slick-track, .slick-slide > div': {
+        position: "relative",
+        color: "common.white",
+        ".slick-slider, .slick-list, .slick-track, .slick-slide > div": {
           height: 1,
         },
-        '&:before, &:after': {
+        "&:before, &:after": {
           left: 0,
           mx: 2.5,
           right: 0,
@@ -73,10 +73,10 @@ export default function BankingCurrentBalance({ list, sx }: Props) {
           content: "''",
           opacity: 0.16,
           borderRadius: 2,
-          bgcolor: 'grey.500',
-          position: 'absolute',
+          bgcolor: "grey.500",
+          position: "absolute",
         },
-        '&:after': {
+        "&:after": {
           mx: 1,
           bottom: -8,
           opacity: 0.24,
@@ -108,12 +108,12 @@ function CardItem({ card }: CardItemProps) {
 
   const handleDelete = useCallback(() => {
     popover.onClose();
-    console.info('DELETE', id);
+    console.info("DELETE", id);
   }, [id, popover]);
 
   const handleEdit = useCallback(() => {
     popover.onClose();
-    console.info('EDIT', id);
+    console.info("EDIT", id);
   }, [id, popover]);
 
   return (
@@ -127,7 +127,7 @@ function CardItem({ card }: CardItemProps) {
             right: 8,
             zIndex: 9,
             opacity: 0.48,
-            position: 'absolute',
+            position: "absolute",
             ...(popover.open && {
               opacity: 1,
             }),
@@ -137,17 +137,25 @@ function CardItem({ card }: CardItemProps) {
         </IconButton>
 
         <div>
-          <Typography sx={{ mb: 2, typography: 'subtitle2', opacity: 0.48 }}>
+          <Typography sx={{ mb: 2, typography: "subtitle2", opacity: 0.48 }}>
             Current Balance
           </Typography>
 
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography sx={{ typography: 'h3' }}>
-              {currency.value ? '********' : fCurrency(balance)}
+            <Typography sx={{ typography: "h3" }}>
+              {currency.value ? "********" : fCurrency(balance)}
             </Typography>
 
-            <IconButton color="inherit" onClick={currency.onToggle} sx={{ opacity: 0.48 }}>
-              <Iconify icon={currency.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+            <IconButton
+              color="inherit"
+              onClick={currency.onToggle}
+              sx={{ opacity: 0.48 }}
+            >
+              <Iconify
+                icon={
+                  currency.value ? "solar:eye-bold" : "solar:eye-closed-bold"
+                }
+              />
             </IconButton>
           </Stack>
         </div>
@@ -156,37 +164,51 @@ function CardItem({ card }: CardItemProps) {
           direction="row"
           alignItems="center"
           justifyContent="flex-end"
-          sx={{ typography: 'subtitle1' }}
+          sx={{ typography: "subtitle1" }}
         >
           <Box
             sx={{
-              bgcolor: 'white',
+              bgcolor: "white",
               lineHeight: 0,
               px: 0.75,
               borderRadius: 0.5,
               mr: 1,
             }}
           >
-            {cardType === 'mastercard' && <Iconify width={24} icon="logos:mastercard" />}
-            {cardType === 'visa' && <Iconify width={24} icon="logos:visa" />}
+            {cardType === "mastercard" && (
+              <Iconify width={24} icon="logos:mastercard" />
+            )}
+            {cardType === "visa" && <Iconify width={24} icon="logos:visa" />}
           </Box>
           {cardNumber}
         </Stack>
 
         <Stack direction="row" spacing={5}>
           <Stack spacing={1}>
-            <Typography sx={{ typography: 'caption', opacity: 0.48 }}>Card Holder</Typography>
-            <Typography sx={{ typography: 'subtitle1' }}>{cardHolder}</Typography>
+            <Typography sx={{ typography: "caption", opacity: 0.48 }}>
+              Card Holder
+            </Typography>
+            <Typography sx={{ typography: "subtitle1" }}>
+              {cardHolder}
+            </Typography>
           </Stack>
           <Stack spacing={1}>
-            <Typography sx={{ typography: 'caption', opacity: 0.48 }}>Valid Dates</Typography>
-            <Typography sx={{ typography: 'subtitle1' }}>{cardValid}</Typography>
+            <Typography sx={{ typography: "caption", opacity: 0.48 }}>
+              Valid Dates
+            </Typography>
+            <Typography sx={{ typography: "subtitle1" }}>
+              {cardValid}
+            </Typography>
           </Stack>
         </Stack>
       </Stack>
 
-      <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 140 }}>
-        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
+      <CustomPopover
+        open={popover.open}
+        onClose={popover.onClose}
+        sx={{ width: 140 }}
+      >
+        <MenuItem onClick={handleDelete} sx={{ color: "error.main" }}>
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
         </MenuItem>

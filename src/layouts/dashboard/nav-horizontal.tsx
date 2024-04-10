@@ -1,18 +1,18 @@
-import { memo } from 'react';
+import { memo } from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 // theme
-import { bgBlur } from 'src/theme/css';
+import { bgBlur } from "src/theme/css";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // components
-import { NavSectionHorizontal } from 'src/components/nav-section';
+import { NavSectionHorizontal } from "src/components/nav-section";
 //
-import { HEADER } from '../config-layout';
-import { useNavData } from './config-navigation';
-import { HeaderShadow } from '../_common';
+import { HEADER } from "../config-layout";
+import { useNavData } from "./config-navigation";
+import { HeaderShadow } from "../_common";
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ function NavHorizontal() {
         <NavSectionHorizontal
           data={navData}
           config={{
-            currentRole: user?.role || 'admin',
+            currentRole: user?.role || "admin",
           }}
         />
       </Toolbar>

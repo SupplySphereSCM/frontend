@@ -1,12 +1,12 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 // assets
-import { SeverErrorIllustration } from 'src/assets/illustrations';
+import { SeverErrorIllustration } from "src/assets/illustrations";
 // components
-import { RouterLink } from 'src/routes/components';
-import { MotionContainer, varBounce } from 'src/components/animate';
+import { RouterLink } from "src/routes/components";
+import { MotionContainer, varBounce } from "src/components/animate";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ export default function Page500() {
       </m.div>
 
       <m.div variants={varBounce().in}>
-        <Typography sx={{ color: 'text.secondary' }}>
+        <Typography sx={{ color: "text.secondary" }}>
           There was an error, please try again later.
         </Typography>
       </m.div>

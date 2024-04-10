@@ -1,19 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Container from '@mui/material/Container';
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // _mock
-import { _tours, TOUR_PUBLISH_OPTIONS, TOUR_DETAILS_TABS } from 'src/_mock';
+import { _tours, TOUR_PUBLISH_OPTIONS, TOUR_DETAILS_TABS } from "src/_mock";
 // components
-import Label from 'src/components/label';
-import { useSettingsContext } from 'src/components/settings';
+import Label from "src/components/label";
+import { useSettingsContext } from "src/components/settings";
 //
-import TourDetailsToolbar from '../tour-details-toolbar';
-import TourDetailsContent from '../tour-details-content';
-import TourDetailsBookers from '../tour-details-bookers';
+import TourDetailsToolbar from "../tour-details-toolbar";
+import TourDetailsContent from "../tour-details-content";
+import TourDetailsBookers from "../tour-details-bookers";
 
 // ----------------------------------------------------------------------
 
@@ -28,11 +28,14 @@ export default function TourDetailsView({ id }: Props) {
 
   const [publish, setPublish] = useState(currentTour?.publish);
 
-  const [currentTab, setCurrentTab] = useState('content');
+  const [currentTab, setCurrentTab] = useState("content");
 
-  const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
-  }, []);
+  const handleChangeTab = useCallback(
+    (event: React.SyntheticEvent, newValue: string) => {
+      setCurrentTab(newValue);
+    },
+    [],
+  );
 
   const handleChangePublish = useCallback((newValue: string) => {
     setPublish(newValue);
@@ -53,10 +56,10 @@ export default function TourDetailsView({ id }: Props) {
           value={tab.value}
           label={tab.label}
           icon={
-            tab.value === 'bookers' ? (
+            tab.value === "bookers" ? (
               <Label variant="filled">{currentTour?.bookers.length}</Label>
             ) : (
-              ''
+              ""
             )
           }
         />
@@ -65,20 +68,22 @@ export default function TourDetailsView({ id }: Props) {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <TourDetailsToolbar
         backLink={paths.dashboard.tour.root}
         editLink={paths.dashboard.tour.edit(`${currentTour?.id}`)}
         liveLink="#"
-        publish={publish || ''}
+        publish={publish || ""}
         onChangePublish={handleChangePublish}
         publishOptions={TOUR_PUBLISH_OPTIONS}
       />
       {renderTabs}
 
-      {currentTab === 'content' && <TourDetailsContent tour={currentTour} />}
+      {currentTab === "content" && <TourDetailsContent tour={currentTour} />}
 
-      {currentTab === 'bookers' && <TourDetailsBookers bookers={currentTour?.bookers} />}
+      {currentTab === "bookers" && (
+        <TourDetailsBookers bookers={currentTour?.bookers} />
+      )}
     </Container>
   );
 }

@@ -1,34 +1,34 @@
-import orderBy from 'lodash/orderBy';
-import { useCallback, useState } from 'react';
+import orderBy from "lodash/orderBy";
+import { useCallback, useState } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // hooks
-import { useDebounce } from 'src/hooks/use-debounce';
+import { useDebounce } from "src/hooks/use-debounce";
 // _mock
-import { POST_SORT_OPTIONS } from 'src/_mock';
+import { POST_SORT_OPTIONS } from "src/_mock";
 // api
-import { useGetPosts, useSearchPosts } from 'src/api/blog';
+import { useGetPosts, useSearchPosts } from "src/api/blog";
 // components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from "src/components/settings";
 // types
-import { IPostItem } from 'src/types/blog';
+import { IPostItem } from "src/types/blog";
 //
-import PostList from '../post-list';
-import PostSort from '../post-sort';
-import PostSearch from '../post-search';
+import PostList from "../post-list";
+import PostSort from "../post-sort";
+import PostSearch from "../post-search";
 
 // ----------------------------------------------------------------------
 
 export default function PostListHomeView() {
   const settings = useSettingsContext();
 
-  const [sortBy, setSortBy] = useState('latest');
+  const [sortBy, setSortBy] = useState("latest");
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const debouncedQuery = useDebounce(searchQuery);
 
@@ -50,7 +50,7 @@ export default function PostListHomeView() {
   }, []);
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <Typography
         variant="h4"
         sx={{
@@ -63,8 +63,8 @@ export default function PostListHomeView() {
       <Stack
         spacing={3}
         justifyContent="space-between"
-        alignItems={{ xs: 'flex-end', sm: 'center' }}
-        direction={{ xs: 'column', sm: 'row' }}
+        alignItems={{ xs: "flex-end", sm: "center" }}
+        direction={{ xs: "column", sm: "row" }}
         sx={{ mb: { xs: 3, md: 5 } }}
       >
         <PostSearch
@@ -75,7 +75,11 @@ export default function PostListHomeView() {
           hrefItem={(title: string) => paths.post.details(title)}
         />
 
-        <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
+        <PostSort
+          sort={sortBy}
+          onSort={handleSortBy}
+          sortOptions={POST_SORT_OPTIONS}
+        />
       </Stack>
 
       <PostList posts={dataFiltered} loading={postsLoading} />
@@ -85,17 +89,23 @@ export default function PostListHomeView() {
 
 // ----------------------------------------------------------------------
 
-const applyFilter = ({ inputData, sortBy }: { inputData: IPostItem[]; sortBy: string }) => {
-  if (sortBy === 'latest') {
-    return orderBy(inputData, ['createdAt'], ['desc']);
+const applyFilter = ({
+  inputData,
+  sortBy,
+}: {
+  inputData: IPostItem[];
+  sortBy: string;
+}) => {
+  if (sortBy === "latest") {
+    return orderBy(inputData, ["createdAt"], ["desc"]);
   }
 
-  if (sortBy === 'oldest') {
-    return orderBy(inputData, ['createdAt'], ['asc']);
+  if (sortBy === "oldest") {
+    return orderBy(inputData, ["createdAt"], ["asc"]);
   }
 
-  if (sortBy === 'popular') {
-    return orderBy(inputData, ['totalViews'], ['desc']);
+  if (sortBy === "popular") {
+    return orderBy(inputData, ["totalViews"], ["desc"]);
   }
 
   return inputData;

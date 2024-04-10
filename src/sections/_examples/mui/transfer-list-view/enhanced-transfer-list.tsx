@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import List from '@mui/material/List';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Unstable_Grid2';
-import CardHeader from '@mui/material/CardHeader';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemButton from '@mui/material/ListItemButton';
+import List from "@mui/material/List";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Unstable_Grid2";
+import CardHeader from "@mui/material/CardHeader";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemButton from "@mui/material/ListItemButton";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +52,8 @@ export default function EnhancedTransferList() {
     setChecked(newChecked);
   };
 
-  const numberOfChecked = (items: number[]) => intersection(checked, items).length;
+  const numberOfChecked = (items: number[]) =>
+    intersection(checked, items).length;
 
   const handleToggleAll = (items: number[]) => () => {
     if (numberOfChecked(items) === items.length) {
@@ -80,10 +81,15 @@ export default function EnhancedTransferList() {
         avatar={
           <Checkbox
             onClick={handleToggleAll(items)}
-            checked={numberOfChecked(items) === items.length && items.length !== 0}
-            indeterminate={numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0}
+            checked={
+              numberOfChecked(items) === items.length && items.length !== 0
+            }
+            indeterminate={
+              numberOfChecked(items) !== items.length &&
+              numberOfChecked(items) !== 0
+            }
             disabled={items.length === 0}
-            inputProps={{ 'aria-label': 'all items selected' }}
+            inputProps={{ "aria-label": "all items selected" }}
           />
         }
         title={title}
@@ -100,19 +106,23 @@ export default function EnhancedTransferList() {
         sx={{
           width: 200,
           height: 220,
-          overflow: 'auto',
+          overflow: "auto",
         }}
       >
         {items.map((value: number) => {
           const labelId = `transfer-list-all-item-${value}-label`;
           return (
-            <ListItemButton key={value} role="listitem" onClick={handleToggle(value)}>
+            <ListItemButton
+              key={value}
+              role="listitem"
+              onClick={handleToggle(value)}
+            >
               <ListItemIcon>
                 <Checkbox
                   disableRipple
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
-                  inputProps={{ 'aria-labelledby': labelId }}
+                  inputProps={{ "aria-labelledby": labelId }}
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`List item ${value + 1}`} />
@@ -124,8 +134,13 @@ export default function EnhancedTransferList() {
   );
 
   return (
-    <Grid container justifyContent="center" alignItems="center" sx={{ width: 'auto', p: 3 }}>
-      <Grid>{customList('Choices', left)}</Grid>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      sx={{ width: "auto", p: 3 }}
+    >
+      <Grid>{customList("Choices", left)}</Grid>
 
       <Grid container direction="column" alignItems="center" sx={{ p: 3 }}>
         <Button
@@ -153,7 +168,7 @@ export default function EnhancedTransferList() {
         </Button>
       </Grid>
 
-      <Grid>{customList('Chosen', right)}</Grid>
+      <Grid>{customList("Chosen", right)}</Grid>
     </Grid>
   );
 }

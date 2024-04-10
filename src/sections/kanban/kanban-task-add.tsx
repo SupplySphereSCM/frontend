@@ -1,14 +1,14 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from "react";
 // @mui
-import Paper from '@mui/material/Paper';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import InputBase, { inputBaseClasses } from '@mui/material/InputBase';
+import Paper from "@mui/material/Paper";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import InputBase, { inputBaseClasses } from "@mui/material/InputBase";
 // _mock
-import { _mock } from 'src/_mock';
+import { _mock } from "src/_mock";
 // utils
-import uuidv4 from 'src/utils/uuidv4';
+import uuidv4 from "src/utils/uuidv4";
 // types
-import { IKanbanTask } from 'src/types/kanban';
+import { IKanbanTask } from "src/types/kanban";
 
 // ----------------------------------------------------------------------
 
@@ -18,15 +18,19 @@ type Props = {
   onAddTask: (task: IKanbanTask) => void;
 };
 
-export default function KanbanTaskAdd({ status, onAddTask, onCloseAddTask }: Props) {
-  const [name, setName] = useState('');
+export default function KanbanTaskAdd({
+  status,
+  onAddTask,
+  onCloseAddTask,
+}: Props) {
+  const [name, setName] = useState("");
 
   const defaultTask: IKanbanTask = useMemo(
     () => ({
       id: uuidv4(),
       status,
       name: name.trim(),
-      priority: 'medium',
+      priority: "medium",
       attachments: [],
       labels: [],
       comments: [],
@@ -38,18 +42,18 @@ export default function KanbanTaskAdd({ status, onAddTask, onCloseAddTask }: Pro
         avatarUrl: _mock.image.avatar(16),
       },
     }),
-    [name, status]
+    [name, status],
   );
 
   const handleKeyUpAddTask = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         if (name) {
           onAddTask(defaultTask);
         }
       }
     },
-    [defaultTask, name, onAddTask]
+    [defaultTask, name, onAddTask],
   );
 
   const handleClickAddTask = useCallback(() => {
@@ -60,16 +64,19 @@ export default function KanbanTaskAdd({ status, onAddTask, onCloseAddTask }: Pro
     }
   }, [defaultTask, name, onAddTask, onCloseAddTask]);
 
-  const handleChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  }, []);
+  const handleChangeName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName(event.target.value);
+    },
+    [],
+  );
 
   return (
     <ClickAwayListener onClickAway={handleClickAddTask}>
       <Paper
         sx={{
           borderRadius: 1.5,
-          bgcolor: 'background.default',
+          bgcolor: "background.default",
           boxShadow: (theme) => theme.customShadows.z1,
         }}
       >
@@ -85,7 +92,7 @@ export default function KanbanTaskAdd({ status, onAddTask, onCloseAddTask }: Pro
             px: 2,
             height: 56,
             [`& .${inputBaseClasses.input}`]: {
-              typography: 'subtitle2',
+              typography: "subtitle2",
             },
           }}
         />

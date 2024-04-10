@@ -1,15 +1,15 @@
-import orderBy from 'lodash/orderBy';
-import isEqual from 'lodash/isEqual';
-import { useCallback, useState } from 'react';
+import orderBy from "lodash/orderBy";
+import isEqual from "lodash/isEqual";
+import { useCallback, useState } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useDebounce } from 'src/hooks/use-debounce';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useDebounce } from "src/hooks/use-debounce";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // _mock
 import {
   PRODUCT_SORT_OPTIONS,
@@ -17,30 +17,34 @@ import {
   PRODUCT_GENDER_OPTIONS,
   PRODUCT_RATING_OPTIONS,
   PRODUCT_CATEGORY_OPTIONS,
-} from 'src/_mock';
+} from "src/_mock";
 // api
-import { useGetProducts, useSearchProducts } from 'src/api/product';
+import { useGetProducts, useSearchProducts } from "src/api/product";
 // components
-import EmptyContent from 'src/components/empty-content';
-import { useSettingsContext } from 'src/components/settings';
+import EmptyContent from "src/components/empty-content";
+import { useSettingsContext } from "src/components/settings";
 // types
-import { IProductItem, IProductFilters, IProductFilterValue } from 'src/types/product';
+import {
+  IProductItem,
+  IProductFilters,
+  IProductFilterValue,
+} from "src/types/product";
 //
-import { useCheckoutContext } from '../../checkout/context';
-import CartIcon from '../common/cart-icon';
-import ProductList from '../product-list';
-import ProductSort from '../product-sort';
-import ProductSearch from '../product-search';
-import ProductFilters from '../product-filters';
-import ProductFiltersResult from '../product-filters-result';
+import { useCheckoutContext } from "../../checkout/context";
+import CartIcon from "../common/cart-icon";
+import ProductList from "../product-list";
+import ProductSort from "../product-sort";
+import ProductSearch from "../product-search";
+import ProductFilters from "../product-filters";
+import ProductFiltersResult from "../product-filters-result";
 
 // ----------------------------------------------------------------------
 
 const defaultFilters: IProductFilters = {
   gender: [],
   colors: [],
-  rating: '',
-  category: 'all',
+  rating: "",
+  category: "all",
   priceRange: [0, 200],
 };
 
@@ -53,9 +57,9 @@ export default function ProductShopView() {
 
   const openFilters = useBoolean();
 
-  const [sortBy, setSortBy] = useState('featured');
+  const [sortBy, setSortBy] = useState("featured");
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const debouncedQuery = useDebounce(searchQuery);
 
@@ -65,12 +69,15 @@ export default function ProductShopView() {
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 
-  const handleFilters = useCallback((name: string, value: IProductFilterValue) => {
-    setFilters((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }, []);
+  const handleFilters = useCallback(
+    (name: string, value: IProductFilterValue) => {
+      setFilters((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    },
+    [],
+  );
 
   const dataFiltered = applyFilter({
     inputData: products,
@@ -98,8 +105,8 @@ export default function ProductShopView() {
     <Stack
       spacing={3}
       justifyContent="space-between"
-      alignItems={{ xs: 'flex-end', sm: 'center' }}
-      direction={{ xs: 'column', sm: 'row' }}
+      alignItems={{ xs: "flex-end", sm: "center" }}
+      direction={{ xs: "column", sm: "row" }}
     >
       <ProductSearch
         query={debouncedQuery}
@@ -124,10 +131,14 @@ export default function ProductShopView() {
           colorOptions={PRODUCT_COLOR_OPTIONS}
           ratingOptions={PRODUCT_RATING_OPTIONS}
           genderOptions={PRODUCT_GENDER_OPTIONS}
-          categoryOptions={['all', ...PRODUCT_CATEGORY_OPTIONS]}
+          categoryOptions={["all", ...PRODUCT_CATEGORY_OPTIONS]}
         />
 
-        <ProductSort sort={sortBy} onSort={handleSortBy} sortOptions={PRODUCT_SORT_OPTIONS} />
+        <ProductSort
+          sort={sortBy}
+          onSort={handleSortBy}
+          sortOptions={PRODUCT_SORT_OPTIONS}
+        />
       </Stack>
     </Stack>
   );
@@ -144,11 +155,13 @@ export default function ProductShopView() {
     />
   );
 
-  const renderNotFound = <EmptyContent filled title="No Data" sx={{ py: 10 }} />;
+  const renderNotFound = (
+    <EmptyContent filled title="No Data" sx={{ py: 10 }} />
+  );
 
   return (
     <Container
-      maxWidth={settings.themeStretch ? false : 'lg'}
+      maxWidth={settings.themeStretch ? false : "lg"}
       sx={{
         mb: 15,
       }}
@@ -200,20 +213,20 @@ function applyFilter({
   const max = priceRange[1];
 
   // SORT BY
-  if (sortBy === 'featured') {
-    inputData = orderBy(inputData, ['totalSold'], ['desc']);
+  if (sortBy === "featured") {
+    inputData = orderBy(inputData, ["totalSold"], ["desc"]);
   }
 
-  if (sortBy === 'newest') {
-    inputData = orderBy(inputData, ['createdAt'], ['desc']);
+  if (sortBy === "newest") {
+    inputData = orderBy(inputData, ["createdAt"], ["desc"]);
   }
 
-  if (sortBy === 'priceDesc') {
-    inputData = orderBy(inputData, ['price'], ['desc']);
+  if (sortBy === "priceDesc") {
+    inputData = orderBy(inputData, ["price"], ["desc"]);
   }
 
-  if (sortBy === 'priceAsc') {
-    inputData = orderBy(inputData, ['price'], ['asc']);
+  if (sortBy === "priceAsc") {
+    inputData = orderBy(inputData, ["price"], ["asc"]);
   }
 
   // FILTERS
@@ -221,26 +234,28 @@ function applyFilter({
     inputData = inputData.filter((product) => gender.includes(product.gender));
   }
 
-  if (category !== 'all') {
+  if (category !== "all") {
     inputData = inputData.filter((product) => product.category === category);
   }
 
   if (colors.length) {
     inputData = inputData.filter((product) =>
-      product.colors.some((color) => colors.includes(color))
+      product.colors.some((color) => colors.includes(color)),
     );
   }
 
   if (min !== 0 || max !== 200) {
-    inputData = inputData.filter((product) => product.price >= min && product.price <= max);
+    inputData = inputData.filter(
+      (product) => product.price >= min && product.price <= max,
+    );
   }
 
   if (rating) {
     inputData = inputData.filter((product) => {
       const convertRating = (value: string) => {
-        if (value === 'up4Star') return 4;
-        if (value === 'up3Star') return 3;
-        if (value === 'up2Star') return 2;
+        if (value === "up4Star") return 4;
+        if (value === "up3Star") return 3;
+        if (value === "up2Star") return 2;
         return 1;
       };
       return product.totalRatings > convertRating(rating);

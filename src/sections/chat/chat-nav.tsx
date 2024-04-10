@@ -1,29 +1,29 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // types
-import { IChatParticipant, IChatConversations } from 'src/types/chat';
+import { IChatParticipant, IChatConversations } from "src/types/chat";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
 //
-import { useCollapseNav } from './hooks';
-import ChatNavItem from './chat-nav-item';
-import ChatNavAccount from './chat-nav-account';
-import { ChatNavItemSkeleton } from './chat-skeleton';
-import ChatNavSearchResults from './chat-nav-search-results';
+import { useCollapseNav } from "./hooks";
+import ChatNavItem from "./chat-nav-item";
+import ChatNavAccount from "./chat-nav-account";
+import { ChatNavItemSkeleton } from "./chat-skeleton";
+import ChatNavSearchResults from "./chat-nav-search-results";
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ export default function ChatNav({
 
   const router = useRouter();
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
   const {
     collapseDesktop,
@@ -64,7 +64,7 @@ export default function ChatNav({
     query: string;
     results: IChatParticipant[];
   }>({
-    query: '',
+    query: "",
     results: [],
   });
 
@@ -98,7 +98,7 @@ export default function ChatNav({
 
       if (inputValue) {
         const results = contacts.filter((contact) =>
-          contact.name.toLowerCase().includes(inputValue)
+          contact.name.toLowerCase().includes(inputValue),
         );
 
         setSearchContacts((prevState) => ({
@@ -107,12 +107,12 @@ export default function ChatNav({
         }));
       }
     },
-    [contacts]
+    [contacts],
   );
 
   const handleClickAwaySearch = useCallback(() => {
     setSearchContacts({
-      query: '',
+      query: "",
       results: [],
     });
   }, []);
@@ -123,7 +123,7 @@ export default function ChatNav({
 
       router.push(`${paths.dashboard.chat}?id=${result.id}`);
     },
-    [handleClickAwaySearch, router]
+    [handleClickAwaySearch, router],
   );
 
   const renderToggleBtn = (
@@ -135,12 +135,12 @@ export default function ChatNav({
         zIndex: 9,
         width: 32,
         height: 32,
-        position: 'absolute',
+        position: "absolute",
         borderRadius: `0 12px 12px 0`,
         bgcolor: theme.palette.primary.main,
         boxShadow: theme.customShadows.primary,
         color: theme.palette.primary.contrastText,
-        '&:hover': {
+        "&:hover": {
           bgcolor: theme.palette.primary.darker,
         },
       }}
@@ -189,7 +189,7 @@ export default function ChatNav({
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+              <Iconify icon="eva:search-fill" sx={{ color: "text.disabled" }} />
             </InputAdornment>
           ),
         }}
@@ -200,7 +200,12 @@ export default function ChatNav({
 
   const renderContent = (
     <>
-      <Stack direction="row" alignItems="center" justifyContent="center" sx={{ p: 2.5, pb: 0 }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ p: 2.5, pb: 0 }}
+      >
         {!collapseDesktop && (
           <>
             <ChatNavAccount />
@@ -210,7 +215,11 @@ export default function ChatNav({
 
         <IconButton onClick={handleToggleNav}>
           <Iconify
-            icon={collapseDesktop ? 'eva:arrow-ios-forward-fill' : 'eva:arrow-ios-back-fill'}
+            icon={
+              collapseDesktop
+                ? "eva:arrow-ios-forward-fill"
+                : "eva:arrow-ios-back-fill"
+            }
           />
         </IconButton>
 
@@ -244,7 +253,7 @@ export default function ChatNav({
             flexShrink: 0,
             width: NAV_WIDTH,
             borderRight: `solid 1px ${theme.palette.divider}`,
-            transition: theme.transitions.create(['width'], {
+            transition: theme.transitions.create(["width"], {
               duration: theme.transitions.duration.shorter,
             }),
             ...(collapseDesktop && {

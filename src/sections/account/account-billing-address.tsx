@@ -1,20 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 // @mui
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import CardHeader from '@mui/material/CardHeader';
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import CardHeader from "@mui/material/CardHeader";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // types
-import { IAddressItem } from 'src/types/address';
+import { IAddressItem } from "src/types/address";
 // components
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 //
-import { AddressNewForm, AddressItem } from '../address';
+import { AddressNewForm, AddressItem } from "../address";
 
 // ----------------------------------------------------------------------
 
@@ -23,14 +23,14 @@ type Props = {
 };
 
 export default function AccountBillingAddress({ addressBook }: Props) {
-  const [addressId, setAddressId] = useState('');
+  const [addressId, setAddressId] = useState("");
 
   const popover = usePopover();
 
   const addressForm = useBoolean();
 
   const handleAddNewAddress = useCallback((address: IAddressItem) => {
-    console.info('ADDRESS', address);
+    console.info("ADDRESS", address);
   }, []);
 
   const handleSelectedId = useCallback(
@@ -38,12 +38,12 @@ export default function AccountBillingAddress({ addressBook }: Props) {
       popover.onOpen(event);
       setAddressId(id);
     },
-    [popover]
+    [popover],
   );
 
   const handleClose = useCallback(() => {
     popover.onClose();
-    setAddressId('');
+    setAddressId("");
   }, [popover]);
 
   return (
@@ -74,7 +74,7 @@ export default function AccountBillingAddress({ addressBook }: Props) {
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
                     handleSelectedId(event, `${address.id}`);
                   }}
-                  sx={{ position: 'absolute', top: 8, right: 8 }}
+                  sx={{ position: "absolute", top: 8, right: 8 }}
                 >
                   <Iconify icon="eva:more-vertical-fill" />
                 </IconButton>
@@ -92,7 +92,7 @@ export default function AccountBillingAddress({ addressBook }: Props) {
         <MenuItem
           onClick={() => {
             handleClose();
-            console.info('SET AS PRIMARY', addressId);
+            console.info("SET AS PRIMARY", addressId);
           }}
         >
           <Iconify icon="eva:star-fill" />
@@ -102,7 +102,7 @@ export default function AccountBillingAddress({ addressBook }: Props) {
         <MenuItem
           onClick={() => {
             handleClose();
-            console.info('EDIT', addressId);
+            console.info("EDIT", addressId);
           }}
         >
           <Iconify icon="solar:pen-bold" />
@@ -112,9 +112,9 @@ export default function AccountBillingAddress({ addressBook }: Props) {
         <MenuItem
           onClick={() => {
             handleClose();
-            console.info('DELETE', addressId);
+            console.info("DELETE", addressId);
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete

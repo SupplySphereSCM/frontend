@@ -1,10 +1,10 @@
-import { useFormContext, Controller } from 'react-hook-form';
+import { useFormContext, Controller } from "react-hook-form";
 // @mui
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Stack from "@mui/material/Stack";
+import MenuItem from "@mui/material/MenuItem";
 // components
-import { RHFSelect, RHFTextField } from 'src/components/hook-form';
+import { RHFSelect, RHFTextField } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ export default function InvoiceNewEditStatusDate() {
   return (
     <Stack
       spacing={2}
-      direction={{ xs: 'column', sm: 'row' }}
-      sx={{ p: 3, bgcolor: 'background.neutral' }}
+      direction={{ xs: "column", sm: "row" }}
+      sx={{ p: 3, bgcolor: "background.neutral" }}
     >
       <RHFTextField
         disabled
@@ -31,9 +31,9 @@ export default function InvoiceNewEditStatusDate() {
         name="status"
         label="Status"
         InputLabelProps={{ shrink: true }}
-        PaperPropsSx={{ textTransform: 'capitalize' }}
+        PaperPropsSx={{ textTransform: "capitalize" }}
       >
-        {['paid', 'pending', 'overdue', 'draft'].map((option) => (
+        {["paid", "pending", "overdue", "draft"].map((option) => (
           <MenuItem key={option} value={option}>
             {option}
           </MenuItem>

@@ -1,8 +1,8 @@
-import { MapProps } from 'react-map-gl';
+import { MapProps } from "react-map-gl";
 
 // ----------------------------------------------------------------------
 
-export type MapBoxProps = Omit<MapProps, 'fog' | 'terrain'>;
+export type MapBoxProps = Omit<MapProps, "fog" | "terrain">;
 
 export type MapSettings = {
   minZoom: number;
@@ -22,14 +22,14 @@ export type MapSettings = {
 };
 
 export type MapSettingKeys =
-  | 'dragPan'
-  | 'dragRotate'
-  | 'scrollZoom'
-  | 'touchZoom'
-  | 'touchRotate'
-  | 'keyboard'
-  | 'doubleClickZoom'
-  | 'minZoom'
-  | 'maxZoom'
-  | 'minPitch'
-  | 'maxPitch';
+  | "dragPan"
+  | "dragRotate"
+  | "scrollZoom"
+  | "touchZoom"
+  | "touchRotate"
+  | "keyboard"
+  | "doubleClickZoom"
+  | "minZoom"
+  | "maxZoom"
+  | "minPitch"
+  | "maxPitch";

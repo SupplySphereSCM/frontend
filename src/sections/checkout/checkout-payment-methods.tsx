@@ -1,22 +1,25 @@
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from "react-hook-form";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
-import ListItemText from '@mui/material/ListItemText';
-import Paper, { PaperProps } from '@mui/material/Paper';
-import FormHelperText from '@mui/material/FormHelperText';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
+import ListItemText from "@mui/material/ListItemText";
+import Paper, { PaperProps } from "@mui/material/Paper";
+import FormHelperText from "@mui/material/FormHelperText";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 // types
-import { ICheckoutCardOption, ICheckoutPaymentOption } from 'src/types/checkout';
+import {
+  ICheckoutCardOption,
+  ICheckoutPaymentOption,
+} from "src/types/checkout";
 //
-import PaymentNewCardDialog from '../payment/payment-new-card-dialog';
+import PaymentNewCardDialog from "../payment/payment-new-card-dialog";
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +28,11 @@ interface Props extends CardProps {
   cardOptions: ICheckoutCardOption[];
 }
 
-export default function CheckoutPaymentMethods({ options, cardOptions, ...other }: Props) {
+export default function CheckoutPaymentMethods({
+  options,
+  cardOptions,
+  ...other
+}: Props) {
   const { control } = useFormContext();
 
   const newCard = useBoolean();
@@ -47,7 +54,9 @@ export default function CheckoutPaymentMethods({ options, cardOptions, ...other 
                   onOpen={newCard.onTrue}
                   cardOptions={cardOptions}
                   selected={field.value === option.value}
-                  isCredit={option.value === 'credit' && field.value === 'credit'}
+                  isCredit={
+                    option.value === "credit" && field.value === "credit"
+                  }
                   onClick={() => {
                     field.onChange(option.value);
                   }}
@@ -96,7 +105,7 @@ function OptionItem({
       sx={{
         p: 2.5,
         mt: 2.5,
-        cursor: 'pointer',
+        cursor: "pointer",
         ...(selected && {
           boxShadow: (theme) => `0 0 0 2px ${theme.palette.text.primary}`,
         }),
@@ -110,20 +119,22 @@ function OptionItem({
               {label}
             </Box>
             <Stack spacing={1} direction="row" alignItems="center">
-              {value === 'credit' && (
+              {value === "credit" && (
                 <>
                   <Iconify icon="logos:mastercard" width={24} />,
                   <Iconify icon="logos:visa" width={24} />
                 </>
               )}
-              {value === 'paypal' && <Iconify icon="logos:paypal" width={24} />}
-              {value === 'cash' && <Iconify icon="solar:wad-of-money-bold" width={32} />}
+              {value === "paypal" && <Iconify icon="logos:paypal" width={24} />}
+              {value === "cash" && (
+                <Iconify icon="solar:wad-of-money-bold" width={32} />
+              )}
             </Stack>
           </Stack>
         }
         secondary={description}
-        primaryTypographyProps={{ typography: 'subtitle1', mb: 0.5 }}
-        secondaryTypographyProps={{ typography: 'body2' }}
+        primaryTypographyProps={{ typography: "subtitle1", mb: 0.5 }}
+        secondaryTypographyProps={{ typography: "body2" }}
       />
 
       {isCredit && (
@@ -134,7 +145,12 @@ function OptionItem({
             pt: 2.5,
           }}
         >
-          <TextField select fullWidth label="Cards" SelectProps={{ native: true }}>
+          <TextField
+            select
+            fullWidth
+            label="Cards"
+            SelectProps={{ native: true }}
+          >
             {cardOptions.map((card) => (
               <option key={card.value} value={card.value}>
                 {card.label}

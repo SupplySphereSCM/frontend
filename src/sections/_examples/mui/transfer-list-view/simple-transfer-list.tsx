@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import List from '@mui/material/List';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Unstable_Grid2';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
+import List from "@mui/material/List";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Unstable_Grid2";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ export default function SimpleTransferList() {
       sx={{
         width: 200,
         height: 220,
-        overflow: 'auto',
+        overflow: "auto",
         borderRadius: 1.5,
       }}
     >
@@ -80,13 +80,17 @@ export default function SimpleTransferList() {
         {items.map((value: number) => {
           const labelId = `transfer-list-item-${value}-label`;
           return (
-            <ListItemButton key={value} role="listitem" onClick={handleToggle(value)}>
+            <ListItemButton
+              key={value}
+              role="listitem"
+              onClick={handleToggle(value)}
+            >
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
+                  inputProps={{ "aria-labelledby": labelId }}
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`List item ${value + 1}`} />
@@ -98,7 +102,12 @@ export default function SimpleTransferList() {
   );
 
   return (
-    <Grid container justifyContent="center" alignItems="center" sx={{ width: 'auto', py: 3 }}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      sx={{ width: "auto", py: 3 }}
+    >
       <Grid>{customList(left)}</Grid>
 
       <Grid container direction="column" alignItems="center" sx={{ p: 3 }}>

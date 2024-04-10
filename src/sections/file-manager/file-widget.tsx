@@ -1,11 +1,11 @@
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
-import LinearProgress from '@mui/material/LinearProgress';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
+import LinearProgress from "@mui/material/LinearProgress";
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +16,14 @@ interface Props extends CardProps {
   icon: string;
 }
 
-export default function FileWidget({ title, value, total, icon, sx, ...other }: Props) {
+export default function FileWidget({
+  title,
+  value,
+  total,
+  icon,
+  sx,
+  ...other
+}: Props) {
   return (
     <Card sx={{ p: 3, ...sx }} {...other}>
       <Box component="img" src={icon} sx={{ width: 48, height: 48 }} />
@@ -32,8 +39,8 @@ export default function FileWidget({ title, value, total, icon, sx, ...other }: 
         sx={{
           my: 2,
           height: 6,
-          '&::before': {
-            bgcolor: 'divider',
+          "&::before": {
+            bgcolor: "divider",
             opacity: 1,
           },
         }}
@@ -43,13 +50,13 @@ export default function FileWidget({ title, value, total, icon, sx, ...other }: 
         direction="row"
         spacing={0.5}
         justifyContent="flex-end"
-        sx={{ typography: 'subtitle2' }}
+        sx={{ typography: "subtitle2" }}
       >
         <Box
           sx={{
             mr: 0.5,
-            typography: 'body2',
-            color: 'text.disabled',
+            typography: "body2",
+            color: "text.disabled",
           }}
         >
           {fData(value)}

@@ -1,51 +1,51 @@
 // @mui
-import IconButton from '@mui/material/IconButton';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import IconButton from "@mui/material/IconButton";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
 const columns: GridColDef[] = [
   {
-    field: 'id',
-    headerName: 'ID',
+    field: "id",
+    headerName: "ID",
     width: 120,
   },
   {
-    field: 'firstName',
-    headerName: 'First name',
+    field: "firstName",
+    headerName: "First name",
     width: 160,
     editable: true,
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
+    field: "lastName",
+    headerName: "Last name",
     width: 160,
     editable: true,
   },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
+    field: "age",
+    headerName: "Age",
+    type: "number",
     width: 120,
     editable: true,
-    align: 'center',
-    headerAlign: 'center',
+    align: "center",
+    headerAlign: "center",
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
+    field: "fullName",
+    headerName: "Full name",
+    description: "This column has a value getter and is not sortable.",
     flex: 1,
     valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
   },
   {
-    field: 'action',
-    headerName: ' ',
+    field: "action",
+    headerName: " ",
     width: 80,
-    align: 'right',
+    align: "right",
     sortable: false,
     disableColumnMenu: true,
     renderCell: () => (
@@ -73,5 +73,12 @@ type Props = {
 };
 
 export default function DataGridBasic({ data }: Props) {
-  return <DataGrid columns={columns} rows={data} checkboxSelection disableRowSelectionOnClick />;
+  return (
+    <DataGrid
+      columns={columns}
+      rows={data}
+      checkboxSelection
+      disableRowSelectionOnClick
+    />
+  );
 }

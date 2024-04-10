@@ -1,35 +1,37 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import { styled, alpha } from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
+import { styled, alpha } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
 // types
-import { IKanbanTask } from 'src/types/kanban';
+import { IKanbanTask } from "src/types/kanban";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import CustomDateRangePicker, { useDateRangePicker } from 'src/components/custom-date-range-picker';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import CustomDateRangePicker, {
+  useDateRangePicker,
+} from "src/components/custom-date-range-picker";
 //
-import KanbanInputName from './kanban-input-name';
-import KanbanDetailsToolbar from './kanban-details-toolbar';
-import KanbanContactsDialog from './kanban-contacts-dialog';
-import KanbanDetailsPriority from './kanban-details-priority';
-import KanbanDetailsAttachments from './kanban-details-attachments';
-import KanbanDetailsCommentList from './kanban-details-comment-list';
-import KanbanDetailsCommentInput from './kanban-details-comment-input';
+import KanbanInputName from "./kanban-input-name";
+import KanbanDetailsToolbar from "./kanban-details-toolbar";
+import KanbanContactsDialog from "./kanban-contacts-dialog";
+import KanbanDetailsPriority from "./kanban-details-priority";
+import KanbanDetailsAttachments from "./kanban-details-attachments";
+import KanbanDetailsCommentList from "./kanban-details-comment-list";
+import KanbanDetailsCommentInput from "./kanban-details-comment-input";
 
 // ----------------------------------------------------------------------
 
-const StyledLabel = styled('span')(({ theme }) => ({
+const StyledLabel = styled("span")(({ theme }) => ({
   ...theme.typography.caption,
   width: 100,
   flexShrink: 0,
@@ -68,14 +70,17 @@ export default function KanbanDetails({
 
   const rangePicker = useDateRangePicker(task.due[0], task.due[1]);
 
-  const handleChangeTaskName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskName(event.target.value);
-  }, []);
+  const handleChangeTaskName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTaskName(event.target.value);
+    },
+    [],
+  );
 
   const handleUpdateTask = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       try {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
           if (taskName) {
             onUpdateTask({
               ...task,
@@ -87,12 +92,15 @@ export default function KanbanDetails({
         console.error(error);
       }
     },
-    [onUpdateTask, task, taskName]
+    [onUpdateTask, task, taskName],
   );
 
-  const handleChangeTaskDescription = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskDescription(event.target.value);
-  }, []);
+  const handleChangeTaskDescription = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTaskDescription(event.target.value);
+    },
+    [],
+  );
 
   const handleChangePriority = useCallback((newValue: string) => {
     setPriority(newValue);
@@ -127,7 +135,9 @@ export default function KanbanDetails({
 
   const renderAssignee = (
     <Stack direction="row">
-      <StyledLabel sx={{ height: 40, lineHeight: '40px' }}>Assignee</StyledLabel>
+      <StyledLabel sx={{ height: 40, lineHeight: "40px" }}>
+        Assignee
+      </StyledLabel>
 
       <Stack direction="row" flexWrap="wrap" alignItems="center" spacing={1}>
         {task.assignee.map((user) => (
@@ -157,12 +167,18 @@ export default function KanbanDetails({
 
   const renderLabel = (
     <Stack direction="row">
-      <StyledLabel sx={{ height: 24, lineHeight: '24px' }}>Labels</StyledLabel>
+      <StyledLabel sx={{ height: 24, lineHeight: "24px" }}>Labels</StyledLabel>
 
       {!!task.labels.length && (
         <Stack direction="row" flexWrap="wrap" alignItems="center" spacing={1}>
           {task.labels.map((label) => (
-            <Chip key={label} color="info" label={label} size="small" variant="soft" />
+            <Chip
+              key={label}
+              color="info"
+              label={label}
+              size="small"
+              variant="soft"
+            />
           ))}
         </Stack>
       )}
@@ -210,7 +226,10 @@ export default function KanbanDetails({
     <Stack direction="row" alignItems="center">
       <StyledLabel>Priority</StyledLabel>
 
-      <KanbanDetailsPriority priority={priority} onChangePriority={handleChangePriority} />
+      <KanbanDetailsPriority
+        priority={priority}
+        onChangePriority={handleChangePriority}
+      />
     </Stack>
   );
 
@@ -225,7 +244,7 @@ export default function KanbanDetails({
         value={taskDescription}
         onChange={handleChangeTaskDescription}
         InputProps={{
-          sx: { typography: 'body2' },
+          sx: { typography: "body2" },
         }}
       />
     </Stack>
@@ -264,10 +283,10 @@ export default function KanbanDetails({
       <Scrollbar
         sx={{
           height: 1,
-          '& .simplebar-content': {
+          "& .simplebar-content": {
             height: 1,
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
           },
         }}
       >

@@ -1,27 +1,27 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import IconButton from '@mui/material/IconButton';
+import Masonry from "@mui/lab/Masonry";
+import IconButton from "@mui/material/IconButton";
 // components
-import Iconify from 'src/components/iconify';
-import { varHover } from 'src/components/animate';
+import Iconify from "src/components/iconify";
+import { varHover } from "src/components/animate";
 //
-import ComponentBlock from '../../component-block';
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
 const COLORS = [
-  'inherit',
-  'default',
-  'primary',
-  'secondary',
-  'info',
-  'success',
-  'warning',
-  'error',
+  "inherit",
+  "default",
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
 ] as const;
 
-const SIZES = ['small', 'medium', 'large'] as const;
+const SIZES = ["small", "medium", "large"] as const;
 
 // ----------------------------------------------------------------------
 
@@ -74,8 +74,8 @@ export default function IconButtons() {
             whileTap="tap"
             whileHover="hover"
             variants={
-              (size === 'small' && varHover(1.1, 0.95)) ||
-              (size === 'large' && varHover(1.08, 0.99)) ||
+              (size === "small" && varHover(1.1, 0.95)) ||
+              (size === "large" && varHover(1.08, 0.99)) ||
               varHover()
             }
             size={size}

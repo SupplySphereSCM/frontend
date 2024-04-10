@@ -1,28 +1,28 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Slider from '@mui/material/Slider';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import DialogTitle from '@mui/material/DialogTitle';
-import { CardProps } from '@mui/material/Card';
-import ListItemText from '@mui/material/ListItemText';
-import DialogActions from '@mui/material/DialogActions';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import Input, { InputProps, inputClasses } from '@mui/material/Input';
+import { useTheme } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Slider from "@mui/material/Slider";
+import Tooltip from "@mui/material/Tooltip";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import DialogTitle from "@mui/material/DialogTitle";
+import { CardProps } from "@mui/material/Card";
+import ListItemText from "@mui/material/ListItemText";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Input, { InputProps, inputClasses } from "@mui/material/Input";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 // components
-import Iconify from 'src/components/iconify';
-import Carousel, { CarouselArrows, useCarousel } from 'src/components/carousel';
+import Iconify from "src/components/iconify";
+import Carousel, { CarouselArrows, useCarousel } from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
@@ -47,14 +47,20 @@ interface Props extends CardProps {
   }[];
 }
 
-export default function BankingQuickTransfer({ title, subheader, list, sx, ...other }: Props) {
+export default function BankingQuickTransfer({
+  title,
+  subheader,
+  list,
+  sx,
+  ...other
+}: Props) {
   const theme = useTheme();
 
   const carousel = useCarousel({
     centerMode: true,
     swipeToSlide: true,
     focusOnSelect: true,
-    centerPadding: '0px',
+    centerPadding: "0px",
     slidesToShow: list.length > 7 ? 7 : list.length,
     responsive: [
       {
@@ -94,7 +100,9 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
 
   const confirm = useBoolean();
 
-  const getContactInfo = list.find((_, index) => index === carousel.currentIndex);
+  const getContactInfo = list.find(
+    (_, index) => index === carousel.currentIndex,
+  );
 
   useEffect(() => {
     if (amount) {
@@ -108,13 +116,19 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
     setAutoWidth(getNumberLength * 24);
   }, [amount]);
 
-  const handleChangeSlider = useCallback((event: Event, newValue: number | number[]) => {
-    setAmount(newValue as number);
-  }, []);
+  const handleChangeSlider = useCallback(
+    (event: Event, newValue: number | number[]) => {
+      setAmount(newValue as number);
+    },
+    [],
+  );
 
-  const handleChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(Number(event.target.value));
-  }, []);
+  const handleChangeInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setAmount(Number(event.target.value));
+    },
+    [],
+  );
 
   const handleBlur = useCallback(() => {
     if (amount < 0) {
@@ -125,7 +139,7 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
   }, [amount]);
 
   const renderCarousel = (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: "relative" }}>
       <CarouselArrows
         filled
         onPrev={carousel.onPrev}
@@ -135,7 +149,7 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
             p: 0.5,
             mt: -1.5,
             left: -8,
-            '& svg': { width: 16, height: 16 },
+            "& svg": { width: 16, height: 16 },
           },
         }}
         rightButtonProps={{
@@ -143,7 +157,7 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
             p: 0.5,
             mt: -1.5,
             right: -8,
-            '& svg': { width: 16, height: 16 },
+            "& svg": { width: 16, height: 16 },
           },
         }}
       >
@@ -153,24 +167,29 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
           {...carousel.carouselSettings}
           sx={{
             width: 1,
-            mx: 'auto',
+            mx: "auto",
             maxWidth: AVATAR_SIZE * 7 + 160,
           }}
         >
           {list.map((contact, index) => (
             <Box key={contact.id} sx={{ py: 5 }}>
-              <Tooltip key={contact.id} title={contact.name} arrow placement="top">
+              <Tooltip
+                key={contact.id}
+                title={contact.name}
+                arrow
+                placement="top"
+              >
                 <Avatar
                   src={contact.avatarUrl}
                   sx={{
-                    mx: 'auto',
+                    mx: "auto",
                     opacity: 0.48,
-                    cursor: 'pointer',
-                    transition: theme.transitions.create('all'),
+                    cursor: "pointer",
+                    transition: theme.transitions.create("all"),
                     ...(index === carousel.currentIndex && {
                       opacity: 1,
-                      transform: 'scale(1.25)',
-                      boxShadow: '-4px 12px 24px 0 rgb(0,0,0,0.24)',
+                      transform: "scale(1.25)",
+                      boxShadow: "-4px 12px 24px 0 rgb(0,0,0,0.24)",
                     }),
                   }}
                 />
@@ -184,7 +203,7 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
 
   const renderInput = (
     <Stack spacing={3}>
-      <Typography variant="overline" sx={{ color: 'text.secondary' }}>
+      <Typography variant="overline" sx={{ color: "text.secondary" }}>
         insert amount
       </Typography>
 
@@ -196,7 +215,7 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
       />
 
       <Slider
-        value={typeof amount === 'number' ? amount : 0}
+        value={typeof amount === "number" ? amount : 0}
         valueLabelDisplay="auto"
         step={STEP}
         marks
@@ -205,7 +224,11 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
         onChange={handleChangeSlider}
       />
 
-      <Stack direction="row" alignItems="center" sx={{ typography: 'subtitle1' }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        sx={{ typography: "subtitle1" }}
+      >
         <Box component="span" sx={{ flexGrow: 1 }}>
           Your Balance
         </Box>
@@ -229,7 +252,7 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
       <Stack
         sx={{
           borderRadius: 2,
-          bgcolor: 'background.neutral',
+          bgcolor: "background.neutral",
           ...sx,
         }}
         {...other}
@@ -237,15 +260,25 @@ export default function BankingQuickTransfer({ title, subheader, list, sx, ...ot
         <CardHeader title={title} subheader={subheader} />
 
         <Stack sx={{ p: 3 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="overline" sx={{ color: 'text.secondary' }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography variant="overline" sx={{ color: "text.secondary" }}>
               Recent
             </Typography>
 
             <Button
               size="small"
               color="inherit"
-              endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
+              endIcon={
+                <Iconify
+                  icon="eva:arrow-ios-forward-fill"
+                  width={18}
+                  sx={{ ml: -0.5 }}
+                />
+              }
               sx={{ mr: -1 }}
             >
               View All
@@ -278,7 +311,14 @@ interface InputAmountProps extends InputProps {
   amount: number | number[];
 }
 
-function InputAmount({ autoWidth, amount, onBlur, onChange, sx, ...other }: InputAmountProps) {
+function InputAmount({
+  autoWidth,
+  amount,
+  onBlur,
+  onChange,
+  sx,
+  ...other
+}: InputAmountProps) {
   return (
     <Stack direction="row" justifyContent="center" spacing={1} sx={sx}>
       <Typography variant="h5">$</Typography>
@@ -293,13 +333,13 @@ function InputAmount({ autoWidth, amount, onBlur, onChange, sx, ...other }: Inpu
           step: STEP,
           min: MIN_AMOUNT,
           max: MAX_AMOUNT,
-          type: 'number',
+          type: "number",
         }}
         sx={{
           [`& .${inputClasses.input}`]: {
             p: 0,
-            typography: 'h3',
-            textAlign: 'center',
+            typography: "h3",
+            textAlign: "center",
             width: autoWidth,
           },
         }}
@@ -343,7 +383,7 @@ function ConfirmTransferDialog({
           <ListItemText
             primary={contactInfo?.name}
             secondary={contactInfo?.email}
-            secondaryTypographyProps={{ component: 'span', mt: 0.5 }}
+            secondaryTypographyProps={{ component: "span", mt: 0.5 }}
           />
         </Stack>
 
@@ -353,10 +393,15 @@ function ConfirmTransferDialog({
           autoWidth={autoWidth}
           amount={amount}
           disableUnderline={false}
-          sx={{ justifyContent: 'flex-end' }}
+          sx={{ justifyContent: "flex-end" }}
         />
 
-        <TextField fullWidth multiline rows={3} placeholder="Write a message..." />
+        <TextField
+          fullWidth
+          multiline
+          rows={3}
+          placeholder="Write a message..."
+        />
       </Stack>
 
       <DialogActions>

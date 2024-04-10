@@ -1,61 +1,66 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 // @mui
-import { styled, alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
+import { styled, alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 // theme
-import { bgGradient } from 'src/theme/css';
+import { bgGradient } from "src/theme/css";
 // components
-import Image from 'src/components/image';
-import Carousel, { CarouselArrowIndex, useCarousel } from 'src/components/carousel';
+import Image from "src/components/image";
+import Carousel, {
+  CarouselArrowIndex,
+  useCarousel,
+} from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
 const THUMB_SIZE = 64;
 
-const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, theme }) => ({
-  position: 'relative',
-  margin: theme.spacing(0, 'auto'),
-  '& .slick-slide': {
-    lineHeight: 0,
-  },
-
-  ...(length === 1 && {
-    maxWidth: THUMB_SIZE * 1 + 16,
-  }),
-
-  ...(length === 2 && {
-    maxWidth: THUMB_SIZE * 2 + 32,
-  }),
-
-  ...((length === 3 || length === 4) && {
-    maxWidth: THUMB_SIZE * 3 + 48,
-  }),
-
-  ...(length >= 5 && {
-    maxWidth: THUMB_SIZE * 6,
-  }),
-
-  ...(length > 3 && {
-    '&:before, &:after': {
-      ...bgGradient({
-        direction: 'to left',
-        startColor: `${alpha(theme.palette.background.default, 0)} 0%`,
-        endColor: `${theme.palette.background.default} 100%`,
-      }),
-      top: 0,
-      zIndex: 9,
-      content: "''",
-      height: '100%',
-      position: 'absolute',
-      width: (THUMB_SIZE * 2) / 3,
+const StyledThumbnailsContainer = styled("div")<{ length: number }>(
+  ({ length, theme }) => ({
+    position: "relative",
+    margin: theme.spacing(0, "auto"),
+    "& .slick-slide": {
+      lineHeight: 0,
     },
-    '&:after': {
-      right: 0,
-      transform: 'scaleX(-1)',
-    },
+
+    ...(length === 1 && {
+      maxWidth: THUMB_SIZE * 1 + 16,
+    }),
+
+    ...(length === 2 && {
+      maxWidth: THUMB_SIZE * 2 + 32,
+    }),
+
+    ...((length === 3 || length === 4) && {
+      maxWidth: THUMB_SIZE * 3 + 48,
+    }),
+
+    ...(length >= 5 && {
+      maxWidth: THUMB_SIZE * 6,
+    }),
+
+    ...(length > 3 && {
+      "&:before, &:after": {
+        ...bgGradient({
+          direction: "to left",
+          startColor: `${alpha(theme.palette.background.default, 0)} 0%`,
+          endColor: `${theme.palette.background.default} 100%`,
+        }),
+        top: 0,
+        zIndex: 9,
+        content: "''",
+        height: "100%",
+        position: "absolute",
+        width: (THUMB_SIZE * 2) / 3,
+      },
+      "&:after": {
+        right: 0,
+        transform: "scaleX(-1)",
+      },
+    }),
   }),
-}));
+);
 
 // ----------------------------------------------------------------------
 
@@ -81,7 +86,7 @@ export default function CarouselThumbnail({ data }: Props) {
     swipeToSlide: true,
     focusOnSelect: true,
     variableWidth: true,
-    centerPadding: '0px',
+    centerPadding: "0px",
     slidesToShow: data.length > 3 ? 3 : data.length,
   });
 
@@ -95,8 +100,8 @@ export default function CarouselThumbnail({ data }: Props) {
       sx={{
         mb: 3,
         borderRadius: 2,
-        overflow: 'hidden',
-        position: 'relative',
+        overflow: "hidden",
+        position: "relative",
       }}
     >
       <Carousel
@@ -105,7 +110,12 @@ export default function CarouselThumbnail({ data }: Props) {
         ref={carouselLarge.carouselRef}
       >
         {data.map((item) => (
-          <Image key={item.id} alt={item.title} src={item.coverUrl} ratio="16/9" />
+          <Image
+            key={item.id}
+            alt={item.title}
+            src={item.coverUrl}
+            ratio="16/9"
+          />
         ))}
       </Carousel>
 
@@ -135,10 +145,11 @@ export default function CarouselThumbnail({ data }: Props) {
                 width: THUMB_SIZE,
                 height: THUMB_SIZE,
                 opacity: 0.48,
-                cursor: 'pointer',
+                cursor: "pointer",
                 ...(carouselLarge.currentIndex === index && {
                   opacity: 1,
-                  border: (theme) => `solid 2.5px ${theme.palette.primary.main}`,
+                  border: (theme) =>
+                    `solid 2.5px ${theme.palette.primary.main}`,
                 }),
               }}
             />
@@ -151,8 +162,8 @@ export default function CarouselThumbnail({ data }: Props) {
   return (
     <Box
       sx={{
-        '& .slick-slide': {
-          float: (theme) => (theme.direction === 'rtl' ? 'right' : 'left'),
+        "& .slick-slide": {
+          float: (theme) => (theme.direction === "rtl" ? "right" : "left"),
         },
       }}
     >

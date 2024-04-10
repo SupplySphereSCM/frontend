@@ -1,16 +1,16 @@
 // @mui
-import TreeView from '@mui/lab/TreeView';
-import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
-import { alpha, styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import TreeView from "@mui/lab/TreeView";
+import TreeItem, { TreeItemProps, treeItemClasses } from "@mui/lab/TreeItem";
+import { alpha, styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -20,9 +20,11 @@ const StyledTreeView = styled(TreeView)({
   maxWidth: 400,
 });
 
-const StyledTreeItem = styled((props: TreeItemProps) => <TreeItem {...props} />)(({ theme }) => ({
+const StyledTreeItem = styled((props: TreeItemProps) => (
+  <TreeItem {...props} />
+))(({ theme }) => ({
   [`& .${treeItemClasses.iconContainer}`]: {
-    '& .close': {
+    "& .close": {
       opacity: 0.3,
     },
   },
@@ -41,7 +43,8 @@ export default function TreeViews() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -49,12 +52,12 @@ export default function TreeViews() {
             heading="Tree View"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Tree View' },
+              { name: "Tree View" },
             ]}
-            moreLink={['https://mui.com/components/tree-view']}
+            moreLink={["https://mui.com/components/tree-view"]}
           />
         </Container>
       </Box>
@@ -64,13 +67,15 @@ export default function TreeViews() {
           gap={3}
           display="grid"
           gridTemplateColumns={{
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(3, 1fr)',
+            xs: "repeat(1, 1fr)",
+            md: "repeat(3, 1fr)",
           }}
         >
           <ComponentBlock title="Basic">
             <StyledTreeView
-              defaultCollapseIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+              defaultCollapseIcon={
+                <Iconify icon="eva:arrow-ios-downward-fill" />
+              }
               defaultExpandIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
               defaultEndIcon={null}
             >
@@ -94,7 +99,9 @@ export default function TreeViews() {
           <ComponentBlock title="Multi Select">
             <StyledTreeView
               multiSelect
-              defaultCollapseIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+              defaultCollapseIcon={
+                <Iconify icon="eva:arrow-ios-downward-fill" />
+              }
               defaultExpandIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
               defaultEndIcon={null}
             >
@@ -115,7 +122,7 @@ export default function TreeViews() {
           </ComponentBlock>
 
           <ComponentBlock title="Customization">
-            <StyledTreeView defaultExpanded={['1']}>
+            <StyledTreeView defaultExpanded={["1"]}>
               <StyledTreeItem nodeId="1" label="Main">
                 <StyledTreeItem nodeId="2" label="Hello" />
                 <StyledTreeItem nodeId="3" label="Subtree with children">

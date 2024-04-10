@@ -1,33 +1,33 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import { CardProps } from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import { CardProps } from "@mui/material/Card";
+import IconButton from "@mui/material/IconButton";
+import ListItemText from "@mui/material/ListItemText";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useCopyToClipboard } from "src/hooks/use-copy-to-clipboard";
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 // types
-import { IFolderManager } from 'src/types/file';
+import { IFolderManager } from "src/types/file";
 // components
-import Iconify from 'src/components/iconify';
-import { useSnackbar } from 'src/components/snackbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import { useSnackbar } from "src/components/snackbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 //
-import FileManagerShareDialog from './file-manager-share-dialog';
-import FileManagerFileDetails from './file-manager-file-details';
-import FileManagerNewFolderDialog from './file-manager-new-folder-dialog';
+import FileManagerShareDialog from "./file-manager-share-dialog";
+import FileManagerFileDetails from "./file-manager-file-details";
+import FileManagerNewFolderDialog from "./file-manager-new-folder-dialog";
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ export default function FileManagerFolderItem({
 
   const { copy } = useCopyToClipboard();
 
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmail, setInviteEmail] = useState("");
 
   const [folderName, setFolderName] = useState(folder.name);
 
@@ -68,16 +68,22 @@ export default function FileManagerFolderItem({
 
   const favorite = useBoolean(folder.isFavorited);
 
-  const handleChangeInvite = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setInviteEmail(event.target.value);
-  }, []);
+  const handleChangeInvite = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInviteEmail(event.target.value);
+    },
+    [],
+  );
 
-  const handleChangeFolderName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setFolderName(event.target.value);
-  }, []);
+  const handleChangeFolderName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFolderName(event.target.value);
+    },
+    [],
+  );
 
   const handleCopy = useCallback(() => {
-    enqueueSnackbar('Copied!');
+    enqueueSnackbar("Copied!");
     copy(folder.url);
   }, [copy, enqueueSnackbar, folder.url]);
 
@@ -88,7 +94,7 @@ export default function FileManagerFolderItem({
       sx={{
         top: 8,
         right: 8,
-        position: 'absolute',
+        position: "absolute",
       }}
     >
       <Checkbox
@@ -99,7 +105,10 @@ export default function FileManagerFolderItem({
         onChange={favorite.onToggle}
       />
 
-      <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+      <IconButton
+        color={popover.open ? "inherit" : "default"}
+        onClick={popover.onOpen}
+      >
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
     </Stack>
@@ -116,7 +125,11 @@ export default function FileManagerFolderItem({
         sx={{ p: 0.75 }}
       />
     ) : (
-      <Box component="img" src="/assets/icons/files/ic_folder.svg" sx={{ width: 36, height: 36 }} />
+      <Box
+        component="img"
+        src="/assets/icons/files/ic_folder.svg"
+        sx={{ width: 36, height: 36 }}
+      />
     );
 
   const renderText = (
@@ -132,8 +145,8 @@ export default function FileManagerFolderItem({
               mx: 0.75,
               width: 2,
               height: 2,
-              borderRadius: '50%',
-              bgcolor: 'currentColor',
+              borderRadius: "50%",
+              bgcolor: "currentColor",
             }}
           />
           {folder.totalFiles} files
@@ -141,15 +154,15 @@ export default function FileManagerFolderItem({
       }
       primaryTypographyProps={{
         noWrap: true,
-        typography: 'subtitle1',
+        typography: "subtitle1",
       }}
       secondaryTypographyProps={{
         mt: 0.5,
-        component: 'span',
-        alignItems: 'center',
-        typography: 'caption',
-        color: 'text.disabled',
-        display: 'inline-flex',
+        component: "span",
+        alignItems: "center",
+        typography: "caption",
+        color: "text.disabled",
+        display: "inline-flex",
       }}
     />
   );
@@ -161,7 +174,7 @@ export default function FileManagerFolderItem({
         [`& .${avatarGroupClasses.avatar}`]: {
           width: 24,
           height: 24,
-          '&:first-of-type': {
+          "&:first-of-type": {
             fontSize: 12,
           },
         },
@@ -184,11 +197,11 @@ export default function FileManagerFolderItem({
           p: 2.5,
           maxWidth: 222,
           borderRadius: 2,
-          bgcolor: 'unset',
-          cursor: 'pointer',
-          position: 'relative',
+          bgcolor: "unset",
+          cursor: "pointer",
+          position: "relative",
           ...((checkbox.value || selected) && {
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: (theme) => theme.customShadows.z20,
           }),
           ...sx,
@@ -242,14 +255,14 @@ export default function FileManagerFolderItem({
           Edit
         </MenuItem>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem
           onClick={() => {
             confirm.onTrue();
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
@@ -277,7 +290,7 @@ export default function FileManagerFolderItem({
         onCopyLink={handleCopy}
         onClose={() => {
           share.onFalse();
-          setInviteEmail('');
+          setInviteEmail("");
         }}
       />
 
@@ -288,7 +301,7 @@ export default function FileManagerFolderItem({
         onUpdate={() => {
           editFolder.onFalse();
           setFolderName(folderName);
-          console.info('UPDATE FOLDER', folderName);
+          console.info("UPDATE FOLDER", folderName);
         }}
         folderName={folderName}
         onChangeFolderName={handleChangeFolderName}

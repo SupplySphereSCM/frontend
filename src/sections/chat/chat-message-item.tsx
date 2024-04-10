@@ -1,18 +1,18 @@
-import { formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict } from "date-fns";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // types
-import { IChatParticipant, IChatMessage } from 'src/types/chat';
+import { IChatParticipant, IChatMessage } from "src/types/chat";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 //
-import { useGetMessage } from './hooks';
+import { useGetMessage } from "./hooks";
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +22,11 @@ type Props = {
   onOpenLightbox: (value: string) => void;
 };
 
-export default function ChatMessageItem({ message, participants, onOpenLightbox }: Props) {
+export default function ChatMessageItem({
+  message,
+  participants,
+  onOpenLightbox,
+}: Props) {
   const { user } = useMockedUser();
 
   const { me, senderDetails, hasImage } = useGetMessage({
@@ -41,9 +45,9 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
       variant="caption"
       sx={{
         mb: 1,
-        color: 'text.disabled',
+        color: "text.disabled",
         ...(!me && {
-          mr: 'auto',
+          mr: "auto",
         }),
       }}
     >
@@ -61,15 +65,15 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
         minWidth: 48,
         maxWidth: 320,
         borderRadius: 1,
-        typography: 'body2',
-        bgcolor: 'background.neutral',
+        typography: "body2",
+        bgcolor: "background.neutral",
         ...(me && {
-          color: 'grey.800',
-          bgcolor: 'primary.lighter',
+          color: "grey.800",
+          bgcolor: "primary.lighter",
         }),
         ...(hasImage && {
           p: 0,
-          bgcolor: 'transparent',
+          bgcolor: "transparent",
         }),
       }}
     >
@@ -82,8 +86,8 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
           sx={{
             minHeight: 220,
             borderRadius: 1.5,
-            cursor: 'pointer',
-            '&:hover': {
+            cursor: "pointer",
+            "&:hover": {
               opacity: 0.9,
             },
           }}
@@ -101,15 +105,15 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
       sx={{
         pt: 0.5,
         opacity: 0,
-        top: '100%',
+        top: "100%",
         left: 0,
-        position: 'absolute',
+        position: "absolute",
         transition: (theme) =>
-          theme.transitions.create(['opacity'], {
+          theme.transitions.create(["opacity"], {
             duration: theme.transitions.duration.shorter,
           }),
         ...(me && {
-          left: 'unset',
+          left: "unset",
           right: 0,
         }),
       }}
@@ -127,8 +131,18 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
   );
 
   return (
-    <Stack direction="row" justifyContent={me ? 'flex-end' : 'unset'} sx={{ mb: 5 }}>
-      {!me && <Avatar alt={firstName} src={avatarUrl} sx={{ width: 32, height: 32, mr: 2 }} />}
+    <Stack
+      direction="row"
+      justifyContent={me ? "flex-end" : "unset"}
+      sx={{ mb: 5 }}
+    >
+      {!me && (
+        <Avatar
+          alt={firstName}
+          src={avatarUrl}
+          sx={{ width: 32, height: 32, mr: 2 }}
+        />
+      )}
 
       <Stack alignItems="flex-end">
         {renderInfo}
@@ -137,9 +151,9 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
           direction="row"
           alignItems="center"
           sx={{
-            position: 'relative',
-            '&:hover': {
-              '& .message-actions': {
+            position: "relative",
+            "&:hover": {
+              "& .message-actions": {
                 opacity: 1,
               },
             },

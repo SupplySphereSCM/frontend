@@ -1,28 +1,28 @@
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import CardContent from '@mui/material/CardContent';
+import { alpha, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
 // routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // utils
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { fDate } from "src/utils/format-time";
+import { fShortenNumber } from "src/utils/format-number";
 // assets
-import { AvatarShape } from 'src/assets/illustrations';
+import { AvatarShape } from "src/assets/illustrations";
 // components
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
-import TextMaxLine from 'src/components/text-max-line';
+import Image from "src/components/image";
+import Iconify from "src/components/iconify";
+import TextMaxLine from "src/components/text-max-line";
 // types
-import { IPostItem } from 'src/types/blog';
+import { IPostItem } from "src/types/blog";
 
 // ----------------------------------------------------------------------
 
@@ -34,9 +34,17 @@ type Props = {
 export default function PostItem({ post, index }: Props) {
   const theme = useTheme();
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
-  const { coverUrl, title, totalViews, totalComments, totalShares, author, createdAt } = post;
+  const {
+    coverUrl,
+    title,
+    totalViews,
+    totalComments,
+    totalShares,
+    author,
+    createdAt,
+  } = post;
 
   const latestPost = index === 0 || index === 1 || index === 2;
 
@@ -50,7 +58,7 @@ export default function PostItem({ post, index }: Props) {
             top: 24,
             left: 24,
             zIndex: 9,
-            position: 'absolute',
+            position: "absolute",
           }}
         />
 
@@ -78,7 +86,7 @@ export default function PostItem({ post, index }: Props) {
 
   return (
     <Card>
-      <Box sx={{ position: 'relative' }}>
+      <Box sx={{ position: "relative" }}>
         <AvatarShape
           sx={{
             left: 0,
@@ -86,7 +94,7 @@ export default function PostItem({ post, index }: Props) {
             width: 88,
             height: 36,
             bottom: -16,
-            position: 'absolute',
+            position: "absolute",
           }}
         />
 
@@ -97,7 +105,7 @@ export default function PostItem({ post, index }: Props) {
             left: 24,
             zIndex: 9,
             bottom: -24,
-            position: 'absolute',
+            position: "absolute",
           }}
         />
 
@@ -134,7 +142,7 @@ export function PostContent({
   totalComments,
   index,
 }: PostContentProps) {
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
   const linkTo = paths.post.details(title);
 
@@ -151,8 +159,8 @@ export function PostContent({
           pt: 0,
           zIndex: 9,
           bottom: 0,
-          position: 'absolute',
-          color: 'common.white',
+          position: "absolute",
+          color: "common.white",
         }),
       }}
     >
@@ -161,10 +169,10 @@ export function PostContent({
         component="div"
         sx={{
           mb: 1,
-          color: 'text.disabled',
+          color: "text.disabled",
           ...((latestPostLarge || latestPostSmall) && {
             opacity: 0.64,
-            color: 'common.white',
+            color: "common.white",
           }),
         }}
       >
@@ -172,7 +180,11 @@ export function PostContent({
       </Typography>
 
       <Link color="inherit" component={RouterLink} href={linkTo}>
-        <TextMaxLine variant={mdUp && latestPostLarge ? 'h5' : 'subtitle2'} line={2} persistent>
+        <TextMaxLine
+          variant={mdUp && latestPostLarge ? "h5" : "subtitle2"}
+          line={2}
+          persistent
+        >
           {title}
         </TextMaxLine>
       </Link>
@@ -183,11 +195,11 @@ export function PostContent({
         justifyContent="flex-end"
         sx={{
           mt: 3,
-          typography: 'caption',
-          color: 'text.disabled',
+          typography: "caption",
+          color: "text.disabled",
           ...((latestPostLarge || latestPostSmall) && {
             opacity: 0.64,
-            color: 'common.white',
+            color: "common.white",
           }),
         }}
       >

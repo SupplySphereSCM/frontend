@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 // sections
-import { JwtRegisterView } from 'src/sections/auth/jwt';
+import { JwtRegisterView } from "src/sections/auth/jwt";
 
 // ----------------------------------------------------------------------
 

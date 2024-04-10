@@ -1,7 +1,7 @@
 // utils
-import { flattenArray } from 'src/utils/flatten-array';
+import { flattenArray } from "src/utils/flatten-array";
 // components
-import { NavListProps, NavSectionProps } from 'src/components/nav-section';
+import { NavListProps, NavSectionProps } from "src/components/nav-section";
 
 // ----------------------------------------------------------------------
 
@@ -12,7 +12,9 @@ type ItemProps = {
 };
 
 export function getAllItems({ data }: NavSectionProps) {
-  const reduceItems = data.map((list) => handleLoop(list.items, list.subheader)).flat();
+  const reduceItems = data
+    .map((list) => handleLoop(list.items, list.subheader))
+    .flat();
 
   const items = flattenArray(reduceItems).map((option) => {
     const group = splitPath(reduceItems, option.path);
@@ -39,7 +41,7 @@ export function applyFilter({ inputData, query }: FilterProps) {
     inputData = inputData.filter(
       (item) =>
         item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-        item.path.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        item.path.toLowerCase().indexOf(query.toLowerCase()) !== -1,
     );
   }
 
@@ -69,7 +71,7 @@ export function splitPath(array: NavListProps[], key: string) {
         currItem.children.map((item: NavListProps) => ({
           path: path.concat(item.title),
           currItem: item,
-        }))
+        })),
       );
     }
   }

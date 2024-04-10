@@ -1,4 +1,4 @@
-import { HeaderSimple as Header } from '../_common';
+import { HeaderSimple as Header } from "../_common";
 
 // ----------------------------------------------------------------------
 

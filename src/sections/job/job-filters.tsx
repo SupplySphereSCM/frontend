@@ -1,24 +1,24 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import Chip from '@mui/material/Chip';
-import Radio from '@mui/material/Radio';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Chip from "@mui/material/Chip";
+import Radio from "@mui/material/Radio";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Autocomplete from "@mui/material/Autocomplete";
+import FormControlLabel from "@mui/material/FormControlLabel";
 // types
-import { IJobFilters, IJobFilterValue } from 'src/types/job';
+import { IJobFilters, IJobFilterValue } from "src/types/job";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
 
 // ----------------------------------------------------------------------
 
@@ -67,30 +67,30 @@ export default function JobFilters({
       const checked = filters.employmentTypes.includes(newValue)
         ? filters.employmentTypes.filter((value) => value !== newValue)
         : [...filters.employmentTypes, newValue];
-      onFilters('employmentTypes', checked);
+      onFilters("employmentTypes", checked);
     },
-    [filters.employmentTypes, onFilters]
+    [filters.employmentTypes, onFilters],
   );
 
   const handleFilterExperience = useCallback(
     (newValue: string) => {
-      onFilters('experience', newValue);
+      onFilters("experience", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterRoles = useCallback(
     (newValue: string[]) => {
-      onFilters('roles', newValue);
+      onFilters("roles", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterLocations = useCallback(
     (newValue: string[]) => {
-      onFilters('locations', newValue);
+      onFilters("locations", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterBenefits = useCallback(
@@ -98,9 +98,9 @@ export default function JobFilters({
       const checked = filters.benefits.includes(newValue)
         ? filters.benefits.filter((value) => value !== newValue)
         : [...filters.benefits, newValue];
-      onFilters('benefits', checked);
+      onFilters("benefits", checked);
     },
-    [filters.benefits, onFilters]
+    [filters.benefits, onFilters],
   );
 
   const renderHead = (
@@ -164,8 +164,8 @@ export default function JobFilters({
           }
           label={option}
           sx={{
-            ...(option === 'all' && {
-              textTransform: 'capitalize',
+            ...(option === "all" && {
+              textTransform: "capitalize",
             }),
           }}
         />
@@ -185,7 +185,9 @@ export default function JobFilters({
         getOptionLabel={(option) => option}
         value={filters.roles}
         onChange={(event, newValue) => handleFilterRoles(newValue)}
-        renderInput={(params) => <TextField placeholder="Select Roles" {...params} />}
+        renderInput={(params) => (
+          <TextField placeholder="Select Roles" {...params} />
+        )}
         renderOption={(props, option) => (
           <li {...props} key={option}>
             {option}
@@ -218,10 +220,12 @@ export default function JobFilters({
         getOptionLabel={(option) => option}
         value={filters.locations}
         onChange={(event, newValue) => handleFilterLocations(newValue)}
-        renderInput={(params) => <TextField placeholder="Select Locations" {...params} />}
+        renderInput={(params) => (
+          <TextField placeholder="Select Locations" {...params} />
+        )}
         renderOption={(props, option) => {
           const { code, label, phone } = locationOptions.filter(
-            (country) => country.label === option
+            (country) => country.label === option,
           )[0];
 
           if (!label) {

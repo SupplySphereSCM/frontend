@@ -1,23 +1,23 @@
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
 // types
-import { IUserProfileFriend } from 'src/types/user';
+import { IUserProfileFriend } from "src/types/user";
 // _mock
-import { _socials } from 'src/_mock';
+import { _socials } from "src/_mock";
 // components
-import Iconify from 'src/components/iconify';
-import SearchNotFound from 'src/components/search-not-found';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import SearchNotFound from "src/components/search-not-found";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +27,11 @@ type Props = {
   onSearchFriends: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function ProfileFriends({ friends, searchFriends, onSearchFriends }: Props) {
+export default function ProfileFriends({
+  friends,
+  searchFriends,
+  onSearchFriends,
+}: Props) {
   const dataFiltered = applyFilter({
     inputData: friends,
     query: searchFriends,
@@ -40,7 +44,7 @@ export default function ProfileFriends({ friends, searchFriends, onSearchFriends
       <Stack
         spacing={2}
         justifyContent="space-between"
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: "column", sm: "row" }}
         sx={{ my: 5 }}
       >
         <Typography variant="h4">Friends</Typography>
@@ -52,7 +56,10 @@ export default function ProfileFriends({ friends, searchFriends, onSearchFriends
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ color: "text.disabled" }}
+                />
               </InputAdornment>
             ),
           }}
@@ -67,9 +74,9 @@ export default function ProfileFriends({ friends, searchFriends, onSearchFriends
           gap={3}
           display="grid"
           gridTemplateColumns={{
-            xs: 'repeat(1, 1fr)',
-            sm: 'repeat(2, 1fr)',
-            md: 'repeat(3, 1fr)',
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
           }}
         >
           {dataFiltered.map((friend) => (
@@ -94,12 +101,12 @@ function FriendCard({ friend }: FriendCardProps) {
 
   const handleDelete = () => {
     popover.onClose();
-    console.info('DELETE', name);
+    console.info("DELETE", name);
   };
 
   const handleEdit = () => {
     popover.onClose();
-    console.info('EDIT', name);
+    console.info("EDIT", name);
   };
 
   return (
@@ -107,19 +114,26 @@ function FriendCard({ friend }: FriendCardProps) {
       <Card
         sx={{
           py: 5,
-          display: 'flex',
-          position: 'relative',
-          alignItems: 'center',
-          flexDirection: 'column',
+          display: "flex",
+          position: "relative",
+          alignItems: "center",
+          flexDirection: "column",
         }}
       >
-        <Avatar alt={name} src={avatarUrl} sx={{ width: 64, height: 64, mb: 3 }} />
+        <Avatar
+          alt={name}
+          src={avatarUrl}
+          sx={{ width: 64, height: 64, mb: 3 }}
+        />
 
         <Link variant="subtitle1" color="text.primary">
           {name}
         </Link>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1, mt: 0.5 }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "text.secondary", mb: 1, mt: 0.5 }}
+        >
           {role}
         </Typography>
 
@@ -129,7 +143,7 @@ function FriendCard({ friend }: FriendCardProps) {
               key={social.name}
               sx={{
                 color: social.color,
-                '&:hover': {
+                "&:hover": {
                   bgcolor: alpha(social.color, 0.08),
                 },
               }}
@@ -140,9 +154,9 @@ function FriendCard({ friend }: FriendCardProps) {
         </Stack>
 
         <IconButton
-          color={popover.open ? 'inherit' : 'default'}
+          color={popover.open ? "inherit" : "default"}
           onClick={popover.onOpen}
-          sx={{ top: 8, right: 8, position: 'absolute' }}
+          sx={{ top: 8, right: 8, position: "absolute" }}
         >
           <Iconify icon="eva:more-vertical-fill" />
         </IconButton>
@@ -154,7 +168,7 @@ function FriendCard({ friend }: FriendCardProps) {
         arrow="right-top"
         sx={{ width: 140 }}
       >
-        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleDelete} sx={{ color: "error.main" }}>
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
         </MenuItem>
@@ -170,10 +184,16 @@ function FriendCard({ friend }: FriendCardProps) {
 
 // ----------------------------------------------------------------------
 
-function applyFilter({ inputData, query }: { inputData: IUserProfileFriend[]; query: string }) {
+function applyFilter({
+  inputData,
+  query,
+}: {
+  inputData: IUserProfileFriend[];
+  query: string;
+}) {
   if (query) {
     return inputData.filter(
-      (friend) => friend.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (friend) => friend.name.toLowerCase().indexOf(query.toLowerCase()) !== -1,
     );
   }
 

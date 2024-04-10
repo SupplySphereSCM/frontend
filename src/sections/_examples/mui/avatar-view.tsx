@@ -1,32 +1,40 @@
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Masonry from "@mui/lab/Masonry";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // _mock
-import { _mock } from 'src/_mock';
+import { _mock } from "src/_mock";
 // components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['default', 'primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = [
+  "default",
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
+] as const;
 
 const SIZES = [24, 32, 40, 56];
 
-const VARIANTS = ['circular', 'rounded', 'square'] as const;
+const VARIANTS = ["circular", "rounded", "square"] as const;
 
-const STATUS = ['online', 'alway', 'busy', 'offline'] as const;
+const STATUS = ["online", "alway", "busy", "offline"] as const;
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +46,7 @@ export default function AvatarView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: theme.palette.mode === 'light' ? 'grey.200' : 'grey.800',
+          bgcolor: theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -46,12 +54,12 @@ export default function AvatarView() {
             heading="Avatar"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Avatar' },
+              { name: "Avatar" },
             ]}
-            moreLink={['https://mui.com/components/avatars']}
+            moreLink={["https://mui.com/components/avatars"]}
           />
         </Container>
       </Box>
@@ -94,7 +102,7 @@ export default function AvatarView() {
               <Avatar
                 key={variant}
                 variant={variant}
-                sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}
+                sx={{ bgcolor: "primary.main", color: "primary.contrastText" }}
               >
                 <Iconify icon="eva:folder-add-outline" width={24} />
               </Avatar>
@@ -126,7 +134,10 @@ export default function AvatarView() {
               ))}
 
               <Tooltip title="compact">
-                <Badge variant="online" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Badge
+                  variant="online"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                >
                   <AvatarGroup variant="compact" sx={{ width: 48, height: 48 }}>
                     {COLORS.slice(0, 2).map((color, index) => (
                       <Avatar
@@ -144,7 +155,7 @@ export default function AvatarView() {
           <ComponentBlock title="With Badge">
             <Badge
               overlap="circular"
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               badgeContent={
                 <Avatar
                   alt={_mock.fullName(7)}
@@ -165,9 +176,12 @@ export default function AvatarView() {
               <Badge
                 key={status}
                 variant={status}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               >
-                <Avatar alt={_mock.fullName(index + 1)} src={_mock.image.avatar(index + 1)} />
+                <Avatar
+                  alt={_mock.fullName(index + 1)}
+                  src={_mock.image.avatar(index + 1)}
+                />
               </Badge>
             ))}
           </ComponentBlock>

@@ -1,21 +1,21 @@
 // @mui
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import ListItemText from "@mui/material/ListItemText";
 // types
-import { IUserAccountBillingHistory } from 'src/types/user';
+import { IUserAccountBillingHistory } from "src/types/user";
 // utils
-import { fDate } from 'src/utils/format-time';
-import { fCurrency } from 'src/utils/format-number';
+import { fDate } from "src/utils/format-time";
+import { fCurrency } from "src/utils/format-number";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -37,17 +37,17 @@ export default function AccountBillingHistory({ invoices }: Props) {
               primary={invoice.invoiceNumber}
               secondary={fDate(invoice.createdAt)}
               primaryTypographyProps={{
-                typography: 'body2',
+                typography: "body2",
               }}
               secondaryTypographyProps={{
                 mt: 0.5,
-                component: 'span',
-                typography: 'caption',
-                color: 'text.disabled',
+                component: "span",
+                typography: "caption",
+                color: "text.disabled",
               }}
             />
 
-            <Typography variant="body2" sx={{ textAlign: 'right', mr: 5 }}>
+            <Typography variant="body2" sx={{ textAlign: "right", mr: 5 }}>
               {fCurrency(invoice.price)}
             </Typography>
 
@@ -57,7 +57,7 @@ export default function AccountBillingHistory({ invoices }: Props) {
           </Stack>
         ))}
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
       </Stack>
 
       <Stack alignItems="flex-start" sx={{ p: 2 }}>
@@ -66,7 +66,11 @@ export default function AccountBillingHistory({ invoices }: Props) {
           color="inherit"
           startIcon={
             <Iconify
-              icon={showMore.value ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+              icon={
+                showMore.value
+                  ? "eva:arrow-ios-upward-fill"
+                  : "eva:arrow-ios-downward-fill"
+              }
             />
           }
           onClick={showMore.onToggle}

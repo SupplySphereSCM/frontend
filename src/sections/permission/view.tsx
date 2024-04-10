@@ -1,26 +1,26 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Container from "@mui/material/Container";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // auth
-import { RoleBasedGuard } from 'src/auth/guard';
+import { RoleBasedGuard } from "src/auth/guard";
 // components
-import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import { useSettingsContext } from "src/components/settings";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 
 // ----------------------------------------------------------------------
 
 export default function PermissionDeniedView() {
   const settings = useSettingsContext();
 
-  const [role, setRole] = useState('admin');
+  const [role, setRole] = useState("admin");
 
   const handleChangeRole = useCallback(
     (event: React.MouseEvent<HTMLElement>, newRole: string | null) => {
@@ -28,20 +28,20 @@ export default function PermissionDeniedView() {
         setRole(newRole);
       }
     },
-    []
+    [],
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <CustomBreadcrumbs
         heading="Permission Denied"
         links={[
           {
-            name: 'Dashboard',
+            name: "Dashboard",
             href: paths.dashboard.root,
           },
           {
-            name: 'Permission Denied',
+            name: "Permission Denied",
           },
         ]}
         sx={{
@@ -69,12 +69,18 @@ export default function PermissionDeniedView() {
         <Box gap={3} display="grid" gridTemplateColumns="repeat(2, 1fr)">
           {[...Array(8)].map((_, index) => (
             <Card key={index}>
-              <CardHeader title={`Card ${index + 1}`} subheader="Proin viverra ligula" />
+              <CardHeader
+                title={`Card ${index + 1}`}
+                subheader="Proin viverra ligula"
+              />
 
-              <Typography variant="body2" sx={{ px: 3, py: 2, color: 'text.secondary' }}>
-                Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. In enim justo,
-                rhoncus ut, imperdiet a, venenatis vitae, justo. Vestibulum fringilla pede sit amet
-                augue.
+              <Typography
+                variant="body2"
+                sx={{ px: 3, py: 2, color: "text.secondary" }}
+              >
+                Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+                In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+                Vestibulum fringilla pede sit amet augue.
               </Typography>
             </Card>
           ))}

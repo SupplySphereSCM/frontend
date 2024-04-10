@@ -1,9 +1,9 @@
-import { useState, useCallback, memo } from 'react';
-import Map, { MarkerDragEvent } from 'react-map-gl';
+import { useState, useCallback, memo } from "react";
+import Map, { MarkerDragEvent } from "react-map-gl";
 // components
-import { MapMarker, MapControl, MapBoxProps } from 'src/components/map';
+import { MapMarker, MapControl, MapBoxProps } from "src/components/map";
 //
-import ControlPanel from './control-panel';
+import ControlPanel from "./control-panel";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,10 @@ function MapDraggableMarkers({ ...other }: MapBoxProps) {
 
   return (
     <>
-      <Map initialViewState={{ latitude: 40, longitude: -100, zoom: 3.5 }} {...other}>
+      <Map
+        initialViewState={{ latitude: 40, longitude: -100, zoom: 3.5 }}
+        {...other}
+      >
         <MapControl />
 
         <MapMarker

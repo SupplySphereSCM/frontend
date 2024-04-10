@@ -1,18 +1,18 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +22,8 @@ export default function BreadcrumbsView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -30,12 +31,12 @@ export default function BreadcrumbsView() {
             heading="Breadcrumbs"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Breadcrumbs' },
+              { name: "Breadcrumbs" },
             ]}
-            moreLink={['https://mui.com/components/custom-breadcrumbs']}
+            moreLink={["https://mui.com/components/custom-breadcrumbs"]}
           />
         </Container>
       </Box>
@@ -45,9 +46,9 @@ export default function BreadcrumbsView() {
           <ComponentBlock
             title="Text"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Breadcrumbs>
@@ -57,32 +58,40 @@ export default function BreadcrumbsView() {
               <Link color="inherit" href="#">
                 Core
               </Link>
-              <Typography sx={{ color: 'text.primary' }}>Breadcrumb</Typography>
+              <Typography sx={{ color: "text.primary" }}>Breadcrumb</Typography>
             </Breadcrumbs>
           </ComponentBlock>
 
           <ComponentBlock
             title="With Icon"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Breadcrumbs>
-              <Link color="inherit" href="#" sx={{ display: 'flex', alignItems: 'center' }}>
+              <Link
+                color="inherit"
+                href="#"
+                sx={{ display: "flex", alignItems: "center" }}
+              >
                 <Iconify icon="eva:home-fill" sx={{ mr: 0.5 }} />
                 Material-UI
               </Link>
-              <Link color="inherit" href="#" sx={{ display: 'flex', alignItems: 'center' }}>
+              <Link
+                color="inherit"
+                href="#"
+                sx={{ display: "flex", alignItems: "center" }}
+              >
                 <Iconify icon="eva:camera-fill" sx={{ mr: 0.5 }} />
                 Core
               </Link>
               <Typography
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'text.primary',
+                  display: "flex",
+                  alignItems: "center",
+                  color: "text.primary",
                 }}
               >
                 <Iconify icon="solar:bell-bing-bold-duotone" sx={{ mr: 0.5 }} />
@@ -96,26 +105,26 @@ export default function BreadcrumbsView() {
               sx={{ width: 1 }}
               links={[
                 {
-                  name: 'Home',
-                  href: '#',
+                  name: "Home",
+                  href: "#",
                   icon: <Iconify icon="eva:home-fill" />,
                 },
                 {
-                  name: 'Link1',
-                  href: '#',
+                  name: "Link1",
+                  href: "#",
                   icon: <Iconify icon="eva:cube-outline" />,
                 },
                 {
-                  name: 'Link2',
-                  href: '#',
+                  name: "Link2",
+                  href: "#",
                   icon: <Iconify icon="eva:cube-outline" />,
                 },
                 {
-                  name: 'Link3',
-                  href: '#',
+                  name: "Link3",
+                  href: "#",
                   icon: <Iconify icon="eva:cube-outline" />,
                 },
-                { name: 'Link4', icon: <Iconify icon="eva:cube-outline" /> },
+                { name: "Link4", icon: <Iconify icon="eva:cube-outline" /> },
               ]}
             />
 
@@ -124,29 +133,32 @@ export default function BreadcrumbsView() {
               heading="Heading"
               links={[
                 {
-                  name: 'Home',
-                  href: '#',
+                  name: "Home",
+                  href: "#",
                   icon: <Iconify icon="eva:home-fill" />,
                 },
                 {
-                  name: 'Link1',
-                  href: '#',
+                  name: "Link1",
+                  href: "#",
                   icon: <Iconify icon="eva:cube-outline" />,
                 },
                 {
-                  name: 'Link2',
-                  href: '#',
+                  name: "Link2",
+                  href: "#",
                   icon: <Iconify icon="eva:cube-outline" />,
                 },
                 {
-                  name: 'Link3',
-                  href: '#',
+                  name: "Link3",
+                  href: "#",
                   icon: <Iconify icon="eva:cube-outline" />,
                 },
-                { name: 'Link4', icon: <Iconify icon="eva:cube-outline" /> },
+                { name: "Link4", icon: <Iconify icon="eva:cube-outline" /> },
               ]}
               action={
-                <Button variant="contained" startIcon={<Iconify icon="mingcute:add-line" />}>
+                <Button
+                  variant="contained"
+                  startIcon={<Iconify icon="mingcute:add-line" />}
+                >
                   New Product
                 </Button>
               }

@@ -1,23 +1,23 @@
 // @mui
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableContainer from "@mui/material/TableContainer";
 // types
-import { ICheckoutItem } from 'src/types/checkout';
+import { ICheckoutItem } from "src/types/checkout";
 // components
-import Scrollbar from 'src/components/scrollbar';
-import { TableHeadCustom } from 'src/components/table';
+import Scrollbar from "src/components/scrollbar";
+import { TableHeadCustom } from "src/components/table";
 //
-import CheckoutCartProduct from './checkout-cart-product';
+import CheckoutCartProduct from "./checkout-cart-product";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'product', label: 'Product' },
-  { id: 'price', label: 'Price' },
-  { id: 'quantity', label: 'Quantity' },
-  { id: 'totalAmount', label: 'Total Price', align: 'right' },
-  { id: '' },
+  { id: "product", label: "Product" },
+  { id: "price", label: "Price" },
+  { id: "quantity", label: "Quantity" },
+  { id: "totalAmount", label: "Total Price", align: "right" },
+  { id: "" },
 ];
 
 // ----------------------------------------------------------------------
@@ -36,7 +36,7 @@ export default function CheckoutCartProductList({
   onDecreaseQuantity,
 }: Props) {
   return (
-    <TableContainer sx={{ overflow: 'unset' }}>
+    <TableContainer sx={{ overflow: "unset" }}>
       <Scrollbar>
         <Table sx={{ minWidth: 720 }}>
           <TableHeadCustom headLabel={TABLE_HEAD} />

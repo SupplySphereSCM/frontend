@@ -1,16 +1,16 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
-import ListItemText from '@mui/material/ListItemText';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
+import ListItemText from "@mui/material/ListItemText";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 //
-import Scrollbar from 'src/components/scrollbar';
-import { ColorPreview } from 'src/components/color-utils';
+import Scrollbar from "src/components/scrollbar";
+import { ColorPreview } from "src/components/color-utils";
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,12 @@ interface Props extends CardProps {
   list: ItemProps[];
 }
 
-export default function EcommerceLatestProducts({ title, subheader, list, ...other }: Props) {
+export default function EcommerceLatestProducts({
+  title,
+  subheader,
+  list,
+  ...other
+}: Props) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -64,16 +69,26 @@ function ProductItem({ product }: ProductItemProps) {
       />
 
       <ListItemText
-        primary={<Link sx={{ color: 'text.primary', typography: 'subtitle2' }}>{name}</Link>}
+        primary={
+          <Link sx={{ color: "text.primary", typography: "subtitle2" }}>
+            {name}
+          </Link>
+        }
         secondary={
           <>
             {!!priceSale && (
-              <Box component="span" sx={{ textDecoration: 'line-through', mr: 0.5 }}>
+              <Box
+                component="span"
+                sx={{ textDecoration: "line-through", mr: 0.5 }}
+              >
                 {fCurrency(priceSale)}
               </Box>
             )}
 
-            <Box component="span" sx={{ color: priceSale ? 'error.main' : 'text.secondary' }}>
+            <Box
+              component="span"
+              sx={{ color: priceSale ? "error.main" : "text.secondary" }}
+            >
               {fCurrency(price)}
             </Box>
           </>

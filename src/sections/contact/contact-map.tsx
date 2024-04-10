@@ -1,24 +1,24 @@
-import Map from 'react-map-gl';
-import { useState } from 'react';
+import Map from "react-map-gl";
+import { useState } from "react";
 // @mui
-import { useTheme, styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import { useTheme, styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 // config
-import { MAPBOX_API } from 'src/config-global';
+import { MAPBOX_API } from "src/config-global";
 // components
-import Iconify from 'src/components/iconify';
-import { MapControl, MapMarker, MapPopup } from 'src/components/map';
+import Iconify from "src/components/iconify";
+import { MapControl, MapMarker, MapPopup } from "src/components/map";
 
 // ----------------------------------------------------------------------
 
-const StyledRoot = styled('div')(({ theme }) => ({
+const StyledRoot = styled("div")(({ theme }) => ({
   zIndex: 0,
   height: 560,
-  overflow: 'hidden',
-  position: 'relative',
+  overflow: "hidden",
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
-  '& .mapboxgl-ctrl-logo, .mapboxgl-ctrl-bottom-right': {
-    display: 'none',
+  "& .mapboxgl-ctrl-logo, .mapboxgl-ctrl-bottom-right": {
+    display: "none",
   },
 }));
 
@@ -37,7 +37,7 @@ type Props = {
 export default function ContactMap({ contacts }: Props) {
   const theme = useTheme();
 
-  const isLight = theme.palette.mode === 'light';
+  const isLight = theme.palette.mode === "light";
 
   const [popupInfo, setPopupInfo] = useState<CountryData | null>(null);
 
@@ -49,7 +49,7 @@ export default function ContactMap({ contacts }: Props) {
           longitude: 42,
           zoom: 2,
         }}
-        mapStyle={`mapbox://styles/mapbox/${isLight ? 'light' : 'dark'}-v10`}
+        mapStyle={`mapbox://styles/mapbox/${isLight ? "light" : "dark"}-v10`}
         mapboxAccessToken={MAPBOX_API}
       >
         <MapControl hideGeolocateControl />
@@ -72,12 +72,12 @@ export default function ContactMap({ contacts }: Props) {
             latitude={popupInfo.latlng[0]}
             onClose={() => setPopupInfo(null)}
             sx={{
-              '& .mapboxgl-popup-content': { bgcolor: 'common.white' },
-              '&.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip': {
-                borderTopColor: '#FFF',
+              "& .mapboxgl-popup-content": { bgcolor: "common.white" },
+              "&.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip": {
+                borderTopColor: "#FFF",
               },
-              '&.mapboxgl-popup-anchor-top .mapboxgl-popup-tip': {
-                borderBottomColor: '#FFF',
+              "&.mapboxgl-popup-anchor-top .mapboxgl-popup-tip": {
+                borderBottomColor: "#FFF",
               },
             }}
           >
@@ -92,7 +92,7 @@ export default function ContactMap({ contacts }: Props) {
             <Typography
               component="div"
               variant="caption"
-              sx={{ mt: 1, display: 'flex', alignItems: 'center' }}
+              sx={{ mt: 1, display: "flex", alignItems: "center" }}
             >
               <Iconify icon="solar:phone-bold" width={14} sx={{ mr: 0.5 }} />
               {popupInfo.phoneNumber}

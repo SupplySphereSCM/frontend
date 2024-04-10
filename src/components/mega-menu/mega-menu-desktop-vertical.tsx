@@ -1,22 +1,22 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import { alpha, Theme } from '@mui/material/styles';
-import List from '@mui/material/List';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import Typography from '@mui/material/Typography';
+import Masonry from "@mui/lab/Masonry";
+import { alpha, Theme } from "@mui/material/styles";
+import List from "@mui/material/List";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import Typography from "@mui/material/Typography";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 //
-import Iconify from '../iconify';
+import Iconify from "../iconify";
 //
-import MenuHotProducts from './_common/menu-hot-products';
-import MenuCarousel from './_common/menu-carousel';
-import { ParentItemProps, MegaMenuItemProps } from './types';
+import MenuHotProducts from "./_common/menu-hot-products";
+import MenuCarousel from "./_common/menu-carousel";
+import { ParentItemProps, MegaMenuItemProps } from "./types";
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ function MegaMenuItem({ parent }: { parent: MegaMenuItemProps }) {
               p: 3,
               top: -62,
               borderRadius: 2,
-              position: 'absolute',
+              position: "absolute",
               left: 260,
               width: MENU_PAPER_WIDTH,
               boxShadow: (theme) => theme.customShadows.z20,
@@ -93,11 +93,11 @@ function MegaMenuItem({ parent }: { parent: MegaMenuItemProps }) {
                       noWrap
                       underline="none"
                       sx={{
-                        typography: 'body2',
-                        color: 'text.primary',
+                        typography: "body2",
+                        color: "text.primary",
                         fontSize: 13,
-                        transition: (theme) => theme.transitions.create('all'),
-                        '&:hover': { color: 'primary.main' },
+                        transition: (theme) => theme.transitions.create("all"),
+                        "&:hover": { color: "primary.main" },
                       }}
                     >
                       {link.title}
@@ -113,8 +113,8 @@ function MegaMenuItem({ parent }: { parent: MegaMenuItemProps }) {
                   component={RouterLink}
                   href={more.path}
                   sx={{
-                    typography: 'body2',
-                    display: 'inline-flex',
+                    typography: "body2",
+                    display: "inline-flex",
                     fontSize: 13,
                   }}
                 >
@@ -141,10 +141,17 @@ function MegaMenuItem({ parent }: { parent: MegaMenuItemProps }) {
 
 // ----------------------------------------------------------------------
 
-function ParentItem({ path = '', title, open, hasSub, ...other }: ParentItemProps) {
+function ParentItem({
+  path = "",
+  title,
+  open,
+  hasSub,
+  ...other
+}: ParentItemProps) {
   const activeStyle = {
-    color: 'primary.main',
-    bgcolor: (theme: Theme) => alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+    color: "primary.main",
+    bgcolor: (theme: Theme) =>
+      alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
   };
 
   return (
@@ -154,20 +161,26 @@ function ParentItem({ path = '', title, open, hasSub, ...other }: ParentItemProp
           pl: 2.5,
           pr: 1.5,
           height: PARENT_ITEM_HEIGHT,
-          cursor: 'pointer',
-          color: 'text.primary',
-          typography: 'subtitle2',
-          textTransform: 'capitalize',
-          justifyContent: 'space-between',
-          transition: (theme) => theme.transitions.create('all'),
-          '&:hover': activeStyle,
+          cursor: "pointer",
+          color: "text.primary",
+          typography: "subtitle2",
+          textTransform: "capitalize",
+          justifyContent: "space-between",
+          transition: (theme) => theme.transitions.create("all"),
+          "&:hover": activeStyle,
           ...(open && activeStyle),
         }}
         {...other}
       >
         {title}
 
-        {hasSub && <Iconify icon="eva:arrow-ios-forward-fill" width={16} sx={{ ml: 1 }} />}
+        {hasSub && (
+          <Iconify
+            icon="eva:arrow-ios-forward-fill"
+            width={16}
+            sx={{ ml: 1 }}
+          />
+        )}
       </ListItem>
     </Link>
   );

@@ -1,17 +1,17 @@
 // @mui
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // _mock
-import { _userCards } from 'src/_mock';
+import { _userCards } from "src/_mock";
 // components
-import Iconify from 'src/components/iconify';
-import { RouterLink } from 'src/routes/components';
-import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import { RouterLink } from "src/routes/components";
+import { useSettingsContext } from "src/components/settings";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import UserCardList from '../user-card-list';
+import UserCardList from "../user-card-list";
 
 // ----------------------------------------------------------------------
 
@@ -19,13 +19,13 @@ export default function UserCardsView() {
   const settings = useSettingsContext();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <CustomBreadcrumbs
         heading="User Cards"
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'User', href: paths.dashboard.user.root },
-          { name: 'Cards' },
+          { name: "Dashboard", href: paths.dashboard.root },
+          { name: "User", href: paths.dashboard.user.root },
+          { name: "Cards" },
         ]}
         action={
           <Button

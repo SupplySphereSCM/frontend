@@ -1,14 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Pagination, { paginationClasses } from '@mui/material/Pagination';
+import Box from "@mui/material/Box";
+import Pagination, { paginationClasses } from "@mui/material/Pagination";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // types
-import { IJobItem } from 'src/types/job';
+import { IJobItem } from "src/types/job";
 //
-import JobItem from './job-item';
+import JobItem from "./job-item";
 
 // ----------------------------------------------------------------------
 
@@ -23,18 +23,18 @@ export default function JobList({ jobs }: Props) {
     (id: string) => {
       router.push(paths.dashboard.job.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleEdit = useCallback(
     (id: string) => {
       router.push(paths.dashboard.job.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleDelete = useCallback((id: string) => {
-    console.info('DELETE', id);
+    console.info("DELETE", id);
   }, []);
 
   return (
@@ -43,9 +43,9 @@ export default function JobList({ jobs }: Props) {
         gap={3}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
+          xs: "repeat(1, 1fr)",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
         }}
       >
         {jobs.map((job) => (
@@ -65,7 +65,7 @@ export default function JobList({ jobs }: Props) {
           sx={{
             mt: 8,
             [`& .${paginationClasses.ul}`]: {
-              justifyContent: 'center',
+              justifyContent: "center",
             },
           }}
         />

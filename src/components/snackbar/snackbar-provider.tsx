@@ -1,13 +1,16 @@
-import { useRef } from 'react';
-import { SnackbarProvider as NotistackProvider, closeSnackbar } from 'notistack';
+import { useRef } from "react";
+import {
+  SnackbarProvider as NotistackProvider,
+  closeSnackbar,
+} from "notistack";
 // @mui
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
 //
-import Iconify from '../iconify';
-import { useSettingsContext } from '../settings';
+import Iconify from "../iconify";
+import { useSettingsContext } from "../settings";
 //
-import { StyledIcon, StyledNotistack } from './styles';
+import { StyledIcon, StyledNotistack } from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +21,7 @@ type Props = {
 export default function SnackbarProvider({ children }: Props) {
   const settings = useSettingsContext();
 
-  const isRTL = settings.themeDirection === 'rtl';
+  const isRTL = settings.themeDirection === "rtl";
 
   const notistackRef = useRef<any>(null);
 
@@ -30,7 +33,7 @@ export default function SnackbarProvider({ children }: Props) {
       autoHideDuration={3000}
       TransitionComponent={isRTL ? Collapse : undefined}
       variant="success" // Set default variant
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       iconVariant={{
         info: (
           <StyledIcon color="info">
@@ -62,7 +65,11 @@ export default function SnackbarProvider({ children }: Props) {
       }}
       // with close as default
       action={(snackbarId) => (
-        <IconButton size="small" onClick={() => closeSnackbar(snackbarId)} sx={{ p: 0.5 }}>
+        <IconButton
+          size="small"
+          onClick={() => closeSnackbar(snackbarId)}
+          sx={{ p: 0.5 }}
+        >
           <Iconify width={16} icon="mingcute:close-line" />
         </IconButton>
       )}

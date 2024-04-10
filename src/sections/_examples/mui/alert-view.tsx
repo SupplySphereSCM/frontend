@@ -1,21 +1,21 @@
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import AlertTitle from '@mui/material/AlertTitle';
+import Masonry from "@mui/lab/Masonry";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import AlertTitle from "@mui/material/AlertTitle";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['info', 'success', 'warning', 'error'] as const;
+const COLORS = ["info", "success", "warning", "error"] as const;
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +25,8 @@ export default function AlertView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -33,12 +34,12 @@ export default function AlertView() {
             heading="Alert"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Alert' },
+              { name: "Alert" },
             ]}
-            moreLink={['https://mui.com/components/alert']}
+            moreLink={["https://mui.com/components/alert"]}
           />
         </Container>
       </Box>
@@ -47,7 +48,12 @@ export default function AlertView() {
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={3}>
           <ComponentBlock title="Standard">
             {COLORS.map((color) => (
-              <Alert key={color} severity={color} onClose={() => {}} sx={{ width: 1 }}>
+              <Alert
+                key={color}
+                severity={color}
+                onClose={() => {}}
+                sx={{ width: 1 }}
+              >
                 This is an {color} alert — check it out!
               </Alert>
             ))}
@@ -83,8 +89,16 @@ export default function AlertView() {
 
           <ComponentBlock title="Description">
             {COLORS.map((color) => (
-              <Alert key={color} severity={color} onClose={() => {}} sx={{ width: 1 }}>
-                <AlertTitle sx={{ textTransform: 'capitalize' }}> {color} </AlertTitle>
+              <Alert
+                key={color}
+                severity={color}
+                onClose={() => {}}
+                sx={{ width: 1 }}
+              >
+                <AlertTitle sx={{ textTransform: "capitalize" }}>
+                  {" "}
+                  {color}{" "}
+                </AlertTitle>
                 This is an {color} alert — <strong>check it out!</strong>
               </Alert>
             ))}
@@ -115,7 +129,8 @@ export default function AlertView() {
                     variant="outlined"
                     sx={{
                       mr: 1,
-                      border: (theme) => `1px solid ${alpha(theme.palette.common.white, 0.48)}`,
+                      border: (theme) =>
+                        `1px solid ${alpha(theme.palette.common.white, 0.48)}`,
                     }}
                   >
                     Undo
@@ -126,7 +141,7 @@ export default function AlertView() {
                     color="info"
                     variant="contained"
                     sx={{
-                      bgcolor: 'info.dark',
+                      bgcolor: "info.dark",
                     }}
                   >
                     Action
@@ -159,7 +174,7 @@ export default function AlertView() {
                     size="small"
                     variant="contained"
                     sx={{
-                      bgcolor: 'info.dark',
+                      bgcolor: "info.dark",
                     }}
                   >
                     Action

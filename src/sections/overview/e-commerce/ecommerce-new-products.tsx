@@ -1,13 +1,13 @@
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import CardContent from '@mui/material/CardContent';
-import Card, { CardProps } from '@mui/material/Card';
+import { alpha, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+import Card, { CardProps } from "@mui/material/Card";
 // components
-import Image from 'src/components/image';
-import Carousel, { CarouselDots, useCarousel } from 'src/components/carousel';
+import Image from "src/components/image";
+import Carousel, { CarouselDots, useCarousel } from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
@@ -29,8 +29,8 @@ export default function EcommerceNewProducts({ list, ...other }: Props) {
       sx: {
         right: 20,
         bottom: 20,
-        position: 'absolute',
-        color: 'primary.light',
+        position: "absolute",
+        color: "primary.light",
       },
     }),
   });
@@ -61,9 +61,10 @@ function CarouselItem({ item }: CarouselItemProps) {
     <Image
       alt={name}
       src={coverUrl}
-      overlay={`linear-gradient(to bottom, ${alpha(theme.palette.grey[900], 0)} 0%, ${
-        theme.palette.grey[900]
-      } 75%)`}
+      overlay={`linear-gradient(to bottom, ${alpha(
+        theme.palette.grey[900],
+        0,
+      )} 0%, ${theme.palette.grey[900]} 75%)`}
       sx={{
         width: 1,
         height: { xs: 280, xl: 320 },
@@ -72,16 +73,16 @@ function CarouselItem({ item }: CarouselItemProps) {
   );
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: "relative" }}>
       <CardContent
         sx={{
           left: 0,
           width: 1,
           bottom: 0,
           zIndex: 9,
-          textAlign: 'left',
-          position: 'absolute',
-          color: 'common.white',
+          textAlign: "left",
+          position: "absolute",
+          color: "common.white",
         }}
       >
         <Typography variant="overline" sx={{ opacity: 0.48 }}>

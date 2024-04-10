@@ -1,18 +1,18 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 //
-import KanbanInputName from './kanban-input-name';
+import KanbanInputName from "./kanban-input-name";
 
 // ----------------------------------------------------------------------
 
@@ -45,20 +45,23 @@ export default function KanbanColumnToolBar({
     }
   }, [popover.open]);
 
-  const handleChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  }, []);
+  const handleChangeName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName(event.target.value);
+    },
+    [],
+  );
 
   const handleKeyUpUpdateColumn = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         if (renameRef.current) {
           renameRef.current.blur();
         }
         onUpdateColumn(name);
       }
     },
-    [name, onUpdateColumn]
+    [name, onUpdateColumn],
   );
 
   return (
@@ -78,7 +81,10 @@ export default function KanbanColumnToolBar({
           onKeyUp={handleKeyUpUpdateColumn}
         />
 
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+        <IconButton
+          color={popover.open ? "inherit" : "default"}
+          onClick={popover.onOpen}
+        >
           <Iconify icon="eva:more-horizontal-fill" />
         </IconButton>
       </Stack>
@@ -111,7 +117,7 @@ export default function KanbanColumnToolBar({
             confirmDialog.onTrue();
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
@@ -125,8 +131,9 @@ export default function KanbanColumnToolBar({
         content={
           <>
             Are you sure want to delete column?
-            <Box sx={{ typography: 'caption', color: 'error.main', mt: 2 }}>
-              <strong> NOTE: </strong> All tasks related to this category will also be deleted.
+            <Box sx={{ typography: "caption", color: "error.main", mt: 2 }}>
+              <strong> NOTE: </strong> All tasks related to this category will
+              also be deleted.
             </Box>
           </>
         }

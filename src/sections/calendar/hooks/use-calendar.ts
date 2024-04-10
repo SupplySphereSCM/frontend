@@ -1,13 +1,17 @@
-import FullCalendar from '@fullcalendar/react';
-import { DateSelectArg, EventClickArg, EventDropArg } from '@fullcalendar/core';
-import { EventResizeDoneArg } from '@fullcalendar/interaction';
-import { useState, useCallback, useRef } from 'react';
+import FullCalendar from "@fullcalendar/react";
+import { DateSelectArg, EventClickArg, EventDropArg } from "@fullcalendar/core";
+import { EventResizeDoneArg } from "@fullcalendar/interaction";
+import { useState, useCallback, useRef } from "react";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // utils
-import { fTimestamp } from 'src/utils/format-time';
+import { fTimestamp } from "src/utils/format-time";
 // types
-import { ICalendarView, ICalendarRange, ICalendarEvent } from 'src/types/calendar';
+import {
+  ICalendarView,
+  ICalendarRange,
+  ICalendarEvent,
+} from "src/types/calendar";
 
 // ----------------------------------------------------------------------
 
@@ -16,17 +20,19 @@ export default function useCalendar() {
 
   const calendarEl = calendarRef.current;
 
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
   const [date, setDate] = useState(new Date());
 
   const [openForm, setOpenForm] = useState(false);
 
-  const [selectEventId, setSelectEventId] = useState('');
+  const [selectEventId, setSelectEventId] = useState("");
 
   const [selectedRange, setSelectedRange] = useState<ICalendarRange>(null);
 
-  const [view, setView] = useState<ICalendarView>(smUp ? 'dayGridMonth' : 'listWeek');
+  const [view, setView] = useState<ICalendarView>(
+    smUp ? "dayGridMonth" : "listWeek",
+  );
 
   const onOpenForm = useCallback(() => {
     setOpenForm(true);
@@ -35,14 +41,14 @@ export default function useCalendar() {
   const onCloseForm = useCallback(() => {
     setOpenForm(false);
     setSelectedRange(null);
-    setSelectEventId('');
+    setSelectEventId("");
   }, []);
 
   const onInitialView = useCallback(() => {
     if (calendarEl) {
       const calendarApi = calendarEl.getApi();
 
-      const newView = smUp ? 'dayGridMonth' : 'listWeek';
+      const newView = smUp ? "dayGridMonth" : "listWeek";
       calendarApi.changeView(newView);
       setView(newView);
     }
@@ -57,7 +63,7 @@ export default function useCalendar() {
         setView(newView);
       }
     },
-    [calendarEl]
+    [calendarEl],
   );
 
   const onDateToday = useCallback(() => {
@@ -100,7 +106,7 @@ export default function useCalendar() {
         end: fTimestamp(arg.end),
       });
     },
-    [calendarEl, onOpenForm]
+    [calendarEl, onOpenForm],
   );
 
   const onClickEvent = useCallback(
@@ -110,11 +116,14 @@ export default function useCalendar() {
       onOpenForm();
       setSelectEventId(event.id);
     },
-    [onOpenForm]
+    [onOpenForm],
   );
 
   const onResizeEvent = useCallback(
-    (arg: EventResizeDoneArg, updateEvent: (eventData: Partial<ICalendarEvent>) => void) => {
+    (
+      arg: EventResizeDoneArg,
+      updateEvent: (eventData: Partial<ICalendarEvent>) => void,
+    ) => {
       const { event } = arg;
 
       updateEvent({
@@ -124,11 +133,14 @@ export default function useCalendar() {
         end: fTimestamp(event.end),
       });
     },
-    []
+    [],
   );
 
   const onDropEvent = useCallback(
-    (arg: EventDropArg, updateEvent: (eventData: Partial<ICalendarEvent>) => void) => {
+    (
+      arg: EventDropArg,
+      updateEvent: (eventData: Partial<ICalendarEvent>) => void,
+    ) => {
       const { event } = arg;
 
       updateEvent({
@@ -138,7 +150,7 @@ export default function useCalendar() {
         end: fTimestamp(event.end),
       });
     },
-    []
+    [],
   );
 
   const onClickEventInFilters = useCallback(
@@ -148,7 +160,7 @@ export default function useCalendar() {
         setSelectEventId(eventId);
       }
     },
-    [onOpenForm]
+    [onOpenForm],
   );
 
   return {

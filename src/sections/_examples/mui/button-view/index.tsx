@@ -1,64 +1,68 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Container from '@mui/material/Container';
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import IconButtons from './icon-buttons';
-import ButtonGroups from './button-groups';
-import ToggleButtons from './toggle-buttons';
-import ButtonVariants from './button-variants';
-import FloatingActionButton from './floating-action-button';
+import IconButtons from "./icon-buttons";
+import ButtonGroups from "./button-groups";
+import ToggleButtons from "./toggle-buttons";
+import ButtonVariants from "./button-variants";
+import FloatingActionButton from "./floating-action-button";
 
 // ----------------------------------------------------------------------
 
 const TABS = [
   {
-    value: 'contained',
-    label: 'Contained Buttons',
+    value: "contained",
+    label: "Contained Buttons",
     component: <ButtonVariants variant="contained" />,
   },
   {
-    value: 'outlined',
-    label: 'Outlined Buttons',
+    value: "outlined",
+    label: "Outlined Buttons",
     component: <ButtonVariants variant="outlined" />,
   },
-  { value: 'text', label: 'Text Buttons', component: <ButtonVariants /> },
+  { value: "text", label: "Text Buttons", component: <ButtonVariants /> },
   {
-    value: 'soft',
-    label: 'Soft Buttons',
+    value: "soft",
+    label: "Soft Buttons",
     component: <ButtonVariants variant="soft" />,
   },
-  { value: 'icon', label: 'Icon Buttons', component: <IconButtons /> },
+  { value: "icon", label: "Icon Buttons", component: <IconButtons /> },
   {
-    value: 'fab',
-    label: 'Floating Action Button',
+    value: "fab",
+    label: "Floating Action Button",
     component: <FloatingActionButton />,
   },
-  { value: 'groups', label: 'Button Groups', component: <ButtonGroups /> },
-  { value: 'toggle', label: 'Toggle Buttons', component: <ToggleButtons /> },
+  { value: "groups", label: "Button Groups", component: <ButtonGroups /> },
+  { value: "toggle", label: "Toggle Buttons", component: <ToggleButtons /> },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function ButtonView() {
-  const [currentTab, setCurrentTab] = useState('contained');
+  const [currentTab, setCurrentTab] = useState("contained");
 
-  const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
-  }, []);
+  const handleChangeTab = useCallback(
+    (event: React.SyntheticEvent, newValue: string) => {
+      setCurrentTab(newValue);
+    },
+    [],
+  );
 
   return (
     <>
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -66,16 +70,16 @@ export default function ButtonView() {
             heading="Buttons"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Buttons' },
+              { name: "Buttons" },
             ]}
             moreLink={[
-              'https://mui.com/components/buttons',
-              'https://mui.com/components/button-group',
-              'https://mui.com/components/floating-action-button',
-              'https://mui.com/components/toggle-button',
+              "https://mui.com/components/buttons",
+              "https://mui.com/components/button-group",
+              "https://mui.com/components/floating-action-button",
+              "https://mui.com/components/toggle-button",
             ]}
           />
         </Container>
@@ -94,7 +98,7 @@ export default function ButtonView() {
               <Box key={tab.value} sx={{ mt: 5 }}>
                 {tab.component}
               </Box>
-            )
+            ),
         )}
       </Container>
     </>

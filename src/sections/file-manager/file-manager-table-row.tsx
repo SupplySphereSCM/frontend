@@ -1,36 +1,36 @@
-import { format } from 'date-fns';
-import { useState, useCallback } from 'react';
+import { format } from "date-fns";
+import { useState, useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
-import { alpha, useTheme } from '@mui/material/styles';
-import TableRow, { tableRowClasses } from '@mui/material/TableRow';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import ListItemText from "@mui/material/ListItemText";
+import { alpha, useTheme } from "@mui/material/styles";
+import TableRow, { tableRowClasses } from "@mui/material/TableRow";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useDoubleClick } from 'src/hooks/use-double-click';
-import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useDoubleClick } from "src/hooks/use-double-click";
+import { useCopyToClipboard } from "src/hooks/use-copy-to-clipboard";
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 // types
-import { IFileManager } from 'src/types/file';
+import { IFileManager } from "src/types/file";
 // components
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { useSnackbar } from 'src/components/snackbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import FileThumbnail from 'src/components/file-thumbnail';
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { useSnackbar } from "src/components/snackbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import FileThumbnail from "src/components/file-thumbnail";
 //
-import FileManagerShareDialog from './file-manager-share-dialog';
-import FileManagerFileDetails from './file-manager-file-details';
+import FileManagerShareDialog from "./file-manager-share-dialog";
+import FileManagerFileDetails from "./file-manager-file-details";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,12 @@ type Props = {
   onDeleteRow: VoidFunction;
 };
 
-export default function FileManagerTableRow({ row, selected, onSelectRow, onDeleteRow }: Props) {
+export default function FileManagerTableRow({
+  row,
+  selected,
+  onSelectRow,
+  onDeleteRow,
+}: Props) {
   const theme = useTheme();
 
   const { name, size, type, modifiedAt, shared, isFavorited } = row;
@@ -50,7 +55,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const { copy } = useCopyToClipboard();
 
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmail, setInviteEmail] = useState("");
 
   const favorite = useBoolean(isFavorited);
 
@@ -62,31 +67,34 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
 
   const popover = usePopover();
 
-  const handleChangeInvite = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setInviteEmail(event.target.value);
-  }, []);
+  const handleChangeInvite = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInviteEmail(event.target.value);
+    },
+    [],
+  );
 
   const handleClick = useDoubleClick({
     click: () => {
       details.onTrue();
     },
-    doubleClick: () => console.info('DOUBLE CLICK'),
+    doubleClick: () => console.info("DOUBLE CLICK"),
   });
 
   const handleCopy = useCallback(() => {
-    enqueueSnackbar('Copied!');
+    enqueueSnackbar("Copied!");
     copy(row.url);
   }, [copy, enqueueSnackbar, row.url]);
 
   const defaultStyles = {
     borderTop: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
     borderBottom: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
-    '&:first-of-type': {
+    "&:first-of-type": {
       borderTopLeftRadius: 16,
       borderBottomLeftRadius: 16,
       borderLeft: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
     },
-    '&:last-of-type': {
+    "&:last-of-type": {
       borderTopRightRadius: 16,
       borderBottomRightRadius: 16,
       borderRight: `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
@@ -100,13 +108,16 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         sx={{
           borderRadius: 2,
           [`&.${tableRowClasses.selected}, &:hover`]: {
-            backgroundColor: 'background.paper',
+            backgroundColor: "background.paper",
             boxShadow: theme.customShadows.z20,
-            transition: theme.transitions.create(['background-color', 'box-shadow'], {
-              duration: theme.transitions.duration.shortest,
-            }),
-            '&:hover': {
-              backgroundColor: 'background.paper',
+            transition: theme.transitions.create(
+              ["background-color", "box-shadow"],
+              {
+                duration: theme.transitions.duration.shortest,
+              },
+            ),
+            "&:hover": {
+              backgroundColor: "background.paper",
               boxShadow: theme.customShadows.z20,
             },
           },
@@ -123,7 +134,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         <TableCell padding="checkbox">
           <Checkbox
             checked={selected}
-            onDoubleClick={() => console.info('ON DOUBLE CLICK')}
+            onDoubleClick={() => console.info("ON DOUBLE CLICK")}
             onClick={onSelectRow}
           />
         </TableCell>
@@ -137,8 +148,8 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
               variant="inherit"
               sx={{
                 maxWidth: 360,
-                cursor: 'pointer',
-                ...(details.value && { fontWeight: 'fontWeightBold' }),
+                cursor: "pointer",
+                ...(details.value && { fontWeight: "fontWeightBold" }),
               }}
             >
               {name}
@@ -146,23 +157,23 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           </Stack>
         </TableCell>
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+        <TableCell onClick={handleClick} sx={{ whiteSpace: "nowrap" }}>
           {fData(size)}
         </TableCell>
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+        <TableCell onClick={handleClick} sx={{ whiteSpace: "nowrap" }}>
           {type}
         </TableCell>
 
-        <TableCell onClick={handleClick} sx={{ whiteSpace: 'nowrap' }}>
+        <TableCell onClick={handleClick} sx={{ whiteSpace: "nowrap" }}>
           <ListItemText
-            primary={format(new Date(modifiedAt), 'dd MMM yyyy')}
-            secondary={format(new Date(modifiedAt), 'p')}
-            primaryTypographyProps={{ typography: 'body2' }}
+            primary={format(new Date(modifiedAt), "dd MMM yyyy")}
+            secondary={format(new Date(modifiedAt), "p")}
+            primaryTypographyProps={{ typography: "body2" }}
             secondaryTypographyProps={{
               mt: 0.5,
-              component: 'span',
-              typography: 'caption',
+              component: "span",
+              typography: "caption",
             }}
           />
         </TableCell>
@@ -171,11 +182,11 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           <AvatarGroup
             max={4}
             sx={{
-              display: 'inline-flex',
+              display: "inline-flex",
               [`& .${avatarGroupClasses.avatar}`]: {
                 width: 24,
                 height: 24,
-                '&:first-of-type': {
+                "&:first-of-type": {
                   fontSize: 12,
                 },
               },
@@ -183,7 +194,11 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           >
             {shared &&
               shared.map((person) => (
-                <Avatar key={person.id} alt={person.name} src={person.avatarUrl} />
+                <Avatar
+                  key={person.id}
+                  alt={person.name}
+                  src={person.avatarUrl}
+                />
               ))}
           </AvatarGroup>
         </TableCell>
@@ -192,7 +207,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           align="right"
           sx={{
             px: 1,
-            whiteSpace: 'nowrap',
+            whiteSpace: "nowrap",
           }}
         >
           <Checkbox
@@ -204,7 +219,10 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
             sx={{ p: 0.75 }}
           />
 
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+          <IconButton
+            color={popover.open ? "inherit" : "default"}
+            onClick={popover.onOpen}
+          >
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
@@ -236,14 +254,14 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
           Share
         </MenuItem>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem
           onClick={() => {
             confirm.onTrue();
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
@@ -268,7 +286,7 @@ export default function FileManagerTableRow({ row, selected, onSelectRow, onDele
         onCopyLink={handleCopy}
         onClose={() => {
           share.onFalse();
-          setInviteEmail('');
+          setInviteEmail("");
         }}
       />
 

@@ -1,1 +1,1 @@
-export { default as MailView } from './mail-view';
+export { default as MailView } from "./mail-view";

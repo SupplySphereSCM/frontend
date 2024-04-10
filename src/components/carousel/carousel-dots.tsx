@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 // @mui
-import { styled, Theme, SxProps } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Box, { BoxProps } from '@mui/material/Box';
+import { styled, Theme, SxProps } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import Box, { BoxProps } from "@mui/material/Box";
 
 // ----------------------------------------------------------------------
 
@@ -11,27 +11,27 @@ type StyledRootProps = {
 };
 
 const StyledRoot = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'rounded',
+  shouldForwardProp: (prop) => prop !== "rounded",
 })<StyledRootProps>(({ rounded, theme }) => ({
   zIndex: 9,
   margin: 0,
   padding: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   color: theme.palette.primary.main,
-  '& li': {
+  "& li": {
     width: 18,
     height: 18,
     opacity: 0.32,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    '&.slick-active': {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    "&.slick-active": {
       opacity: 1,
       ...(rounded && {
-        '& span': {
+        "& span": {
           width: 16,
           borderRadius: 6,
         },
@@ -40,11 +40,11 @@ const StyledRoot = styled(Box, {
   },
 }));
 
-const StyledDot = styled('span')(({ theme }) => ({
+const StyledDot = styled("span")(({ theme }) => ({
   width: 8,
   height: 8,
-  borderRadius: '50%',
-  transition: theme.transitions.create(['width'], {
+  borderRadius: "50%",
+  transition: theme.transitions.create(["width"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.short,
   }),
@@ -79,7 +79,7 @@ export default function CarouselDots(props?: Props) {
       >
         <StyledDot
           sx={{
-            bgcolor: 'currentColor',
+            bgcolor: "currentColor",
           }}
         />
       </Stack>

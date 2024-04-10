@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Unstable_Grid2';
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Unstable_Grid2";
 //
-import Toolbar from './toolbar';
-import ContainerView from './container';
-import ControlPanel from '../control-panel';
+import Toolbar from "./toolbar";
+import ContainerView from "./container";
+import ControlPanel from "../control-panel";
 
 // ----------------------------------------------------------------------
 
 export default function BackgroundView() {
   const [count, setCount] = useState(0);
-  const [selectVariant, setSelectVariant] = useState('kenburnsTop');
+  const [selectVariant, setSelectVariant] = useState("kenburnsTop");
 
   const handleChangeVariant = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCount(count + 1);
@@ -47,15 +47,15 @@ export default function BackgroundView() {
 
 const variantKey = [
   {
-    type: 'kenburns',
-    values: ['kenburnsTop', 'kenburnsBottom', 'kenburnsLeft', 'kenburnsRight'],
+    type: "kenburns",
+    values: ["kenburnsTop", "kenburnsBottom", "kenburnsLeft", "kenburnsRight"],
   },
   {
-    type: 'pan',
-    values: ['panTop', 'panBottom', 'panLeft', 'panRight'],
+    type: "pan",
+    values: ["panTop", "panBottom", "panLeft", "panRight"],
   },
   {
-    type: 'color change',
-    values: ['color2x', 'color3x', 'color4x', 'color5x'],
+    type: "color change",
+    values: ["color2x", "color3x", "color4x", "color5x"],
   },
 ];

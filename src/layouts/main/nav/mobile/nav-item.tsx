@@ -1,14 +1,14 @@
 // @mui
-import Link from '@mui/material/Link';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import Link from "@mui/material/Link";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 //
-import { NavItemMobileProps } from '../types';
-import { ListItem } from './styles';
+import { NavItemMobileProps } from "../types";
+import { ListItem } from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +30,9 @@ export default function NavItem({
       {!!children && (
         <Iconify
           width={16}
-          icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
+          icon={
+            open ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"
+          }
           sx={{ ml: 1 }}
         />
       )}

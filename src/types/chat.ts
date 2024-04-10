@@ -28,7 +28,7 @@ export type IChatParticipant = {
   avatarUrl: string;
   phoneNumber: string;
   lastActivity: Date;
-  status: 'online' | 'offline' | 'alway' | 'busy';
+  status: "online" | "offline" | "alway" | "busy";
 };
 
 export type IChatConversation = {

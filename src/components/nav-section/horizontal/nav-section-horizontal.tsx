@@ -1,12 +1,12 @@
-import { memo } from 'react';
+import { memo } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 // theme
-import { hideScroll } from 'src/theme/css';
+import { hideScroll } from "src/theme/css";
 //
-import { NavSectionProps, NavListProps, NavConfigProps } from '../types';
-import { navHorizontalConfig } from '../config';
-import NavList from './nav-list';
+import { NavSectionProps, NavListProps, NavConfigProps } from "../types";
+import { navHorizontalConfig } from "../config";
+import NavList from "./nav-list";
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ function NavSectionHorizontal({ data, config, sx, ...other }: NavSectionProps) {
     <Stack
       direction="row"
       sx={{
-        mx: 'auto',
+        mx: "auto",
         ...hideScroll.y,
         ...sx,
       }}

@@ -1,22 +1,22 @@
-import { sub } from 'date-fns';
-import { useRef, useState, useCallback, useMemo } from 'react';
+import { sub } from "date-fns";
+import { useRef, useState, useCallback, useMemo } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
+import Stack from "@mui/material/Stack";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // utils
-import uuidv4 from 'src/utils/uuidv4';
+import uuidv4 from "src/utils/uuidv4";
 // api
-import { sendMessage, createConversation } from 'src/api/chat';
+import { sendMessage, createConversation } from "src/api/chat";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 // types
-import { IChatParticipant } from 'src/types/chat';
+import { IChatParticipant } from "src/types/chat";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export default function ChatMessageInput({
 
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const myContact = useMemo(
     () => ({
@@ -53,9 +53,9 @@ export default function ChatMessageInput({
       lastActivity: new Date(),
       avatarUrl: `${user?.photoURL}`,
       phoneNumber: `${user?.phoneNumber}`,
-      status: 'online' as 'online' | 'offline' | 'alway' | 'busy',
+      status: "online" as "online" | "offline" | "alway" | "busy",
     }),
-    [user]
+    [user],
   );
 
   const messageData = useMemo(
@@ -63,11 +63,11 @@ export default function ChatMessageInput({
       id: uuidv4(),
       attachments: [],
       body: message,
-      contentType: 'text',
+      contentType: "text",
       createdAt: sub(new Date(), { minutes: 1 }),
       senderId: myContact.id,
     }),
-    [message, myContact.id]
+    [message, myContact.id],
   );
 
   const conversationData = useMemo(
@@ -75,10 +75,10 @@ export default function ChatMessageInput({
       id: uuidv4(),
       messages: [messageData],
       participants: [...recipients, myContact],
-      type: recipients.length > 1 ? 'GROUP' : 'ONE_TO_ONE',
+      type: recipients.length > 1 ? "GROUP" : "ONE_TO_ONE",
       unreadCount: 0,
     }),
-    [messageData, myContact, recipients]
+    [messageData, myContact, recipients],
   );
 
   const handleAttach = useCallback(() => {
@@ -87,14 +87,17 @@ export default function ChatMessageInput({
     }
   }, []);
 
-  const handleChangeMessage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(event.target.value);
-  }, []);
+  const handleChangeMessage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMessage(event.target.value);
+    },
+    [],
+  );
 
   const handleSendMessage = useCallback(
     async (event: React.KeyboardEvent<HTMLInputElement>) => {
       try {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
           if (message) {
             if (selectedConversationId) {
               await sendMessage(selectedConversationId, messageData);
@@ -106,13 +109,20 @@ export default function ChatMessageInput({
               onAddRecipients([]);
             }
           }
-          setMessage('');
+          setMessage("");
         }
       } catch (error) {
         console.error(error);
       }
     },
-    [conversationData, message, messageData, onAddRecipients, router, selectedConversationId]
+    [
+      conversationData,
+      message,
+      messageData,
+      onAddRecipients,
+      router,
+      selectedConversationId,
+    ],
   );
 
   return (
@@ -149,7 +159,7 @@ export default function ChatMessageInput({
         }}
       />
 
-      <input type="file" ref={fileRef} style={{ display: 'none' }} />
+      <input type="file" ref={fileRef} style={{ display: "none" }} />
     </>
   );
 }

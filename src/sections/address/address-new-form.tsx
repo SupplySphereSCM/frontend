@@ -1,27 +1,27 @@
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 // types
-import { IAddressItem } from 'src/types/address';
+import { IAddressItem } from "src/types/address";
 // assets
-import { countries } from 'src/assets/data';
+import { countries } from "src/assets/data";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 import FormProvider, {
   RHFCheckbox,
   RHFTextField,
   RHFRadioGroup,
   RHFAutocomplete,
-} from 'src/components/hook-form';
+} from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
@@ -33,28 +33,28 @@ type Props = {
 
 export default function AddressNewForm({ open, onClose, onCreate }: Props) {
   const NewAddressSchema = Yup.object().shape({
-    name: Yup.string().required('Fullname is required'),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    city: Yup.string().required('City is required'),
-    state: Yup.string().required('State is required'),
-    country: Yup.string().required('Country is required'),
-    zipCode: Yup.string().required('Zip code is required'),
+    name: Yup.string().required("Fullname is required"),
+    phoneNumber: Yup.string().required("Phone number is required"),
+    address: Yup.string().required("Address is required"),
+    city: Yup.string().required("City is required"),
+    state: Yup.string().required("State is required"),
+    country: Yup.string().required("Country is required"),
+    zipCode: Yup.string().required("Zip code is required"),
     // not required
     addressType: Yup.string(),
     primary: Yup.boolean(),
   });
 
   const defaultValues = {
-    name: '',
-    city: '',
-    state: '',
-    address: '',
-    zipCode: '',
+    name: "",
+    city: "",
+    state: "",
+    address: "",
+    zipCode: "",
     primary: true,
-    phoneNumber: '',
-    addressType: 'Home',
-    country: '',
+    phoneNumber: "",
+    addressType: "Home",
+    country: "",
   };
 
   const methods = useForm({
@@ -93,8 +93,8 @@ export default function AddressNewForm({ open, onClose, onCreate }: Props) {
               row
               name="addressType"
               options={[
-                { label: 'Home', value: 'Home' },
-                { label: 'Office', value: 'Office' },
+                { label: "Home", value: "Home" },
+                { label: "Office", value: "Office" },
               ]}
             />
 
@@ -103,8 +103,8 @@ export default function AddressNewForm({ open, onClose, onCreate }: Props) {
               columnGap={2}
               display="grid"
               gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(2, 1fr)',
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(2, 1fr)",
               }}
             >
               <RHFTextField name="name" label="Full Name" />
@@ -119,8 +119,8 @@ export default function AddressNewForm({ open, onClose, onCreate }: Props) {
               columnGap={2}
               display="grid"
               gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(3, 1fr)',
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(3, 1fr)",
               }}
             >
               <RHFTextField name="city" label="Town / City" />
@@ -137,7 +137,7 @@ export default function AddressNewForm({ open, onClose, onCreate }: Props) {
               getOptionLabel={(option) => option}
               renderOption={(props, option) => {
                 const { code, label, phone } = countries.filter(
-                  (country) => country.label === option
+                  (country) => country.label === option,
                 )[0];
 
                 if (!label) {
@@ -167,7 +167,11 @@ export default function AddressNewForm({ open, onClose, onCreate }: Props) {
             Cancel
           </Button>
 
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
             Deliver to this Address
           </LoadingButton>
         </DialogActions>

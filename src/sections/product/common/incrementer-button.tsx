@@ -1,10 +1,10 @@
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import Stack, { StackProps } from '@mui/material/Stack';
+import { alpha } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import Stack, { StackProps } from "@mui/material/Stack";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +18,18 @@ interface Props extends StackProps {
 }
 
 const IncrementerButton = forwardRef<HTMLDivElement, Props>(
-  ({ quantity, onIncrease, onDecrease, disabledIncrease, disabledDecrease, sx, ...other }, ref) => (
+  (
+    {
+      quantity,
+      onIncrease,
+      onDecrease,
+      disabledIncrease,
+      disabledDecrease,
+      sx,
+      ...other
+    },
+    ref,
+  ) => (
     <Stack
       ref={ref}
       flexShrink={0}
@@ -29,7 +40,7 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
         p: 0.5,
         width: 88,
         borderRadius: 1,
-        typography: 'subtitle2',
+        typography: "subtitle2",
         border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
         ...sx,
       }}
@@ -55,7 +66,7 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
         <Iconify icon="mingcute:add-line" width={16} />
       </IconButton>
     </Stack>
-  )
+  ),
 );
 
 export default IncrementerButton;

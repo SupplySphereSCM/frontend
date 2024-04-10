@@ -1,44 +1,44 @@
-import isEqual from 'lodash/isEqual';
-import { useState, useCallback } from 'react';
+import isEqual from "lodash/isEqual";
+import { useState, useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Radio from '@mui/material/Radio';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
-import AppBar from '@mui/material/AppBar';
-import Switch from '@mui/material/Switch';
-import Toolbar from '@mui/material/Toolbar';
-import FormLabel from '@mui/material/FormLabel';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Radio from "@mui/material/Radio";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import AppBar from "@mui/material/AppBar";
+import Switch from "@mui/material/Switch";
+import Toolbar from "@mui/material/Toolbar";
+import FormLabel from "@mui/material/FormLabel";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Iconify from 'src/components/iconify';
-import Label from 'src/components/label';
+import Iconify from "src/components/iconify";
+import Label from "src/components/label";
 import {
   NavSectionMini,
   NavConfigProps,
   NavSectionVertical,
   NavSectionHorizontal,
-} from 'src/components/nav-section';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+} from "src/components/nav-section";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 
 // ----------------------------------------------------------------------
 
 const defaultConfig = {
   itemGap: 4,
   iconSize: 24,
-  currentRole: 'admin',
+  currentRole: "admin",
   itemRootHeight: 44,
   itemSubHeight: 36,
-  itemPadding: '4px 8px 4px 12px',
+  itemPadding: "4px 8px 4px 12px",
   itemRadius: 8,
   hiddenLabel: false,
 };
@@ -48,12 +48,15 @@ export default function NavigationBarView() {
 
   const canReset = !isEqual(defaultConfig, config);
 
-  const handleChangeConfig = useCallback((name: string, value: string | number | boolean) => {
-    setConfig((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }, []);
+  const handleChangeConfig = useCallback(
+    (name: string, value: string | number | boolean) => {
+      setConfig((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    },
+    [],
+  );
 
   const handleReset = useCallback(() => {
     setConfig(defaultConfig);
@@ -69,7 +72,7 @@ export default function NavigationBarView() {
         sx={{
           py: 2,
           borderRadius: 2,
-          bgcolor: 'background.paper',
+          bgcolor: "background.paper",
           boxShadow: (theme) => theme.customShadows.z20,
         }}
       />
@@ -86,7 +89,7 @@ export default function NavigationBarView() {
         sx={{
           py: 2,
           borderRadius: 2,
-          bgcolor: 'background.paper',
+          bgcolor: "background.paper",
           boxShadow: (theme) => theme.customShadows.z20,
         }}
       />
@@ -116,7 +119,8 @@ export default function NavigationBarView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -124,10 +128,10 @@ export default function NavigationBarView() {
             heading="Navigation Bar"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Navigation Bar' },
+              { name: "Navigation Bar" },
             ]}
           />
         </Container>
@@ -172,9 +176,19 @@ type ControlsProps = {
   onReset: VoidFunction;
 };
 
-function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) {
+function Controls({
+  config,
+  onChangeConfig,
+  canReset,
+  onReset,
+}: ControlsProps) {
   return (
-    <Stack component={Paper} variant="outlined" spacing={3} sx={{ p: 3, borderRadius: 2 }}>
+    <Stack
+      component={Paper}
+      variant="outlined"
+      spacing={3}
+      sx={{ p: 3, borderRadius: 2 }}
+    >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="h6">Controls</Typography>
 
@@ -191,8 +205,10 @@ function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) 
       <TextField
         label="Item Gap"
         type="number"
-        value={config.itemGap || ''}
-        onChange={(event) => onChangeConfig('itemGap', Number(event.target.value))}
+        value={config.itemGap || ""}
+        onChange={(event) =>
+          onChangeConfig("itemGap", Number(event.target.value))
+        }
       />
 
       {/* Size */}
@@ -200,7 +216,9 @@ function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) 
         select
         label="Icon Size"
         value={config.iconSize}
-        onChange={(event) => onChangeConfig('iconSize', Number(event.target.value))}
+        onChange={(event) =>
+          onChangeConfig("iconSize", Number(event.target.value))
+        }
         SelectProps={{
           native: true,
         }}
@@ -217,7 +235,9 @@ function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) 
         select
         label="Item Radius"
         value={config.itemRadius}
-        onChange={(event) => onChangeConfig('itemRadius', Number(event.target.value) || 0.5)}
+        onChange={(event) =>
+          onChangeConfig("itemRadius", Number(event.target.value) || 0.5)
+        }
         SelectProps={{
           native: true,
         }}
@@ -232,16 +252,16 @@ function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) 
       {/* Role */}
       <RadioGroup
         value={config.currentRole}
-        onChange={(event) => onChangeConfig('currentRole', event.target.value)}
+        onChange={(event) => onChangeConfig("currentRole", event.target.value)}
       >
         <FormLabel>Role</FormLabel>
-        {['admin', 'user'].map((role) => (
+        {["admin", "user"].map((role) => (
           <FormControlLabel
             key={role}
             value={role}
             control={<Radio />}
             label={role}
-            sx={{ textTransform: 'capitalize' }}
+            sx={{ textTransform: "capitalize" }}
           />
         ))}
       </RadioGroup>
@@ -250,30 +270,34 @@ function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) 
       <TextField
         label="Root Height"
         type="number"
-        value={config.itemRootHeight || ''}
-        onChange={(event) => onChangeConfig('itemRootHeight', Number(event.target.value))}
+        value={config.itemRootHeight || ""}
+        onChange={(event) =>
+          onChangeConfig("itemRootHeight", Number(event.target.value))
+        }
       />
 
       {/* Sub Height */}
       <TextField
         label="Sub Height"
         type="number"
-        value={config.itemSubHeight || ''}
-        onChange={(event) => onChangeConfig('itemSubHeight', Number(event.target.value))}
+        value={config.itemSubHeight || ""}
+        onChange={(event) =>
+          onChangeConfig("itemSubHeight", Number(event.target.value))
+        }
       />
 
       {/* Padding */}
       <TextField
         label="Item Padding"
-        value={config.itemPadding || ''}
-        onChange={(event) => onChangeConfig('itemPadding', event.target.value)}
+        value={config.itemPadding || ""}
+        onChange={(event) => onChangeConfig("itemPadding", event.target.value)}
       />
 
       <FormControlLabel
         control={
           <Switch
             checked={config.hiddenLabel}
-            onClick={() => onChangeConfig('hiddenLabel', !config.hiddenLabel)}
+            onClick={() => onChangeConfig("hiddenLabel", !config.hiddenLabel)}
           />
         }
         label="Hidden Label"
@@ -286,86 +310,86 @@ function Controls({ config, onChangeConfig, canReset, onReset }: ControlsProps) 
 
 const NAV_ITEMS = [
   {
-    subheader: 'Marketing',
+    subheader: "Marketing",
     items: [
       {
-        title: 'Landing',
-        path: '#',
+        title: "Landing",
+        path: "#",
         icon: <Iconify icon="carbon:bat" width={1} />,
-        roles: ['admin'],
-        caption: 'Display only admin role',
+        roles: ["admin"],
+        caption: "Display only admin role",
       },
       {
-        title: 'Services',
-        path: '#',
+        title: "Services",
+        path: "#",
         icon: <Iconify icon="carbon:cyclist" width={1} />,
-        roles: ['admin', 'user'],
+        roles: ["admin", "user"],
       },
       {
-        title: 'Case Studies',
-        path: '#',
+        title: "Case Studies",
+        path: "#",
         icon: <Iconify icon="carbon:3d-cursor-alt" width={1} />,
         info: <Label color="error">+32</Label>,
         children: [
-          { title: 'Case Studies', path: '#' },
-          { title: 'Case Study', path: '#' },
+          { title: "Case Studies", path: "#" },
+          { title: "Case Study", path: "#" },
         ],
       },
       {
-        title: 'Blog',
-        path: '#',
+        title: "Blog",
+        path: "#",
         icon: <Iconify icon="carbon:3d-mpr-toggle" width={1} />,
         children: [
-          { title: 'Blog Posts', path: '#' },
-          { title: 'Blog Post', path: '#' },
+          { title: "Blog Posts", path: "#" },
+          { title: "Blog Post", path: "#" },
         ],
       },
       {
-        title: 'About',
-        path: '#',
+        title: "About",
+        path: "#",
         icon: <Iconify icon="carbon:airport-01" width={1} />,
       },
       {
-        title: 'Contact',
-        path: '#',
+        title: "Contact",
+        path: "#",
         icon: <Iconify icon="carbon:battery-full" width={1} />,
       },
       {
-        title: 'Tours',
-        path: '#',
+        title: "Tours",
+        path: "#",
         icon: <Iconify icon="carbon:basketball" width={1} />,
         children: [
-          { title: 'Tours', path: '#' },
-          { title: 'Tour', path: '#' },
+          { title: "Tours", path: "#" },
+          { title: "Tour", path: "#" },
         ],
       },
       {
-        title: 'Checkout',
-        path: '#',
+        title: "Checkout",
+        path: "#",
         icon: <Iconify icon="carbon:area" width={1} />,
         children: [
-          { title: 'Checkout', path: '#' },
-          { title: 'Checkout Complete', path: '#' },
+          { title: "Checkout", path: "#" },
+          { title: "Checkout Complete", path: "#" },
         ],
       },
     ],
   },
   {
-    subheader: 'Travel',
+    subheader: "Travel",
     items: [
       {
-        title: 'Level 1',
-        path: '#',
+        title: "Level 1",
+        path: "#",
         icon: <Iconify icon="carbon:play" width={1} />,
         children: [
-          { title: 'Level 2.1', path: '#' },
-          { title: 'Level 2.2', path: '#' },
+          { title: "Level 2.1", path: "#" },
+          { title: "Level 2.2", path: "#" },
           {
-            title: 'Level 2.3',
-            path: '#',
+            title: "Level 2.3",
+            path: "#",
             children: [
-              { title: 'Level 3.1', path: '#' },
-              { title: 'Level 3.2', path: '#' },
+              { title: "Level 3.1", path: "#" },
+              { title: "Level 3.2", path: "#" },
             ],
           },
         ],

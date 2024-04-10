@@ -1,21 +1,21 @@
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 // @mui
-import List from '@mui/material/List';
-import Slide from '@mui/material/Slide';
-import Button from '@mui/material/Button';
-import AppBar from '@mui/material/AppBar';
-import Dialog from '@mui/material/Dialog';
-import Divider from '@mui/material/Divider';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import { TransitionProps } from '@mui/material/transitions';
+import List from "@mui/material/List";
+import Slide from "@mui/material/Slide";
+import Button from "@mui/material/Button";
+import AppBar from "@mui/material/AppBar";
+import Dialog from "@mui/material/Dialog";
+import Divider from "@mui/material/Divider";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import { TransitionProps } from "@mui/material/transitions";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +24,8 @@ const Transition = forwardRef(
     props: TransitionProps & {
       children: React.ReactElement;
     },
-    ref: React.Ref<unknown>
-  ) => <Slide direction="up" ref={ref} {...props} />
+    ref: React.Ref<unknown>,
+  ) => <Slide direction="up" ref={ref} {...props} />,
 );
 
 export default function FullScreenDialog() {
@@ -53,7 +53,12 @@ export default function FullScreenDialog() {
               Sound
             </Typography>
 
-            <Button autoFocus color="inherit" variant="contained" onClick={dialog.onFalse}>
+            <Button
+              autoFocus
+              color="inherit"
+              variant="contained"
+              onClick={dialog.onFalse}
+            >
               Save
             </Button>
           </Toolbar>
@@ -67,7 +72,10 @@ export default function FullScreenDialog() {
           <Divider />
 
           <ListItemButton>
-            <ListItemText primary="Default notification ringtone" secondary="Tethys" />
+            <ListItemText
+              primary="Default notification ringtone"
+              secondary="Tethys"
+            />
           </ListItemButton>
         </List>
       </Dialog>

@@ -1,23 +1,23 @@
-import sumBy from 'lodash/sumBy';
+import sumBy from "lodash/sumBy";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
 // utils
-import { fShortenNumber } from 'src/utils/format-number';
+import { fShortenNumber } from "src/utils/format-number";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 // types
-import { IProductReview } from 'src/types/product';
+import { IProductReview } from "src/types/product";
 //
-import ProductReviewList from './product-review-list';
-import ProductReviewNewForm from './product-review-new-form';
+import ProductReviewList from "./product-review-list";
+import ProductReviewNewForm from "./product-review-new-form";
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ export default function ProductDetailsReview({
 
       <Rating readOnly value={totalRatings} precision={0.1} />
 
-      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+      <Typography variant="caption" sx={{ color: "text.secondary" }}>
         ({fShortenNumber(totalReviews)} reviews)
       </Typography>
     </Stack>
@@ -94,7 +94,7 @@ export default function ProductDetailsReview({
               component="span"
               sx={{
                 minWidth: 48,
-                color: 'text.secondary',
+                color: "text.secondary",
               }}
             >
               {fShortenNumber(rating.reviewCount)}
@@ -123,8 +123,8 @@ export default function ProductDetailsReview({
       <Box
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(3, 1fr)',
+          xs: "repeat(1, 1fr)",
+          md: "repeat(3, 1fr)",
         }}
         sx={{
           py: { xs: 5, md: 0 },
@@ -137,7 +137,7 @@ export default function ProductDetailsReview({
         {renderReviewButton}
       </Box>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: "dashed" }} />
 
       <ProductReviewList reviews={reviews} />
 

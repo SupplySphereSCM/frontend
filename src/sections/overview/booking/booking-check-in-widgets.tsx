@@ -1,16 +1,16 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
+import { useTheme } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
 // hooks
-import { fNumber } from 'src/utils/format-number';
-import { useResponsive } from 'src/hooks/use-responsive';
+import { fNumber } from "src/utils/format-number";
+import { useResponsive } from "src/hooks/use-responsive";
 // utils
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ interface Props extends CardProps {
 export default function BookingCheckInWidgets({ chart, ...other }: Props) {
   const theme = useTheme();
 
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
   const {
     colors = [
@@ -44,7 +44,7 @@ export default function BookingCheckInWidgets({ chart, ...other }: Props) {
 
   const chartOptionsCheckIn = useChart({
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
         colorStops: [
           { offset: 0, color: colors[0][0] },
@@ -68,7 +68,7 @@ export default function BookingCheckInWidgets({ chart, ...other }: Props) {
     },
     plotOptions: {
       radialBar: {
-        hollow: { size: '64%' },
+        hollow: { size: "64%" },
         track: { margin: 0 },
         dataLabels: {
           name: { show: false },
@@ -85,7 +85,7 @@ export default function BookingCheckInWidgets({ chart, ...other }: Props) {
   const chartOptionsCheckout = {
     ...chartOptionsCheckIn,
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
         colorStops: [
           { offset: 0, color: colors[1][0] },
@@ -98,12 +98,12 @@ export default function BookingCheckInWidgets({ chart, ...other }: Props) {
   return (
     <Card {...other}>
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: "column", sm: "row" }}
         divider={
           <Divider
-            orientation={smUp ? 'vertical' : 'horizontal'}
+            orientation={smUp ? "vertical" : "horizontal"}
             flexItem
-            sx={{ borderStyle: 'dashed' }}
+            sx={{ borderStyle: "dashed" }}
           />
         }
       >

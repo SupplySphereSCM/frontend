@@ -1,9 +1,9 @@
-import { useRef, useState, useCallback, memo } from 'react';
-import Map, { MapRef } from 'react-map-gl';
+import { useRef, useState, useCallback, memo } from "react";
+import Map, { MapRef } from "react-map-gl";
 // components
-import { MapControl, MapBoxProps } from 'src/components/map';
+import { MapControl, MapBoxProps } from "src/components/map";
 //
-import ControlPanel, { CityProps } from './control-panel';
+import ControlPanel, { CityProps } from "./control-panel";
 
 // ----------------------------------------------------------------------
 
@@ -19,12 +19,12 @@ function MapViewportAnimation({ data, ...other }: Props) {
   const onSelectCity = useCallback(
     (
       event: React.ChangeEvent<HTMLInputElement>,
-      { longitude, latitude }: { longitude: number; latitude: number }
+      { longitude, latitude }: { longitude: number; latitude: number },
     ) => {
       setSelectedCity(event.target.value);
       mapRef.current?.flyTo({ center: [longitude, latitude], duration: 2000 });
     },
-    []
+    [],
   );
 
   return (
@@ -41,7 +41,11 @@ function MapViewportAnimation({ data, ...other }: Props) {
     >
       <MapControl />
 
-      <ControlPanel data={data} selectedCity={selectedCity} onSelectCity={onSelectCity} />
+      <ControlPanel
+        data={data}
+        selectedCity={selectedCity}
+        onSelectCity={onSelectCity}
+      />
     </Map>
   );
 }

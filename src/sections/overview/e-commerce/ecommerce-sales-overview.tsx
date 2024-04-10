@@ -1,11 +1,11 @@
 // @mui
-import Stack from '@mui/material/Stack';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
-import LinearProgress from '@mui/material/LinearProgress';
+import Stack from "@mui/material/Stack";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
+import LinearProgress from "@mui/material/LinearProgress";
 // utils
-import { fPercent, fCurrency } from 'src/utils/format-number';
+import { fPercent, fCurrency } from "src/utils/format-number";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,12 @@ interface Props extends CardProps {
   data: ItemProps[];
 }
 
-export default function EcommerceSalesOverview({ title, subheader, data, ...other }: Props) {
+export default function EcommerceSalesOverview({
+  title,
+  subheader,
+  data,
+  ...other
+}: Props) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -49,9 +54,11 @@ function ProgressItem({ progress }: ProgressItemProps) {
           {progress.label}
         </Typography>
 
-        <Typography variant="subtitle2">{fCurrency(progress.totalAmount)}</Typography>
+        <Typography variant="subtitle2">
+          {fCurrency(progress.totalAmount)}
+        </Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           &nbsp;({fPercent(progress.value)})
         </Typography>
       </Stack>
@@ -60,9 +67,9 @@ function ProgressItem({ progress }: ProgressItemProps) {
         variant="determinate"
         value={progress.value}
         color={
-          (progress.label === 'Total Income' && 'info') ||
-          (progress.label === 'Total Expenses' && 'warning') ||
-          'primary'
+          (progress.label === "Total Income" && "info") ||
+          (progress.label === "Total Expenses" && "warning") ||
+          "primary"
         }
       />
     </Stack>

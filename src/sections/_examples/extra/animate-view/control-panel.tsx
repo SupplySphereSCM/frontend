@@ -1,12 +1,12 @@
 // @mui
-import Box from '@mui/material/Box';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Typography from '@mui/material/Typography';
-import Paper, { PaperProps } from '@mui/material/Paper';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Typography from "@mui/material/Typography";
+import Paper, { PaperProps } from "@mui/material/Paper";
+import FormControlLabel from "@mui/material/FormControlLabel";
 // components
-import Scrollbar from 'src/components/scrollbar';
+import Scrollbar from "src/components/scrollbar";
 
 // ----------------------------------------------------------------------
 
@@ -28,10 +28,17 @@ export default function ControlPanel({
   return (
     <Paper variant="outlined" sx={{ height: 480, ...sx }}>
       <Scrollbar>
-        <RadioGroup value={selectVariant} onChange={onChangeVariant} sx={{ px: 1, py: 1 }}>
+        <RadioGroup
+          value={selectVariant}
+          onChange={onChangeVariant}
+          sx={{ px: 1, py: 1 }}
+        >
           {variantKey.map((variant) => (
             <Box key={variant.type} sx={{ my: 1.5 }}>
-              <Typography variant="overline" sx={{ px: 1, mb: 1, display: 'block' }}>
+              <Typography
+                variant="overline"
+                sx={{ px: 1, mb: 1, display: "block" }}
+              >
                 {variant.type}
               </Typography>
               {variant.values.map((value) => (
@@ -39,19 +46,19 @@ export default function ControlPanel({
                   key={value}
                   value={value}
                   label={value}
-                  control={<Radio sx={{ display: 'none' }} />}
+                  control={<Radio sx={{ display: "none" }} />}
                   sx={{
                     px: 1,
                     py: 0.5,
                     mx: 0,
                     my: 0.25,
-                    width: '100%',
+                    width: "100%",
                     borderRadius: 0.75,
-                    color: 'text.secondary',
+                    color: "text.secondary",
                     ...(selectVariant === value && {
-                      color: 'warning.contrastText',
+                      color: "warning.contrastText",
                     }),
-                    ...(selectVariant === value && { bgcolor: 'warning.main' }),
+                    ...(selectVariant === value && { bgcolor: "warning.main" }),
                   }}
                 />
               ))}

@@ -1,15 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Pagination, { paginationClasses } from '@mui/material/Pagination';
+import Box from "@mui/material/Box";
+import Pagination, { paginationClasses } from "@mui/material/Pagination";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // types
-import { ITourItem } from 'src/types/tour';
+import { ITourItem } from "src/types/tour";
 // components
-import { useRouter } from 'src/routes/hooks';
+import { useRouter } from "src/routes/hooks";
 //
-import TourItem from './tour-item';
+import TourItem from "./tour-item";
 
 // ----------------------------------------------------------------------
 
@@ -24,18 +24,18 @@ export default function TourList({ tours }: Props) {
     (id: string) => {
       router.push(paths.dashboard.tour.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleEdit = useCallback(
     (id: string) => {
       router.push(paths.dashboard.tour.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleDelete = useCallback((id: string) => {
-    console.info('DELETE', id);
+    console.info("DELETE", id);
   }, []);
 
   return (
@@ -44,9 +44,9 @@ export default function TourList({ tours }: Props) {
         gap={3}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
+          xs: "repeat(1, 1fr)",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
         }}
       >
         {tours.map((tour) => (
@@ -66,7 +66,7 @@ export default function TourList({ tours }: Props) {
           sx={{
             mt: 8,
             [`& .${paginationClasses.ul}`]: {
-              justifyContent: 'center',
+              justifyContent: "center",
             },
           }}
         />

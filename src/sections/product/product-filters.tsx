@@ -1,26 +1,26 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Radio from '@mui/material/Radio';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
-import Drawer from '@mui/material/Drawer';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-import Slider from '@mui/material/Slider';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputBase, { inputBaseClasses } from '@mui/material/InputBase';
+import { alpha } from "@mui/material/styles";
+import Radio from "@mui/material/Radio";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import Drawer from "@mui/material/Drawer";
+import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
+import Slider from "@mui/material/Slider";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import InputBase, { inputBaseClasses } from "@mui/material/InputBase";
 // types
-import { IProductFilters, IProductFilterValue } from 'src/types/product';
+import { IProductFilters, IProductFilterValue } from "src/types/product";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ColorPicker } from 'src/components/color-utils';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import { ColorPicker } from "src/components/color-utils";
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ export default function ProductFilters({
 
     return {
       value,
-      label: index % 4 ? '' : firstValue,
+      label: index % 4 ? "" : firstValue,
     };
   });
 
@@ -76,37 +76,37 @@ export default function ProductFilters({
       const checked = filters.gender.includes(newValue)
         ? filters.gender.filter((value) => value !== newValue)
         : [...filters.gender, newValue];
-      onFilters('gender', checked);
+      onFilters("gender", checked);
     },
-    [filters.gender, onFilters]
+    [filters.gender, onFilters],
   );
 
   const handleFilterCategory = useCallback(
     (newValue: string) => {
-      onFilters('category', newValue);
+      onFilters("category", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterColors = useCallback(
     (newValue: string | string[]) => {
-      onFilters('colors', newValue);
+      onFilters("colors", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterPriceRange = useCallback(
     (event: Event, newValue: number | number[]) => {
-      onFilters('priceRange', newValue as number[]);
+      onFilters("priceRange", newValue as number[]);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterRating = useCallback(
     (newValue: string) => {
-      onFilters('rating', newValue);
+      onFilters("rating", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const renderHead = (
@@ -170,8 +170,8 @@ export default function ProductFilters({
           }
           label={option}
           sx={{
-            ...(option === 'all' && {
-              textTransform: 'capitalize',
+            ...(option === "all" && {
+              textTransform: "capitalize",
             }),
           }}
         />
@@ -200,8 +200,16 @@ export default function ProductFilters({
       </Typography>
 
       <Stack direction="row" spacing={5} sx={{ my: 2 }}>
-        <InputRange type="min" value={filters.priceRange} onFilters={onFilters} />
-        <InputRange type="max" value={filters.priceRange} onFilters={onFilters} />
+        <InputRange
+          type="min"
+          value={filters.priceRange}
+          onFilters={onFilters}
+        />
+        <InputRange
+          type="max"
+          value={filters.priceRange}
+          onFilters={onFilters}
+        />
       </Stack>
 
       <Slider
@@ -214,7 +222,7 @@ export default function ProductFilters({
         getAriaValueText={(value) => `$${value}`}
         valueLabelFormat={(value) => `$${value}`}
         sx={{
-          alignSelf: 'center',
+          alignSelf: "center",
           width: `calc(100% - 24px)`,
         }}
       />
@@ -232,14 +240,14 @@ export default function ProductFilters({
           onClick={() => handleFilterRating(item)}
           sx={{
             borderRadius: 1,
-            cursor: 'pointer',
-            typography: 'body2',
-            '&:hover': { opacity: 0.48 },
+            cursor: "pointer",
+            typography: "body2",
+            "&:hover": { opacity: 0.48 },
             ...(filters.rating === item && {
               pl: 0.5,
               pr: 0.75,
               py: 0.25,
-              bgcolor: 'action.selected',
+              bgcolor: "action.selected",
             }),
           }}
         >
@@ -300,7 +308,7 @@ export default function ProductFilters({
 // ----------------------------------------------------------------------
 
 type InputRangeProps = {
-  type: 'min' | 'max';
+  type: "min" | "max";
   value: number[];
   onFilters: (name: string, value: IProductFilterValue) => void;
 };
@@ -312,28 +320,33 @@ function InputRange({ type, value, onFilters }: InputRangeProps) {
 
   const handleBlurInputRange = useCallback(() => {
     if (min < 0) {
-      onFilters('priceRange', [0, max]);
+      onFilters("priceRange", [0, max]);
     }
     if (min > 200) {
-      onFilters('priceRange', [200, max]);
+      onFilters("priceRange", [200, max]);
     }
     if (max < 0) {
-      onFilters('priceRange', [min, 0]);
+      onFilters("priceRange", [min, 0]);
     }
     if (max > 200) {
-      onFilters('priceRange', [min, 200]);
+      onFilters("priceRange", [min, 200]);
     }
   }, [max, min, onFilters]);
 
   return (
-    <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: 1 }}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ width: 1 }}
+    >
       <Typography
         variant="caption"
         sx={{
           flexShrink: 0,
-          color: 'text.disabled',
-          textTransform: 'capitalize',
-          fontWeight: 'fontWeightSemiBold',
+          color: "text.disabled",
+          textTransform: "capitalize",
+          fontWeight: "fontWeightSemiBold",
         }}
       >
         {`${type} ($)`}
@@ -341,19 +354,19 @@ function InputRange({ type, value, onFilters }: InputRangeProps) {
 
       <InputBase
         fullWidth
-        value={type === 'min' ? min : max}
+        value={type === "min" ? min : max}
         onChange={(event) =>
-          type === 'min'
-            ? onFilters('priceRange', [Number(event.target.value), max])
-            : onFilters('priceRange', [min, Number(event.target.value)])
+          type === "min"
+            ? onFilters("priceRange", [Number(event.target.value), max])
+            : onFilters("priceRange", [min, Number(event.target.value)])
         }
         onBlur={handleBlurInputRange}
         inputProps={{
           step: 10,
           min: 0,
           max: 200,
-          type: 'number',
-          'aria-labelledby': 'input-slider',
+          type: "number",
+          "aria-labelledby": "input-slider",
         }}
         sx={{
           maxWidth: 48,
@@ -362,8 +375,8 @@ function InputRange({ type, value, onFilters }: InputRangeProps) {
           [`& .${inputBaseClasses.input}`]: {
             pr: 1,
             py: 0.75,
-            textAlign: 'right',
-            typography: 'body2',
+            textAlign: "right",
+            typography: "body2",
           },
         }}
       />

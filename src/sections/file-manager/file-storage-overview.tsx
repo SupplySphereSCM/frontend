@@ -1,14 +1,14 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Card, { CardProps } from '@mui/material/Card';
-import ListItemText from '@mui/material/ListItemText';
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Card, { CardProps } from "@mui/material/Card";
+import ListItemText from "@mui/material/ListItemText";
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -27,10 +27,19 @@ interface Props extends CardProps {
   };
 }
 
-export default function FileStorageOverview({ data, total, chart, ...other }: Props) {
+export default function FileStorageOverview({
+  data,
+  total,
+  chart,
+  ...other
+}: Props) {
   const theme = useTheme();
 
-  const { colors = [theme.palette.info.main, theme.palette.info.dark], series, options } = chart;
+  const {
+    colors = [theme.palette.info.main, theme.palette.info.dark],
+    series,
+    options,
+  } = chart;
 
   const chartOptions = useChart({
     chart: {
@@ -53,7 +62,7 @@ export default function FileStorageOverview({ data, total, chart, ...other }: Pr
         startAngle: -90,
         endAngle: 90,
         hollow: {
-          size: '56%',
+          size: "56%",
         },
         dataLabels: {
           name: {
@@ -72,7 +81,7 @@ export default function FileStorageOverview({ data, total, chart, ...other }: Pr
       },
     },
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
         colorStops: [
           { offset: 0, color: colors[0] },
@@ -85,11 +94,21 @@ export default function FileStorageOverview({ data, total, chart, ...other }: Pr
 
   return (
     <Card {...other}>
-      <Chart type="radialBar" series={[series]} options={chartOptions} height={360} />
+      <Chart
+        type="radialBar"
+        series={[series]}
+        options={chartOptions}
+        height={360}
+      />
 
       <Stack spacing={3} sx={{ px: 3, pb: 5 }}>
         {data.map((category) => (
-          <Stack key={category.name} spacing={2} direction="row" alignItems="center">
+          <Stack
+            key={category.name}
+            spacing={2}
+            direction="row"
+            alignItems="center"
+          >
             <Box sx={{ width: 40, height: 40 }}>{category.icon}</Box>
 
             <ListItemText
@@ -97,13 +116,16 @@ export default function FileStorageOverview({ data, total, chart, ...other }: Pr
               secondary={`${category.filesCount} files`}
               secondaryTypographyProps={{
                 mt: 0.5,
-                component: 'span',
-                typography: 'caption',
-                color: 'text.disabled',
+                component: "span",
+                typography: "caption",
+                color: "text.disabled",
               }}
             />
 
-            <Box sx={{ typography: 'subtitle2' }}> {fData(category.usedStorage)} </Box>
+            <Box sx={{ typography: "subtitle2" }}>
+              {" "}
+              {fData(category.usedStorage)}{" "}
+            </Box>
           </Stack>
         ))}
       </Stack>

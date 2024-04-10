@@ -1,26 +1,26 @@
-import { useState, useEffect, forwardRef, useCallback } from 'react';
+import { useState, useEffect, forwardRef, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 // routes
-import { usePathname } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { usePathname } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
 //
-import Logo from '../logo';
-import Iconify from '../iconify';
-import Scrollbar from '../scrollbar';
+import Logo from "../logo";
+import Iconify from "../iconify";
+import Scrollbar from "../scrollbar";
 //
-import { ParentItemProps, MegaMenuItemProps } from './types';
+import { ParentItemProps, MegaMenuItemProps } from "./types";
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +32,13 @@ type Props = {
   action?: React.ReactNode;
 };
 
-export default function MegaMenuMobile({ data, open, action, onOpen, onClose }: Props) {
+export default function MegaMenuMobile({
+  data,
+  open,
+  action,
+  onOpen,
+  onClose,
+}: Props) {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -45,7 +51,11 @@ export default function MegaMenuMobile({ data, open, action, onOpen, onClose }: 
   return (
     <>
       {action || (
-        <Button variant="contained" onClick={onOpen} startIcon={<Iconify icon="carbon:menu" />}>
+        <Button
+          variant="contained"
+          onClick={onOpen}
+          startIcon={<Iconify icon="carbon:menu" />}
+        >
           Menu
         </Button>
       )}
@@ -81,7 +91,7 @@ const ParentItem = forwardRef<HTMLDivElement, ParentItemProps>(
       ref={ref}
       sx={{
         height: 44,
-        textTransform: 'capitalize',
+        textTransform: "capitalize",
       }}
       {...other}
     >
@@ -94,11 +104,13 @@ const ParentItem = forwardRef<HTMLDivElement, ParentItemProps>(
         {icon}
       </ListItemIcon>
 
-      <ListItemText primaryTypographyProps={{ typography: 'body2' }}>{title}</ListItemText>
+      <ListItemText primaryTypographyProps={{ typography: "body2" }}>
+        {title}
+      </ListItemText>
 
       {hasSub && <Iconify icon="eva:arrow-ios-forward-fill" width={16} />}
     </ListItemButton>
-  )
+  ),
 );
 
 // ----------------------------------------------------------------------
@@ -131,7 +143,12 @@ function SubMenu({ parent, pathname }: SubMenuProps) {
   if (children) {
     return (
       <>
-        <ParentItem title={title} icon={icon} onClick={handleOpenDrawer} hasSub />
+        <ParentItem
+          title={title}
+          icon={icon}
+          onClick={handleOpenDrawer}
+          hasSub
+        />
 
         <Drawer
           open={openDrawer}
@@ -152,7 +169,11 @@ function SubMenu({ parent, pathname }: SubMenuProps) {
               <Iconify icon="eva:arrow-ios-back-fill" width={16} />
             </IconButton>
 
-            <Typography noWrap variant="subtitle1" sx={{ ml: 1, textTransform: 'capitalize' }}>
+            <Typography
+              noWrap
+              variant="subtitle1"
+              sx={{ ml: 1, textTransform: "capitalize" }}
+            >
               {title}
             </Typography>
           </Stack>
@@ -168,7 +189,7 @@ function SubMenu({ parent, pathname }: SubMenuProps) {
                     <Typography
                       component="div"
                       variant="overline"
-                      sx={{ px: 2.5, mb: 1, color: 'text.secondary' }}
+                      sx={{ px: 2.5, mb: 1, color: "text.secondary" }}
                       noWrap
                     >
                       {subheader}
@@ -188,17 +209,17 @@ function SubMenu({ parent, pathname }: SubMenuProps) {
                               mr: 0.5,
                               width: 24,
                               height: 24,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
                             }}
                           >
                             <Box
                               sx={{
                                 width: 4,
                                 height: 4,
-                                borderRadius: '50%',
-                                bgcolor: 'currentColor',
+                                borderRadius: "50%",
+                                bgcolor: "currentColor",
                               }}
                             />
                           </ListItemIcon>
@@ -207,7 +228,7 @@ function SubMenu({ parent, pathname }: SubMenuProps) {
                             primary={link.title}
                             primaryTypographyProps={{
                               noWrap: true,
-                              typography: 'body2',
+                              typography: "body2",
                             }}
                           />
                         </ListItemButton>

@@ -1,15 +1,15 @@
 // @mui
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Container from "@mui/material/Container";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import Chip from './chip';
+import Chip from "./chip";
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,8 @@ export default function ChipView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -27,12 +28,12 @@ export default function ChipView() {
             heading="Chip"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Chip' },
+              { name: "Chip" },
             ]}
-            moreLink={['https://mui.com/components/chips']}
+            moreLink={["https://mui.com/components/chips"]}
           />
         </Container>
       </Box>
@@ -42,8 +43,8 @@ export default function ChipView() {
           gap={3}
           display="grid"
           gridTemplateColumns={{
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(3, 1fr)',
+            xs: "repeat(1, 1fr)",
+            md: "repeat(3, 1fr)",
           }}
         >
           <Card>

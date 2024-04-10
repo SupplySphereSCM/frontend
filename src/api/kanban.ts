@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
-import useSWR, { mutate } from 'swr';
+import { useMemo } from "react";
+import useSWR, { mutate } from "swr";
 // utils
-import { fetcher, endpoints } from 'src/utils/axios';
+import { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IKanbanColumn, IKanbanTask, IKanban } from 'src/types/kanban';
+import { IKanbanColumn, IKanbanTask, IKanban } from "src/types/kanban";
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +16,11 @@ const options = {
 };
 
 export function useGetBoard() {
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, options);
+  const { data, isLoading, error, isValidating } = useSWR(
+    URL,
+    fetcher,
+    options,
+  );
 
   const memoizedValue = useMemo(
     () => ({
@@ -26,7 +30,7 @@ export function useGetBoard() {
       boardValidating: isValidating,
       boardEmpty: !isLoading && !data?.board.ordered.length,
     }),
-    [data?.board, error, isLoading, isValidating]
+    [data?.board, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -67,7 +71,7 @@ export async function createColumn(columnData: IKanbanColumn) {
         },
       };
     },
-    false
+    false,
   );
 }
 
@@ -108,7 +112,7 @@ export async function updateColumn(columnId: string, columnName: string) {
         },
       };
     },
-    false
+    false,
   );
 }
 
@@ -134,7 +138,7 @@ export async function moveColumn(newOrdered: string[]) {
         },
       };
     },
-    false
+    false,
   );
 
   /**
@@ -189,7 +193,7 @@ export async function clearColumn(columnId: string) {
         },
       };
     },
-    false
+    false,
   );
 }
 
@@ -236,7 +240,7 @@ export async function deleteColumn(columnId: string) {
         },
       };
     },
-    false
+    false,
   );
 }
 
@@ -284,7 +288,7 @@ export async function createTask(columnId: string, taskData: IKanbanTask) {
         },
       };
     },
-    false
+    false,
   );
 }
 
@@ -319,7 +323,7 @@ export async function updateTask(taskData: IKanbanTask) {
         },
       };
     },
-    false
+    false,
   );
 }
 
@@ -345,7 +349,7 @@ export async function moveTask(updateColumns: Record<string, IKanbanColumn>) {
         },
       };
     },
-    false
+    false,
   );
 
   /**
@@ -398,6 +402,6 @@ export async function deleteTask(columnId: string, taskId: string) {
         },
       };
     },
-    false
+    false,
   );
 }

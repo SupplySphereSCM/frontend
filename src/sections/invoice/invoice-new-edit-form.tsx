@@ -1,26 +1,26 @@
-import { useMemo } from 'react';
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useMemo } from "react";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // types
-import { IInvoice } from 'src/types/invoice';
+import { IInvoice } from "src/types/invoice";
 // _mock
-import { _addressBooks } from 'src/_mock';
+import { _addressBooks } from "src/_mock";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import FormProvider from 'src/components/hook-form';
+import FormProvider from "src/components/hook-form";
 //
-import InvoiceNewEditDetails from './invoice-new-edit-details';
-import InvoiceNewEditAddress from './invoice-new-edit-address';
-import InvoiceNewEditStatusDate from './invoice-new-edit-status-date';
+import InvoiceNewEditDetails from "./invoice-new-edit-details";
+import InvoiceNewEditAddress from "./invoice-new-edit-address";
+import InvoiceNewEditStatusDate from "./invoice-new-edit-status-date";
 
 // ----------------------------------------------------------------------
 
@@ -36,14 +36,14 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
   const loadingSend = useBoolean();
 
   const NewInvoiceSchema = Yup.object().shape({
-    invoiceTo: Yup.mixed<any>().nullable().required('Invoice to is required'),
-    createDate: Yup.mixed<any>().nullable().required('Create date is required'),
+    invoiceTo: Yup.mixed<any>().nullable().required("Invoice to is required"),
+    createDate: Yup.mixed<any>().nullable().required("Create date is required"),
     dueDate: Yup.mixed<any>()
-      .required('Due date is required')
+      .required("Due date is required")
       .test(
-        'date-min',
-        'Due date must be later than create date',
-        (value, { parent }) => value.getTime() > parent.createDate.getTime()
+        "date-min",
+        "Due date must be later than create date",
+        (value, { parent }) => value.getTime() > parent.createDate.getTime(),
       ),
     // not required
     taxes: Yup.number(),
@@ -57,20 +57,20 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
 
   const defaultValues = useMemo(
     () => ({
-      invoiceNumber: currentInvoice?.invoiceNumber || 'INV-1990',
+      invoiceNumber: currentInvoice?.invoiceNumber || "INV-1990",
       createDate: currentInvoice?.createDate || new Date(),
       dueDate: currentInvoice?.dueDate || null,
       taxes: currentInvoice?.taxes || 0,
       shipping: currentInvoice?.shipping || 0,
-      status: currentInvoice?.status || 'draft',
+      status: currentInvoice?.status || "draft",
       discount: currentInvoice?.discount || 0,
       invoiceFrom: currentInvoice?.invoiceFrom || _addressBooks[0],
       invoiceTo: currentInvoice?.invoiceTo || null,
       items: currentInvoice?.items || [
         {
-          title: '',
-          description: '',
-          service: '',
+          title: "",
+          description: "",
+          service: "",
           quantity: 1,
           price: 0,
           total: 0,
@@ -78,7 +78,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
       ],
       totalAmount: currentInvoice?.totalAmount || 0,
     }),
-    [currentInvoice]
+    [currentInvoice],
   );
 
   const methods = useForm({
@@ -101,7 +101,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
       reset();
       loadingSave.onFalse();
       router.push(paths.dashboard.invoice.root);
-      console.info('DATA', JSON.stringify(data, null, 2));
+      console.info("DATA", JSON.stringify(data, null, 2));
     } catch (error) {
       console.error(error);
       loadingSave.onFalse();
@@ -116,7 +116,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
       reset();
       loadingSend.onFalse();
       router.push(paths.dashboard.invoice.root);
-      console.info('DATA', JSON.stringify(data, null, 2));
+      console.info("DATA", JSON.stringify(data, null, 2));
     } catch (error) {
       console.error(error);
       loadingSend.onFalse();
@@ -133,7 +133,12 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
         <InvoiceNewEditDetails />
       </Card>
 
-      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
+      <Stack
+        justifyContent="flex-end"
+        direction="row"
+        spacing={2}
+        sx={{ mt: 3 }}
+      >
         <LoadingButton
           color="inherit"
           size="large"
@@ -150,7 +155,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
           loading={loadingSend.value && isSubmitting}
           onClick={handleCreateAndSend}
         >
-          {currentInvoice ? 'Update' : 'Create'} & Send
+          {currentInvoice ? "Update" : "Create"} & Send
         </LoadingButton>
       </Stack>
     </FormProvider>

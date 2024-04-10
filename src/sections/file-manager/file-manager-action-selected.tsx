@@ -1,11 +1,11 @@
 // @mui
-import { SxProps, Theme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Portal from '@mui/material/Portal';
-import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
+import { SxProps, Theme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Portal from "@mui/material/Portal";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -34,11 +34,11 @@ export default function FileManagerActionSelected({
           right: 0,
           zIndex: 9,
           bottom: 0,
-          display: 'flex',
+          display: "flex",
           borderRadius: 1.5,
-          position: 'fixed',
-          alignItems: 'center',
-          bgcolor: 'text.primary',
+          position: "fixed",
+          alignItems: "center",
+          bgcolor: "text.primary",
           p: (theme) => theme.spacing(1.5, 2, 1.5, 1),
           boxShadow: (theme) => theme.customShadows.z20,
           m: { xs: 2, md: 3 },
@@ -62,7 +62,8 @@ export default function FileManagerActionSelected({
             variant="subtitle2"
             sx={{
               mr: 2,
-              color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),
+              color: (theme) =>
+                theme.palette.mode === "light" ? "common.white" : "grey.800",
             }}
           >
             {selected.length} Items selected

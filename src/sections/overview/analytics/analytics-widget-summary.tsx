@@ -1,15 +1,15 @@
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { CardProps } from '@mui/material/Card';
+import { alpha, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { CardProps } from "@mui/material/Card";
 // theme
-import { bgGradient } from 'src/theme/css';
+import { bgGradient } from "src/theme/css";
 // utils
-import { fShortenNumber } from 'src/utils/format-number';
+import { fShortenNumber } from "src/utils/format-number";
 // theme
-import { ColorSchema } from 'src/theme/palette';
+import { ColorSchema } from "src/theme/palette";
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ export default function AnalyticsWidgetSummary({
   title,
   total,
   icon,
-  color = 'primary',
+  color = "primary",
   sx,
   ...other
 }: Props) {
@@ -35,15 +35,15 @@ export default function AnalyticsWidgetSummary({
       alignItems="center"
       sx={{
         ...bgGradient({
-          direction: '135deg',
+          direction: "135deg",
           startColor: alpha(theme.palette[color].light, 0.2),
           endColor: alpha(theme.palette[color].main, 0.2),
         }),
         py: 5,
         borderRadius: 2,
-        textAlign: 'center',
+        textAlign: "center",
         color: `${color}.darker`,
-        backgroundColor: 'common.white',
+        backgroundColor: "common.white",
         ...sx,
       }}
       {...other}

@@ -1,1 +1,1 @@
-export { default as OverviewBankingView } from './overview-banking-view';
+export { default as OverviewBankingView } from "./overview-banking-view";

@@ -1,15 +1,15 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
 // utils
-import { fNumber, fPercent } from 'src/utils/format-number';
+import { fNumber, fPercent } from "src/utils/format-number";
 // components
-import Iconify from 'src/components/iconify';
-import Chart from 'src/components/chart';
+import Iconify from "src/components/iconify";
+import Chart from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +24,14 @@ interface Props extends CardProps {
   };
 }
 
-export default function AppWidgetSummary({ title, percent, total, chart, sx, ...other }: Props) {
+export default function AppWidgetSummary({
+  title,
+  percent,
+  total,
+  chart,
+  sx,
+  ...other
+}: Props) {
   const theme = useTheme();
 
   const {
@@ -36,7 +43,7 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
   const chartOptions = {
     colors: colors.map((colr) => colr[1]),
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
         colorStops: [
           { offset: 0, color: colors[0] },
@@ -51,7 +58,7 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
     },
     plotOptions: {
       bar: {
-        columnWidth: '68%',
+        columnWidth: "68%",
         borderRadius: 2,
       },
     },
@@ -60,7 +67,7 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
       y: {
         formatter: (value: number) => fNumber(value),
         title: {
-          formatter: () => '',
+          formatter: () => "",
         },
       },
       marker: { show: false },
@@ -69,7 +76,10 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
   };
 
   return (
-    <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
+    <Card
+      sx={{ display: "flex", alignItems: "center", p: 3, ...sx }}
+      {...other}
+    >
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2">{title}</Typography>
 
@@ -78,20 +88,20 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
             width={24}
             icon={
               percent < 0
-                ? 'solar:double-alt-arrow-down-bold-duotone'
-                : 'solar:double-alt-arrow-up-bold-duotone'
+                ? "solar:double-alt-arrow-down-bold-duotone"
+                : "solar:double-alt-arrow-up-bold-duotone"
             }
             sx={{
               mr: 1,
-              color: 'success.main',
+              color: "success.main",
               ...(percent < 0 && {
-                color: 'error.main',
+                color: "error.main",
               }),
             }}
           />
 
           <Typography component="div" variant="subtitle2">
-            {percent > 0 && '+'}
+            {percent > 0 && "+"}
 
             {fPercent(percent)}
           </Typography>
@@ -100,7 +110,13 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
         <Typography variant="h3">{fNumber(total)}</Typography>
       </Box>
 
-      <Chart type="bar" series={[{ data: series }]} options={chartOptions} width={60} height={36} />
+      <Chart
+        type="bar"
+        series={[{ data: series }]}
+        options={chartOptions}
+        width={60}
+        height={36}
+      />
     </Card>
   );
 }

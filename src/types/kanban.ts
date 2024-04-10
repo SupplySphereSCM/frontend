@@ -5,7 +5,7 @@ export type IKanbanComment = {
   name: string;
   message: string;
   avatarUrl: string;
-  messageType: 'image' | 'text';
+  messageType: "image" | "text";
   createdAt: Date;
 };
 

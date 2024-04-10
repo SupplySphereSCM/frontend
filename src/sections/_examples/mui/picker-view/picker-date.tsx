@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import isWeekend from 'date-fns/isWeekend';
+import { useState } from "react";
+import isWeekend from "date-fns/isWeekend";
 // @mui
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import Masonry from '@mui/lab/Masonry';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import Masonry from "@mui/lab/Masonry";
 //
-import ComponentBlock from '../../component-block';
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -20,14 +20,14 @@ export default function PickerDate() {
         <DesktopDatePicker
           label="For desktop"
           value={value}
-          minDate={new Date('2017-01-01')}
+          minDate={new Date("2017-01-01")}
           onChange={(newValue) => {
             setValue(newValue);
           }}
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />
@@ -42,7 +42,7 @@ export default function PickerDate() {
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />
@@ -62,7 +62,7 @@ export default function PickerDate() {
 
       <ComponentBlock title="Views playground">
         <DatePicker
-          views={['year']}
+          views={["year"]}
           label="Year only"
           value={value}
           onChange={(newValue) => {
@@ -71,15 +71,15 @@ export default function PickerDate() {
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />
         <DatePicker
-          views={['year', 'month']}
+          views={["year", "month"]}
           label="Year and Month"
-          minDate={new Date('2012-03-01')}
-          maxDate={new Date('2023-06-01')}
+          minDate={new Date("2012-03-01")}
+          maxDate={new Date("2023-06-01")}
           value={value}
           onChange={(newValue) => {
             setValue(newValue);
@@ -87,13 +87,13 @@ export default function PickerDate() {
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />
         <DatePicker
           openTo="year"
-          views={['year', 'month', 'day']}
+          views={["year", "month", "day"]}
           label="Year, month and date"
           value={value}
           onChange={(newValue) => {
@@ -102,12 +102,12 @@ export default function PickerDate() {
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />
         <DatePicker
-          views={['day', 'month', 'year']}
+          views={["day", "month", "year"]}
           label="Invert the order of views"
           value={value}
           onChange={(newValue) => {
@@ -116,12 +116,12 @@ export default function PickerDate() {
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />
         <DatePicker
-          views={['day']}
+          views={["day"]}
           label="Just date"
           value={value}
           onChange={(newValue) => {
@@ -130,7 +130,7 @@ export default function PickerDate() {
           slotProps={{
             textField: {
               fullWidth: true,
-              margin: 'normal',
+              margin: "normal",
             },
           }}
         />

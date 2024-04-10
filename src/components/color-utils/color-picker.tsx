@@ -1,17 +1,17 @@
-import { forwardRef, useCallback } from 'react';
+import { forwardRef, useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import ButtonBase from '@mui/material/ButtonBase';
+import { alpha } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import ButtonBase from "@mui/material/ButtonBase";
 //
-import Iconify from '../iconify';
-import { ColorPickerProps } from './types';
+import Iconify from "../iconify";
+import { ColorPickerProps } from "./types";
 
 // ----------------------------------------------------------------------
 
 const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
-  ({ colors, selected, onSelectColor, limit = 'auto', sx, ...other }, ref) => {
-    const singleSelect = typeof selected === 'string';
+  ({ colors, selected, onSelectColor, limit = "auto", sx, ...other }, ref) => {
+    const singleSelect = typeof selected === "string";
 
     const handleSelect = useCallback(
       (color: string) => {
@@ -27,7 +27,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
           onSelectColor(newSelected);
         }
       },
-      [onSelectColor, selected, singleSelect]
+      [onSelectColor, selected, singleSelect],
     );
 
     return (
@@ -36,17 +36,19 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         direction="row"
         display="inline-flex"
         sx={{
-          flexWrap: 'wrap',
-          ...(limit !== 'auto' && {
+          flexWrap: "wrap",
+          ...(limit !== "auto" && {
             width: limit * 36,
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
           }),
           ...sx,
         }}
         {...other}
       >
         {colors.map((color) => {
-          const hasSelected = singleSelect ? selected === color : selected.includes(color);
+          const hasSelected = singleSelect
+            ? selected === color
+            : selected.includes(color);
 
           return (
             <ButtonBase
@@ -54,7 +56,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
               sx={{
                 width: 36,
                 height: 36,
-                borderRadius: '50%',
+                borderRadius: "50%",
               }}
               onClick={() => {
                 handleSelect(color);
@@ -67,14 +69,15 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                   width: 20,
                   height: 20,
                   bgcolor: color,
-                  borderRadius: '50%',
-                  border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
+                  borderRadius: "50%",
+                  border: (theme) =>
+                    `solid 1px ${alpha(theme.palette.grey[500], 0.16)}`,
                   ...(hasSelected && {
-                    transform: 'scale(1.3)',
+                    transform: "scale(1.3)",
                     boxShadow: `4px 4px 8px 0 ${alpha(color, 0.48)}`,
                     outline: `solid 2px ${alpha(color, 0.08)}`,
                     transition: (theme) =>
-                      theme.transitions.create('all', {
+                      theme.transitions.create("all", {
                         duration: theme.transitions.duration.shortest,
                       }),
                   }),
@@ -86,7 +89,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                   sx={{
                     color: (theme) => theme.palette.getContrastText(color),
                     transition: (theme) =>
-                      theme.transitions.create('all', {
+                      theme.transitions.create("all", {
                         duration: theme.transitions.duration.shortest,
                       }),
                   }}
@@ -97,7 +100,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
         })}
       </Stack>
     );
-  }
+  },
 );
 
 export default ColorPicker;

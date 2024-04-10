@@ -1,14 +1,14 @@
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
-import ListItemText from '@mui/material/ListItemText';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
+import ListItemText from "@mui/material/ListItemText";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +23,12 @@ interface Props extends CardProps {
   }[];
 }
 
-export default function BankingContacts({ title, subheader, list, ...other }: Props) {
+export default function BankingContacts({
+  title,
+  subheader,
+  list,
+  ...other
+}: Props) {
   return (
     <Card {...other}>
       <CardHeader
@@ -33,7 +38,13 @@ export default function BankingContacts({ title, subheader, list, ...other }: Pr
           <Button
             size="small"
             color="inherit"
-            endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
+            endIcon={
+              <Iconify
+                icon="eva:arrow-ios-forward-fill"
+                width={18}
+                sx={{ ml: -0.5 }}
+              />
+            }
           >
             View All
           </Button>
@@ -43,7 +54,10 @@ export default function BankingContacts({ title, subheader, list, ...other }: Pr
       <Stack spacing={3} sx={{ p: 3 }}>
         {list.map((contact) => (
           <Stack direction="row" alignItems="center" key={contact.id}>
-            <Avatar src={contact.avatarUrl} sx={{ width: 48, height: 48, mr: 2 }} />
+            <Avatar
+              src={contact.avatarUrl}
+              sx={{ width: 48, height: 48, mr: 2 }}
+            />
 
             <ListItemText primary={contact.name} secondary={contact.email} />
 

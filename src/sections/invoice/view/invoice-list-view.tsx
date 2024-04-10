@@ -1,36 +1,36 @@
-import sumBy from 'lodash/sumBy';
-import { useState, useCallback } from 'react';
+import sumBy from "lodash/sumBy";
+import { useState, useCallback } from "react";
 // @mui
-import { useTheme, alpha } from '@mui/material/styles';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
+import { useTheme, alpha } from "@mui/material/styles";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Card from "@mui/material/Card";
+import Table from "@mui/material/Table";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import TableBody from "@mui/material/TableBody";
+import IconButton from "@mui/material/IconButton";
+import TableContainer from "@mui/material/TableContainer";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // utils
-import { fTimestamp } from 'src/utils/format-time';
+import { fTimestamp } from "src/utils/format-time";
 // _mock
-import { _invoices, INVOICE_SERVICE_OPTIONS } from 'src/_mock';
+import { _invoices, INVOICE_SERVICE_OPTIONS } from "src/_mock";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import { useSettingsContext } from "src/components/settings";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 import {
   useTable,
   getComparator,
@@ -40,31 +40,35 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
-} from 'src/components/table';
+} from "src/components/table";
 // types
-import { IInvoice, IInvoiceTableFilters, IInvoiceTableFilterValue } from 'src/types/invoice';
+import {
+  IInvoice,
+  IInvoiceTableFilters,
+  IInvoiceTableFilterValue,
+} from "src/types/invoice";
 //
-import InvoiceAnalytic from '../invoice-analytic';
-import InvoiceTableRow from '../invoice-table-row';
-import InvoiceTableToolbar from '../invoice-table-toolbar';
-import InvoiceTableFiltersResult from '../invoice-table-filters-result';
+import InvoiceAnalytic from "../invoice-analytic";
+import InvoiceTableRow from "../invoice-table-row";
+import InvoiceTableToolbar from "../invoice-table-toolbar";
+import InvoiceTableFiltersResult from "../invoice-table-filters-result";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'invoiceNumber', label: 'Customer' },
-  { id: 'createDate', label: 'Create' },
-  { id: 'dueDate', label: 'Due' },
-  { id: 'price', label: 'Amount' },
-  { id: 'sent', label: 'Sent', align: 'center' },
-  { id: 'status', label: 'Status' },
-  { id: '' },
+  { id: "invoiceNumber", label: "Customer" },
+  { id: "createDate", label: "Create" },
+  { id: "dueDate", label: "Due" },
+  { id: "price", label: "Amount" },
+  { id: "sent", label: "Sent", align: "center" },
+  { id: "status", label: "Status" },
+  { id: "" },
 ];
 
 const defaultFilters: IInvoiceTableFilters = {
-  name: '',
+  name: "",
   service: [],
-  status: 'all',
+  status: "all",
   startDate: null,
   endDate: null,
 };
@@ -78,7 +82,7 @@ export default function InvoiceListView() {
 
   const router = useRouter();
 
-  const table = useTable({ defaultOrderBy: 'createDate' });
+  const table = useTable({ defaultOrderBy: "createDate" });
 
   const confirm = useBoolean();
 
@@ -100,7 +104,7 @@ export default function InvoiceListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 56 : 76;
@@ -108,7 +112,7 @@ export default function InvoiceListView() {
   const canReset =
     !!filters.name ||
     !!filters.service.length ||
-    filters.status !== 'all' ||
+    filters.status !== "all" ||
     (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
@@ -119,37 +123,37 @@ export default function InvoiceListView() {
   const getTotalAmount = (status: string) =>
     sumBy(
       tableData.filter((item) => item.status === status),
-      'totalAmount'
+      "totalAmount",
     );
 
   const getPercentByStatus = (status: string) =>
     (getInvoiceLength(status) / tableData.length) * 100;
 
   const TABS = [
-    { value: 'all', label: 'All', color: 'default', count: tableData.length },
+    { value: "all", label: "All", color: "default", count: tableData.length },
     {
-      value: 'paid',
-      label: 'Paid',
-      color: 'success',
-      count: getInvoiceLength('paid'),
+      value: "paid",
+      label: "Paid",
+      color: "success",
+      count: getInvoiceLength("paid"),
     },
     {
-      value: 'pending',
-      label: 'Pending',
-      color: 'warning',
-      count: getInvoiceLength('pending'),
+      value: "pending",
+      label: "Pending",
+      color: "warning",
+      count: getInvoiceLength("pending"),
     },
     {
-      value: 'overdue',
-      label: 'Overdue',
-      color: 'error',
-      count: getInvoiceLength('overdue'),
+      value: "overdue",
+      label: "Overdue",
+      color: "error",
+      count: getInvoiceLength("overdue"),
     },
     {
-      value: 'draft',
-      label: 'Draft',
-      color: 'default',
-      count: getInvoiceLength('draft'),
+      value: "draft",
+      label: "Draft",
+      color: "default",
+      count: getInvoiceLength("draft"),
     },
   ] as const;
 
@@ -161,7 +165,7 @@ export default function InvoiceListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -171,11 +175,13 @@ export default function InvoiceListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+    const deleteRows = tableData.filter(
+      (row) => !table.selected.includes(row.id),
+    );
     setTableData(deleteRows);
 
     table.onUpdatePageDeleteRows({
@@ -189,21 +195,21 @@ export default function InvoiceListView() {
     (id: string) => {
       router.push(paths.dashboard.invoice.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.invoice.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
-      handleFilters('status', newValue);
+      handleFilters("status", newValue);
     },
-    [handleFilters]
+    [handleFilters],
   );
 
   const handleResetFilters = useCallback(() => {
@@ -212,20 +218,20 @@ export default function InvoiceListView() {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+      <Container maxWidth={settings.themeStretch ? false : "lg"}>
         <CustomBreadcrumbs
           heading="List"
           links={[
             {
-              name: 'Dashboard',
+              name: "Dashboard",
               href: paths.dashboard.root,
             },
             {
-              name: 'Invoice',
+              name: "Invoice",
               href: paths.dashboard.invoice.root,
             },
             {
-              name: 'List',
+              name: "List",
             },
           ]}
           action={
@@ -251,50 +257,56 @@ export default function InvoiceListView() {
           <Scrollbar>
             <Stack
               direction="row"
-              divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
+              divider={
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ borderStyle: "dashed" }}
+                />
+              }
               sx={{ py: 2 }}
             >
               <InvoiceAnalytic
                 title="Total"
                 total={tableData.length}
                 percent={100}
-                price={sumBy(tableData, 'totalAmount')}
+                price={sumBy(tableData, "totalAmount")}
                 icon="solar:bill-list-bold-duotone"
                 color={theme.palette.info.main}
               />
 
               <InvoiceAnalytic
                 title="Paid"
-                total={getInvoiceLength('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalAmount('paid')}
+                total={getInvoiceLength("paid")}
+                percent={getPercentByStatus("paid")}
+                price={getTotalAmount("paid")}
                 icon="solar:file-check-bold-duotone"
                 color={theme.palette.success.main}
               />
 
               <InvoiceAnalytic
                 title="Pending"
-                total={getInvoiceLength('pending')}
-                percent={getPercentByStatus('pending')}
-                price={getTotalAmount('pending')}
+                total={getInvoiceLength("pending")}
+                percent={getPercentByStatus("pending")}
+                price={getTotalAmount("pending")}
                 icon="solar:sort-by-time-bold-duotone"
                 color={theme.palette.warning.main}
               />
 
               <InvoiceAnalytic
                 title="Overdue"
-                total={getInvoiceLength('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalAmount('overdue')}
+                total={getInvoiceLength("overdue")}
+                percent={getPercentByStatus("overdue")}
+                price={getTotalAmount("overdue")}
                 icon="solar:bell-bing-bold-duotone"
                 color={theme.palette.error.main}
               />
 
               <InvoiceAnalytic
                 title="Draft"
-                total={getInvoiceLength('draft')}
-                percent={getPercentByStatus('draft')}
-                price={getTotalAmount('draft')}
+                total={getInvoiceLength("draft")}
+                percent={getPercentByStatus("draft")}
+                price={getTotalAmount("draft")}
                 icon="solar:file-corrupted-bold-duotone"
                 color={theme.palette.text.secondary}
               />
@@ -308,7 +320,10 @@ export default function InvoiceListView() {
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
-              boxShadow: `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+              boxShadow: `inset 0 -2px 0 0 ${alpha(
+                theme.palette.grey[500],
+                0.08,
+              )}`,
             }}
           >
             {TABS.map((tab) => (
@@ -320,7 +335,9 @@ export default function InvoiceListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === "all" || tab.value === filters.status) &&
+                        "filled") ||
+                      "soft"
                     }
                     color={tab.color}
                   >
@@ -336,7 +353,9 @@ export default function InvoiceListView() {
             onFilters={handleFilters}
             //
             dateError={dateError}
-            serviceOptions={INVOICE_SERVICE_OPTIONS.map((option) => option.name)}
+            serviceOptions={INVOICE_SERVICE_OPTIONS.map(
+              (option) => option.name,
+            )}
           />
 
           {canReset && (
@@ -351,7 +370,7 @@ export default function InvoiceListView() {
             />
           )}
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <TableContainer sx={{ position: "relative", overflow: "unset" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -359,7 +378,7 @@ export default function InvoiceListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -392,7 +411,10 @@ export default function InvoiceListView() {
             />
 
             <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
+              <Table
+                size={table.dense ? "small" : "medium"}
+                sx={{ minWidth: 800 }}
+              >
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -403,7 +425,7 @@ export default function InvoiceListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -412,7 +434,7 @@ export default function InvoiceListView() {
                   {dataFiltered
                     .slice(
                       table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
+                      table.page * table.rowsPerPage + table.rowsPerPage,
                     )
                     .map((row) => (
                       <InvoiceTableRow
@@ -428,7 +450,11 @@ export default function InvoiceListView() {
 
                   <TableEmptyRows
                     height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                    emptyRows={emptyRows(
+                      table.page,
+                      table.rowsPerPage,
+                      tableData.length,
+                    )}
                   />
 
                   <TableNoData notFound={notFound} />
@@ -456,7 +482,8 @@ export default function InvoiceListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete{" "}
+            <strong> {table.selected.length} </strong> items?
           </>
         }
         action={
@@ -504,18 +531,19 @@ function applyFilter({
   if (name) {
     inputData = inputData.filter(
       (invoice) =>
-        invoice.invoiceNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        invoice.invoiceTo.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        invoice.invoiceNumber.toLowerCase().indexOf(name.toLowerCase()) !==
+          -1 ||
+        invoice.invoiceTo.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
-  if (status !== 'all') {
+  if (status !== "all") {
     inputData = inputData.filter((invoice) => invoice.status === status);
   }
 
   if (service.length) {
     inputData = inputData.filter((invoice) =>
-      invoice.items.some((filterItem) => service.includes(filterItem.service))
+      invoice.items.some((filterItem) => service.includes(filterItem.service)),
     );
   }
 
@@ -524,7 +552,7 @@ function applyFilter({
       inputData = inputData.filter(
         (invoice) =>
           fTimestamp(invoice.createDate) >= fTimestamp(startDate) &&
-          fTimestamp(invoice.createDate) <= fTimestamp(endDate)
+          fTimestamp(invoice.createDate) <= fTimestamp(endDate),
       );
     }
   }

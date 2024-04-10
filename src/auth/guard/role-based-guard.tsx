@@ -1,14 +1,14 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import { Theme, SxProps } from '@mui/material/styles';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import { Theme, SxProps } from "@mui/material/styles";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // assets
-import { ForbiddenIllustration } from 'src/assets/illustrations';
+import { ForbiddenIllustration } from "src/assets/illustrations";
 // components
-import { MotionContainer, varBounce } from 'src/components/animate';
+import { MotionContainer, varBounce } from "src/components/animate";
 
 // ----------------------------------------------------------------------
 
@@ -19,16 +19,24 @@ type RoleBasedGuardProp = {
   sx?: SxProps<Theme>;
 };
 
-export default function RoleBasedGuard({ hasContent, roles, children, sx }: RoleBasedGuardProp) {
+export default function RoleBasedGuard({
+  hasContent,
+  roles,
+  children,
+  sx,
+}: RoleBasedGuardProp) {
   // Logic here to get current user role
   const { user } = useMockedUser();
 
   // const currentRole = 'user';
   const currentRole = user?.role; // admin;
 
-  if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
+  if (typeof roles !== "undefined" && !roles.includes(currentRole)) {
     return hasContent ? (
-      <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
+      <Container
+        component={MotionContainer}
+        sx={{ textAlign: "center", ...sx }}
+      >
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
             Permission Denied
@@ -36,7 +44,7 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }: Role
         </m.div>
 
         <m.div variants={varBounce().in}>
-          <Typography sx={{ color: 'text.secondary' }}>
+          <Typography sx={{ color: "text.secondary" }}>
             You do not have permission to access this page
           </Typography>
         </m.div>

@@ -1,17 +1,17 @@
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
 // @mui
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
-import InputAdornment from '@mui/material/InputAdornment';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Autocomplete from "@mui/material/Autocomplete";
+import InputAdornment from "@mui/material/InputAdornment";
 // types
-import { IJobItem } from 'src/types/job';
+import { IJobItem } from "src/types/job";
 // components
-import Iconify from 'src/components/iconify';
-import { useRouter } from 'src/routes/hooks';
-import SearchNotFound from 'src/components/search-not-found';
+import Iconify from "src/components/iconify";
+import { useRouter } from "src/routes/hooks";
+import SearchNotFound from "src/components/search-not-found";
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +22,12 @@ type Props = {
   hrefItem: (id: string) => string;
 };
 
-export default function JobSearch({ query, results, onSearch, hrefItem }: Props) {
+export default function JobSearch({
+  query,
+  results,
+  onSearch,
+  hrefItem,
+}: Props) {
   const router = useRouter();
 
   const handleClick = (id: string) => {
@@ -31,7 +36,7 @@ export default function JobSearch({ query, results, onSearch, hrefItem }: Props)
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (query) {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         const selectProduct = results.filter((job) => job.title === query)[0];
 
         handleClick(selectProduct.id);
@@ -47,7 +52,7 @@ export default function JobSearch({ query, results, onSearch, hrefItem }: Props)
       options={results}
       onInputChange={(event, newValue) => onSearch(newValue)}
       getOptionLabel={(option) => option.title}
-      noOptionsText={<SearchNotFound query={query} sx={{ bgcolor: 'unset' }} />}
+      noOptionsText={<SearchNotFound query={query} sx={{ bgcolor: "unset" }} />}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (
         <TextField
@@ -58,7 +63,10 @@ export default function JobSearch({ query, results, onSearch, hrefItem }: Props)
             ...params.InputProps,
             startAdornment: (
               <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ ml: 1, color: 'text.disabled' }} />
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ ml: 1, color: "text.disabled" }}
+                />
               </InputAdornment>
             ),
           }}
@@ -69,16 +77,23 @@ export default function JobSearch({ query, results, onSearch, hrefItem }: Props)
         const parts = parse(job.title, matches);
 
         return (
-          <Box component="li" {...props} onClick={() => handleClick(job.id)} key={job.id}>
+          <Box
+            component="li"
+            {...props}
+            onClick={() => handleClick(job.id)}
+            key={job.id}
+          >
             <div>
               {parts.map((part, index) => (
                 <Typography
                   key={index}
                   component="span"
-                  color={part.highlight ? 'primary' : 'textPrimary'}
+                  color={part.highlight ? "primary" : "textPrimary"}
                   sx={{
-                    typography: 'body2',
-                    fontWeight: part.highlight ? 'fontWeightSemiBold' : 'fontWeightMedium',
+                    typography: "body2",
+                    fontWeight: part.highlight
+                      ? "fontWeightSemiBold"
+                      : "fontWeightMedium",
                   }}
                 >
                   {part.text}

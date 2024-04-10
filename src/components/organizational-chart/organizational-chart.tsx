@@ -1,19 +1,19 @@
-import { Tree, TreeNode } from 'react-organizational-chart';
+import { Tree, TreeNode } from "react-organizational-chart";
 // @mui
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 // utils
-import { flattenArray } from 'src/utils/flatten-array';
+import { flattenArray } from "src/utils/flatten-array";
 //
-import GroupNode from './_common/group-node';
-import SimpleNode from './_common/simple-node';
-import StandardNode from './_common/standard-node';
-import { ListProps, SubListProps, OrganizationalChartProps } from './types';
+import GroupNode from "./_common/group-node";
+import SimpleNode from "./_common/simple-node";
+import StandardNode from "./_common/standard-node";
+import { ListProps, SubListProps, OrganizationalChartProps } from "./types";
 
 // ----------------------------------------------------------------------
 
 export default function OrganizationalChart({
   data,
-  variant = 'simple',
+  variant = "simple",
   sx,
   ...other
 }: OrganizationalChartProps) {
@@ -26,16 +26,16 @@ export default function OrganizationalChart({
       lineBorderRadius="24px"
       lineColor={theme.palette.divider}
       label={
-        (variant === 'simple' && <SimpleNode sx={sx} node={data} />) ||
-        (variant === 'standard' && (
+        (variant === "simple" && <SimpleNode sx={sx} node={data} />) ||
+        (variant === "standard" && (
           <StandardNode
             sx={sx}
             node={data}
-            onEdit={() => console.info('EDIT', data.name)}
-            onDelete={() => console.info('DELETE', data.name)}
+            onEdit={() => console.info("EDIT", data.name)}
+            onDelete={() => console.info("DELETE", data.name)}
           />
         )) ||
-        (variant === 'group' && <GroupNode sx={sx} node={data} />)
+        (variant === "group" && <GroupNode sx={sx} node={data} />)
       }
       {...other}
     >
@@ -54,16 +54,16 @@ export function List({ data, depth, variant, sx }: ListProps) {
   return (
     <TreeNode
       label={
-        (variant === 'simple' && <SimpleNode sx={sx} node={data} />) ||
-        (variant === 'standard' && (
+        (variant === "simple" && <SimpleNode sx={sx} node={data} />) ||
+        (variant === "standard" && (
           <StandardNode
             sx={sx}
             node={data}
-            onEdit={() => console.info('EDIT', data.name)}
-            onDelete={() => console.info('DELETE', data.name)}
+            onEdit={() => console.info("EDIT", data.name)}
+            onDelete={() => console.info("DELETE", data.name)}
           />
         )) ||
-        (variant === 'group' && (
+        (variant === "group" && (
           <GroupNode
             sx={sx}
             node={data}
@@ -73,7 +73,9 @@ export function List({ data, depth, variant, sx }: ListProps) {
         ))
       }
     >
-      {hasChild && <SubList data={data.children} depth={depth} variant={variant} sx={sx} />}
+      {hasChild && (
+        <SubList data={data.children} depth={depth} variant={variant} sx={sx} />
+      )}
     </TreeNode>
   );
 }
@@ -84,7 +86,13 @@ function SubList({ data, depth, variant, sx }: SubListProps) {
   return (
     <>
       {data.map((list) => (
-        <List key={list.name} data={list} depth={depth + 1} variant={variant} sx={sx} />
+        <List
+          key={list.name}
+          data={list}
+          depth={depth + 1}
+          variant={variant}
+          sx={sx}
+        />
       ))}
     </>
   );

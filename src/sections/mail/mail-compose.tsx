@@ -1,21 +1,21 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Portal from '@mui/material/Portal';
-import Backdrop from '@mui/material/Backdrop';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Portal from "@mui/material/Portal";
+import Backdrop from "@mui/material/Backdrop";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useResponsive } from "src/hooks/use-responsive";
 // components
-import Iconify from 'src/components/iconify';
-import Editor from 'src/components/editor';
+import Iconify from "src/components/iconify";
+import Editor from "src/components/editor";
 
 // ----------------------------------------------------------------------
 
@@ -28,9 +28,9 @@ type Props = {
 };
 
 export default function MailCompose({ onCloseCompose }: Props) {
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const fullScreen = useBoolean();
 
@@ -47,12 +47,12 @@ export default function MailCompose({ onCloseCompose }: Props) {
           right: 0,
           bottom: 0,
           borderRadius: 2,
-          display: 'flex',
-          position: 'fixed',
+          display: "flex",
+          position: "fixed",
           zIndex: ZINDEX + 1,
           m: `${POSITION}px`,
-          overflow: 'hidden',
-          flexDirection: 'column',
+          overflow: "hidden",
+          flexDirection: "column",
           boxShadow: (theme) => theme.customShadows.dropdown,
           ...(fullScreen.value && {
             m: 0,
@@ -67,7 +67,7 @@ export default function MailCompose({ onCloseCompose }: Props) {
           direction="row"
           alignItems="center"
           sx={{
-            bgcolor: 'background.neutral',
+            bgcolor: "background.neutral",
             p: (theme) => theme.spacing(1.5, 1, 1.5, 2),
           }}
         >
@@ -76,7 +76,9 @@ export default function MailCompose({ onCloseCompose }: Props) {
           </Typography>
 
           <IconButton onClick={fullScreen.onToggle}>
-            <Iconify icon={fullScreen ? 'eva:collapse-fill' : 'eva:expand-fill'} />
+            <Iconify
+              icon={fullScreen ? "eva:collapse-fill" : "eva:expand-fill"}
+            />
           </IconButton>
 
           <IconButton onClick={onCloseCompose}>
@@ -87,19 +89,23 @@ export default function MailCompose({ onCloseCompose }: Props) {
         <InputBase
           placeholder="To"
           endAdornment={
-            <Stack direction="row" spacing={0.5} sx={{ typography: 'subtitle2' }}>
+            <Stack
+              direction="row"
+              spacing={0.5}
+              sx={{ typography: "subtitle2" }}
+            >
               <Box
                 sx={{
-                  cursor: 'pointer',
-                  '&:hover': { textDecoration: 'underline' },
+                  cursor: "pointer",
+                  "&:hover": { textDecoration: "underline" },
                 }}
               >
                 Cc
               </Box>
               <Box
                 sx={{
-                  cursor: 'pointer',
-                  '&:hover': { textDecoration: 'underline' },
+                  cursor: "pointer",
+                  "&:hover": { textDecoration: "underline" },
                 }}
               >
                 Bcc
@@ -109,7 +115,8 @@ export default function MailCompose({ onCloseCompose }: Props) {
           sx={{
             px: 2,
             height: 48,
-            borderBottom: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.08)}`,
+            borderBottom: (theme) =>
+              `solid 1px ${alpha(theme.palette.grey[500], 0.08)}`,
           }}
         />
 
@@ -118,7 +125,8 @@ export default function MailCompose({ onCloseCompose }: Props) {
           sx={{
             px: 2,
             height: 48,
-            borderBottom: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.08)}`,
+            borderBottom: (theme) =>
+              `solid 1px ${alpha(theme.palette.grey[500], 0.08)}`,
           }}
         />
 
@@ -130,14 +138,14 @@ export default function MailCompose({ onCloseCompose }: Props) {
             onChange={handleChangeMessage}
             placeholder="Type a message"
             sx={{
-              '& .ql-editor': {},
+              "& .ql-editor": {},
               ...(fullScreen.value && {
                 height: 1,
-                '& .quill': {
+                "& .quill": {
                   height: 1,
                 },
-                '& .ql-editor': {
-                  maxHeight: 'unset',
+                "& .ql-editor": {
+                  maxHeight: "unset",
                 },
               }),
             }}

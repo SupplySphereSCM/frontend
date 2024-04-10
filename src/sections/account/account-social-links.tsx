@@ -1,15 +1,15 @@
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import InputAdornment from '@mui/material/InputAdornment';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import InputAdornment from "@mui/material/InputAdornment";
 // types
-import { IUserSocialLink } from 'src/types/user';
+import { IUserSocialLink } from "src/types/user";
 // components
-import Iconify from 'src/components/iconify';
-import { useSnackbar } from 'src/components/snackbar';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import Iconify from "src/components/iconify";
+import { useSnackbar } from "src/components/snackbar";
+import FormProvider, { RHFTextField } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
@@ -39,8 +39,8 @@ export default function AccountSocialLinks({ socialLinks }: Props) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      enqueueSnackbar('Update success!');
-      console.info('DATA', data);
+      enqueueSnackbar("Update success!");
+      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -59,18 +59,18 @@ export default function AccountSocialLinks({ socialLinks }: Props) {
                   <Iconify
                     width={24}
                     icon={
-                      (link === 'facebook' && 'eva:facebook-fill') ||
-                      (link === 'instagram' && 'ant-design:instagram-filled') ||
-                      (link === 'linkedin' && 'eva:linkedin-fill') ||
-                      (link === 'twitter' && 'eva:twitter-fill') ||
-                      ''
+                      (link === "facebook" && "eva:facebook-fill") ||
+                      (link === "instagram" && "ant-design:instagram-filled") ||
+                      (link === "linkedin" && "eva:linkedin-fill") ||
+                      (link === "twitter" && "eva:twitter-fill") ||
+                      ""
                     }
                     color={
-                      (link === 'facebook' && '#1877F2') ||
-                      (link === 'instagram' && '#DF3E30') ||
-                      (link === 'linkedin' && '#006097') ||
-                      (link === 'twitter' && '#1C9CEA') ||
-                      ''
+                      (link === "facebook" && "#1877F2") ||
+                      (link === "instagram" && "#DF3E30") ||
+                      (link === "linkedin" && "#006097") ||
+                      (link === "twitter" && "#1C9CEA") ||
+                      ""
                     }
                   />
                 </InputAdornment>
@@ -79,7 +79,12 @@ export default function AccountSocialLinks({ socialLinks }: Props) {
           />
         ))}
 
-        <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 'auto' }}>
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          loading={isSubmitting}
+          sx={{ ml: "auto" }}
+        >
           Save Changes
         </LoadingButton>
       </Stack>

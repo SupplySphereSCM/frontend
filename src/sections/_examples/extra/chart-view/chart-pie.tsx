@@ -1,5 +1,5 @@
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -9,9 +9,9 @@ type Props = {
 
 export default function ChartPie({ series }: Props) {
   const chartOptions = useChart({
-    labels: ['Team A', 'Team B', 'Team C', 'Team D'],
+    labels: ["Team A", "Team B", "Team C", "Team D"],
     legend: {
-      position: 'right',
+      position: "right",
       offsetX: -20,
       offsetY: 64,
       itemMargin: {
@@ -41,5 +41,13 @@ export default function ChartPie({ series }: Props) {
     },
   });
 
-  return <Chart dir="ltr" type="pie" series={series} options={chartOptions} width={400} />;
+  return (
+    <Chart
+      dir="ltr"
+      type="pie"
+      series={series}
+      options={chartOptions}
+      width={400}
+    />
+  );
 }

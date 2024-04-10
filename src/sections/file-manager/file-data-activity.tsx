@@ -1,17 +1,17 @@
-import { ApexOptions } from 'apexcharts';
-import { useState, useCallback } from 'react';
+import { ApexOptions } from "apexcharts";
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import ButtonBase from '@mui/material/ButtonBase';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
+import Box from "@mui/material/Box";
+import MenuItem from "@mui/material/MenuItem";
+import ButtonBase from "@mui/material/ButtonBase";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 // components
-import Iconify from 'src/components/iconify';
-import Chart, { useChart } from 'src/components/chart';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import Chart, { useChart } from "src/components/chart";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 // ----------------------------------------------------------------------
 
@@ -34,12 +34,17 @@ interface Props extends CardProps {
   };
 }
 
-export default function FileDataActivity({ title, subheader, chart, ...other }: Props) {
+export default function FileDataActivity({
+  title,
+  subheader,
+  chart,
+  ...other
+}: Props) {
   const { labels, colors, series, options } = chart;
 
   const popover = usePopover();
 
-  const [seriesData, setSeriesData] = useState('Week');
+  const [seriesData, setSeriesData] = useState("Week");
 
   const chartOptions = useChart({
     chart: {
@@ -51,8 +56,8 @@ export default function FileDataActivity({ title, subheader, chart, ...other }: 
     },
     xaxis: {
       categories:
-        (seriesData === 'Week' && labels.week) ||
-        (seriesData === 'Month' && labels.month) ||
+        (seriesData === "Week" && labels.week) ||
+        (seriesData === "Month" && labels.month) ||
         labels.year,
     },
     tooltip: {
@@ -62,8 +67,9 @@ export default function FileDataActivity({ title, subheader, chart, ...other }: 
     },
     plotOptions: {
       bar: {
-        borderRadius: (seriesData === 'Week' && 8) || (seriesData === 'Month' && 6) || 10,
-        columnWidth: '20%',
+        borderRadius:
+          (seriesData === "Week" && 8) || (seriesData === "Month" && 6) || 10,
+        columnWidth: "20%",
       },
     },
     ...options,
@@ -74,7 +80,7 @@ export default function FileDataActivity({ title, subheader, chart, ...other }: 
       popover.onClose();
       setSeriesData(newValue);
     },
-    [popover]
+    [popover],
   );
 
   return (
@@ -91,15 +97,19 @@ export default function FileDataActivity({ title, subheader, chart, ...other }: 
                 py: 0.5,
                 pr: 0.5,
                 borderRadius: 1,
-                typography: 'subtitle2',
-                bgcolor: 'background.neutral',
+                typography: "subtitle2",
+                bgcolor: "background.neutral",
               }}
             >
               {seriesData}
 
               <Iconify
                 width={16}
-                icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+                icon={
+                  popover.open
+                    ? "eva:arrow-ios-upward-fill"
+                    : "eva:arrow-ios-downward-fill"
+                }
                 sx={{ ml: 0.5 }}
               />
             </ButtonBase>
@@ -109,13 +119,23 @@ export default function FileDataActivity({ title, subheader, chart, ...other }: 
         {series.map((item) => (
           <Box key={item.type} sx={{ mt: 3, mx: 3 }}>
             {item.type === seriesData && (
-              <Chart dir="ltr" type="bar" series={item.data} options={chartOptions} height={364} />
+              <Chart
+                dir="ltr"
+                type="bar"
+                series={item.data}
+                options={chartOptions}
+                height={364}
+              />
             )}
           </Box>
         ))}
       </Card>
 
-      <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 140 }}>
+      <CustomPopover
+        open={popover.open}
+        onClose={popover.onClose}
+        sx={{ width: 140 }}
+      >
         {series.map((option) => (
           <MenuItem
             key={option.type}

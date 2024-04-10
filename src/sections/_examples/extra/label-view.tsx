@@ -1,20 +1,28 @@
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['default', 'primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = [
+  "default",
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
+] as const;
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +32,8 @@ export default function LabelView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -32,10 +41,10 @@ export default function LabelView() {
             heading="Label"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Label' },
+              { name: "Label" },
             ]}
           />
         </Container>
@@ -102,11 +111,17 @@ export default function LabelView() {
               End Icon
             </Label>
 
-            <Label color="primary" startIcon={<Iconify icon="fluent:mail-24-filled" />}>
+            <Label
+              color="primary"
+              startIcon={<Iconify icon="fluent:mail-24-filled" />}
+            >
               Start Icon
             </Label>
 
-            <Label color="primary" endIcon={<Iconify icon="fluent:mail-24-filled" />}>
+            <Label
+              color="primary"
+              endIcon={<Iconify icon="fluent:mail-24-filled" />}
+            >
               End Icon
             </Label>
           </ComponentBlock>

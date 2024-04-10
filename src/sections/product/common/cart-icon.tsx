@@ -1,11 +1,11 @@
 // @mui
-import Box from '@mui/material/Box';
-import Badge from '@mui/material/Badge';
+import Box from "@mui/material/Box";
+import Badge from "@mui/material/Badge";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Iconify from 'src/components/iconify';
-import { RouterLink } from 'src/routes/components';
+import Iconify from "src/components/iconify";
+import { RouterLink } from "src/routes/components";
 
 // ----------------------------------------------------------------------
 
@@ -22,17 +22,17 @@ export default function CartIcon({ totalItems }: Props) {
         right: 0,
         top: 112,
         zIndex: 999,
-        display: 'flex',
-        cursor: 'pointer',
-        position: 'fixed',
-        color: 'text.primary',
+        display: "flex",
+        cursor: "pointer",
+        position: "fixed",
+        color: "text.primary",
         borderTopLeftRadius: 16,
         borderBottomLeftRadius: 16,
-        bgcolor: 'background.paper',
+        bgcolor: "background.paper",
         padding: (theme) => theme.spacing(1, 3, 1, 2),
         boxShadow: (theme) => theme.customShadows.dropdown,
-        transition: (theme) => theme.transitions.create(['opacity']),
-        '&:hover': { opacity: 0.72 },
+        transition: (theme) => theme.transitions.create(["opacity"]),
+        "&:hover": { opacity: 0.72 },
       }}
     >
       <Badge showZero badgeContent={totalItems} color="error" max={99}>

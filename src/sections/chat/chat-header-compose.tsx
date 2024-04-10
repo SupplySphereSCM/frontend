@@ -1,18 +1,18 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Autocomplete from "@mui/material/Autocomplete";
 // types
-import { IChatParticipant } from 'src/types/chat';
+import { IChatParticipant } from "src/types/chat";
 // components
-import Iconify from 'src/components/iconify';
-import SearchNotFound from 'src/components/search-not-found';
+import Iconify from "src/components/iconify";
+import SearchNotFound from "src/components/search-not-found";
 //
 
 // ----------------------------------------------------------------------
@@ -22,20 +22,23 @@ type Props = {
   onAddRecipients: (selected: IChatParticipant[]) => void;
 };
 
-export default function ChatHeaderCompose({ contacts, onAddRecipients }: Props) {
-  const [searchRecipients, setSearchRecipients] = useState('');
+export default function ChatHeaderCompose({
+  contacts,
+  onAddRecipients,
+}: Props) {
+  const [searchRecipients, setSearchRecipients] = useState("");
 
   const handleAddRecipients = useCallback(
     (selected: IChatParticipant[]) => {
-      setSearchRecipients('');
+      setSearchRecipients("");
       onAddRecipients(selected);
     },
-    [onAddRecipients]
+    [onAddRecipients],
   );
 
   return (
     <>
-      <Typography variant="subtitle2" sx={{ color: 'text.primary', mr: 2 }}>
+      <Typography variant="subtitle2" sx={{ color: "text.primary", mr: 2 }}>
         To:
       </Typography>
 
@@ -51,7 +54,9 @@ export default function ChatHeaderCompose({ contacts, onAddRecipients }: Props) 
         options={contacts}
         getOptionLabel={(recipient) => recipient.name}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        renderInput={(params) => <TextField {...params} placeholder="+ Recipients" />}
+        renderInput={(params) => (
+          <TextField {...params} placeholder="+ Recipients" />
+        )}
         renderOption={(props, recipient, { selected }) => (
           <li {...props} key={recipient.id}>
             <Box
@@ -60,12 +65,16 @@ export default function ChatHeaderCompose({ contacts, onAddRecipients }: Props) 
                 mr: 1,
                 width: 32,
                 height: 32,
-                overflow: 'hidden',
-                borderRadius: '50%',
-                position: 'relative',
+                overflow: "hidden",
+                borderRadius: "50%",
+                position: "relative",
               }}
             >
-              <Avatar alt={recipient.name} src={recipient.avatarUrl} sx={{ width: 1, height: 1 }} />
+              <Avatar
+                alt={recipient.name}
+                src={recipient.avatarUrl}
+                sx={{ width: 1, height: 1 }}
+              />
               <Stack
                 alignItems="center"
                 justifyContent="center"
@@ -75,16 +84,16 @@ export default function ChatHeaderCompose({ contacts, onAddRecipients }: Props) 
                   width: 1,
                   height: 1,
                   opacity: 0,
-                  position: 'absolute',
+                  position: "absolute",
                   bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
                   transition: (theme) =>
-                    theme.transitions.create(['opacity'], {
+                    theme.transitions.create(["opacity"], {
                       easing: theme.transitions.easing.easeInOut,
                       duration: theme.transitions.duration.shorter,
                     }),
                   ...(selected && {
                     opacity: 1,
-                    color: 'primary.main',
+                    color: "primary.main",
                   }),
                 }}
               >

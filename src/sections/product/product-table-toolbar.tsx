@@ -1,20 +1,23 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import IconButton from '@mui/material/IconButton';
-import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Stack from "@mui/material/Stack";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 // components
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 // types
-import { IProductTableFilters, IProductTableFilterValue } from 'src/types/product';
+import {
+  IProductTableFilters,
+  IProductTableFilterValue,
+} from "src/types/product";
 
 // ----------------------------------------------------------------------
 
@@ -43,39 +46,43 @@ export default function ProductTableToolbar({
 
   const handleFilterName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onFilters('name', event.target.value);
+      onFilters("name", event.target.value);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterStock = useCallback(
     (event: SelectChangeEvent<string[]>) => {
       onFilters(
-        'stock',
-        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+        "stock",
+        typeof event.target.value === "string"
+          ? event.target.value.split(",")
+          : event.target.value,
       );
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterPublish = useCallback(
     (event: SelectChangeEvent<string[]>) => {
       onFilters(
-        'publish',
-        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
+        "publish",
+        typeof event.target.value === "string"
+          ? event.target.value.split(",")
+          : event.target.value,
       );
     },
-    [onFilters]
+    [onFilters],
   );
 
   return (
     <>
       <Stack
         spacing={2}
-        alignItems={{ xs: 'flex-end', md: 'center' }}
+        alignItems={{ xs: "flex-end", md: "center" }}
         direction={{
-          xs: 'column',
-          md: 'row',
+          xs: "column",
+          md: "row",
         }}
         sx={{
           p: 2.5,
@@ -95,8 +102,10 @@ export default function ProductTableToolbar({
             value={filters.stock}
             onChange={handleFilterStock}
             input={<OutlinedInput label="Stock" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
-            sx={{ textTransform: 'capitalize' }}
+            renderValue={(selected) =>
+              selected.map((value) => value).join(", ")
+            }
+            sx={{ textTransform: "capitalize" }}
           >
             {stockOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -124,8 +133,10 @@ export default function ProductTableToolbar({
             value={filters.publish}
             onChange={handleFilterPublish}
             input={<OutlinedInput label="Publish" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
-            sx={{ textTransform: 'capitalize' }}
+            renderValue={(selected) =>
+              selected.map((value) => value).join(", ")
+            }
+            sx={{ textTransform: "capitalize" }}
           >
             {publishOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -140,7 +151,13 @@ export default function ProductTableToolbar({
           </Select>
         </FormControl>
 
-        <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={2}
+          flexGrow={1}
+          sx={{ width: 1 }}
+        >
           <TextField
             fullWidth
             value={filters.name}
@@ -149,7 +166,10 @@ export default function ProductTableToolbar({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                  <Iconify
+                    icon="eva:search-fill"
+                    sx={{ color: "text.disabled" }}
+                  />
                 </InputAdornment>
               ),
             }}

@@ -1,32 +1,32 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import Stack, { StackProps } from '@mui/material/Stack';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import ListItemText from "@mui/material/ListItemText";
+import Stack, { StackProps } from "@mui/material/Stack";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useResponsive } from 'src/hooks/use-responsive';
-import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useResponsive } from "src/hooks/use-responsive";
+import { useCopyToClipboard } from "src/hooks/use-copy-to-clipboard";
 // utils
-import { fData } from 'src/utils/format-number';
-import { fDateTime } from 'src/utils/format-time';
+import { fData } from "src/utils/format-number";
+import { fDateTime } from "src/utils/format-time";
 // types
-import { IFileManager } from 'src/types/file';
+import { IFileManager } from "src/types/file";
 // components
-import Iconify from 'src/components/iconify';
-import { useSnackbar } from 'src/components/snackbar';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import FileThumbnail from 'src/components/file-thumbnail';
+import Iconify from "src/components/iconify";
+import { useSnackbar } from "src/components/snackbar";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
+import FileThumbnail from "src/components/file-thumbnail";
 //
-import FileManagerShareDialog from './file-manager-share-dialog';
-import FileManagerFileDetails from './file-manager-file-details';
+import FileManagerShareDialog from "./file-manager-share-dialog";
+import FileManagerFileDetails from "./file-manager-file-details";
 
 // ----------------------------------------------------------------------
 
@@ -35,14 +35,19 @@ interface Props extends StackProps {
   onDelete: VoidFunction;
 }
 
-export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) {
+export default function FileRecentItem({
+  file,
+  onDelete,
+  sx,
+  ...other
+}: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const { copy } = useCopyToClipboard();
 
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmail, setInviteEmail] = useState("");
 
   const popover = usePopover();
 
@@ -52,12 +57,15 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
 
   const favorite = useBoolean(file.isFavorited);
 
-  const handleChangeInvite = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setInviteEmail(event.target.value);
-  }, []);
+  const handleChangeInvite = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInviteEmail(event.target.value);
+    },
+    [],
+  );
 
   const handleCopy = useCallback(() => {
-    enqueueSnackbar('Copied!');
+    enqueueSnackbar("Copied!");
     copy(file.url);
   }, [copy, enqueueSnackbar, file.url]);
 
@@ -66,10 +74,10 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
       sx={{
         top: 0,
         right: 8,
-        position: 'absolute',
+        position: "absolute",
         ...(smUp && {
           flexShrink: 0,
-          position: 'unset',
+          position: "unset",
         }),
       }}
     >
@@ -81,7 +89,10 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
         onChange={favorite.onToggle}
       />
 
-      <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+      <IconButton
+        color={popover.open ? "inherit" : "default"}
+        onClick={popover.onOpen}
+      >
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
     </Box>
@@ -99,8 +110,8 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
               mx: 0.75,
               width: 2,
               height: 2,
-              borderRadius: '50%',
-              bgcolor: 'currentColor',
+              borderRadius: "50%",
+              bgcolor: "currentColor",
             }}
           />
           {fDateTime(file.modifiedAt)}
@@ -108,15 +119,15 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
       }
       primaryTypographyProps={{
         noWrap: true,
-        typography: 'subtitle2',
+        typography: "subtitle2",
       }}
       secondaryTypographyProps={{
         mt: 0.5,
-        component: 'span',
-        alignItems: 'center',
-        typography: 'caption',
-        color: 'text.disabled',
-        display: 'inline-flex',
+        component: "span",
+        alignItems: "center",
+        typography: "caption",
+        color: "text.disabled",
+        display: "inline-flex",
       }}
     />
   );
@@ -128,7 +139,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
         [`& .${avatarGroupClasses.avatar}`]: {
           width: 24,
           height: 24,
-          '&:first-of-type': {
+          "&:first-of-type": {
             fontSize: 12,
           },
         },
@@ -146,16 +157,16 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
         component={Paper}
         variant="outlined"
         spacing={1}
-        direction={{ xs: 'column', sm: 'row' }}
-        alignItems={{ xs: 'unset', sm: 'center' }}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "unset", sm: "center" }}
         sx={{
           borderRadius: 2,
-          bgcolor: 'unset',
-          cursor: 'pointer',
-          position: 'relative',
+          bgcolor: "unset",
+          cursor: "pointer",
+          position: "relative",
           p: { xs: 2.5, sm: 2 },
-          '&:hover': {
-            bgcolor: 'background.paper',
+          "&:hover": {
+            bgcolor: "background.paper",
             boxShadow: (theme) => theme.customShadows.z20,
           },
           ...sx,
@@ -197,14 +208,14 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
           Share
         </MenuItem>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem
           onClick={() => {
             popover.onClose();
             onDelete();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
@@ -232,7 +243,7 @@ export default function FileRecentItem({ file, onDelete, sx, ...other }: Props) 
         onCopyLink={handleCopy}
         onClose={() => {
           share.onFalse();
-          setInviteEmail('');
+          setInviteEmail("");
         }}
       />
     </>

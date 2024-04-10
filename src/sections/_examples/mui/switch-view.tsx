@@ -1,23 +1,31 @@
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import Box from '@mui/material/Box';
-import Switch from '@mui/material/Switch';
-import Container from '@mui/material/Container';
-import FormGroup from '@mui/material/FormGroup';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Masonry from "@mui/lab/Masonry";
+import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
+import Container from "@mui/material/Container";
+import FormGroup from "@mui/material/FormGroup";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['default', 'primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = [
+  "default",
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
+] as const;
 
-const PLACEMENTS = ['top', 'start', 'bottom', 'end'] as const;
+const PLACEMENTS = ["top", "start", "bottom", "end"] as const;
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +35,8 @@ export default function SwitchView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -35,12 +44,12 @@ export default function SwitchView() {
             heading="Switch"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Switch' },
+              { name: "Switch" },
             ]}
-            moreLink={['https://mui.com/components/switches']}
+            moreLink={["https://mui.com/components/switches"]}
           />
         </Container>
       </Box>
@@ -57,7 +66,10 @@ export default function SwitchView() {
 
           <ComponentBlock title="Sizes">
             <FormGroup row>
-              <FormControlLabel control={<Switch size="small" />} label="Small" />
+              <FormControlLabel
+                control={<Switch size="small" />}
+                label="Small"
+              />
               <FormControlLabel control={<Switch />} label="Normal" />
             </FormGroup>
           </ComponentBlock>
@@ -71,7 +83,7 @@ export default function SwitchView() {
                   label={placement}
                   labelPlacement={placement}
                   control={<Switch />}
-                  sx={{ textTransform: 'capitalize' }}
+                  sx={{ textTransform: "capitalize" }}
                 />
               ))}
             </FormGroup>
@@ -85,11 +97,15 @@ export default function SwitchView() {
                     key={color}
                     control={<Switch defaultChecked color={color} />}
                     label={color}
-                    sx={{ textTransform: 'capitalize' }}
+                    sx={{ textTransform: "capitalize" }}
                   />
                 ))}
 
-                <FormControlLabel disabled control={<Switch color="error" />} label="Disabled" />
+                <FormControlLabel
+                  disabled
+                  control={<Switch color="error" />}
+                  label="Disabled"
+                />
               </FormGroup>
             </FormControl>
           </ComponentBlock>

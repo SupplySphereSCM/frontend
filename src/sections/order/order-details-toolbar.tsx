@@ -1,17 +1,17 @@
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 // utils
-import { fDateTime } from 'src/utils/format-time';
+import { fDateTime } from "src/utils/format-time";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export default function OrderDetailsToolbar({
     <>
       <Stack
         spacing={3}
-        direction={{ xs: 'column', md: 'row' }}
+        direction={{ xs: "column", md: "row" }}
         sx={{
           mb: { xs: 3, md: 5 },
         }}
@@ -57,17 +57,17 @@ export default function OrderDetailsToolbar({
               <Label
                 variant="soft"
                 color={
-                  (status === 'completed' && 'success') ||
-                  (status === 'pending' && 'warning') ||
-                  (status === 'cancelled' && 'error') ||
-                  'default'
+                  (status === "completed" && "success") ||
+                  (status === "pending" && "warning") ||
+                  (status === "cancelled" && "error") ||
+                  "default"
                 }
               >
                 {status}
               </Label>
             </Stack>
 
-            <Typography variant="body2" sx={{ color: 'text.disabled' }}>
+            <Typography variant="body2" sx={{ color: "text.disabled" }}>
               {fDateTime(createdAt)}
             </Typography>
           </Stack>
@@ -85,7 +85,7 @@ export default function OrderDetailsToolbar({
             variant="outlined"
             endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
             onClick={popover.onOpen}
-            sx={{ textTransform: 'capitalize' }}
+            sx={{ textTransform: "capitalize" }}
           >
             {status}
           </Button>
@@ -98,7 +98,11 @@ export default function OrderDetailsToolbar({
             Print
           </Button>
 
-          <Button color="inherit" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
+          <Button
+            color="inherit"
+            variant="contained"
+            startIcon={<Iconify icon="solar:pen-bold" />}
+          >
             Edit
           </Button>
         </Stack>

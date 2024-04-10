@@ -1,21 +1,25 @@
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
+import { useTheme } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Unstable_Grid2";
 // _mock
-import { _bankingContacts, _bankingCreditCard, _bankingRecentTransitions } from 'src/_mock';
+import {
+  _bankingContacts,
+  _bankingCreditCard,
+  _bankingRecentTransitions,
+} from "src/_mock";
 // components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from "src/components/settings";
 //
-import BankingContacts from '../banking-contacts';
-import BankingQuickTransfer from '../banking-quick-transfer';
-import BankingInviteFriends from '../banking-invite-friends';
-import BankingWidgetSummary from '../banking-widget-summary';
-import BankingCurrentBalance from '../banking-current-balance';
-import BankingBalanceStatistics from '../banking-balance-statistics';
-import BankingRecentTransitions from '../banking-recent-transitions';
-import BankingExpensesCategories from '../banking-expenses-categories';
+import BankingContacts from "../banking-contacts";
+import BankingQuickTransfer from "../banking-quick-transfer";
+import BankingInviteFriends from "../banking-invite-friends";
+import BankingWidgetSummary from "../banking-widget-summary";
+import BankingCurrentBalance from "../banking-current-balance";
+import BankingBalanceStatistics from "../banking-balance-statistics";
+import BankingRecentTransitions from "../banking-recent-transitions";
+import BankingExpensesCategories from "../banking-expenses-categories";
 
 // ----------------------------------------------------------------------
 
@@ -25,10 +29,10 @@ export default function OverviewBankingView() {
   const settings = useSettingsContext();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={settings.themeStretch ? false : "xl"}>
       <Grid container spacing={3}>
         <Grid xs={12} md={7}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={3}>
             <BankingWidgetSummary
               title="Income"
               icon="eva:diagonal-arrow-left-down-fill"
@@ -92,43 +96,53 @@ export default function OverviewBankingView() {
               title="Balance Statistics"
               subheader="(+43% Income | +12% Expense) than last year"
               chart={{
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                categories: [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                ],
                 series: [
                   {
-                    type: 'Week',
+                    type: "Week",
                     data: [
                       {
-                        name: 'Income',
+                        name: "Income",
                         data: [10, 41, 35, 151, 49, 62, 69, 91, 48],
                       },
                       {
-                        name: 'Expenses',
+                        name: "Expenses",
                         data: [10, 34, 13, 56, 77, 88, 99, 77, 45],
                       },
                     ],
                   },
                   {
-                    type: 'Month',
+                    type: "Month",
                     data: [
                       {
-                        name: 'Income',
+                        name: "Income",
                         data: [148, 91, 69, 62, 49, 51, 35, 41, 10],
                       },
                       {
-                        name: 'Expenses',
+                        name: "Expenses",
                         data: [45, 77, 99, 88, 77, 56, 13, 34, 10],
                       },
                     ],
                   },
                   {
-                    type: 'Year',
+                    type: "Year",
                     data: [
                       {
-                        name: 'Income',
+                        name: "Income",
                         data: [76, 42, 29, 41, 27, 138, 117, 86, 63],
                       },
                       {
-                        name: 'Expenses',
+                        name: "Expenses",
                         data: [80, 55, 34, 114, 80, 130, 15, 28, 55],
                       },
                     ],
@@ -141,15 +155,15 @@ export default function OverviewBankingView() {
               title="Expenses Categories"
               chart={{
                 series: [
-                  { label: 'Category 1', value: 14 },
-                  { label: 'Category 2', value: 23 },
-                  { label: 'Category 3', value: 21 },
-                  { label: 'Category 4', value: 17 },
-                  { label: 'Category 5', value: 15 },
-                  { label: 'Category 6', value: 10 },
-                  { label: 'Category 7', value: 12 },
-                  { label: 'Category 8', value: 17 },
-                  { label: 'Category 9', value: 21 },
+                  { label: "Category 1", value: 14 },
+                  { label: "Category 2", value: 23 },
+                  { label: "Category 3", value: 21 },
+                  { label: "Category 4", value: 17 },
+                  { label: "Category 5", value: 15 },
+                  { label: "Category 6", value: 10 },
+                  { label: "Category 7", value: 12 },
+                  { label: "Category 8", value: 17 },
+                  { label: "Category 9", value: 21 },
                 ],
                 colors: [
                   theme.palette.primary.main,
@@ -169,11 +183,11 @@ export default function OverviewBankingView() {
               title="Recent Transitions"
               tableData={_bankingRecentTransitions}
               tableLabels={[
-                { id: 'description', label: 'Description' },
-                { id: 'date', label: 'Date' },
-                { id: 'amount', label: 'Amount' },
-                { id: 'status', label: 'Status' },
-                { id: '' },
+                { id: "description", label: "Description" },
+                { id: "date", label: "Date" },
+                { id: "amount", label: "Amount" },
+                { id: "status", label: "Status" },
+                { id: "" },
               ]}
             />
           </Stack>
@@ -181,7 +195,10 @@ export default function OverviewBankingView() {
 
         <Grid xs={12} md={4}>
           <Stack spacing={3}>
-            <BankingQuickTransfer title="Quick Transfer" list={_bankingContacts} />
+            <BankingQuickTransfer
+              title="Quick Transfer"
+              list={_bankingContacts}
+            />
 
             <BankingContacts
               title="Contacts"

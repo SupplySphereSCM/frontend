@@ -1,12 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Rating from "@mui/material/Rating";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
 import {
   DataGrid,
   GridColDef,
@@ -15,24 +15,24 @@ import {
   getGridNumericOperators,
   GridFilterInputValueProps,
   GridColumnVisibilityModel,
-} from '@mui/x-data-grid';
+} from "@mui/x-data-grid";
 // utils
-import { fPercent } from 'src/utils/format-number';
+import { fPercent } from "src/utils/format-number";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
 const columns: GridColDef[] = [
   {
-    field: 'id',
+    field: "id",
   },
   {
-    field: 'avatar',
-    headerName: 'Avatar',
-    align: 'center',
-    headerAlign: 'center',
+    field: "avatar",
+    headerName: "Avatar",
+    align: "center",
+    headerAlign: "center",
     width: 64,
     sortable: false,
     filterable: false,
@@ -44,34 +44,34 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: 'name',
-    headerName: 'Name',
+    field: "name",
+    headerName: "Name",
     flex: 1,
     editable: true,
   },
   {
-    field: 'email',
-    headerName: 'Email',
+    field: "email",
+    headerName: "Email",
     flex: 1,
     editable: true,
     renderCell: (params) => (
-      <Typography variant="body2" sx={{ textDecoration: 'underline' }} noWrap>
+      <Typography variant="body2" sx={{ textDecoration: "underline" }} noWrap>
         {params.row.email}
       </Typography>
     ),
   },
   {
-    field: 'lastLogin',
-    type: 'dateTime',
-    headerName: 'Last login',
-    align: 'right',
-    headerAlign: 'right',
+    field: "lastLogin",
+    type: "dateTime",
+    headerName: "Last login",
+    align: "right",
+    headerAlign: "right",
     width: 200,
   },
   {
-    field: 'rating',
-    type: 'number',
-    headerName: 'Rating',
+    field: "rating",
+    type: "number",
+    headerName: "Rating",
     width: 160,
     disableColumnMenu: true,
     renderCell: (params) => (
@@ -79,57 +79,67 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: 'status',
-    type: 'singleSelect',
-    headerName: 'Status',
-    valueOptions: ['online', 'alway', 'busy'],
-    align: 'center',
-    headerAlign: 'center',
+    field: "status",
+    type: "singleSelect",
+    headerName: "Status",
+    valueOptions: ["online", "alway", "busy"],
+    align: "center",
+    headerAlign: "center",
     width: 120,
     renderCell: (params) => (
       <Label
         variant="soft"
         color={
-          (params.row.status === 'busy' && 'error') ||
-          (params.row.status === 'alway' && 'warning') ||
-          'success'
+          (params.row.status === "busy" && "error") ||
+          (params.row.status === "alway" && "warning") ||
+          "success"
         }
-        sx={{ mx: 'auto' }}
+        sx={{ mx: "auto" }}
       >
         {params.row.status}
       </Label>
     ),
   },
   {
-    field: 'isAdmin',
-    type: 'boolean',
-    align: 'center',
-    headerAlign: 'center',
+    field: "isAdmin",
+    type: "boolean",
+    align: "center",
+    headerAlign: "center",
     width: 120,
 
     renderCell: (params) =>
       params.row.isAdmin ? (
-        <Iconify icon="eva:checkmark-circle-2-fill" sx={{ color: 'primary.main' }} />
+        <Iconify
+          icon="eva:checkmark-circle-2-fill"
+          sx={{ color: "primary.main" }}
+        />
       ) : (
-        '-'
+        "-"
       ),
   },
   {
-    field: 'performance',
-    type: 'number',
-    headerName: 'Performance',
-    align: 'center',
-    headerAlign: 'center',
+    field: "performance",
+    type: "number",
+    headerName: "Performance",
+    align: "center",
+    headerAlign: "center",
     width: 160,
     renderCell: (params) => (
-      <Stack spacing={1} direction="row" alignItems="center" sx={{ px: 1, width: 1, height: 1 }}>
+      <Stack
+        spacing={1}
+        direction="row"
+        alignItems="center"
+        sx={{ px: 1, width: 1, height: 1 }}
+      >
         <LinearProgress
           value={params.row.performance}
           variant="determinate"
           color={
-            (params.row.performance < 30 && 'error') ||
-            (params.row.performance > 30 && params.row.performance < 70 && 'warning') ||
-            'primary'
+            (params.row.performance < 30 && "error") ||
+            (params.row.performance > 30 &&
+              params.row.performance < 70 &&
+              "warning") ||
+            "primary"
           }
           sx={{ width: 1, height: 6 }}
         />
@@ -140,15 +150,15 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: 'action',
-    headerName: ' ',
-    align: 'right',
+    field: "action",
+    headerName: " ",
+    align: "right",
     width: 80,
     sortable: false,
     filterable: false,
     disableColumnMenu: true,
     renderCell: (params) => (
-      <IconButton onClick={() => console.info('ID', params.row.id)}>
+      <IconButton onClick={() => console.info("ID", params.row.id)}>
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
     ),
@@ -176,14 +186,15 @@ type Props = {
 export default function DataGridCustom({ data }: Props) {
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
 
-  const [columnVisibilityModel, setColumnVisibilityModel] = useState<GridColumnVisibilityModel>({
-    id: false,
-  });
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+    useState<GridColumnVisibilityModel>({
+      id: false,
+    });
 
   if (columns.length) {
-    const ratingColumn = columns.find((column) => column.field === 'rating')!;
+    const ratingColumn = columns.find((column) => column.field === "rating")!;
 
-    const ratingColIndex = columns.findIndex((col) => col.field === 'rating');
+    const ratingColIndex = columns.findIndex((col) => col.field === "rating");
 
     const ratingFilterOperators = getGridNumericOperators().map((operator) => ({
       ...operator,
@@ -195,18 +206,23 @@ export default function DataGridCustom({ data }: Props) {
     };
   }
 
-  const handleChangeColumnVisibilityModel = useCallback((newModel: GridColumnVisibilityModel) => {
-    setColumnVisibilityModel(newModel);
-  }, []);
+  const handleChangeColumnVisibilityModel = useCallback(
+    (newModel: GridColumnVisibilityModel) => {
+      setColumnVisibilityModel(newModel);
+    },
+    [],
+  );
 
-  const hiddenFields = ['id', 'action'];
+  const hiddenFields = ["id", "action"];
 
   const getTogglableColumns = () =>
-    columns.filter((column) => !hiddenFields.includes(column.field)).map((column) => column.field);
+    columns
+      .filter((column) => !hiddenFields.includes(column.field))
+      .map((column) => column.field);
 
   const selected = data.filter((row) => selectedRows.includes(row.id));
 
-  console.info('SELECTED ROWS', selected);
+  console.info("SELECTED ROWS", selected);
 
   return (
     <DataGrid
@@ -235,7 +251,7 @@ export default function DataGridCustom({ data }: Props) {
 
 function RatingInputValue({ item, applyValue }: GridFilterInputValueProps) {
   return (
-    <Box sx={{ p: 1, height: 1, alignItems: 'flex-end', display: 'flex' }}>
+    <Box sx={{ p: 1, height: 1, alignItems: "flex-end", display: "flex" }}>
       <Rating
         size="small"
         precision={0.5}

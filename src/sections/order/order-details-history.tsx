@@ -1,20 +1,20 @@
 // @mui
-import Timeline from '@mui/lab/Timeline';
-import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
+import Timeline from "@mui/lab/Timeline";
+import TimelineDot from "@mui/lab/TimelineDot";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
 // utils
-import { fDateTime } from 'src/utils/format-time';
+import { fDateTime } from "src/utils/format-time";
 // types
-import { IOrderHistory } from 'src/types/order';
+import { IOrderHistory } from "src/types/order";
 
 // ----------------------------------------------------------------------
 
@@ -33,24 +33,24 @@ export default function OrderDetailsHistory({ history }: Props) {
         minWidth: 260,
         flexShrink: 0,
         borderRadius: 2,
-        typography: 'body2',
-        borderStyle: 'dashed',
+        typography: "body2",
+        borderStyle: "dashed",
       }}
     >
       <Stack spacing={0.5}>
-        <Box sx={{ color: 'text.disabled' }}>Order time</Box>
+        <Box sx={{ color: "text.disabled" }}>Order time</Box>
         {fDateTime(history.orderTime)}
       </Stack>
       <Stack spacing={0.5}>
-        <Box sx={{ color: 'text.disabled' }}>Payment time</Box>
+        <Box sx={{ color: "text.disabled" }}>Payment time</Box>
         {fDateTime(history.orderTime)}
       </Stack>
       <Stack spacing={0.5}>
-        <Box sx={{ color: 'text.disabled' }}>Delivery time for the carrier</Box>
+        <Box sx={{ color: "text.disabled" }}>Delivery time for the carrier</Box>
         {fDateTime(history.orderTime)}
       </Stack>
       <Stack spacing={0.5}>
-        <Box sx={{ color: 'text.disabled' }}>Completion time</Box>
+        <Box sx={{ color: "text.disabled" }}>Completion time</Box>
         {fDateTime(history.orderTime)}
       </Stack>
     </Stack>
@@ -75,14 +75,16 @@ export default function OrderDetailsHistory({ history }: Props) {
         return (
           <TimelineItem key={item.title}>
             <TimelineSeparator>
-              <TimelineDot color={(firstTimeline && 'primary') || 'grey'} />
+              <TimelineDot color={(firstTimeline && "primary") || "grey"} />
               {lastTimeline ? null : <TimelineConnector />}
             </TimelineSeparator>
 
             <TimelineContent>
               <Typography variant="subtitle2">{item.title}</Typography>
 
-              <Box sx={{ color: 'text.disabled', typography: 'caption', mt: 0.5 }}>
+              <Box
+                sx={{ color: "text.disabled", typography: "caption", mt: 0.5 }}
+              >
                 {fDateTime(item.time)}
               </Box>
             </TimelineContent>
@@ -97,8 +99,8 @@ export default function OrderDetailsHistory({ history }: Props) {
       <CardHeader title="History" />
       <Stack
         spacing={3}
-        alignItems={{ md: 'flex-start' }}
-        direction={{ xs: 'column-reverse', md: 'row' }}
+        alignItems={{ md: "flex-start" }}
+        direction={{ xs: "column-reverse", md: "row" }}
         sx={{ p: 3 }}
       >
         {renderTimeline}

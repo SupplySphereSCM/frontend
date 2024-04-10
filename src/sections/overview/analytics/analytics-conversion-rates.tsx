@@ -1,12 +1,12 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import Box from '@mui/material/Box';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
+import Box from "@mui/material/Box";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
 // utils
-import { fNumber } from 'src/utils/format-number';
+import { fNumber } from "src/utils/format-number";
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +23,12 @@ interface Props extends CardProps {
   };
 }
 
-export default function AnalyticsConversionRates({ title, subheader, chart, ...other }: Props) {
+export default function AnalyticsConversionRates({
+  title,
+  subheader,
+  chart,
+  ...other
+}: Props) {
   const { colors, series, options } = chart;
 
   const chartSeries = series.map((i) => i.value);
@@ -35,14 +40,14 @@ export default function AnalyticsConversionRates({ title, subheader, chart, ...o
       y: {
         formatter: (value: number) => fNumber(value),
         title: {
-          formatter: () => '',
+          formatter: () => "",
         },
       },
     },
     plotOptions: {
       bar: {
         horizontal: true,
-        barHeight: '28%',
+        barHeight: "28%",
         borderRadius: 2,
       },
     },

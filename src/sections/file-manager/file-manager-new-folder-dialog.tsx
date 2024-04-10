@@ -1,15 +1,15 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
 // components
-import Iconify from 'src/components/iconify';
-import { Upload } from 'src/components/upload';
+import Iconify from "src/components/iconify";
+import { Upload } from "src/components/upload";
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ interface Props extends DialogProps {
 }
 
 export default function FileManagerNewFolderDialog({
-  title = 'Upload Files',
+  title = "Upload Files",
   open,
   onClose,
   //
@@ -51,17 +51,17 @@ export default function FileManagerNewFolderDialog({
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
 
       setFiles([...files, ...newFiles]);
     },
-    [files]
+    [files],
   );
 
   const handleUpload = () => {
     onClose();
-    console.info('ON UPLOAD');
+    console.info("ON UPLOAD");
   };
 
   const handleRemoveFile = (inputFile: File | string) => {
@@ -75,9 +75,12 @@ export default function FileManagerNewFolderDialog({
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} {...other}>
-      <DialogTitle sx={{ p: (theme) => theme.spacing(3, 3, 2, 3) }}> {title} </DialogTitle>
+      <DialogTitle sx={{ p: (theme) => theme.spacing(3, 3, 2, 3) }}>
+        {" "}
+        {title}{" "}
+      </DialogTitle>
 
-      <DialogContent dividers sx={{ pt: 1, pb: 0, border: 'none' }}>
+      <DialogContent dividers sx={{ pt: 1, pb: 0, border: "none" }}>
         {(onCreate || onUpdate) && (
           <TextField
             fullWidth
@@ -88,7 +91,12 @@ export default function FileManagerNewFolderDialog({
           />
         )}
 
-        <Upload multiple files={files} onDrop={handleDrop} onRemove={handleRemoveFile} />
+        <Upload
+          multiple
+          files={files}
+          onDrop={handleDrop}
+          onRemove={handleRemoveFile}
+        />
       </DialogContent>
 
       <DialogActions>
@@ -101,7 +109,11 @@ export default function FileManagerNewFolderDialog({
         </Button>
 
         {!!files.length && (
-          <Button variant="outlined" color="inherit" onClick={handleRemoveAllFiles}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={handleRemoveAllFiles}
+          >
             Remove all
           </Button>
         )}
@@ -109,7 +121,7 @@ export default function FileManagerNewFolderDialog({
         {(onCreate || onUpdate) && (
           <Stack direction="row" justifyContent="flex-end" flexGrow={1}>
             <Button variant="soft" onClick={onCreate || onUpdate}>
-              {onUpdate ? 'Save' : 'Create'}
+              {onUpdate ? "Save" : "Create"}
             </Button>
           </Stack>
         )}

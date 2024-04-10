@@ -1,12 +1,12 @@
 // @mui
-import { alpha } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
-import LinearProgress from '@mui/material/LinearProgress';
+import { alpha } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
+import LinearProgress from "@mui/material/LinearProgress";
 // utils
-import { fShortenNumber } from 'src/utils/format-number';
+import { fShortenNumber } from "src/utils/format-number";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,12 @@ interface Props extends CardProps {
   }[];
 }
 
-export default function BookingBooked({ title, subheader, data, ...other }: Props) {
+export default function BookingBooked({
+  title,
+  subheader,
+  data,
+  ...other
+}: Props) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -34,17 +39,19 @@ export default function BookingBooked({ title, subheader, data, ...other }: Prop
               justifyContent="space-between"
               sx={{ mb: 1 }}
             >
-              <Box sx={{ typography: 'overline' }}>{progress.status}</Box>
-              <Box sx={{ typography: 'subtitle1' }}>{fShortenNumber(progress.quantity)}</Box>
+              <Box sx={{ typography: "overline" }}>{progress.status}</Box>
+              <Box sx={{ typography: "subtitle1" }}>
+                {fShortenNumber(progress.quantity)}
+              </Box>
             </Stack>
 
             <LinearProgress
               variant="determinate"
               value={progress.value}
               color={
-                (progress.status === 'Pending' && 'warning') ||
-                (progress.status === 'Canceled' && 'error') ||
-                'success'
+                (progress.status === "Pending" && "warning") ||
+                (progress.status === "Canceled" && "error") ||
+                "success"
               }
               sx={{
                 height: 8,

@@ -1,16 +1,16 @@
-import orderBy from 'lodash/orderBy';
+import orderBy from "lodash/orderBy";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
 // utils
-import { fShortenNumber } from 'src/utils/format-number';
+import { fShortenNumber } from "src/utils/format-number";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -27,13 +27,18 @@ interface Props extends CardProps {
   list: ItemProps[];
 }
 
-export default function AppTopAuthors({ title, subheader, list, ...other }: Props) {
+export default function AppTopAuthors({
+  title,
+  subheader,
+  list,
+  ...other
+}: Props) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
       <Stack spacing={3} sx={{ p: 3 }}>
-        {orderBy(list, ['totalFavorites'], ['desc']).map((author, index) => (
+        {orderBy(list, ["totalFavorites"], ["desc"]).map((author, index) => (
           <AuthorItem key={author.id} author={author} index={index} />
         ))}
       </Stack>
@@ -60,9 +65,9 @@ function AuthorItem({ author, index }: AuthorItemProps) {
           variant="caption"
           sx={{
             mt: 0.5,
-            display: 'flex',
-            alignItems: 'center',
-            color: 'text.secondary',
+            display: "flex",
+            alignItems: "center",
+            color: "text.secondary",
           }}
         >
           <Iconify icon="solar:heart-bold" width={14} sx={{ mr: 0.5 }} />
@@ -76,15 +81,15 @@ function AuthorItem({ author, index }: AuthorItemProps) {
           p: 1,
           width: 40,
           height: 40,
-          borderRadius: '50%',
-          color: 'primary.main',
+          borderRadius: "50%",
+          color: "primary.main",
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
           ...(index === 1 && {
-            color: 'info.main',
+            color: "info.main",
             bgcolor: (theme) => alpha(theme.palette.info.main, 0.08),
           }),
           ...(index === 2 && {
-            color: 'error.main',
+            color: "error.main",
             bgcolor: (theme) => alpha(theme.palette.error.main, 0.08),
           }),
         }}

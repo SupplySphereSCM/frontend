@@ -1,15 +1,15 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -26,10 +26,15 @@ interface Props extends CardProps {
   };
 }
 
-export default function BankingExpensesCategories({ title, subheader, chart, ...other }: Props) {
+export default function BankingExpensesCategories({
+  title,
+  subheader,
+  chart,
+  ...other
+}: Props) {
   const theme = useTheme();
 
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
   const { colors, series, options } = chart;
 
@@ -45,7 +50,7 @@ export default function BankingExpensesCategories({ title, subheader, chart, ...
       opacity: 0.8,
     },
     legend: {
-      position: 'right',
+      position: "right",
       itemMargin: {
         horizontal: 10,
         vertical: 7,
@@ -59,8 +64,8 @@ export default function BankingExpensesCategories({ title, subheader, chart, ...
         breakpoint: theme.breakpoints.values.sm,
         options: {
           legend: {
-            position: 'bottom',
-            horizontalAlign: 'left',
+            position: "bottom",
+            horizontalAlign: "left",
           },
         },
       },
@@ -75,14 +80,14 @@ export default function BankingExpensesCategories({ title, subheader, chart, ...
       <Box
         sx={{
           my: 5,
-          '& .apexcharts-legend': {
-            m: 'auto',
+          "& .apexcharts-legend": {
+            m: "auto",
             height: { sm: 160 },
-            flexWrap: { sm: 'wrap' },
-            width: { xs: 240, sm: '50%' },
+            flexWrap: { sm: "wrap" },
+            width: { xs: 240, sm: "50%" },
           },
-          '& .apexcharts-datalabels-group': {
-            display: 'none',
+          "& .apexcharts-datalabels-group": {
+            display: "none",
           },
         }}
       >
@@ -95,22 +100,30 @@ export default function BankingExpensesCategories({ title, subheader, chart, ...
         />
       </Box>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: "dashed" }} />
 
       <Box
         display="grid"
         gridTemplateColumns="repeat(2, 1fr)"
-        sx={{ textAlign: 'center', typography: 'h4' }}
+        sx={{ textAlign: "center", typography: "h4" }}
       >
-        <Stack sx={{ py: 2, borderRight: `dashed 1px ${theme.palette.divider}` }}>
-          <Box component="span" sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>
+        <Stack
+          sx={{ py: 2, borderRight: `dashed 1px ${theme.palette.divider}` }}
+        >
+          <Box
+            component="span"
+            sx={{ mb: 1, typography: "body2", color: "text.secondary" }}
+          >
             Categories
           </Box>
           9
         </Stack>
 
         <Stack sx={{ py: 2 }}>
-          <Box component="span" sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>
+          <Box
+            component="span"
+            sx={{ mb: 1, typography: "body2", color: "text.secondary" }}
+          >
             Categories
           </Box>
           $18,765

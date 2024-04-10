@@ -1,35 +1,35 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import { CardProps } from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import { CardProps } from "@mui/material/Card";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useCopyToClipboard } from "src/hooks/use-copy-to-clipboard";
 // utils
-import { fDateTime } from 'src/utils/format-time';
-import { fData } from 'src/utils/format-number';
+import { fDateTime } from "src/utils/format-time";
+import { fData } from "src/utils/format-number";
 // types
-import { IFileManager } from 'src/types/file';
+import { IFileManager } from "src/types/file";
 // components
-import Iconify from 'src/components/iconify';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { useSnackbar } from 'src/components/snackbar';
-import TextMaxLine from 'src/components/text-max-line';
-import FileThumbnail from 'src/components/file-thumbnail';
-import { ConfirmDialog } from 'src/components/custom-dialog';
+import Iconify from "src/components/iconify";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { useSnackbar } from "src/components/snackbar";
+import TextMaxLine from "src/components/text-max-line";
+import FileThumbnail from "src/components/file-thumbnail";
+import { ConfirmDialog } from "src/components/custom-dialog";
 //
-import FileManagerShareDialog from './file-manager-share-dialog';
-import FileManagerFileDetails from './file-manager-file-details';
+import FileManagerShareDialog from "./file-manager-share-dialog";
+import FileManagerFileDetails from "./file-manager-file-details";
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ export default function FileManagerFileItem({
 
   const { copy } = useCopyToClipboard();
 
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmail, setInviteEmail] = useState("");
 
   const checkbox = useBoolean();
 
@@ -66,12 +66,15 @@ export default function FileManagerFileItem({
 
   const popover = usePopover();
 
-  const handleChangeInvite = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setInviteEmail(event.target.value);
-  }, []);
+  const handleChangeInvite = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInviteEmail(event.target.value);
+    },
+    [],
+  );
 
   const handleCopy = useCallback(() => {
-    enqueueSnackbar('Copied!');
+    enqueueSnackbar("Copied!");
     copy(file.url);
   }, [copy, enqueueSnackbar, file.url]);
 
@@ -90,7 +93,11 @@ export default function FileManagerFileItem({
     );
 
   const renderAction = (
-    <Stack direction="row" alignItems="center" sx={{ top: 8, right: 8, position: 'absolute' }}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      sx={{ top: 8, right: 8, position: "absolute" }}
+    >
       <Checkbox
         color="warning"
         icon={<Iconify icon="eva:star-outline" />}
@@ -99,7 +106,10 @@ export default function FileManagerFileItem({
         onChange={favorite.onToggle}
       />
 
-      <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+      <IconButton
+        color={popover.open ? "inherit" : "default"}
+        onClick={popover.onOpen}
+      >
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
     </Stack>
@@ -121,9 +131,9 @@ export default function FileManagerFileItem({
         alignItems="center"
         sx={{
           maxWidth: 0.99,
-          whiteSpace: 'nowrap',
-          typography: 'caption',
-          color: 'text.disabled',
+          whiteSpace: "nowrap",
+          typography: "caption",
+          color: "text.disabled",
         }}
       >
         {fData(file.size)}
@@ -135,8 +145,8 @@ export default function FileManagerFileItem({
             width: 2,
             height: 2,
             flexShrink: 0,
-            borderRadius: '50%',
-            bgcolor: 'currentColor',
+            borderRadius: "50%",
+            bgcolor: "currentColor",
           }}
         />
         <Typography noWrap component="span" variant="caption">
@@ -154,7 +164,7 @@ export default function FileManagerFileItem({
         [`& .${avatarGroupClasses.avatar}`]: {
           width: 24,
           height: 24,
-          '&:first-of-type': {
+          "&:first-of-type": {
             fontSize: 12,
           },
         },
@@ -175,11 +185,11 @@ export default function FileManagerFileItem({
         sx={{
           p: 2.5,
           borderRadius: 2,
-          bgcolor: 'unset',
-          cursor: 'pointer',
-          position: 'relative',
+          bgcolor: "unset",
+          cursor: "pointer",
+          position: "relative",
           ...((checkbox.value || selected) && {
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: (theme) => theme.customShadows.z20,
           }),
           ...sx,
@@ -223,14 +233,14 @@ export default function FileManagerFileItem({
           Share
         </MenuItem>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem
           onClick={() => {
             confirm.onTrue();
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
@@ -258,7 +268,7 @@ export default function FileManagerFileItem({
         onCopyLink={handleCopy}
         onClose={() => {
           share.onFalse();
-          setInviteEmail('');
+          setInviteEmail("");
         }}
       />
 

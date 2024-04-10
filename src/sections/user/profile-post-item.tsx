@@ -1,30 +1,30 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Checkbox from '@mui/material/Checkbox';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Checkbox from "@mui/material/Checkbox";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 // types
-import { IUserProfilePost } from 'src/types/user';
+import { IUserProfilePost } from "src/types/user";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // utils
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { fDate } from "src/utils/format-time";
+import { fShortenNumber } from "src/utils/format-number";
 // components
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
+import Image from "src/components/image";
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -39,11 +39,14 @@ export default function ProfilePostItem({ post }: Props) {
 
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
-  const handleChangeMessage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(event.target.value);
-  }, []);
+  const handleChangeMessage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMessage(event.target.value);
+    },
+    [],
+  );
 
   const handleAttach = useCallback(() => {
     if (fileRef.current) {
@@ -67,7 +70,7 @@ export default function ProfilePostItem({ post }: Props) {
         </Link>
       }
       subheader={
-        <Box sx={{ color: 'text.disabled', typography: 'caption', mt: 0.5 }}>
+        <Box sx={{ color: "text.disabled", typography: "caption", mt: 0.5 }}>
           {fDate(post.createdAt)}
         </Box>
       }
@@ -89,23 +92,25 @@ export default function ProfilePostItem({ post }: Props) {
             sx={{
               p: 1.5,
               flexGrow: 1,
-              bgcolor: 'background.neutral',
+              bgcolor: "background.neutral",
             }}
           >
             <Stack
               sx={{ mb: 0.5 }}
-              alignItems={{ sm: 'center' }}
+              alignItems={{ sm: "center" }}
               justifyContent="space-between"
-              direction={{ xs: 'column', sm: 'row' }}
+              direction={{ xs: "column", sm: "row" }}
             >
-              <Box sx={{ typography: 'subtitle2' }}>{comment.author.name}</Box>
+              <Box sx={{ typography: "subtitle2" }}>{comment.author.name}</Box>
 
-              <Box sx={{ typography: 'caption', color: 'text.disabled' }}>
+              <Box sx={{ typography: "caption", color: "text.disabled" }}>
                 {fDate(comment.createdAt)}
               </Box>
             </Stack>
 
-            <Box sx={{ typography: 'body2', color: 'text.secondary' }}>{comment.message}</Box>
+            <Box sx={{ typography: "body2", color: "text.secondary" }}>
+              {comment.message}
+            </Box>
           </Paper>
         </Stack>
       ))}
@@ -144,11 +149,12 @@ export default function ProfilePostItem({ post }: Props) {
           pl: 1.5,
           height: 40,
           borderRadius: 1,
-          border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.32)}`,
+          border: (theme) =>
+            `solid 1px ${alpha(theme.palette.grey[500], 0.32)}`,
         }}
       />
 
-      <input type="file" ref={fileRef} style={{ display: 'none' }} />
+      <input type="file" ref={fileRef} style={{ display: "none" }} />
     </Stack>
   );
 
@@ -183,7 +189,11 @@ export default function ProfilePostItem({ post }: Props) {
           }}
         >
           {post.personLikes.map((person) => (
-            <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
+            <Avatar
+              key={person.name}
+              alt={person.name}
+              src={person.avatarUrl}
+            />
           ))}
         </AvatarGroup>
       )}
@@ -214,7 +224,12 @@ export default function ProfilePostItem({ post }: Props) {
       </Typography>
 
       <Box sx={{ p: 1 }}>
-        <Image alt={post.media} src={post.media} ratio="16/9" sx={{ borderRadius: 1.5 }} />
+        <Image
+          alt={post.media}
+          src={post.media}
+          ratio="16/9"
+          sx={{ borderRadius: 1.5 }}
+        />
       </Box>
 
       {renderActions}

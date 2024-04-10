@@ -1,18 +1,18 @@
-import { m, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from "framer-motion";
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import Paper, { PaperProps } from '@mui/material/Paper';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import Paper, { PaperProps } from "@mui/material/Paper";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
 // assets
-import { OrderCompleteIllustration } from 'src/assets/illustrations';
+import { OrderCompleteIllustration } from "src/assets/illustrations";
 // components
-import Iconify from 'src/components/iconify';
-import { varFade } from 'src/components/animate';
+import Iconify from "src/components/iconify";
+import { varFade } from "src/components/animate";
 
 // ----------------------------------------------------------------------
 
@@ -21,14 +21,18 @@ interface Props extends DialogProps {
   onDownloadPDF: VoidFunction;
 }
 
-export default function CheckoutOrderComplete({ open, onReset, onDownloadPDF }: Props) {
+export default function CheckoutOrderComplete({
+  open,
+  onReset,
+  onDownloadPDF,
+}: Props) {
   const renderContent = (
     <Stack
       spacing={5}
       sx={{
-        m: 'auto',
+        m: "auto",
         maxWidth: 480,
-        textAlign: 'center',
+        textAlign: "center",
         px: { xs: 2, sm: 0 },
       }}
     >
@@ -44,16 +48,17 @@ export default function CheckoutOrderComplete({ open, onReset, onDownloadPDF }: 
         <br />
         <br />
         We will send you a notification within 5 days when it ships.
-        <br /> If you have any question or queries then fell to get in contact us. <br /> <br />
+        <br /> If you have any question or queries then fell to get in contact
+        us. <br /> <br />
         All the best,
       </Typography>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: "dashed" }} />
 
       <Stack
         spacing={2}
         justifyContent="space-between"
-        direction={{ xs: 'column-reverse', sm: 'row' }}
+        direction={{ xs: "column-reverse", sm: "row" }}
       >
         <Button
           fullWidth
@@ -93,7 +98,7 @@ export default function CheckoutOrderComplete({ open, onReset, onDownloadPDF }: 
                 distance: 120,
                 durationIn: 0.32,
                 durationOut: 0.24,
-                easeIn: 'easeInOut',
+                easeIn: "easeInOut",
               }).inUp}
               sx={{
                 width: 1,

@@ -1,12 +1,19 @@
-import { alpha, Theme } from '@mui/material/styles';
-import { ChipProps, chipClasses } from '@mui/material/Chip';
+import { alpha, Theme } from "@mui/material/styles";
+import { ChipProps, chipClasses } from "@mui/material/Chip";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'] as const;
+const COLORS = [
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
+] as const;
 
 // NEW VARIANT
-declare module '@mui/material/Chip' {
+declare module "@mui/material/Chip" {
   interface ChipPropsVariantOverrides {
     soft: true;
   }
@@ -15,24 +22,24 @@ declare module '@mui/material/Chip' {
 // ----------------------------------------------------------------------
 
 export function chip(theme: Theme) {
-  const lightMode = theme.palette.mode === 'light';
+  const lightMode = theme.palette.mode === "light";
 
   const rootStyles = (ownerState: ChipProps) => {
-    const defaultColor = ownerState.color === 'default';
+    const defaultColor = ownerState.color === "default";
 
-    const filledVariant = ownerState.variant === 'filled';
+    const filledVariant = ownerState.variant === "filled";
 
-    const outlinedVariant = ownerState.variant === 'outlined';
+    const outlinedVariant = ownerState.variant === "outlined";
 
-    const softVariant = ownerState.variant === 'soft';
+    const softVariant = ownerState.variant === "soft";
 
     const defaultStyle = {
       [`& .${chipClasses.deleteIcon}`]: {
         opacity: 0.48,
-        color: 'currentColor',
-        '&:hover': {
+        color: "currentColor",
+        "&:hover": {
           opacity: 1,
-          color: 'currentColor',
+          color: "currentColor",
         },
       },
 
@@ -42,13 +49,19 @@ export function chip(theme: Theme) {
         },
         // FILLED
         ...(filledVariant && {
-          color: lightMode ? theme.palette.common.white : theme.palette.grey[800],
+          color: lightMode
+            ? theme.palette.common.white
+            : theme.palette.grey[800],
           backgroundColor: theme.palette.text.primary,
-          '&:hover': {
-            backgroundColor: lightMode ? theme.palette.grey[700] : theme.palette.grey[100],
+          "&:hover": {
+            backgroundColor: lightMode
+              ? theme.palette.grey[700]
+              : theme.palette.grey[100],
           },
           [`& .${chipClasses.icon}`]: {
-            color: lightMode ? theme.palette.common.white : theme.palette.grey[800],
+            color: lightMode
+              ? theme.palette.common.white
+              : theme.palette.grey[800],
           },
         }),
         // OUTLINED
@@ -59,7 +72,7 @@ export function chip(theme: Theme) {
         ...(softVariant && {
           color: theme.palette.text.primary,
           backgroundColor: alpha(theme.palette.grey[500], 0.16),
-          '&:hover': {
+          "&:hover": {
             backgroundColor: alpha(theme.palette.grey[500], 0.32),
           },
         }),
@@ -74,9 +87,9 @@ export function chip(theme: Theme) {
         },
         // SOFT
         ...(softVariant && {
-          color: theme.palette[color][lightMode ? 'dark' : 'light'],
+          color: theme.palette[color][lightMode ? "dark" : "light"],
           backgroundColor: alpha(theme.palette[color].main, 0.16),
-          '&:hover': {
+          "&:hover": {
             backgroundColor: alpha(theme.palette[color].main, 0.32),
           },
         }),
@@ -123,7 +136,8 @@ export function chip(theme: Theme) {
   return {
     MuiChip: {
       styleOverrides: {
-        root: ({ ownerState }: { ownerState: ChipProps }) => rootStyles(ownerState),
+        root: ({ ownerState }: { ownerState: ChipProps }) =>
+          rootStyles(ownerState),
       },
     },
   };

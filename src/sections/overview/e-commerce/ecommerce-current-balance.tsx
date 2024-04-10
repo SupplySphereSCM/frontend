@@ -1,10 +1,10 @@
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 
 // ----------------------------------------------------------------------
 
@@ -33,21 +33,21 @@ export default function EcommerceCurrentBalance({
         <Typography variant="h3">{fCurrency(totalAmount)}</Typography>
 
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Order Total
           </Typography>
           <Typography variant="body2">{fCurrency(currentBalance)}</Typography>
         </Stack>
 
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Earning
           </Typography>
           <Typography variant="body2">- {fCurrency(sentAmount)}</Typography>
         </Stack>
 
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Refunded
           </Typography>
           <Typography variant="subtitle1">{fCurrency(totalAmount)}</Typography>

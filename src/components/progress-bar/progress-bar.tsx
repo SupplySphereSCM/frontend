@@ -1,9 +1,9 @@
-import NProgress from 'nprogress';
-import { useEffect, useState } from 'react';
+import NProgress from "nprogress";
+import { useEffect, useState } from "react";
 // routes
-import { usePathname } from 'src/routes/hooks';
+import { usePathname } from "src/routes/hooks";
 //
-import StyledProgressBar from './styles';
+import StyledProgressBar from "./styles";
 
 // ----------------------------------------------------------------------
 

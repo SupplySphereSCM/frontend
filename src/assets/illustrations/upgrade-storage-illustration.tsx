@@ -1,9 +1,9 @@
-import { memo } from 'react';
+import { memo } from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Box, { BoxProps } from '@mui/material/Box';
+import { useTheme } from "@mui/material/styles";
+import Box, { BoxProps } from "@mui/material/Box";
 //
-import BackgroundShape from './background-shape';
+import BackgroundShape from "./background-shape";
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,12 @@ function UpgradeStorageIllustration({ ...other }: BoxProps) {
     >
       <BackgroundShape />
 
-      <image href="/assets/illustrations/characters/character_2.png" height="300" x="322" y="30" />
+      <image
+        href="/assets/illustrations/characters/character_2.png"
+        height="300"
+        x="322"
+        y="30"
+      />
 
       <path
         fill={PRIMARY_MAIN}

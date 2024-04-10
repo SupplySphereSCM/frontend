@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 // sections
-import { ProductListView } from 'src/sections/product/view';
+import { ProductListView } from "src/sections/product/view";
 
 // ----------------------------------------------------------------------
 

@@ -1,27 +1,29 @@
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
 // components
-import Iconify from 'src/components/iconify';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import Iconify from "src/components/iconify";
+import FormProvider, { RHFTextField } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
 export default function PostCommentForm() {
   const CommentSchema = Yup.object().shape({
-    comment: Yup.string().required('Comment is required'),
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    comment: Yup.string().required("Comment is required"),
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Email must be a valid email address"),
   });
 
   const defaultValues = {
-    comment: '',
-    name: '',
-    email: '',
+    comment: "",
+    name: "",
+    email: "",
   };
 
   const methods = useForm({
@@ -39,7 +41,7 @@ export default function PostCommentForm() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      console.info('DATA', data);
+      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +72,11 @@ export default function PostCommentForm() {
             </IconButton>
           </Stack>
 
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
             Post comment
           </LoadingButton>
         </Stack>

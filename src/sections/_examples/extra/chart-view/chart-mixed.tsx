@@ -1,5 +1,5 @@
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -17,29 +17,29 @@ export default function ChartMixed({ series }: Props) {
       width: [0, 2, 3],
     },
     plotOptions: {
-      bar: { columnWidth: '20%' },
+      bar: { columnWidth: "20%" },
     },
     fill: {
-      type: ['solid', 'gradient', 'solid'],
+      type: ["solid", "gradient", "solid"],
     },
     labels: [
-      '01/01/2003',
-      '02/01/2003',
-      '03/01/2003',
-      '04/01/2003',
-      '05/01/2003',
-      '06/01/2003',
-      '07/01/2003',
-      '08/01/2003',
-      '09/01/2003',
-      '10/01/2003',
-      '11/01/2003',
+      "01/01/2003",
+      "02/01/2003",
+      "03/01/2003",
+      "04/01/2003",
+      "05/01/2003",
+      "06/01/2003",
+      "07/01/2003",
+      "08/01/2003",
+      "09/01/2003",
+      "10/01/2003",
+      "11/01/2003",
     ],
     xaxis: {
-      type: 'datetime',
+      type: "datetime",
     },
     yaxis: {
-      title: { text: 'Points' },
+      title: { text: "Points" },
       min: 0,
     },
     tooltip: {
@@ -47,7 +47,7 @@ export default function ChartMixed({ series }: Props) {
       intersect: false,
       y: {
         formatter: (value: number) => {
-          if (typeof value !== 'undefined') {
+          if (typeof value !== "undefined") {
             return `${value.toFixed(0)} points`;
           }
           return value;
@@ -56,5 +56,13 @@ export default function ChartMixed({ series }: Props) {
     },
   });
 
-  return <Chart dir="ltr" type="line" series={series} options={chartOptions} height={320} />;
+  return (
+    <Chart
+      dir="ltr"
+      type="line"
+      series={series}
+      options={chartOptions}
+      height={320}
+    />
+  );
 }

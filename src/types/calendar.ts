@@ -12,7 +12,11 @@ export type ICalendarFilters = {
 
 export type ICalendarDate = string | number;
 
-export type ICalendarView = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listWeek';
+export type ICalendarView =
+  | "dayGridMonth"
+  | "timeGridWeek"
+  | "timeGridDay"
+  | "listWeek";
 
 export type ICalendarRange = {
   start: ICalendarDate;

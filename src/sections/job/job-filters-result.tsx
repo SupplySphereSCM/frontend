@@ -1,13 +1,13 @@
 // @mui
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Stack, { StackProps } from '@mui/material/Stack';
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Stack, { StackProps } from "@mui/material/Stack";
 // types
-import { IJobFilters, IJobFilterValue } from 'src/types/job';
+import { IJobFilters, IJobFilterValue } from "src/types/job";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -32,39 +32,47 @@ export default function JobFiltersResult({
   ...other
 }: Props) {
   const handleRemoveEmploymentTypes = (inputValue: string) => {
-    const newValue = filters.employmentTypes.filter((item) => item !== inputValue);
-    onFilters('employmentTypes', newValue);
+    const newValue = filters.employmentTypes.filter(
+      (item) => item !== inputValue,
+    );
+    onFilters("employmentTypes", newValue);
   };
 
   const handleRemoveExperience = () => {
-    onFilters('experience', 'all');
+    onFilters("experience", "all");
   };
 
   const handleRemoveRoles = (inputValue: string) => {
     const newValue = filters.roles.filter((item) => item !== inputValue);
-    onFilters('role', newValue);
+    onFilters("role", newValue);
   };
 
   const handleRemoveLocations = (inputValue: string) => {
     const newValue = filters.locations.filter((item) => item !== inputValue);
-    onFilters('locations', newValue);
+    onFilters("locations", newValue);
   };
 
   const handleRemoveBenefits = (inputValue: string) => {
     const newValue = filters.benefits.filter((item) => item !== inputValue);
-    onFilters('benefits', newValue);
+    onFilters("benefits", newValue);
   };
 
   return (
     <Stack spacing={1.5} {...other}>
-      <Box sx={{ typography: 'body2' }}>
+      <Box sx={{ typography: "body2" }}>
         <strong>{results}</strong>
-        <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
+        <Box component="span" sx={{ color: "text.secondary", ml: 0.25 }}>
           results found
         </Box>
       </Box>
 
-      <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
+      <Stack
+        flexGrow={1}
+        spacing={1}
+        direction="row"
+        flexWrap="wrap"
+        alignItems="center"
+      >
         {!!filters.employmentTypes.length && (
           <Block label="Employment Types:">
             {filters.employmentTypes.map((item) => (
@@ -78,16 +86,25 @@ export default function JobFiltersResult({
           </Block>
         )}
 
-        {filters.experience !== 'all' && (
+        {filters.experience !== "all" && (
           <Block label="Experience:">
-            <Chip size="small" label={filters.experience} onDelete={handleRemoveExperience} />
+            <Chip
+              size="small"
+              label={filters.experience}
+              onDelete={handleRemoveExperience}
+            />
           </Block>
         )}
 
         {!!filters.roles.length && (
           <Block label="Roles:">
             {filters.roles.map((item) => (
-              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveRoles(item)} />
+              <Chip
+                key={item}
+                label={item}
+                size="small"
+                onDelete={() => handleRemoveRoles(item)}
+              />
             ))}
           </Block>
         )}
@@ -148,13 +165,13 @@ function Block({ label, children, sx, ...other }: BlockProps) {
       sx={{
         p: 1,
         borderRadius: 1,
-        overflow: 'hidden',
-        borderStyle: 'dashed',
+        overflow: "hidden",
+        borderStyle: "dashed",
         ...sx,
       }}
       {...other}
     >
-      <Box component="span" sx={{ typography: 'subtitle2' }}>
+      <Box component="span" sx={{ typography: "subtitle2" }}>
         {label}
       </Box>
 

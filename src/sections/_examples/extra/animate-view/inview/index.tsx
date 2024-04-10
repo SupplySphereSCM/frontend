@@ -1,13 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Unstable_Grid2';
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Unstable_Grid2";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 //
-import Toolbar from './toolbar';
-import ControlPanel from '../control-panel';
-import ContainerView from './container';
+import Toolbar from "./toolbar";
+import ControlPanel from "../control-panel";
+import ContainerView from "./container";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ export default function Inview() {
 
   const text = useBoolean();
 
-  const [selectVariant, setSelectVariant] = useState('slideInUp');
+  const [selectVariant, setSelectVariant] = useState("slideInUp");
 
   const handleRefresh = useCallback(() => {
     setCount(count + 1);
@@ -29,7 +29,7 @@ export default function Inview() {
       setCount(count + 1);
       setSelectVariant((event.target as HTMLInputElement).value);
     },
-    [count]
+    [count],
   );
 
   return (
@@ -71,59 +71,83 @@ export default function Inview() {
 
 const variantKey = [
   {
-    type: 'slide in',
-    values: ['slideInUp', 'slideInDown', 'slideInLeft', 'slideInRight'],
+    type: "slide in",
+    values: ["slideInUp", "slideInDown", "slideInLeft", "slideInRight"],
   },
   {
-    type: 'slide out',
-    values: ['slideOutUp', 'slideOutDown', 'slideOutLeft', 'slideOutRight'],
+    type: "slide out",
+    values: ["slideOutUp", "slideOutDown", "slideOutLeft", "slideOutRight"],
   },
   {
-    type: 'fade in',
-    values: ['fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight'],
+    type: "fade in",
+    values: ["fadeIn", "fadeInUp", "fadeInDown", "fadeInLeft", "fadeInRight"],
   },
   {
-    type: 'fade out',
-    values: ['fadeOut', 'fadeOutUp', 'fadeOutDown', 'fadeOutLeft', 'fadeOutRight'],
+    type: "fade out",
+    values: [
+      "fadeOut",
+      "fadeOutUp",
+      "fadeOutDown",
+      "fadeOutLeft",
+      "fadeOutRight",
+    ],
   },
   {
-    type: 'zoom in',
-    values: ['zoomIn', 'zoomInUp', 'zoomInDown', 'zoomInLeft', 'zoomInRight'],
+    type: "zoom in",
+    values: ["zoomIn", "zoomInUp", "zoomInDown", "zoomInLeft", "zoomInRight"],
   },
   {
-    type: 'zoom out',
-    values: ['zoomOut', 'zoomOutUp', 'zoomOutDown', 'zoomOutLeft', 'zoomOutRight'],
+    type: "zoom out",
+    values: [
+      "zoomOut",
+      "zoomOutUp",
+      "zoomOutDown",
+      "zoomOutLeft",
+      "zoomOutRight",
+    ],
   },
   {
-    type: 'bounce in',
-    values: ['bounceIn', 'bounceInUp', 'bounceInDown', 'bounceInLeft', 'bounceInRight'],
+    type: "bounce in",
+    values: [
+      "bounceIn",
+      "bounceInUp",
+      "bounceInDown",
+      "bounceInLeft",
+      "bounceInRight",
+    ],
   },
   {
-    type: 'bounce out',
-    values: ['bounceOut', 'bounceOutUp', 'bounceOutDown', 'bounceOutLeft', 'bounceOutRight'],
+    type: "bounce out",
+    values: [
+      "bounceOut",
+      "bounceOutUp",
+      "bounceOutDown",
+      "bounceOutLeft",
+      "bounceOutRight",
+    ],
   },
   {
-    type: 'flip in',
-    values: ['flipInX', 'flipInY'],
+    type: "flip in",
+    values: ["flipInX", "flipInY"],
   },
   {
-    type: 'flip out',
-    values: ['flipOutX', 'flipOutY'],
+    type: "flip out",
+    values: ["flipOutX", "flipOutY"],
   },
   {
-    type: 'scale in',
-    values: ['scaleInX', 'scaleInY'],
+    type: "scale in",
+    values: ["scaleInX", "scaleInY"],
   },
   {
-    type: 'scale out',
-    values: ['scaleOutX', 'scaleOutY'],
+    type: "scale out",
+    values: ["scaleOutX", "scaleOutY"],
   },
   {
-    type: 'rotate in',
-    values: ['rotateIn'],
+    type: "rotate in",
+    values: ["rotateIn"],
   },
   {
-    type: 'rotate out',
-    values: ['rotateOut'],
+    type: "rotate out",
+    values: ["rotateOut"],
   },
 ];

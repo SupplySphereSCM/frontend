@@ -1,14 +1,14 @@
 // @mui
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -26,8 +26,17 @@ export default function KanbanDetailsCommentInput() {
     >
       <Avatar src={user?.photoURL} alt={user?.displayName} />
 
-      <Paper variant="outlined" sx={{ p: 1, flexGrow: 1, bgcolor: 'transparent' }}>
-        <InputBase fullWidth multiline rows={2} placeholder="Type a message" sx={{ px: 1 }} />
+      <Paper
+        variant="outlined"
+        sx={{ p: 1, flexGrow: 1, bgcolor: "transparent" }}
+      >
+        <InputBase
+          fullWidth
+          multiline
+          rows={2}
+          placeholder="Type a message"
+          sx={{ px: 1 }}
+        />
 
         <Stack direction="row" alignItems="center">
           <Stack direction="row" flexGrow={1}>

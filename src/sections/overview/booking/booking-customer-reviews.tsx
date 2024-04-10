@@ -1,18 +1,18 @@
 // @mui
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
-import ListItemText from '@mui/material/ListItemText';
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
+import ListItemText from "@mui/material/ListItemText";
 // utils
-import { fDateTime } from 'src/utils/format-time';
+import { fDateTime } from "src/utils/format-time";
 // components
-import Carousel, { CarouselArrows, useCarousel } from 'src/components/carousel';
+import Carousel, { CarouselArrows, useCarousel } from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +32,12 @@ interface Props extends CardProps {
   list: ItemProps[];
 }
 
-export default function BookingCustomerReviews({ title, subheader, list, ...other }: Props) {
+export default function BookingCustomerReviews({
+  title,
+  subheader,
+  list,
+  ...other
+}: Props) {
   const carousel = useCarousel({
     adaptiveHeight: true,
   });
@@ -44,7 +49,9 @@ export default function BookingCustomerReviews({ title, subheader, list, ...othe
       <CardHeader
         title={title}
         subheader={subheader}
-        action={<CarouselArrows onNext={carousel.onNext} onPrev={carousel.onPrev} />}
+        action={
+          <CarouselArrows onNext={carousel.onNext} onPrev={carousel.onPrev} />
+        }
       />
 
       <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
@@ -53,14 +60,14 @@ export default function BookingCustomerReviews({ title, subheader, list, ...othe
         ))}
       </Carousel>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: "dashed" }} />
 
       <Stack spacing={2} direction="row" alignItems="center" sx={{ p: 3 }}>
         <Button
           fullWidth
           color="error"
           variant="soft"
-          onClick={() => console.info('ACCEPT', customerInfo?.id)}
+          onClick={() => console.info("ACCEPT", customerInfo?.id)}
         >
           Reject
         </Button>
@@ -69,7 +76,7 @@ export default function BookingCustomerReviews({ title, subheader, list, ...othe
           fullWidth
           color="inherit"
           variant="contained"
-          onClick={() => console.info('REJECT', customerInfo?.id)}
+          onClick={() => console.info("REJECT", customerInfo?.id)}
         >
           Accept
         </Button>
@@ -92,7 +99,7 @@ function ReviewItem({ item }: ReviewItemProps) {
       spacing={2}
       sx={{
         p: 3,
-        position: 'relative',
+        position: "relative",
       }}
     >
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -102,10 +109,10 @@ function ReviewItem({ item }: ReviewItemProps) {
           primary={name}
           secondary={`Posted ${fDateTime(postedAt)}`}
           secondaryTypographyProps={{
-            component: 'span',
-            typography: 'caption',
+            component: "span",
+            typography: "caption",
             mt: 0.5,
-            color: 'text.disabled',
+            color: "text.disabled",
           }}
         />
       </Stack>

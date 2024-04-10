@@ -1,13 +1,13 @@
 // @mui
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 // types
-import { IChatParticipant, IChatMessage } from 'src/types/chat';
+import { IChatParticipant, IChatMessage } from "src/types/chat";
 // components
-import Scrollbar from 'src/components/scrollbar';
-import Lightbox, { useLightBox } from 'src/components/lightbox';
+import Scrollbar from "src/components/scrollbar";
+import Lightbox, { useLightBox } from "src/components/lightbox";
 //
-import { useMessagesScroll } from './hooks';
-import ChatMessageItem from './chat-message-item';
+import { useMessagesScroll } from "./hooks";
+import ChatMessageItem from "./chat-message-item";
 
 // ----------------------------------------------------------------------
 
@@ -16,11 +16,14 @@ type Props = {
   participants: IChatParticipant[];
 };
 
-export default function ChatMessageList({ messages = [], participants }: Props) {
+export default function ChatMessageList({
+  messages = [],
+  participants,
+}: Props) {
   const { messagesEndRef } = useMessagesScroll(messages);
 
   const slides = messages
-    .filter((message) => message.contentType === 'image')
+    .filter((message) => message.contentType === "image")
     .map((message) => ({ src: message.body }));
 
   const lightbox = useLightBox(slides);

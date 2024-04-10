@@ -1,17 +1,17 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useBoolean } from "src/hooks/use-boolean";
+import { useResponsive } from "src/hooks/use-responsive";
 // components
-import Iconify from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import Iconify from "src/components/iconify";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ export default function KanbanDetailsToolbar({
   taskStatus,
   onCloseDetails,
 }: Props) {
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
   const confirm = useBoolean();
 
@@ -45,7 +45,7 @@ export default function KanbanDetailsToolbar({
       popover.onClose();
       setStatus(newValue);
     },
-    [popover]
+    [popover],
   );
 
   return (
@@ -68,7 +68,13 @@ export default function KanbanDetailsToolbar({
         <Button
           size="small"
           variant="soft"
-          endIcon={<Iconify icon="eva:arrow-ios-downward-fill" width={16} sx={{ ml: -0.5 }} />}
+          endIcon={
+            <Iconify
+              icon="eva:arrow-ios-downward-fill"
+              width={16}
+              sx={{ ml: -0.5 }}
+            />
+          }
           onClick={popover.onOpen}
         >
           {status}
@@ -76,7 +82,7 @@ export default function KanbanDetailsToolbar({
 
         <Stack direction="row" justifyContent="flex-end" flexGrow={1}>
           <Tooltip title="Like">
-            <IconButton color={liked ? 'default' : 'primary'} onClick={onLike}>
+            <IconButton color={liked ? "default" : "primary"} onClick={onLike}>
               <Iconify icon="ic:round-thumb-up" />
             </IconButton>
           </Tooltip>
@@ -99,7 +105,7 @@ export default function KanbanDetailsToolbar({
         arrow="top-right"
         sx={{ width: 140 }}
       >
-        {['To Do', 'In Progress', 'Ready To Test', 'Done'].map((option) => (
+        {["To Do", "In Progress", "Ready To Test", "Done"].map((option) => (
           <MenuItem
             key={option}
             selected={status === option}

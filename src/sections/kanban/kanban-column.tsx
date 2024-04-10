@@ -1,12 +1,12 @@
-import { useCallback } from 'react';
-import { Droppable, Draggable } from '@hello-pangea/dnd';
+import { useCallback } from "react";
+import { Droppable, Draggable } from "@hello-pangea/dnd";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import { alpha } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // api
 import {
   updateColumn,
@@ -15,16 +15,16 @@ import {
   createTask,
   updateTask,
   deleteTask,
-} from 'src/api/kanban';
+} from "src/api/kanban";
 // components
-import Iconify from 'src/components/iconify';
-import { useSnackbar } from 'src/components/snackbar';
+import Iconify from "src/components/iconify";
+import { useSnackbar } from "src/components/snackbar";
 // types
-import { IKanbanColumn, IKanbanTask } from 'src/types/kanban';
+import { IKanbanColumn, IKanbanTask } from "src/types/kanban";
 //
-import KanbanTaskAdd from './kanban-task-add';
-import KanbanTaskItem from './kanban-task-item';
-import KanbanColumnToolBar from './kanban-column-tool-bar';
+import KanbanTaskAdd from "./kanban-task-add";
+import KanbanTaskItem from "./kanban-task-item";
+import KanbanColumnToolBar from "./kanban-column-tool-bar";
 
 // ----------------------------------------------------------------------
 
@@ -45,15 +45,15 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
         if (column.name !== columnName) {
           updateColumn(column.id, columnName);
 
-          enqueueSnackbar('Update success!', {
-            anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          enqueueSnackbar("Update success!", {
+            anchorOrigin: { vertical: "top", horizontal: "center" },
           });
         }
       } catch (error) {
         console.error(error);
       }
     },
-    [column.id, column.name, enqueueSnackbar]
+    [column.id, column.name, enqueueSnackbar],
   );
 
   const handleClearColumn = useCallback(async () => {
@@ -68,8 +68,8 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
     try {
       deleteColumn(column.id);
 
-      enqueueSnackbar('Delete success!', {
-        anchorOrigin: { vertical: 'top', horizontal: 'center' },
+      enqueueSnackbar("Delete success!", {
+        anchorOrigin: { vertical: "top", horizontal: "center" },
       });
     } catch (error) {
       console.error(error);
@@ -86,7 +86,7 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
         console.error(error);
       }
     },
-    [column.id, openAddTask]
+    [column.id, openAddTask],
   );
 
   const handleUpdateTask = useCallback(async (taskData: IKanbanTask) => {
@@ -102,14 +102,14 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
       try {
         deleteTask(column.id, taskId);
 
-        enqueueSnackbar('Delete success!', {
-          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+        enqueueSnackbar("Delete success!", {
+          anchorOrigin: { vertical: "top", horizontal: "center" },
         });
       } catch (error) {
         console.error(error);
       }
     },
-    [column.id, enqueueSnackbar]
+    [column.id, enqueueSnackbar],
   );
 
   const renderAddTask = (
@@ -133,7 +133,11 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
         color="inherit"
         startIcon={
           <Iconify
-            icon={openAddTask.value ? 'solar:close-circle-broken' : 'mingcute:add-line'}
+            icon={
+              openAddTask.value
+                ? "solar:close-circle-broken"
+                : "mingcute:add-line"
+            }
             width={18}
             sx={{ mr: -0.5 }}
           />
@@ -141,7 +145,7 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
         onClick={openAddTask.onToggle}
         sx={{ fontSize: 14 }}
       >
-        {openAddTask.value ? 'Close' : 'Add Task'}
+        {openAddTask.value ? "Close" : "Add Task"}
       </Button>
     </Stack>
   );
@@ -155,7 +159,7 @@ export default function KanbanColumn({ column, tasks, index }: Props) {
           sx={{
             px: 2,
             borderRadius: 2,
-            bgcolor: 'background.neutral',
+            bgcolor: "background.neutral",
             ...(snapshot.isDragging && {
               bgcolor: (theme) => alpha(theme.palette.grey[500], 0.24),
             }),

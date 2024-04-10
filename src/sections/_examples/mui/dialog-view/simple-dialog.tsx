@@ -1,21 +1,21 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import List from '@mui/material/List';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
-import DialogTitle from '@mui/material/DialogTitle';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
+import List from "@mui/material/List";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Dialog from "@mui/material/Dialog";
+import Typography from "@mui/material/Typography";
+import DialogTitle from "@mui/material/DialogTitle";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 
 // ----------------------------------------------------------------------
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export default function SimpleDialog() {
   const dialog = useBoolean();
@@ -27,7 +27,7 @@ export default function SimpleDialog() {
       dialog.onFalse();
       setSelectedValue(value);
     },
-    [dialog]
+    [dialog],
   );
 
   return (
@@ -46,8 +46,8 @@ export default function SimpleDialog() {
               <Avatar
                 sx={{
                   mr: 2,
-                  color: 'info.lighter',
-                  bgcolor: 'info.darker',
+                  color: "info.lighter",
+                  bgcolor: "info.darker",
                 }}
               >
                 <Iconify icon="solar:user-rounded-bold" />
@@ -56,7 +56,7 @@ export default function SimpleDialog() {
             </ListItemButton>
           ))}
 
-          <ListItemButton autoFocus onClick={() => handleClose('addAccount')}>
+          <ListItemButton autoFocus onClick={() => handleClose("addAccount")}>
             <Avatar sx={{ mr: 2 }}>
               <Iconify icon="mingcute:add-line" />
             </Avatar>

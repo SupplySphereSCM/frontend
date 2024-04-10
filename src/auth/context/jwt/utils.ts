@@ -1,19 +1,19 @@
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // utils
-import axios from 'src/utils/axios';
+import axios from "src/utils/axios";
 
 // ----------------------------------------------------------------------
 
 function jwtDecode(token: string) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   const jsonPayload = decodeURIComponent(
     window
       .atob(base64)
-      .split('')
+      .split("")
       .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
-      .join('')
+      .join(""),
   );
 
   return JSON.parse(jsonPayload);
@@ -48,9 +48,9 @@ export const tokenExpired = (exp: number) => {
   clearTimeout(expiredTimer);
 
   expiredTimer = setTimeout(() => {
-    alert('Token expired');
+    alert("Token expired");
 
-    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem("accessToken");
 
     window.location.href = paths.auth.jwt.login;
   }, timeLeft);
@@ -60,7 +60,7 @@ export const tokenExpired = (exp: number) => {
 
 export const setSession = (accessToken: string | null) => {
   if (accessToken) {
-    sessionStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem("accessToken", accessToken);
 
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
@@ -68,7 +68,7 @@ export const setSession = (accessToken: string | null) => {
     const { exp } = jwtDecode(accessToken); // ~3 days by minimals server
     tokenExpired(exp);
   } else {
-    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem("accessToken");
 
     delete axios.defaults.headers.common.Authorization;
   }

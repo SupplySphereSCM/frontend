@@ -1,15 +1,15 @@
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../../component-block';
-import SimpleTransferList from './simple-transfer-list';
-import EnhancedTransferList from './enhanced-transfer-list';
+import ComponentBlock from "../../component-block";
+import SimpleTransferList from "./simple-transfer-list";
+import EnhancedTransferList from "./enhanced-transfer-list";
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,8 @@ export default function TransferListView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -27,12 +28,12 @@ export default function TransferListView() {
             heading="Transfer List"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Transfer List' },
+              { name: "Transfer List" },
             ]}
-            moreLink={['https://mui.com/components/transfer-list']}
+            moreLink={["https://mui.com/components/transfer-list"]}
           />
         </Container>
       </Box>

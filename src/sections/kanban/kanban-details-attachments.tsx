@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 // components
-import { MultiFilePreview, UploadBox } from 'src/components/upload';
+import { MultiFilePreview, UploadBox } from "src/components/upload";
 
 // ----------------------------------------------------------------------
 
@@ -18,12 +18,12 @@ export default function KanbanDetailsAttachments({ attachments }: Props) {
       const newFiles = acceptedFiles.map((file: File) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
 
       setFiles([...files, ...newFiles]);
     },
-    [files]
+    [files],
   );
 
   const handleRemoveFile = useCallback(
@@ -31,7 +31,7 @@ export default function KanbanDetailsAttachments({ attachments }: Props) {
       const filtered = files.filter((file) => file !== inputFile);
       setFiles(filtered);
     },
-    [files]
+    [files],
   );
 
   return (

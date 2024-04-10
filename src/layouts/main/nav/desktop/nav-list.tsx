@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 // @mui
-import Fade from '@mui/material/Fade';
-import Stack from '@mui/material/Stack';
-import Portal from '@mui/material/Portal';
+import Fade from "@mui/material/Fade";
+import Stack from "@mui/material/Stack";
+import Portal from "@mui/material/Portal";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // routes
-import { usePathname } from 'src/routes/hooks';
-import { useActiveLink } from 'src/routes/hooks/use-active-link';
+import { usePathname } from "src/routes/hooks";
+import { useActiveLink } from "src/routes/hooks/use-active-link";
 //
-import { NavItemProps } from '../types';
-import { NavItem, NavItemDashboard } from './nav-item';
-import { StyledSubheader, StyledMenu } from './styles';
+import { NavItemProps } from "../types";
+import { NavItem, NavItemDashboard } from "./nav-item";
+import { StyledSubheader, StyledMenu } from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ export default function NavList({ item, offsetTop }: NavListProps) {
 
   const active = useActiveLink(path, false);
 
-  const externalLink = path.includes('http');
+  const externalLink = path.includes("http");
 
   useEffect(() => {
     if (nav.value) {
@@ -62,14 +62,14 @@ export default function NavList({ item, offsetTop }: NavListProps) {
             <StyledMenu
               onMouseEnter={handleOpenMenu}
               onMouseLeave={nav.onFalse}
-              sx={{ display: 'flex' }}
+              sx={{ display: "flex" }}
             >
               {children.map((list) => (
                 <NavSubList
                   key={list.subheader}
                   subheader={list.subheader}
                   items={list.items}
-                  isDashboard={list.subheader === 'Dashboard'}
+                  isDashboard={list.subheader === "Dashboard"}
                   onClose={nav.onFalse}
                 />
               ))}
@@ -90,7 +90,12 @@ type NavSubListProps = {
   onClose: VoidFunction;
 };
 
-function NavSubList({ items, isDashboard, subheader, onClose }: NavSubListProps) {
+function NavSubList({
+  items,
+  isDashboard,
+  subheader,
+  onClose,
+}: NavSubListProps) {
   const pathname = usePathname();
 
   return (
@@ -119,7 +124,7 @@ function NavSubList({ items, isDashboard, subheader, onClose }: NavSubListProps)
             active={pathname === item.path}
             onClick={onClose}
           />
-        )
+        ),
       )}
     </Stack>
   );

@@ -1,23 +1,23 @@
-import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import { RouterLink } from 'src/routes/components';
-import FormProvider, { RHFTextField, RHFCode } from 'src/components/hook-form';
+import Iconify from "src/components/iconify";
+import { RouterLink } from "src/routes/components";
+import FormProvider, { RHFTextField, RHFCode } from "src/components/hook-form";
 // assets
-import { SentIcon } from 'src/assets/icons';
+import { SentIcon } from "src/assets/icons";
 
 // ----------------------------------------------------------------------
 
@@ -25,25 +25,29 @@ export default function ClassicNewPasswordView() {
   const password = useBoolean();
 
   const NewPasswordSchema = Yup.object().shape({
-    code: Yup.string().min(6, 'Code must be at least 6 characters').required('Code is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    code: Yup.string()
+      .min(6, "Code must be at least 6 characters")
+      .required("Code is required"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Email must be a valid email address"),
     password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
     confirmPassword: Yup.string()
-      .required('Confirm password is required')
-      .oneOf([Yup.ref('password')], 'Passwords must match'),
+      .required("Confirm password is required")
+      .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
   const defaultValues = {
-    code: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    code: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const methods = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: yupResolver(NewPasswordSchema),
     defaultValues,
   });
@@ -56,7 +60,7 @@ export default function ClassicNewPasswordView() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      console.info('DATA', data);
+      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -76,12 +80,16 @@ export default function ClassicNewPasswordView() {
       <RHFTextField
         name="password"
         label="Password"
-        type={password.value ? 'text' : 'password'}
+        type={password.value ? "text" : "password"}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
               <IconButton onClick={password.onToggle} edge="end">
-                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                <Iconify
+                  icon={
+                    password.value ? "solar:eye-bold" : "solar:eye-closed-bold"
+                  }
+                />
               </IconButton>
             </InputAdornment>
           ),
@@ -91,12 +99,16 @@ export default function ClassicNewPasswordView() {
       <RHFTextField
         name="confirmPassword"
         label="Confirm New Password"
-        type={password.value ? 'text' : 'password'}
+        type={password.value ? "text" : "password"}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
               <IconButton onClick={password.onToggle} edge="end">
-                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                <Iconify
+                  icon={
+                    password.value ? "solar:eye-bold" : "solar:eye-closed-bold"
+                  }
+                />
               </IconButton>
             </InputAdornment>
           ),
@@ -118,7 +130,7 @@ export default function ClassicNewPasswordView() {
         <Link
           variant="subtitle2"
           sx={{
-            cursor: 'pointer',
+            cursor: "pointer",
           }}
         >
           Resend code
@@ -131,8 +143,8 @@ export default function ClassicNewPasswordView() {
         color="inherit"
         variant="subtitle2"
         sx={{
-          alignItems: 'center',
-          display: 'inline-flex',
+          alignItems: "center",
+          display: "inline-flex",
         }}
       >
         <Iconify icon="eva:arrow-ios-back-fill" width={16} />
@@ -148,7 +160,7 @@ export default function ClassicNewPasswordView() {
       <Stack spacing={1} sx={{ my: 5 }}>
         <Typography variant="h3">Request sent successfully!</Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           We&apos;ve sent a 6-digit confirmation email to your email.
           <br />
           Please enter the code in below box to verify your email.

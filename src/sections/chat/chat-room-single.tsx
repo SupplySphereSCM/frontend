@@ -1,16 +1,16 @@
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Collapse from '@mui/material/Collapse';
-import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Collapse from "@mui/material/Collapse";
+import Typography from "@mui/material/Typography";
+import ListItemButton from "@mui/material/ListItemButton";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // types
-import { IChatParticipant } from 'src/types/chat';
+import { IChatParticipant } from "src/types/chat";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -25,9 +25,13 @@ export default function ChatRoomSingle({ participant }: Props) {
 
   const renderInfo = (
     <Stack alignItems="center" sx={{ py: 5 }}>
-      <Avatar alt={name} src={avatarUrl} sx={{ width: 96, height: 96, mb: 2 }} />
+      <Avatar
+        alt={name}
+        src={avatarUrl}
+        sx={{ width: 96, height: 96, mb: 2 }}
+      />
       <Typography variant="subtitle1">{name}</Typography>
-      <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+      <Typography variant="body2" sx={{ color: "text.secondary", mt: 0.5 }}>
         {role}
       </Typography>
     </Stack>
@@ -41,10 +45,10 @@ export default function ChatRoomSingle({ participant }: Props) {
         pr: 1.5,
         height: 40,
         flexShrink: 0,
-        flexGrow: 'unset',
-        typography: 'overline',
-        color: 'text.secondary',
-        bgcolor: 'background.neutral',
+        flexGrow: "unset",
+        typography: "overline",
+        color: "text.secondary",
+        bgcolor: "background.neutral",
       }}
     >
       <Box component="span" sx={{ flexGrow: 1 }}>
@@ -52,7 +56,11 @@ export default function ChatRoomSingle({ participant }: Props) {
       </Box>
       <Iconify
         width={16}
-        icon={collapse.value ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
+        icon={
+          collapse.value
+            ? "eva:arrow-ios-downward-fill"
+            : "eva:arrow-ios-forward-fill"
+        }
       />
     </ListItemButton>
   );
@@ -63,10 +71,10 @@ export default function ChatRoomSingle({ participant }: Props) {
       sx={{
         px: 2,
         py: 2.5,
-        '& svg': {
+        "& svg": {
           mr: 1,
           flexShrink: 0,
-          color: 'text.disabled',
+          color: "text.disabled",
         },
       }}
     >

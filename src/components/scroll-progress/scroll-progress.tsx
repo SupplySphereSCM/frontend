@@ -1,17 +1,24 @@
-import { m, useSpring, MotionValue } from 'framer-motion';
+import { m, useSpring, MotionValue } from "framer-motion";
 // @mui
-import Box, { BoxProps } from '@mui/material/Box';
+import Box, { BoxProps } from "@mui/material/Box";
 
 // ----------------------------------------------------------------------
 
 export interface ScrollProgressProps extends BoxProps {
-  color?: 'inherit' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  color?:
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "info"
+    | "success"
+    | "warning"
+    | "error";
   size?: number;
   scrollYProgress: MotionValue<number>;
 }
 
 export default function ScrollProgress({
-  color = 'primary',
+  color = "primary",
   size = 3,
   scrollYProgress,
   sx,
@@ -32,10 +39,10 @@ export default function ScrollProgress({
         right: 0,
         height: size,
         zIndex: 1999,
-        position: 'fixed',
-        transformOrigin: '0%',
-        bgcolor: 'text.primary',
-        ...(color !== 'inherit' && {
+        position: "fixed",
+        transformOrigin: "0%",
+        bgcolor: "text.primary",
+        ...(color !== "inherit" && {
           background: (theme) =>
             `linear-gradient(135deg, ${theme.palette[color].light} 0%, ${theme.palette[color].main} 100%)`,
         }),

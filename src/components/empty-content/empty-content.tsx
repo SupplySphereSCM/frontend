@@ -1,8 +1,8 @@
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Stack, { StackProps } from '@mui/material/Stack';
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Stack, { StackProps } from "@mui/material/Stack";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,8 @@ export default function EmptyContent({
         ...(filled && {
           borderRadius: 2,
           bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-          border: (theme) => `dashed 1px ${alpha(theme.palette.grey[500], 0.08)}`,
+          border: (theme) =>
+            `dashed 1px ${alpha(theme.palette.grey[500], 0.08)}`,
         }),
         ...sx,
       }}
@@ -43,7 +44,7 @@ export default function EmptyContent({
       <Box
         component="img"
         alt="empty content"
-        src={imgUrl || '/assets/icons/empty/ic_content.svg'}
+        src={imgUrl || "/assets/icons/empty/ic_content.svg"}
         sx={{ width: 1, maxWidth: 160 }}
       />
 
@@ -51,14 +52,17 @@ export default function EmptyContent({
         <Typography
           variant="h6"
           component="span"
-          sx={{ mt: 1, color: 'text.disabled', textAlign: 'center' }}
+          sx={{ mt: 1, color: "text.disabled", textAlign: "center" }}
         >
           {title}
         </Typography>
       )}
 
       {description && (
-        <Typography variant="caption" sx={{ mt: 1, color: 'text.disabled', textAlign: 'center' }}>
+        <Typography
+          variant="caption"
+          sx={{ mt: 1, color: "text.disabled", textAlign: "center" }}
+        >
           {description}
         </Typography>
       )}

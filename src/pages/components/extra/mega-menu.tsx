@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 // sections
-import MegaMenuView from 'src/sections/_examples/extra/mega-menu-view';
+import MegaMenuView from "src/sections/_examples/extra/mega-menu-view";
 
 // ----------------------------------------------------------------------
 

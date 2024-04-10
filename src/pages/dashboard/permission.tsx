@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 // sections
-import PermissionDeniedView from 'src/sections/permission/view';
+import PermissionDeniedView from "src/sections/permission/view";
 
 // ----------------------------------------------------------------------
 

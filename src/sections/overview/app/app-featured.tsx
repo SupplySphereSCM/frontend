@@ -1,14 +1,18 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Card, { CardProps } from '@mui/material/Card';
+import { alpha, useTheme } from "@mui/material/styles";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import Card, { CardProps } from "@mui/material/Card";
 // components
-import Image from 'src/components/image';
-import { MotionContainer, varFade } from 'src/components/animate';
-import Carousel, { CarouselDots, CarouselArrows, useCarousel } from 'src/components/carousel';
+import Image from "src/components/image";
+import { MotionContainer, varFade } from "src/components/animate";
+import Carousel, {
+  CarouselDots,
+  CarouselArrows,
+  useCarousel,
+} from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
@@ -31,8 +35,8 @@ export default function AppFeatured({ list, ...other }: Props) {
       sx: {
         top: 16,
         left: 16,
-        position: 'absolute',
-        color: 'primary.light',
+        position: "absolute",
+        color: "primary.light",
       },
     }),
   });
@@ -41,14 +45,18 @@ export default function AppFeatured({ list, ...other }: Props) {
     <Card {...other}>
       <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
         {list.map((app, index) => (
-          <CarouselItem key={app.id} item={app} active={index === carousel.currentIndex} />
+          <CarouselItem
+            key={app.id}
+            item={app}
+            active={index === carousel.currentIndex}
+          />
         ))}
       </Carousel>
 
       <CarouselArrows
         onNext={carousel.onNext}
         onPrev={carousel.onPrev}
-        sx={{ top: 8, right: 8, position: 'absolute', color: 'common.white' }}
+        sx={{ top: 8, right: 8, position: "absolute", color: "common.white" }}
       />
     </Card>
   );
@@ -70,9 +78,10 @@ function CarouselItem({ item, active }: CarouselItemProps) {
     <Image
       alt={title}
       src={coverUrl}
-      overlay={`linear-gradient(to bottom, ${alpha(theme.palette.grey[900], 0)} 0%, ${
-        theme.palette.grey[900]
-      } 75%)`}
+      overlay={`linear-gradient(to bottom, ${alpha(
+        theme.palette.grey[900],
+        0,
+      )} 0%, ${theme.palette.grey[900]} 75%)`}
       sx={{
         width: 1,
         height: {
@@ -84,7 +93,7 @@ function CarouselItem({ item, active }: CarouselItemProps) {
   );
 
   return (
-    <MotionContainer action animate={active} sx={{ position: 'relative' }}>
+    <MotionContainer action animate={active} sx={{ position: "relative" }}>
       <Stack
         spacing={1}
         sx={{
@@ -92,13 +101,13 @@ function CarouselItem({ item, active }: CarouselItemProps) {
           width: 1,
           bottom: 0,
           zIndex: 9,
-          textAlign: 'left',
-          position: 'absolute',
-          color: 'common.white',
+          textAlign: "left",
+          position: "absolute",
+          color: "common.white",
         }}
       >
         <m.div variants={varFade().inRight}>
-          <Typography variant="overline" sx={{ color: 'primary.light' }}>
+          <Typography variant="overline" sx={{ color: "primary.light" }}>
             Featured App
           </Typography>
         </m.div>

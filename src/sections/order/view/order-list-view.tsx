@@ -1,32 +1,32 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
+import { alpha } from "@mui/material/styles";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Card from "@mui/material/Card";
+import Table from "@mui/material/Table";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import TableBody from "@mui/material/TableBody";
+import IconButton from "@mui/material/IconButton";
+import TableContainer from "@mui/material/TableContainer";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // _mock
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
+import { _orders, ORDER_STATUS_OPTIONS } from "src/_mock";
 // utils
-import { fTimestamp } from 'src/utils/format-time';
+import { fTimestamp } from "src/utils/format-time";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import { useSettingsContext } from "src/components/settings";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 import {
   useTable,
   getComparator,
@@ -36,31 +36,38 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
-} from 'src/components/table';
+} from "src/components/table";
 // types
-import { IOrderItem, IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import {
+  IOrderItem,
+  IOrderTableFilters,
+  IOrderTableFilterValue,
+} from "src/types/order";
 //
-import OrderTableRow from '../order-table-row';
-import OrderTableToolbar from '../order-table-toolbar';
-import OrderTableFiltersResult from '../order-table-filters-result';
+import OrderTableRow from "../order-table-row";
+import OrderTableToolbar from "../order-table-toolbar";
+import OrderTableFiltersResult from "../order-table-filters-result";
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [
+  { value: "all", label: "All" },
+  ...ORDER_STATUS_OPTIONS,
+];
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Order', width: 116 },
-  { id: 'name', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
-  { id: 'totalAmount', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 88 },
+  { id: "orderNumber", label: "Order", width: 116 },
+  { id: "name", label: "Customer" },
+  { id: "createdAt", label: "Date", width: 140 },
+  { id: "totalQuantity", label: "Items", width: 120, align: "center" },
+  { id: "totalAmount", label: "Price", width: 140 },
+  { id: "status", label: "Status", width: 110 },
+  { id: "", width: 88 },
 ];
 
 const defaultFilters: IOrderTableFilters = {
-  name: '',
-  status: 'all',
+  name: "",
+  status: "all",
   startDate: null,
   endDate: null,
 };
@@ -68,7 +75,7 @@ const defaultFilters: IOrderTableFilters = {
 // ----------------------------------------------------------------------
 
 export default function OrderListView() {
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+  const table = useTable({ defaultOrderBy: "orderNumber" });
 
   const settings = useSettingsContext();
 
@@ -94,13 +101,15 @@ export default function OrderListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 52 : 72;
 
   const canReset =
-    !!filters.name || filters.status !== 'all' || (!!filters.startDate && !!filters.endDate);
+    !!filters.name ||
+    filters.status !== "all" ||
+    (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -112,7 +121,7 @@ export default function OrderListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -122,11 +131,13 @@ export default function OrderListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+    const deleteRows = tableData.filter(
+      (row) => !table.selected.includes(row.id),
+    );
     setTableData(deleteRows);
 
     table.onUpdatePageDeleteRows({
@@ -144,31 +155,31 @@ export default function OrderListView() {
     (id: string) => {
       router.push(paths.dashboard.order.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
-      handleFilters('status', newValue);
+      handleFilters("status", newValue);
     },
-    [handleFilters]
+    [handleFilters],
   );
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+      <Container maxWidth={settings.themeStretch ? false : "lg"}>
         <CustomBreadcrumbs
           heading="List"
           links={[
             {
-              name: 'Dashboard',
+              name: "Dashboard",
               href: paths.dashboard.root,
             },
             {
-              name: 'Order',
+              name: "Order",
               href: paths.dashboard.order.root,
             },
-            { name: 'List' },
+            { name: "List" },
           ]}
           sx={{
             mb: { xs: 3, md: 5 },
@@ -181,7 +192,8 @@ export default function OrderListView() {
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
-              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+              boxShadow: (theme) =>
+                `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
             }}
           >
             {STATUS_OPTIONS.map((tab) => (
@@ -193,25 +205,31 @@ export default function OrderListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === "all" || tab.value === filters.status) &&
+                        "filled") ||
+                      "soft"
                     }
                     color={
-                      (tab.value === 'completed' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'cancelled' && 'error') ||
-                      'default'
+                      (tab.value === "completed" && "success") ||
+                      (tab.value === "pending" && "warning") ||
+                      (tab.value === "cancelled" && "error") ||
+                      "default"
                     }
                   >
-                    {tab.value === 'all' && _orders.length}
-                    {tab.value === 'completed' &&
-                      _orders.filter((order) => order.status === 'completed').length}
+                    {tab.value === "all" && _orders.length}
+                    {tab.value === "completed" &&
+                      _orders.filter((order) => order.status === "completed")
+                        .length}
 
-                    {tab.value === 'pending' &&
-                      _orders.filter((order) => order.status === 'pending').length}
-                    {tab.value === 'cancelled' &&
-                      _orders.filter((order) => order.status === 'cancelled').length}
-                    {tab.value === 'refunded' &&
-                      _orders.filter((order) => order.status === 'refunded').length}
+                    {tab.value === "pending" &&
+                      _orders.filter((order) => order.status === "pending")
+                        .length}
+                    {tab.value === "cancelled" &&
+                      _orders.filter((order) => order.status === "cancelled")
+                        .length}
+                    {tab.value === "refunded" &&
+                      _orders.filter((order) => order.status === "refunded")
+                        .length}
                   </Label>
                 }
               />
@@ -238,7 +256,7 @@ export default function OrderListView() {
             />
           )}
 
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <TableContainer sx={{ position: "relative", overflow: "unset" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -246,7 +264,7 @@ export default function OrderListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -259,7 +277,10 @@ export default function OrderListView() {
             />
 
             <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <Table
+                size={table.dense ? "small" : "medium"}
+                sx={{ minWidth: 960 }}
+              >
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -270,7 +291,7 @@ export default function OrderListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -279,7 +300,7 @@ export default function OrderListView() {
                   {dataFiltered
                     .slice(
                       table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
+                      table.page * table.rowsPerPage + table.rowsPerPage,
                     )
                     .map((row) => (
                       <OrderTableRow
@@ -294,7 +315,11 @@ export default function OrderListView() {
 
                   <TableEmptyRows
                     height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
+                    emptyRows={emptyRows(
+                      table.page,
+                      table.rowsPerPage,
+                      tableData.length,
+                    )}
                   />
 
                   <TableNoData notFound={notFound} />
@@ -322,7 +347,8 @@ export default function OrderListView() {
         title="Delete"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Are you sure want to delete{" "}
+            <strong> {table.selected.length} </strong> items?
           </>
         }
         action={
@@ -372,11 +398,11 @@ function applyFilter({
       (order) =>
         order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
         order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
-  if (status !== 'all') {
+  if (status !== "all") {
     inputData = inputData.filter((order) => order.status === status);
   }
 
@@ -385,7 +411,7 @@ function applyFilter({
       inputData = inputData.filter(
         (order) =>
           fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
+          fTimestamp(order.createdAt) <= fTimestamp(endDate),
       );
     }
   }

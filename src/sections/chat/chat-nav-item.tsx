@@ -1,26 +1,26 @@
-import { useCallback } from 'react';
-import { formatDistanceToNowStrict } from 'date-fns';
+import { useCallback } from "react";
+import { formatDistanceToNowStrict } from "date-fns";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import AvatarGroup from "@mui/material/AvatarGroup";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useMockedUser } from "src/hooks/use-mocked-user";
+import { useResponsive } from "src/hooks/use-responsive";
 // api
-import { clickConversation } from 'src/api/chat';
+import { clickConversation } from "src/api/chat";
 // types
-import { IChatConversation } from 'src/types/chat';
+import { IChatConversation } from "src/types/chat";
 //
-import { useGetNavItem } from './hooks';
+import { useGetNavItem } from "./hooks";
 
 // ----------------------------------------------------------------------
 
@@ -31,18 +31,29 @@ type Props = {
   conversation: IChatConversation;
 };
 
-export default function ChatNavItem({ selected, collapse, conversation, onCloseMobile }: Props) {
+export default function ChatNavItem({
+  selected,
+  collapse,
+  conversation,
+  onCloseMobile,
+}: Props) {
   const { user } = useMockedUser();
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
   const router = useRouter();
 
-  const { group, displayName, displayText, participants, lastActivity, hasOnlineInGroup } =
-    useGetNavItem({
-      conversation,
-      currentUserId: `${user?.id}`,
-    });
+  const {
+    group,
+    displayName,
+    displayText,
+    participants,
+    lastActivity,
+    hasOnlineInGroup,
+  } = useGetNavItem({
+    conversation,
+    currentUserId: `${user?.id}`,
+  });
 
   const singleParticipant = participants[0];
 
@@ -64,19 +75,27 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
 
   const renderGroup = (
     <Badge
-      variant={hasOnlineInGroup ? 'online' : 'invisible'}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      variant={hasOnlineInGroup ? "online" : "invisible"}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     >
       <AvatarGroup variant="compact" sx={{ width: 48, height: 48 }}>
         {participants.slice(0, 2).map((participant) => (
-          <Avatar key={participant.id} alt={participant.name} src={participant.avatarUrl} />
+          <Avatar
+            key={participant.id}
+            alt={participant.name}
+            src={participant.avatarUrl}
+          />
         ))}
       </AvatarGroup>
     </Badge>
   );
 
   const renderSingle = (
-    <Badge key={status} variant={status} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+    <Badge
+      key={status}
+      variant={status}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+    >
       <Avatar alt={name} src={avatarUrl} sx={{ width: 48, height: 48 }} />
     </Badge>
   );
@@ -89,7 +108,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
         py: 1.5,
         px: 2.5,
         ...(selected && {
-          bgcolor: 'action.selected',
+          bgcolor: "action.selected",
         }),
       }}
     >
@@ -108,14 +127,16 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
             primary={displayName}
             primaryTypographyProps={{
               noWrap: true,
-              variant: 'subtitle2',
+              variant: "subtitle2",
             }}
             secondary={displayText}
             secondaryTypographyProps={{
               noWrap: true,
-              component: 'span',
-              variant: conversation.unreadCount ? 'subtitle2' : 'body2',
-              color: conversation.unreadCount ? 'text.primary' : 'text.secondary',
+              component: "span",
+              variant: conversation.unreadCount ? "subtitle2" : "body2",
+              color: conversation.unreadCount
+                ? "text.primary"
+                : "text.secondary",
             }}
           />
 
@@ -127,7 +148,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
               sx={{
                 mb: 1.5,
                 fontSize: 12,
-                color: 'text.disabled',
+                color: "text.disabled",
               }}
             >
               {formatDistanceToNowStrict(new Date(lastActivity), {
@@ -140,8 +161,8 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
                 sx={{
                   width: 8,
                   height: 8,
-                  bgcolor: 'info.main',
-                  borderRadius: '50%',
+                  bgcolor: "info.main",
+                  borderRadius: "50%",
                 }}
               />
             )}

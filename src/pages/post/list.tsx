@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 // sections
-import { PostListHomeView } from 'src/sections/blog/view';
+import { PostListHomeView } from "src/sections/blog/view";
 
 // ----------------------------------------------------------------------
 

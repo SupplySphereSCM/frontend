@@ -1,17 +1,17 @@
 // @mui
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
 // types
-import { IMailLabel } from 'src/types/mail';
+import { IMailLabel } from "src/types/mail";
 //
-import MailNavItem from './mail-nav-item';
-import { MailNavItemSkeleton } from './mail-skeleton';
+import MailNavItem from "./mail-nav-item";
+import { MailNavItemSkeleton } from "./mail-skeleton";
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ export default function MailNav({
   //
   onToggleCompose,
 }: Props) {
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
   const renderSkeleton = (
     <>

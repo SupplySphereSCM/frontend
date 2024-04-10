@@ -1,16 +1,16 @@
 // @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import CardContent from '@mui/material/CardContent';
+import { alpha, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import CardContent from "@mui/material/CardContent";
 // theme
-import { bgGradient } from 'src/theme/css';
+import { bgGradient } from "src/theme/css";
 // components
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
-import TextMaxLine from 'src/components/text-max-line';
-import Carousel, { CarouselArrows, useCarousel } from 'src/components/carousel';
+import Image from "src/components/image";
+import Iconify from "src/components/iconify";
+import TextMaxLine from "src/components/text-max-line";
+import Carousel, { CarouselArrows, useCarousel } from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ export default function CarouselCenterMode({ data }: Props) {
   const carousel = useCarousel({
     slidesToShow: 3,
     centerMode: true,
-    centerPadding: '60px',
+    centerPadding: "60px",
     responsive: [
       {
         breakpoint: 1024,
@@ -39,7 +39,7 @@ export default function CarouselCenterMode({ data }: Props) {
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1, centerPadding: '0' },
+        settings: { slidesToShow: 1, centerPadding: "0" },
       },
     ],
   });
@@ -47,8 +47,8 @@ export default function CarouselCenterMode({ data }: Props) {
   return (
     <Box
       sx={{
-        overflow: 'hidden',
-        position: 'relative',
+        overflow: "hidden",
+        position: "relative",
       }}
     >
       <CarouselArrows
@@ -88,8 +88,8 @@ function CarouselItem({ item }: CarouselItemProps) {
     <Paper
       sx={{
         borderRadius: 2,
-        overflow: 'hidden',
-        position: 'relative',
+        overflow: "hidden",
+        position: "relative",
       }}
     >
       <Image alt={title} src={coverUrl} ratio="3/4" />
@@ -98,12 +98,12 @@ function CarouselItem({ item }: CarouselItemProps) {
         sx={{
           bottom: 0,
           zIndex: 9,
-          width: '100%',
-          textAlign: 'left',
-          position: 'absolute',
-          color: 'common.white',
+          width: "100%",
+          textAlign: "left",
+          position: "absolute",
+          color: "common.white",
           ...bgGradient({
-            direction: 'to top',
+            direction: "to top",
             startColor: `${theme.palette.grey[900]} 25%`,
             endColor: `${alpha(theme.palette.grey[900], 0)} 100%`,
           }),
@@ -118,10 +118,10 @@ function CarouselItem({ item }: CarouselItemProps) {
           variant="overline"
           sx={{
             opacity: 0.72,
-            alignItems: 'center',
-            display: 'inline-flex',
-            transition: theme.transitions.create(['opacity']),
-            '&:hover': { opacity: 1 },
+            alignItems: "center",
+            display: "inline-flex",
+            transition: theme.transitions.create(["opacity"]),
+            "&:hover": { opacity: 1 },
           }}
         >
           learn More

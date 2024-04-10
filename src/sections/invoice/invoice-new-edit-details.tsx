@@ -1,24 +1,24 @@
-import sum from 'lodash/sum';
-import { useCallback, useEffect } from 'react';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+import sum from "lodash/sum";
+import { useCallback, useEffect } from "react";
+import { useFormContext, useFieldArray } from "react-hook-form";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import InputAdornment from '@mui/material/InputAdornment';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
+import { inputBaseClasses } from "@mui/material/InputBase";
+import InputAdornment from "@mui/material/InputAdornment";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 // _mock
-import { INVOICE_SERVICE_OPTIONS } from 'src/_mock';
+import { INVOICE_SERVICE_OPTIONS } from "src/_mock";
 // types
-import { IInvoiceItem } from 'src/types/invoice';
+import { IInvoiceItem } from "src/types/invoice";
 // components
-import Iconify from 'src/components/iconify';
-import { RHFSelect, RHFTextField } from 'src/components/hook-form';
+import Iconify from "src/components/iconify";
+import { RHFSelect, RHFTextField } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
@@ -27,26 +27,29 @@ export default function InvoiceNewEditDetails() {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'items',
+    name: "items",
   });
 
   const values = watch();
 
-  const totalOnRow = values.items.map((item: IInvoiceItem) => item.quantity * item.price);
+  const totalOnRow = values.items.map(
+    (item: IInvoiceItem) => item.quantity * item.price,
+  );
 
   const subTotal = sum(totalOnRow);
 
-  const totalAmount = subTotal - values.discount - values.shipping + values.taxes;
+  const totalAmount =
+    subTotal - values.discount - values.shipping + values.taxes;
 
   useEffect(() => {
-    setValue('totalAmount', totalAmount);
+    setValue("totalAmount", totalAmount);
   }, [setValue, totalAmount]);
 
   const handleAdd = () => {
     append({
-      title: '',
-      description: '',
-      service: '',
+      title: "",
+      description: "",
+      service: "",
       quantity: 1,
       price: 0,
       total: 0,
@@ -63,102 +66,126 @@ export default function InvoiceNewEditDetails() {
       resetField(`items[${index}].price`);
       resetField(`items[${index}].total`);
     },
-    [resetField]
+    [resetField],
   );
 
   const handleSelectService = useCallback(
     (index: number, option: string) => {
       setValue(
         `items[${index}].price`,
-        INVOICE_SERVICE_OPTIONS.find((service) => service.name === option)?.price
+        INVOICE_SERVICE_OPTIONS.find((service) => service.name === option)
+          ?.price,
       );
       setValue(
         `items[${index}].total`,
-        values.items.map((item: IInvoiceItem) => item.quantity * item.price)[index]
+        values.items.map((item: IInvoiceItem) => item.quantity * item.price)[
+          index
+        ],
       );
     },
-    [setValue, values.items]
+    [setValue, values.items],
   );
 
   const handleChangeQuantity = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      index: number,
+    ) => {
       setValue(`items[${index}].quantity`, Number(event.target.value));
       setValue(
         `items[${index}].total`,
-        values.items.map((item: IInvoiceItem) => item.quantity * item.price)[index]
+        values.items.map((item: IInvoiceItem) => item.quantity * item.price)[
+          index
+        ],
       );
     },
-    [setValue, values.items]
+    [setValue, values.items],
   );
 
   const handleChangePrice = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      index: number,
+    ) => {
       setValue(`items[${index}].price`, Number(event.target.value));
       setValue(
         `items[${index}].total`,
-        values.items.map((item: IInvoiceItem) => item.quantity * item.price)[index]
+        values.items.map((item: IInvoiceItem) => item.quantity * item.price)[
+          index
+        ],
       );
     },
-    [setValue, values.items]
+    [setValue, values.items],
   );
 
   const renderTotal = (
     <Stack
       spacing={2}
       alignItems="flex-end"
-      sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}
+      sx={{ mt: 3, textAlign: "right", typography: "body2" }}
     >
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Subtotal</Box>
-        <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(subTotal) || '-'}</Box>
-      </Stack>
-
-      <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Shipping</Box>
-        <Box
-          sx={{
-            width: 160,
-            ...(values.shipping && { color: 'error.main' }),
-          }}
-        >
-          {values.shipping ? `- ${fCurrency(values.shipping)}` : '-'}
+        <Box sx={{ color: "text.secondary" }}>Subtotal</Box>
+        <Box sx={{ width: 160, typography: "subtitle2" }}>
+          {fCurrency(subTotal) || "-"}
         </Box>
       </Stack>
 
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Discount</Box>
+        <Box sx={{ color: "text.secondary" }}>Shipping</Box>
         <Box
           sx={{
             width: 160,
-            ...(values.discount && { color: 'error.main' }),
+            ...(values.shipping && { color: "error.main" }),
           }}
         >
-          {values.discount ? `- ${fCurrency(values.discount)}` : '-'}
+          {values.shipping ? `- ${fCurrency(values.shipping)}` : "-"}
         </Box>
       </Stack>
 
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Taxes</Box>
-        <Box sx={{ width: 160 }}>{values.taxes ? fCurrency(values.taxes) : '-'}</Box>
+        <Box sx={{ color: "text.secondary" }}>Discount</Box>
+        <Box
+          sx={{
+            width: 160,
+            ...(values.discount && { color: "error.main" }),
+          }}
+        >
+          {values.discount ? `- ${fCurrency(values.discount)}` : "-"}
+        </Box>
       </Stack>
 
-      <Stack direction="row" sx={{ typography: 'subtitle1' }}>
+      <Stack direction="row">
+        <Box sx={{ color: "text.secondary" }}>Taxes</Box>
+        <Box sx={{ width: 160 }}>
+          {values.taxes ? fCurrency(values.taxes) : "-"}
+        </Box>
+      </Stack>
+
+      <Stack direction="row" sx={{ typography: "subtitle1" }}>
         <Box>Total</Box>
-        <Box sx={{ width: 160 }}>{fCurrency(totalAmount) || '-'}</Box>
+        <Box sx={{ width: 160 }}>{fCurrency(totalAmount) || "-"}</Box>
       </Stack>
     </Stack>
   );
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
+      <Typography variant="h6" sx={{ color: "text.disabled", mb: 3 }}>
         Details:
       </Typography>
 
-      <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
+      <Stack
+        divider={<Divider flexItem sx={{ borderStyle: "dashed" }} />}
+        spacing={3}
+      >
         {fields.map((item, index) => (
           <Stack key={item.id} alignItems="flex-end" spacing={1.5}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ width: 1 }}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              sx={{ width: 1 }}
+            >
               <RHFTextField
                 size="small"
                 name={`items[${index}].title`}
@@ -185,12 +212,12 @@ export default function InvoiceNewEditDetails() {
                 <MenuItem
                   value=""
                   onClick={() => handleClearService(index)}
-                  sx={{ fontStyle: 'italic', color: 'text.secondary' }}
+                  sx={{ fontStyle: "italic", color: "text.secondary" }}
                 >
                   None
                 </MenuItem>
 
-                <Divider sx={{ borderStyle: 'dashed' }} />
+                <Divider sx={{ borderStyle: "dashed" }} />
 
                 {INVOICE_SERVICE_OPTIONS.map((service) => (
                   <MenuItem
@@ -224,7 +251,11 @@ export default function InvoiceNewEditDetails() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Box sx={{ typography: 'subtitle2', color: 'text.disabled' }}>$</Box>
+                      <Box
+                        sx={{ typography: "subtitle2", color: "text.disabled" }}
+                      >
+                        $
+                      </Box>
                     </InputAdornment>
                   ),
                 }}
@@ -238,19 +269,27 @@ export default function InvoiceNewEditDetails() {
                 name={`items[${index}].total`}
                 label="Total"
                 placeholder="0.00"
-                value={values.items[index].total === 0 ? '' : values.items[index].total.toFixed(2)}
+                value={
+                  values.items[index].total === 0
+                    ? ""
+                    : values.items[index].total.toFixed(2)
+                }
                 onChange={(event) => handleChangePrice(event, index)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Box sx={{ typography: 'subtitle2', color: 'text.disabled' }}>$</Box>
+                      <Box
+                        sx={{ typography: "subtitle2", color: "text.disabled" }}
+                      >
+                        $
+                      </Box>
                     </InputAdornment>
                   ),
                 }}
                 sx={{
                   maxWidth: { md: 104 },
                   [`& .${inputBaseClasses.input}`]: {
-                    textAlign: { md: 'right' },
+                    textAlign: { md: "right" },
                   },
                 }}
               />
@@ -268,12 +307,12 @@ export default function InvoiceNewEditDetails() {
         ))}
       </Stack>
 
-      <Divider sx={{ my: 3, borderStyle: 'dashed' }} />
+      <Divider sx={{ my: 3, borderStyle: "dashed" }} />
 
       <Stack
         spacing={3}
-        direction={{ xs: 'column', md: 'row' }}
-        alignItems={{ xs: 'flex-end', md: 'center' }}
+        direction={{ xs: "column", md: "row" }}
+        alignItems={{ xs: "flex-end", md: "center" }}
       >
         <Button
           size="small"
@@ -288,7 +327,7 @@ export default function InvoiceNewEditDetails() {
         <Stack
           spacing={2}
           justifyContent="flex-end"
-          direction={{ xs: 'column', md: 'row' }}
+          direction={{ xs: "column", md: "row" }}
           sx={{ width: 1 }}
         >
           <RHFTextField

@@ -1,14 +1,14 @@
 // @mui
-import Container from '@mui/material/Container';
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // _mock
-import { _invoices } from 'src/_mock';
+import { _invoices } from "src/_mock";
 // components
-import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import { useSettingsContext } from "src/components/settings";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import InvoiceDetails from '../invoice-details';
+import InvoiceDetails from "../invoice-details";
 
 // ----------------------------------------------------------------------
 
@@ -22,16 +22,16 @@ export default function InvoiceDetailsView({ id }: Props) {
   const currentInvoice = _invoices.filter((invoice) => invoice.id === id)[0];
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <CustomBreadcrumbs
         heading={currentInvoice?.invoiceNumber}
         links={[
           {
-            name: 'Dashboard',
+            name: "Dashboard",
             href: paths.dashboard.root,
           },
           {
-            name: 'Invoice',
+            name: "Invoice",
             href: paths.dashboard.invoice.root,
           },
           { name: currentInvoice?.invoiceNumber },

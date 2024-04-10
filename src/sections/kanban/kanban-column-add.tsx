@@ -1,29 +1,32 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { inputBaseClasses } from "@mui/material/InputBase";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // utils
-import uuidv4 from 'src/utils/uuidv4';
+import uuidv4 from "src/utils/uuidv4";
 // api
-import { createColumn } from 'src/api/kanban';
+import { createColumn } from "src/api/kanban";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
 export default function KanbanColumnAdd() {
-  const [columnName, setColumnName] = useState('');
+  const [columnName, setColumnName] = useState("");
 
   const openAddColumn = useBoolean();
 
-  const handleChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setColumnName(event.target.value);
-  }, []);
+  const handleChangeName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setColumnName(event.target.value);
+    },
+    [],
+  );
 
   const handleCreateColumn = useCallback(async () => {
     try {
@@ -33,7 +36,7 @@ export default function KanbanColumnAdd() {
           name: columnName,
           taskIds: [],
         });
-        setColumnName('');
+        setColumnName("");
       }
       openAddColumn.onFalse();
     } catch (error) {
@@ -43,11 +46,11 @@ export default function KanbanColumnAdd() {
 
   const handleKeyUpCreateColumn = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         handleCreateColumn();
       }
     },
-    [handleCreateColumn]
+    [handleCreateColumn],
   );
 
   return (
@@ -63,7 +66,7 @@ export default function KanbanColumnAdd() {
             onKeyUp={handleKeyUpCreateColumn}
             sx={{
               [`& .${inputBaseClasses.input}`]: {
-                typography: 'h6',
+                typography: "h6",
               },
             }}
           />

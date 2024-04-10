@@ -1,11 +1,11 @@
 // @mui
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import ListItemButton from "@mui/material/ListItemButton";
 // types
-import { IChatParticipant } from 'src/types/chat';
+import { IChatParticipant } from "src/types/chat";
 //
-import SearchNotFound from 'src/components/search-not-found';
+import SearchNotFound from "src/components/search-not-found";
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,11 @@ type Props = {
   onClickResult: (contact: IChatParticipant) => void;
 };
 
-export default function ChatNavSearchResults({ query, results, onClickResult }: Props) {
+export default function ChatNavSearchResults({
+  query,
+  results,
+  onClickResult,
+}: Props) {
   const totalResults = results.length;
 
   const notFound = !totalResults && !!query;
@@ -37,9 +41,9 @@ export default function ChatNavSearchResults({ query, results, onClickResult }: 
           query={query}
           sx={{
             p: 3,
-            mx: 'auto',
+            mx: "auto",
             width: `calc(100% - 40px)`,
-            bgcolor: 'background.neutral',
+            bgcolor: "background.neutral",
           }}
         />
       ) : (
@@ -51,7 +55,7 @@ export default function ChatNavSearchResults({ query, results, onClickResult }: 
               sx={{
                 px: 2.5,
                 py: 1.5,
-                typography: 'subtitle2',
+                typography: "subtitle2",
               }}
             >
               <Avatar alt={result.name} src={result.avatarUrl} sx={{ mr: 2 }} />

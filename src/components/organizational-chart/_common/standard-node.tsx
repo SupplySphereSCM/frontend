@@ -1,15 +1,15 @@
 // @mui
-import { Theme, SxProps } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import { Theme, SxProps } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import Avatar from "@mui/material/Avatar";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 //
-import Iconify from '../../iconify';
-import CustomPopover, { usePopover } from '../../custom-popover';
+import Iconify from "../../iconify";
+import CustomPopover, { usePopover } from "../../custom-popover";
 //
-import { ItemProps } from '../types';
+import { ItemProps } from "../types";
 
 // ----------------------------------------------------------------------
 
@@ -30,25 +30,25 @@ export default function StandardNode({ node, onEdit, onDelete, sx }: Props) {
           p: 2,
           minWidth: 200,
           borderRadius: 1.5,
-          textAlign: 'left',
-          position: 'relative',
-          display: 'inline-flex',
-          flexDirection: 'column',
-          textTransform: 'capitalize',
+          textAlign: "left",
+          position: "relative",
+          display: "inline-flex",
+          flexDirection: "column",
+          textTransform: "capitalize",
           ...sx,
         }}
       >
         <IconButton
-          color={popover.open ? 'inherit' : 'default'}
+          color={popover.open ? "inherit" : "default"}
           onClick={popover.onOpen}
-          sx={{ position: 'absolute', top: 8, right: 8 }}
+          sx={{ position: "absolute", top: 8, right: 8 }}
         >
           <Iconify icon="eva:more-horizontal-fill" />
         </IconButton>
 
         <Avatar
           alt={node.name}
-          src={node.avatarUrl || ''}
+          src={node.avatarUrl || ""}
           sx={{ mr: 2, mb: 1, width: 48, height: 48 }}
         />
 
@@ -56,7 +56,12 @@ export default function StandardNode({ node, onEdit, onDelete, sx }: Props) {
           {node.name}
         </Typography>
 
-        <Typography variant="caption" component="div" noWrap sx={{ color: 'text.secondary' }}>
+        <Typography
+          variant="caption"
+          component="div"
+          noWrap
+          sx={{ color: "text.secondary" }}
+        >
           {node.role}
         </Typography>
       </Card>
@@ -73,7 +78,7 @@ export default function StandardNode({ node, onEdit, onDelete, sx }: Props) {
               popover.onClose();
               onDelete();
             }}
-            sx={{ color: 'error.main' }}
+            sx={{ color: "error.main" }}
           >
             <Iconify icon="solar:trash-bin-trash-bold" />
             Delete

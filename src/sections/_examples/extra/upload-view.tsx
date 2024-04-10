@@ -1,24 +1,24 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
-import Container from '@mui/material/Container';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import CardContent from '@mui/material/CardContent';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Switch from "@mui/material/Switch";
+import Container from "@mui/material/Container";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+import FormControlLabel from "@mui/material/FormControlLabel";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import { UploadAvatar, Upload, UploadBox } from 'src/components/upload';
+import Iconify from "src/components/iconify";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
+import { UploadAvatar, Upload, UploadBox } from "src/components/upload";
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export default function UploadView() {
       setFile(
         Object.assign(newFile, {
           preview: URL.createObjectURL(newFile),
-        })
+        }),
       );
     }
   }, []);
@@ -48,7 +48,7 @@ export default function UploadView() {
       setAvatarUrl(
         Object.assign(newFile, {
           preview: URL.createObjectURL(newFile),
-        })
+        }),
       );
     }
   }, []);
@@ -60,15 +60,17 @@ export default function UploadView() {
         ...acceptedFiles.map((newFile) =>
           Object.assign(newFile, {
             preview: URL.createObjectURL(newFile),
-          })
+          }),
         ),
       ]);
     },
-    [files]
+    [files],
   );
 
   const handleRemoveFile = (inputFile: File | string) => {
-    const filesFiltered = files.filter((fileFiltered) => fileFiltered !== inputFile);
+    const filesFiltered = files.filter(
+      (fileFiltered) => fileFiltered !== inputFile,
+    );
     setFiles(filesFiltered);
   };
 
@@ -81,7 +83,8 @@ export default function UploadView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -89,12 +92,12 @@ export default function UploadView() {
             heading="Upload"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Upload' },
+              { name: "Upload" },
             ]}
-            moreLink={['https://react-dropzone.js.org/#section-basic-example']}
+            moreLink={["https://react-dropzone.js.org/#section-basic-example"]}
           />
         </Container>
       </Box>
@@ -106,7 +109,12 @@ export default function UploadView() {
               title="Upload Multi File"
               action={
                 <FormControlLabel
-                  control={<Switch checked={preview.value} onClick={preview.onToggle} />}
+                  control={
+                    <Switch
+                      checked={preview.value}
+                      onClick={preview.onToggle}
+                    />
+                  }
                   label="Show Thumbnail"
                 />
               }
@@ -119,7 +127,7 @@ export default function UploadView() {
                 onDrop={handleDropMultiFile}
                 onRemove={handleRemoveFile}
                 onRemoveAll={handleRemoveAllFiles}
-                onUpload={() => console.info('ON UPLOAD')}
+                onUpload={() => console.info("ON UPLOAD")}
               />
             </CardContent>
           </Card>
@@ -127,7 +135,11 @@ export default function UploadView() {
           <Card>
             <CardHeader title="Upload Single File" />
             <CardContent>
-              <Upload file={file} onDrop={handleDropSingleFile} onDelete={() => setFile(null)} />
+              <Upload
+                file={file}
+                onDrop={handleDropSingleFile}
+                onDelete={() => setFile(null)}
+              />
             </CardContent>
           </Card>
 
@@ -142,10 +154,10 @@ export default function UploadView() {
                     variant="caption"
                     sx={{
                       mt: 3,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.disabled',
+                      mx: "auto",
+                      display: "block",
+                      textAlign: "center",
+                      color: "text.disabled",
                     }}
                   >
                     Allowed *.jpeg, *.jpg, *.png, *.gif
@@ -169,7 +181,7 @@ export default function UploadView() {
                       <Typography variant="body2">Upload file</Typography>
                     </Stack>
                   }
-                  sx={{ flexGrow: 1, height: 'auto', py: 2.5, mb: 3 }}
+                  sx={{ flexGrow: 1, height: "auto", py: 2.5, mb: 3 }}
                 />
               </Stack>
             </CardContent>

@@ -1,7 +1,7 @@
 // @mui
-import { alpha } from '@mui/material/styles';
-import Skeleton from '@mui/material/Skeleton';
-import Stack, { StackProps } from '@mui/material/Stack';
+import { alpha } from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
+import Stack, { StackProps } from "@mui/material/Stack";
 
 // ----------------------------------------------------------------------
 
@@ -18,9 +18,12 @@ export function MailNavItemSkeleton({ sx, ...other }: StackProps) {
       }}
       {...other}
     >
-      <Skeleton variant="circular" sx={{ width: 32, height: 32, bgcolor: 'currentColor' }} />
+      <Skeleton
+        variant="circular"
+        sx={{ width: 32, height: 32, bgcolor: "currentColor" }}
+      />
 
-      <Skeleton sx={{ width: 0.5, height: 10, bgcolor: 'currentColor' }} />
+      <Skeleton sx={{ width: 0.5, height: 10, bgcolor: "currentColor" }} />
     </Stack>
   );
 }

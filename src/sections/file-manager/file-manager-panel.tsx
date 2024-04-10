@@ -1,13 +1,13 @@
 // @mui
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Stack, { StackProps } from '@mui/material/Stack';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Stack, { StackProps } from "@mui/material/Stack";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -43,10 +43,10 @@ export default function FileManagerPanel({
             sx={{
               width: 24,
               height: 24,
-              bgcolor: 'primary.main',
-              color: 'primary.contrastText',
-              '&:hover': {
-                bgcolor: 'primary.dark',
+              bgcolor: "primary.main",
+              color: "primary.contrastText",
+              "&:hover": {
+                bgcolor: "primary.dark",
               },
             }}
           >
@@ -54,7 +54,9 @@ export default function FileManagerPanel({
           </IconButton>
         </Stack>
 
-        <Box sx={{ typography: 'body2', color: 'text.disabled', mt: 0.5 }}>{subTitle}</Box>
+        <Box sx={{ typography: "body2", color: "text.disabled", mt: 0.5 }}>
+          {subTitle}
+        </Box>
       </Stack>
 
       {link && (
@@ -63,7 +65,13 @@ export default function FileManagerPanel({
           component={RouterLink}
           size="small"
           color="inherit"
-          endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
+          endIcon={
+            <Iconify
+              icon="eva:arrow-ios-forward-fill"
+              width={18}
+              sx={{ ml: -0.5 }}
+            />
+          }
         >
           View All
         </Button>
@@ -71,7 +79,13 @@ export default function FileManagerPanel({
 
       {onCollapse && (
         <IconButton onClick={onCollapse}>
-          <Iconify icon={collapse ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-upward-fill'} />
+          <Iconify
+            icon={
+              collapse
+                ? "eva:arrow-ios-downward-fill"
+                : "eva:arrow-ios-upward-fill"
+            }
+          />
         </IconButton>
       )}
     </Stack>

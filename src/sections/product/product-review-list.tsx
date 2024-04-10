@@ -1,9 +1,9 @@
 // @mui
-import Pagination, { paginationClasses } from '@mui/material/Pagination';
+import Pagination, { paginationClasses } from "@mui/material/Pagination";
 // types
-import { IProductReview } from 'src/types/product';
+import { IProductReview } from "src/types/product";
 //
-import ProductReviewItem from './product-review-item';
+import ProductReviewItem from "./product-review-item";
 
 // ----------------------------------------------------------------------
 
@@ -21,11 +21,11 @@ export default function ProductReviewList({ reviews }: Props) {
       <Pagination
         count={10}
         sx={{
-          mx: 'auto',
+          mx: "auto",
           [`& .${paginationClasses.ul}`]: {
             my: 5,
-            mx: 'auto',
-            justifyContent: 'center',
+            mx: "auto",
+            justifyContent: "center",
           },
         }}
       />

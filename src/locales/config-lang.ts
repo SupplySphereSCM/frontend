@@ -1,11 +1,11 @@
-import merge from 'lodash/merge';
+import merge from "lodash/merge";
 import {
   enUS as enUSAdapter,
   fr as frFRAdapter,
   vi as viVNAdapter,
   zhCN as zhCNAdapter,
   arSA as arSAAdapter,
-} from 'date-fns/locale';
+} from "date-fns/locale";
 // core
 import {
   enUS as enUSCore,
@@ -13,14 +13,14 @@ import {
   viVN as viVNCore,
   zhCN as zhCNCore,
   arSA as arSACore,
-} from '@mui/material/locale';
+} from "@mui/material/locale";
 // date-pickers
 import {
   enUS as enUSDate,
   frFR as frFRDate,
   viVN as viVNDate,
   zhCN as zhCNDate,
-} from '@mui/x-date-pickers/locales';
+} from "@mui/x-date-pickers/locales";
 // data-grid
 import {
   enUS as enUSDataGrid,
@@ -28,46 +28,46 @@ import {
   viVN as viVNDataGrid,
   zhCN as zhCNDataGrid,
   arSD as arSDDataGrid,
-} from '@mui/x-data-grid';
+} from "@mui/x-data-grid";
 
 // PLEASE REMOVE `LOCAL STORAGE` WHEN YOU CHANGE SETTINGS.
 // ----------------------------------------------------------------------
 
 export const allLangs = [
   {
-    label: 'English',
-    value: 'en',
+    label: "English",
+    value: "en",
     systemValue: merge(enUSDate, enUSDataGrid, enUSCore),
     adapterLocale: enUSAdapter,
-    icon: 'flagpack:gb-nir',
+    icon: "flagpack:gb-nir",
   },
   {
-    label: 'French',
-    value: 'fr',
+    label: "French",
+    value: "fr",
     systemValue: merge(frFRDate, frFRDataGrid, frFRCore),
     adapterLocale: frFRAdapter,
-    icon: 'flagpack:fr',
+    icon: "flagpack:fr",
   },
   {
-    label: 'Vietnamese',
-    value: 'vi',
+    label: "Vietnamese",
+    value: "vi",
     systemValue: merge(viVNDate, viVNDataGrid, viVNCore),
     adapterLocale: viVNAdapter,
-    icon: 'flagpack:vn',
+    icon: "flagpack:vn",
   },
   {
-    label: 'Chinese',
-    value: 'cn',
+    label: "Chinese",
+    value: "cn",
     systemValue: merge(zhCNDate, zhCNDataGrid, zhCNCore),
     adapterLocale: zhCNAdapter,
-    icon: 'flagpack:cn',
+    icon: "flagpack:cn",
   },
   {
-    label: 'Arabic',
-    value: 'ar',
+    label: "Arabic",
+    value: "ar",
     systemValue: merge(arSDDataGrid, arSACore),
     adapterLocale: arSAAdapter,
-    icon: 'flagpack:sa',
+    icon: "flagpack:sa",
   },
 ];
 

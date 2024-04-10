@@ -1,16 +1,16 @@
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Tooltip from '@mui/material/Tooltip';
-import ListItemText from '@mui/material/ListItemText';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Tooltip from "@mui/material/Tooltip";
+import ListItemText from "@mui/material/ListItemText";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 //
-import Iconify from '../../iconify';
+import Iconify from "../../iconify";
 //
-import { NavItemProps, NavConfigProps } from '../types';
-import { StyledItem, StyledIcon } from './styles';
+import { NavItemProps, NavConfigProps } from "../types";
+import { StyledItem, StyledIcon } from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ type Props = NavItemProps & {
 
 const NavItem = forwardRef<HTMLDivElement, Props>(
   ({ item, depth, open, active, externalLink, config, ...other }, ref) => {
-    const { title, path, icon, info, children, disabled, caption, roles } = item;
+    const { title, path, icon, info, children, disabled, caption, roles } =
+      item;
 
     const subItem = depth !== 1;
 
@@ -56,11 +57,11 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
             primary={title}
             primaryTypographyProps={{
               noWrap: true,
-              typography: 'body2',
-              textTransform: 'capitalize',
-              fontWeight: active ? 'fontWeightBold' : 'fontWeightMedium',
+              typography: "body2",
+              textTransform: "capitalize",
+              fontWeight: active ? "fontWeightBold" : "fontWeightMedium",
               ...(subItem && {
-                fontWeight: active ? 'fontWeightSemiBold' : 'fontWeightMedium',
+                fontWeight: active ? "fontWeightSemiBold" : "fontWeightMedium",
               }),
             }}
           />
@@ -74,13 +75,21 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
 
         {caption && (
           <Tooltip title={caption} arrow>
-            <Iconify width={16} icon="eva:info-outline" sx={{ ml: 0.5, color: 'text.disabled' }} />
+            <Iconify
+              width={16}
+              icon="eva:info-outline"
+              sx={{ ml: 0.5, color: "text.disabled" }}
+            />
           </Tooltip>
         )}
 
         {!!children && (
           <Iconify
-            icon={subItem ? 'eva:arrow-ios-forward-fill' : 'eva:arrow-ios-downward-fill'}
+            icon={
+              subItem
+                ? "eva:arrow-ios-forward-fill"
+                : "eva:arrow-ios-downward-fill"
+            }
             width={16}
             sx={{ flexShrink: 0, ml: 0.5 }}
           />
@@ -103,7 +112,7 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
           underline="none"
           sx={{
             ...(disabled && {
-              cursor: 'default',
+              cursor: "default",
             }),
           }}
         >
@@ -119,14 +128,14 @@ const NavItem = forwardRef<HTMLDivElement, Props>(
         underline="none"
         sx={{
           ...(disabled && {
-            cursor: 'default',
+            cursor: "default",
           }),
         }}
       >
         {renderContent}
       </Link>
     );
-  }
+  },
 );
 
 export default NavItem;

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +30,6 @@ export function useDoubleClick({ click, doubleClick, timeout = 250 }: Props) {
         doubleClick(event);
       }
     },
-    [click, doubleClick, timeout]
+    [click, doubleClick, timeout],
   );
 }

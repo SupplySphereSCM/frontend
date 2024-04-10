@@ -1,25 +1,25 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import ListItemText from "@mui/material/ListItemText";
 // utils
-import { fDate } from 'src/utils/format-time';
+import { fDate } from "src/utils/format-time";
 // _mock
-import { TOUR_SERVICE_OPTIONS } from 'src/_mock';
+import { TOUR_SERVICE_OPTIONS } from "src/_mock";
 // types
-import { ITourItem } from 'src/types/tour';
+import { ITourItem } from "src/types/tour";
 // components
-import Image from 'src/components/image';
-import Iconify from 'src/components/iconify';
-import Markdown from 'src/components/markdown';
-import { varTranHover } from 'src/components/animate';
-import Lightbox, { useLightBox } from 'src/components/lightbox';
+import Image from "src/components/image";
+import Iconify from "src/components/iconify";
+import Markdown from "src/components/markdown";
+import { varTranHover } from "src/components/animate";
+import Lightbox, { useLightBox } from "src/components/lightbox";
 
 // ----------------------------------------------------------------------
 
@@ -57,8 +57,8 @@ export default function TourDetailsContent({ tour }: Props) {
         gap={1}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(2, 1fr)',
+          xs: "repeat(1, 1fr)",
+          md: "repeat(2, 1fr)",
         }}
         sx={{
           mb: { xs: 3, md: 5 },
@@ -77,7 +77,7 @@ export default function TourDetailsContent({ tour }: Props) {
             src={slides[0].src}
             ratio="1/1"
             onClick={() => handleOpenLightbox(slides[0].src)}
-            sx={{ borderRadius: 2, cursor: 'pointer' }}
+            sx={{ borderRadius: 2, cursor: "pointer" }}
           />
         </m.div>
 
@@ -96,7 +96,7 @@ export default function TourDetailsContent({ tour }: Props) {
                 src={slide.src}
                 ratio="1/1"
                 onClick={() => handleOpenLightbox(slide.src)}
-                sx={{ borderRadius: 2, cursor: 'pointer' }}
+                sx={{ borderRadius: 2, cursor: "pointer" }}
               />
             </m.div>
           ))}
@@ -132,25 +132,43 @@ export default function TourDetailsContent({ tour }: Props) {
       </Stack>
 
       <Stack spacing={3} direction="row" flexWrap="wrap" alignItems="center">
-        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ typography: 'body2' }}>
-          <Iconify icon="eva:star-fill" sx={{ color: 'warning.main' }} />
-          <Box component="span" sx={{ typography: 'subtitle2' }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={0.5}
+          sx={{ typography: "body2" }}
+        >
+          <Iconify icon="eva:star-fill" sx={{ color: "warning.main" }} />
+          <Box component="span" sx={{ typography: "subtitle2" }}>
             {ratingNumber}
           </Box>
-          <Link sx={{ color: 'text.secondary' }}>(234 reviews)</Link>
+          <Link sx={{ color: "text.secondary" }}>(234 reviews)</Link>
         </Stack>
 
-        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ typography: 'body2' }}>
-          <Iconify icon="mingcute:location-fill" sx={{ color: 'error.main' }} />
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={0.5}
+          sx={{ typography: "body2" }}
+        >
+          <Iconify icon="mingcute:location-fill" sx={{ color: "error.main" }} />
           {destination}
         </Stack>
 
-        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ typography: 'subtitle2' }}>
-          <Iconify icon="solar:flag-bold" sx={{ color: 'info.main' }} />
-          <Box component="span" sx={{ typography: 'body2', color: 'text.secondary' }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={0.5}
+          sx={{ typography: "subtitle2" }}
+        >
+          <Iconify icon="solar:flag-bold" sx={{ color: "info.main" }} />
+          <Box
+            component="span"
+            sx={{ typography: "body2", color: "text.secondary" }}
+          >
             Guide by
           </Box>
-          {tourGuides.map((tourGuide) => tourGuide.name).join(', ')}
+          {tourGuides.map((tourGuide) => tourGuide.name).join(", ")}
         </Stack>
       </Stack>
     </>
@@ -161,29 +179,31 @@ export default function TourDetailsContent({ tour }: Props) {
       gap={3}
       display="grid"
       gridTemplateColumns={{
-        xs: 'repeat(1, 1fr)',
-        md: 'repeat(2, 1fr)',
+        xs: "repeat(1, 1fr)",
+        md: "repeat(2, 1fr)",
       }}
     >
       {[
         {
-          label: 'Available',
+          label: "Available",
           value: `${fDate(available.startDate)} - ${fDate(available.endDate)}`,
           icon: <Iconify icon="solar:calendar-date-bold" />,
         },
         {
-          label: 'Contact name',
-          value: tourGuides.map((tourGuide) => tourGuide.phoneNumber).join(', '),
+          label: "Contact name",
+          value: tourGuides
+            .map((tourGuide) => tourGuide.phoneNumber)
+            .join(", "),
           icon: <Iconify icon="solar:user-rounded-bold" />,
         },
         {
-          label: 'Durations',
+          label: "Durations",
           value: durations,
           icon: <Iconify icon="solar:clock-circle-bold" />,
         },
         {
-          label: 'Contact phone',
-          value: tourGuides.map((tourGuide) => tourGuide.name).join(', '),
+          label: "Contact phone",
+          value: tourGuides.map((tourGuide) => tourGuide.name).join(", "),
           icon: <Iconify icon="solar:phone-bold" />,
         },
       ].map((item) => (
@@ -193,14 +213,14 @@ export default function TourDetailsContent({ tour }: Props) {
             primary={item.label}
             secondary={item.value}
             primaryTypographyProps={{
-              typography: 'body2',
-              color: 'text.secondary',
+              typography: "body2",
+              color: "text.secondary",
               mb: 0.5,
             }}
             secondaryTypographyProps={{
-              typography: 'subtitle2',
-              color: 'text.primary',
-              component: 'span',
+              typography: "subtitle2",
+              color: "text.primary",
+              component: "span",
             }}
           />
         </Stack>
@@ -219,8 +239,8 @@ export default function TourDetailsContent({ tour }: Props) {
           rowGap={2}
           display="grid"
           gridTemplateColumns={{
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(2, 1fr)',
+            xs: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
           }}
         >
           {TOUR_SERVICE_OPTIONS.map((service) => (
@@ -231,16 +251,16 @@ export default function TourDetailsContent({ tour }: Props) {
               alignItems="center"
               sx={{
                 ...(services.includes(service.label) && {
-                  color: 'text.disabled',
+                  color: "text.disabled",
                 }),
               }}
             >
               <Iconify
                 icon="eva:checkmark-circle-2-outline"
                 sx={{
-                  color: 'primary.main',
+                  color: "primary.main",
                   ...(services.includes(service.label) && {
-                    color: 'text.disabled',
+                    color: "text.disabled",
                   }),
                 }}
               />
@@ -256,14 +276,14 @@ export default function TourDetailsContent({ tour }: Props) {
     <>
       {renderGallery}
 
-      <Stack sx={{ maxWidth: 720, mx: 'auto' }}>
+      <Stack sx={{ maxWidth: 720, mx: "auto" }}>
         {renderHead}
 
-        <Divider sx={{ borderStyle: 'dashed', my: 5 }} />
+        <Divider sx={{ borderStyle: "dashed", my: 5 }} />
 
         {renderOverview}
 
-        <Divider sx={{ borderStyle: 'dashed', my: 5 }} />
+        <Divider sx={{ borderStyle: "dashed", my: 5 }} />
 
         {renderContent}
       </Stack>

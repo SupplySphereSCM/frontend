@@ -1,49 +1,49 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 // @mui
-import { alpha } from '@mui/material/styles';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
+import { alpha } from "@mui/material/styles";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Unstable_Grid2";
+import Typography from "@mui/material/Typography";
 // routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
-import { useGetProduct } from 'src/api/product';
+import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
+import { useGetProduct } from "src/api/product";
 // components
-import Iconify from 'src/components/iconify';
-import EmptyContent from 'src/components/empty-content';
-import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import EmptyContent from "src/components/empty-content";
+import { useSettingsContext } from "src/components/settings";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import CartIcon from '../common/cart-icon';
-import ProductDetailsReview from '../product-details-review';
-import { ProductDetailsSkeleton } from '../product-skeleton';
-import ProductDetailsSummary from '../product-details-summary';
-import ProductDetailsCarousel from '../product-details-carousel';
-import ProductDetailsDescription from '../product-details-description';
-import { useCheckoutContext } from '../../checkout/context';
+import CartIcon from "../common/cart-icon";
+import ProductDetailsReview from "../product-details-review";
+import { ProductDetailsSkeleton } from "../product-skeleton";
+import ProductDetailsSummary from "../product-details-summary";
+import ProductDetailsCarousel from "../product-details-carousel";
+import ProductDetailsDescription from "../product-details-description";
+import { useCheckoutContext } from "../../checkout/context";
 
 // ----------------------------------------------------------------------
 
 const SUMMARY = [
   {
-    title: '100% Original',
-    description: 'Chocolate bar candy canes ice cream toffee cookie halvah.',
-    icon: 'solar:verified-check-bold',
+    title: "100% Original",
+    description: "Chocolate bar candy canes ice cream toffee cookie halvah.",
+    icon: "solar:verified-check-bold",
   },
   {
-    title: '10 Day Replacement',
-    description: 'Marshmallow biscuit donut dragée fruitcake wafer.',
-    icon: 'solar:clock-circle-bold',
+    title: "10 Day Replacement",
+    description: "Marshmallow biscuit donut dragée fruitcake wafer.",
+    icon: "solar:clock-circle-bold",
   },
   {
-    title: 'Year Warranty',
-    description: 'Cotton candy gingerbread cake I love sugar sweet.',
-    icon: 'solar:shield-check-bold',
+    title: "Year Warranty",
+    description: "Cotton candy gingerbread cake I love sugar sweet.",
+    icon: "solar:shield-check-bold",
   },
 ];
 
@@ -58,13 +58,16 @@ export default function ProductShopDetailsView({ id }: Props) {
 
   const checkout = useCheckoutContext();
 
-  const [currentTab, setCurrentTab] = useState('description');
+  const [currentTab, setCurrentTab] = useState("description");
 
   const { product, productLoading, productError } = useGetProduct(id);
 
-  const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
-  }, []);
+  const handleChangeTab = useCallback(
+    (event: React.SyntheticEvent, newValue: string) => {
+      setCurrentTab(newValue);
+    },
+    [],
+  );
 
   const renderSkeleton = <ProductDetailsSkeleton />;
 
@@ -90,9 +93,9 @@ export default function ProductShopDetailsView({ id }: Props) {
     <>
       <CustomBreadcrumbs
         links={[
-          { name: 'Home', href: '/' },
+          { name: "Home", href: "/" },
           {
-            name: 'Shop',
+            name: "Shop",
             href: paths.product.root,
           },
           { name: product?.name },
@@ -119,20 +122,24 @@ export default function ProductShopDetailsView({ id }: Props) {
         gap={5}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(3, 1fr)',
+          xs: "repeat(1, 1fr)",
+          md: "repeat(3, 1fr)",
         }}
         sx={{ my: 10 }}
       >
         {SUMMARY.map((item) => (
-          <Box key={item.title} sx={{ textAlign: 'center', px: 5 }}>
-            <Iconify icon={item.icon} width={32} sx={{ color: 'primary.main' }} />
+          <Box key={item.title} sx={{ textAlign: "center", px: 5 }}>
+            <Iconify
+              icon={item.icon}
+              width={32}
+              sx={{ color: "primary.main" }}
+            />
 
             <Typography variant="subtitle1" sx={{ mb: 1, mt: 2 }}>
               {item.title}
             </Typography>
 
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {item.description}
             </Typography>
           </Box>
@@ -145,16 +152,17 @@ export default function ProductShopDetailsView({ id }: Props) {
           onChange={handleChangeTab}
           sx={{
             px: 3,
-            boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+            boxShadow: (theme) =>
+              `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
           }}
         >
           {[
             {
-              value: 'description',
-              label: 'Description',
+              value: "description",
+              label: "Description",
             },
             {
-              value: 'reviews',
+              value: "reviews",
               label: `Reviews (${product.reviews.length})`,
             },
           ].map((tab) => (
@@ -162,11 +170,11 @@ export default function ProductShopDetailsView({ id }: Props) {
           ))}
         </Tabs>
 
-        {currentTab === 'description' && (
+        {currentTab === "description" && (
           <ProductDetailsDescription description={product?.description} />
         )}
 
-        {currentTab === 'reviews' && (
+        {currentTab === "reviews" && (
           <ProductDetailsReview
             ratings={product.ratings}
             reviews={product.reviews}
@@ -180,7 +188,7 @@ export default function ProductShopDetailsView({ id }: Props) {
 
   return (
     <Container
-      maxWidth={settings.themeStretch ? false : 'lg'}
+      maxWidth={settings.themeStretch ? false : "lg"}
       sx={{
         mt: 5,
         mb: 15,

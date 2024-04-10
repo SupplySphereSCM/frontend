@@ -1,15 +1,15 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Tooltip from '@mui/material/Tooltip';
-import ListItemText from '@mui/material/ListItemText';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Tooltip from "@mui/material/Tooltip";
+import ListItemText from "@mui/material/ListItemText";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 //
-import Iconify from '../../iconify';
+import Iconify from "../../iconify";
 //
-import { NavItemProps, NavConfigProps } from '../types';
-import { StyledItem, StyledIcon, StyledDotIcon } from './styles';
+import { NavItemProps, NavConfigProps } from "../types";
+import { StyledItem, StyledIcon, StyledDotIcon } from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -61,15 +61,15 @@ export default function NavItem({
           }
           primaryTypographyProps={{
             noWrap: true,
-            typography: 'body2',
-            textTransform: 'capitalize',
-            fontWeight: active ? 'fontWeightSemiBold' : 'fontWeightMedium',
+            typography: "body2",
+            textTransform: "capitalize",
+            fontWeight: active ? "fontWeightSemiBold" : "fontWeightMedium",
           }}
           secondaryTypographyProps={{
             noWrap: true,
-            component: 'span',
-            typography: 'caption',
-            color: 'text.disabled',
+            component: "span",
+            typography: "caption",
+            color: "text.disabled",
           }}
         />
       )}
@@ -83,7 +83,9 @@ export default function NavItem({
       {!!children && (
         <Iconify
           width={16}
-          icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
+          icon={
+            open ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"
+          }
           sx={{ ml: 1, flexShrink: 0 }}
         />
       )}
@@ -106,7 +108,7 @@ export default function NavItem({
         color="inherit"
         sx={{
           ...(disabled && {
-            cursor: 'default',
+            cursor: "default",
           }),
         }}
       >
@@ -128,7 +130,7 @@ export default function NavItem({
       color="inherit"
       sx={{
         ...(disabled && {
-          cursor: 'default',
+          cursor: "default",
         }),
       }}
     >

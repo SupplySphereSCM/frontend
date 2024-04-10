@@ -1,22 +1,22 @@
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 // utils
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from "src/utils/format-number";
 // components
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import { ColorPreview } from 'src/components/color-utils';
+import Label from "src/components/label";
+import Iconify from "src/components/iconify";
+import { ColorPreview } from "src/components/color-utils";
 // types
-import { ICheckoutItem } from 'src/types/checkout';
+import { ICheckoutItem } from "src/types/checkout";
 //
-import IncrementerButton from '../product/common/incrementer-button';
+import IncrementerButton from "../product/common/incrementer-button";
 
 // ----------------------------------------------------------------------
 
@@ -27,13 +27,23 @@ type Props = {
   onIncrease: VoidFunction;
 };
 
-export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncrease }: Props) {
+export default function CheckoutCartProduct({
+  row,
+  onDelete,
+  onDecrease,
+  onIncrease,
+}: Props) {
   const { name, size, price, colors, coverUrl, quantity, available } = row;
 
   return (
     <TableRow>
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar variant="rounded" alt={name} src={coverUrl} sx={{ width: 64, height: 64, mr: 2 }} />
+      <TableCell sx={{ display: "flex", alignItems: "center" }}>
+        <Avatar
+          variant="rounded"
+          alt={name}
+          src={coverUrl}
+          sx={{ width: 64, height: 64, mr: 2 }}
+        />
 
         <Stack spacing={0.5}>
           <Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
@@ -43,7 +53,7 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
           <Stack
             direction="row"
             alignItems="center"
-            sx={{ typography: 'body2', color: 'text.secondary' }}
+            sx={{ typography: "body2", color: "text.secondary" }}
           >
             size: <Label sx={{ ml: 0.5 }}> {size} </Label>
             <Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
@@ -55,7 +65,7 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
       <TableCell>{fCurrency(price)}</TableCell>
 
       <TableCell>
-        <Box sx={{ width: 88, textAlign: 'right' }}>
+        <Box sx={{ width: 88, textAlign: "right" }}>
           <IncrementerButton
             quantity={quantity}
             onDecrease={onDecrease}
@@ -64,7 +74,11 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
             disabledIncrease={quantity >= available}
           />
 
-          <Typography variant="caption" component="div" sx={{ color: 'text.secondary', mt: 1 }}>
+          <Typography
+            variant="caption"
+            component="div"
+            sx={{ color: "text.secondary", mt: 1 }}
+          >
             available: {available}
           </Typography>
         </Box>

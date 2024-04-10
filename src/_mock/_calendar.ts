@@ -1,8 +1,8 @@
-import { palette as themePalette } from 'src/theme/palette';
+import { palette as themePalette } from "src/theme/palette";
 
 // ----------------------------------------------------------------------
 
-const palette = themePalette('light');
+const palette = themePalette("light");
 
 export const CALENDAR_COLOR_OPTIONS = [
   palette.primary.main,

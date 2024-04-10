@@ -1,18 +1,18 @@
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import Divider from '@mui/material/Divider';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import DialogActions from '@mui/material/DialogActions';
+import LoadingButton from "@mui/lab/LoadingButton";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import Divider from "@mui/material/Divider";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import DialogActions from "@mui/material/DialogActions";
 // components
-import Markdown from 'src/components/markdown';
-import Scrollbar from 'src/components/scrollbar';
-import EmptyContent from 'src/components/empty-content';
+import Markdown from "src/components/markdown";
+import Scrollbar from "src/components/scrollbar";
+import EmptyContent from "src/components/empty-content";
 //
-import PostDetailsHero from './post-details-hero';
+import PostDetailsHero from "./post-details-hero";
 
 // ----------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ export default function PostDetailsPreview({
             <Stack
               sx={{
                 maxWidth: 720,
-                mx: 'auto',
+                mx: "auto",
               }}
             >
               <Typography variant="h6" sx={{ mb: 5 }}>

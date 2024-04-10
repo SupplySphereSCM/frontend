@@ -1,16 +1,16 @@
 // @mui
-import Collapse from '@mui/material/Collapse';
-import { listClasses } from '@mui/material/List';
-import { listItemTextClasses } from '@mui/material/ListItemText';
-import { listItemButtonClasses } from '@mui/material/ListItemButton';
+import Collapse from "@mui/material/Collapse";
+import { listClasses } from "@mui/material/List";
+import { listItemTextClasses } from "@mui/material/ListItemText";
+import { listItemButtonClasses } from "@mui/material/ListItemButton";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import { NavSectionVertical } from 'src/components/nav-section';
-import { usePathname } from 'src/routes/hooks';
+import { NavSectionVertical } from "src/components/nav-section";
+import { usePathname } from "src/routes/hooks";
 //
-import { NavItemProps } from '../types';
-import NavItem from './nav-item';
+import { NavItemProps } from "../types";
+import NavItem from "./nav-item";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ export default function NavList({ item }: NavListProps) {
 
   const { path, children } = item;
 
-  const externalLink = path.includes('http');
+  const externalLink = path.includes("http");
 
   const nav = useBoolean();
 
@@ -43,16 +43,17 @@ export default function NavList({ item }: NavListProps) {
             data={children}
             sx={{
               [`& .${listClasses.root}`]: {
-                '&:last-of-type': {
+                "&:last-of-type": {
                   [`& .${listItemButtonClasses.root}`]: {
                     height: 160,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    bgcolor: 'background.neutral',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundImage: 'url(/assets/illustrations/illustration_dashboard.png)',
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    bgcolor: "background.neutral",
+                    backgroundRepeat: "no-repeat",
+                    backgroundImage:
+                      "url(/assets/illustrations/illustration_dashboard.png)",
                     [`& .${listItemTextClasses.root}`]: {
-                      display: 'none',
+                      display: "none",
                     },
                   },
                 },

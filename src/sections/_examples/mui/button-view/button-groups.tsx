@@ -1,17 +1,25 @@
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import Masonry from "@mui/lab/Masonry";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 //
-import ComponentBlock from '../../component-block';
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
-const COLORS = ['inherit', 'primary', 'secondary', 'success', 'error', 'info', 'warning'] as const;
+const COLORS = [
+  "inherit",
+  "primary",
+  "secondary",
+  "success",
+  "error",
+  "info",
+  "warning",
+] as const;
 
-const SIZES = ['small', 'medium', 'large'] as const;
+const SIZES = ["small", "medium", "large"] as const;
 
-const VARIANTS = ['contained', 'outlined', 'text', 'soft'] as const;
+const VARIANTS = ["contained", "outlined", "text", "soft"] as const;
 
 // ----------------------------------------------------------------------
 
@@ -101,7 +109,12 @@ export default function ButtonGroups() {
           </ButtonGroup>
         ))}
 
-        <ButtonGroup disabled variant="soft" color="info" orientation="vertical">
+        <ButtonGroup
+          disabled
+          variant="soft"
+          color="info"
+          orientation="vertical"
+        >
           <Button>One</Button>
           <Button>Two</Button>
           <Button>Three</Button>

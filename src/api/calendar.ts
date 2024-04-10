@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
-import useSWR, { mutate } from 'swr';
+import { useMemo } from "react";
+import useSWR, { mutate } from "swr";
 // utils
-import { fetcher, endpoints } from 'src/utils/axios';
+import { fetcher, endpoints } from "src/utils/axios";
 // types
-import { ICalendarEvent } from 'src/types/calendar';
+import { ICalendarEvent } from "src/types/calendar";
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +16,11 @@ const options = {
 };
 
 export function useGetEvents() {
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, options);
+  const { data, isLoading, error, isValidating } = useSWR(
+    URL,
+    fetcher,
+    options,
+  );
 
   const memoizedValue = useMemo(() => {
     const events = data?.events.map((event: ICalendarEvent) => ({
@@ -58,7 +62,7 @@ export async function createEvent(eventData: ICalendarEvent) {
         events,
       };
     },
-    false
+    false,
   );
 }
 
@@ -77,8 +81,9 @@ export async function updateEvent(eventData: Partial<ICalendarEvent>) {
   mutate(
     URL,
     (currentData: any) => {
-      const events: ICalendarEvent[] = currentData.events.map((event: ICalendarEvent) =>
-        event.id === eventData.id ? { ...event, ...eventData } : event
+      const events: ICalendarEvent[] = currentData.events.map(
+        (event: ICalendarEvent) =>
+          event.id === eventData.id ? { ...event, ...eventData } : event,
       );
 
       return {
@@ -86,7 +91,7 @@ export async function updateEvent(eventData: Partial<ICalendarEvent>) {
         events,
       };
     },
-    false
+    false,
   );
 }
 
@@ -106,7 +111,7 @@ export async function deleteEvent(eventId: string) {
     URL,
     (currentData: any) => {
       const events: ICalendarEvent[] = currentData.events.filter(
-        (event: ICalendarEvent) => event.id !== eventId
+        (event: ICalendarEvent) => event.id !== eventId,
       );
 
       return {
@@ -114,6 +119,6 @@ export async function deleteEvent(eventId: string) {
         events,
       };
     },
-    false
+    false,
   );
 }

@@ -1,27 +1,31 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from "react";
 // @mui
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter, useSearchParams } from "src/routes/hooks";
 // hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 // api
-import { useGetContacts, useGetConversation, useGetConversations } from 'src/api/chat';
+import {
+  useGetContacts,
+  useGetConversation,
+  useGetConversations,
+} from "src/api/chat";
 // components
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext } from "src/components/settings";
 // types
-import { IChatParticipant } from 'src/types/chat';
+import { IChatParticipant } from "src/types/chat";
 //
-import ChatNav from '../chat-nav';
-import ChatRoom from '../chat-room';
-import ChatMessageList from '../chat-message-list';
-import ChatMessageInput from '../chat-message-input';
-import ChatHeaderDetail from '../chat-header-detail';
-import ChatHeaderCompose from '../chat-header-compose';
+import ChatNav from "../chat-nav";
+import ChatRoom from "../chat-room";
+import ChatMessageList from "../chat-message-list";
+import ChatMessageInput from "../chat-message-input";
+import ChatHeaderDetail from "../chat-header-detail";
+import ChatHeaderCompose from "../chat-header-compose";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +38,7 @@ export default function ChatView() {
 
   const searchParams = useSearchParams();
 
-  const selectedConversationId = searchParams.get('id') || '';
+  const selectedConversationId = searchParams.get("id") || "";
 
   const [recipients, setRecipients] = useState<IChatParticipant[]>([]);
 
@@ -42,11 +46,13 @@ export default function ChatView() {
 
   const { conversations, conversationsLoading } = useGetConversations();
 
-  const { conversation, conversationError } = useGetConversation(`${selectedConversationId}`);
+  const { conversation, conversationError } = useGetConversation(
+    `${selectedConversationId}`,
+  );
 
   const participants: IChatParticipant[] = conversation
     ? conversation.participants.filter(
-        (participant: IChatParticipant) => participant.id !== `${user?.id}`
+        (participant: IChatParticipant) => participant.id !== `${user?.id}`,
       )
     : [];
 
@@ -72,7 +78,10 @@ export default function ChatView() {
       {selectedConversationId ? (
         <>{details && <ChatHeaderDetail participants={participants} />}</>
       ) : (
-        <ChatHeaderCompose contacts={contacts} onAddRecipients={handleAddRecipients} />
+        <ChatHeaderCompose
+          contacts={contacts}
+          onAddRecipients={handleAddRecipients}
+        />
       )}
     </Stack>
   );
@@ -91,10 +100,13 @@ export default function ChatView() {
       sx={{
         width: 1,
         height: 1,
-        overflow: 'hidden',
+        overflow: "hidden",
       }}
     >
-      <ChatMessageList messages={conversation?.messages} participants={participants} />
+      <ChatMessageList
+        messages={conversation?.messages}
+        participants={participants}
+      />
 
       <ChatMessageInput
         recipients={recipients}
@@ -107,7 +119,7 @@ export default function ChatView() {
   );
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Container maxWidth={settings.themeStretch ? false : "xl"}>
       <Typography
         variant="h4"
         sx={{
@@ -117,14 +129,14 @@ export default function ChatView() {
         Chat
       </Typography>
 
-      <Stack component={Card} direction="row" sx={{ height: '72vh' }}>
+      <Stack component={Card} direction="row" sx={{ height: "72vh" }}>
         {renderNav}
 
         <Stack
           sx={{
             width: 1,
             height: 1,
-            overflow: 'hidden',
+            overflow: "hidden",
           }}
         >
           {renderHead}
@@ -134,13 +146,18 @@ export default function ChatView() {
             sx={{
               width: 1,
               height: 1,
-              overflow: 'hidden',
+              overflow: "hidden",
               borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
             }}
           >
             {renderMessages}
 
-            {details && <ChatRoom conversation={conversation} participants={participants} />}
+            {details && (
+              <ChatRoom
+                conversation={conversation}
+                participants={participants}
+              />
+            )}
           </Stack>
         </Stack>
       </Stack>

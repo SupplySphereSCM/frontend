@@ -1,16 +1,16 @@
-import { m } from 'framer-motion';
-import { forwardRef } from 'react';
+import { m } from "framer-motion";
+import { forwardRef } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Link, { LinkProps } from '@mui/material/Link';
-import CardActionArea from '@mui/material/CardActionArea';
+import Box from "@mui/material/Box";
+import Link, { LinkProps } from "@mui/material/Link";
+import CardActionArea from "@mui/material/CardActionArea";
 // routes
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 //
-import { NavItemDesktopProps, NavItemProps } from '../types';
-import { ListItem } from './styles';
+import { NavItemDesktopProps, NavItemProps } from "../types";
+import { ListItem } from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +30,13 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemDesktopProps>(
       >
         {title}
 
-        {!!children && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
+        {!!children && (
+          <Iconify
+            width={16}
+            icon="eva:arrow-ios-downward-fill"
+            sx={{ ml: 1 }}
+          />
+        )}
       </ListItem>
     );
 
@@ -54,7 +60,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemDesktopProps>(
         {renderContent}
       </Link>
     );
-  }
+  },
 );
 
 // ----------------------------------------------------------------------
@@ -63,16 +69,25 @@ interface NavItemDashboardProps extends LinkProps {
   item: NavItemProps;
 }
 
-export function NavItemDashboard({ item, sx, ...other }: NavItemDashboardProps) {
+export function NavItemDashboard({
+  item,
+  sx,
+  ...other
+}: NavItemDashboardProps) {
   return (
-    <Link component={RouterLink} href={item.path} sx={{ width: 1, height: 1 }} {...other}>
+    <Link
+      component={RouterLink}
+      href={item.path}
+      sx={{ width: 1, height: 1 }}
+      {...other}
+    >
       <CardActionArea
         sx={{
           height: 1,
           minHeight: 320,
           borderRadius: 1.5,
-          color: 'text.disabled',
-          bgcolor: 'background.neutral',
+          color: "text.disabled",
+          bgcolor: "background.neutral",
           px: { md: 3, lg: 10 },
           ...sx,
         }}

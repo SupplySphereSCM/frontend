@@ -1,20 +1,20 @@
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import Masonry from "@mui/lab/Masonry";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import FormDialog from './form-dialog';
-import AlertDialog from './alert-dialog';
-import ScrollDialog from './scroll-dialog';
-import SimpleDialogs from './simple-dialog';
-import MaxWidthDialog from './max-width-dialog';
-import FullScreenDialog from './full-screen-dialog';
-import TransitionsDialog from './transitions-dialog';
-import ComponentBlock from '../../component-block';
+import FormDialog from "./form-dialog";
+import AlertDialog from "./alert-dialog";
+import ScrollDialog from "./scroll-dialog";
+import SimpleDialogs from "./simple-dialog";
+import MaxWidthDialog from "./max-width-dialog";
+import FullScreenDialog from "./full-screen-dialog";
+import TransitionsDialog from "./transitions-dialog";
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +24,8 @@ export default function DialogView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -32,12 +33,12 @@ export default function DialogView() {
             heading="Dialog"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Dialog' },
+              { name: "Dialog" },
             ]}
-            moreLink={['https://mui.com/components/dialogs']}
+            moreLink={["https://mui.com/components/dialogs"]}
           />
         </Container>
       </Box>

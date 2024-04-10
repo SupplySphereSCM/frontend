@@ -1,22 +1,22 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import Masonry from "@mui/lab/Masonry";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 //
-import ComponentBlock from '../../component-block';
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
 const CURRENCIES = [
-  { value: 'USD', label: '$' },
-  { value: 'EUR', label: '€' },
-  { value: 'BTC', label: '฿' },
-  { value: 'JPY', label: '¥' },
+  { value: "USD", label: "$" },
+  { value: "EUR", label: "€" },
+  { value: "BTC", label: "฿" },
+  { value: "JPY", label: "¥" },
 ];
 
 // ----------------------------------------------------------------------
@@ -30,35 +30,42 @@ interface State {
 }
 
 type Props = {
-  variant?: 'filled' | 'outlined' | 'standard';
+  variant?: "filled" | "outlined" | "standard";
 };
 
 export default function Textfield({ variant }: Props) {
-  const [currency, setCurrency] = useState('EUR');
+  const [currency, setCurrency] = useState("EUR");
 
   const [values, setValues] = useState<State>({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
+    amount: "",
+    password: "",
+    weight: "",
+    weightRange: "",
     showPassword: false,
   });
 
-  const handleChangeCurrency = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrency(event.target.value);
-  }, []);
+  const handleChangeCurrency = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setCurrency(event.target.value);
+    },
+    [],
+  );
 
-  const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  const handleChange =
+    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
 
   const handleShowPassword = useCallback(() => {
     setValues({ ...values, showPassword: !values.showPassword });
   }, [values]);
 
-  const handleMouseDownPassword = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  }, []);
+  const handleMouseDownPassword = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+    },
+    [],
+  );
 
   return (
     <Masonry columns={{ xs: 1, md: 2 }} spacing={3}>
@@ -124,7 +131,9 @@ export default function Textfield({ variant }: Props) {
           fullWidth
           label="With normal TextField"
           InputProps={{
-            startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
+            startAdornment: (
+              <InputAdornment position="start">Kg</InputAdornment>
+            ),
           }}
         />
 
@@ -132,7 +141,7 @@ export default function Textfield({ variant }: Props) {
           variant={variant}
           fullWidth
           value={values.weight}
-          onChange={handleChange('weight')}
+          onChange={handleChange("weight")}
           helperText="Weight"
           InputProps={{
             endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
@@ -142,9 +151,9 @@ export default function Textfield({ variant }: Props) {
         <TextField
           variant={variant}
           fullWidth
-          type={values.showPassword ? 'text' : 'password'}
+          type={values.showPassword ? "text" : "password"}
           value={values.password}
-          onChange={handleChange('password')}
+          onChange={handleChange("password")}
           label="Password"
           InputProps={{
             startAdornment: (
@@ -212,9 +221,20 @@ export default function Textfield({ variant }: Props) {
       </ComponentBlock>
 
       <ComponentBlock title="Sizes">
-        <TextField variant={variant} fullWidth label="Size" size="small" defaultValue="Small" />
+        <TextField
+          variant={variant}
+          fullWidth
+          label="Size"
+          size="small"
+          defaultValue="Small"
+        />
 
-        <TextField variant={variant} fullWidth label="Size" defaultValue="Normal" />
+        <TextField
+          variant={variant}
+          fullWidth
+          label="Size"
+          defaultValue="Normal"
+        />
       </ComponentBlock>
 
       <ComponentBlock title="Select">

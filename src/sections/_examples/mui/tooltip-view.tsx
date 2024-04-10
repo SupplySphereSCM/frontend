@@ -1,22 +1,22 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import Zoom from '@mui/material/Zoom';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
+import Masonry from "@mui/lab/Masonry";
+import Box from "@mui/material/Box";
+import Fab from "@mui/material/Fab";
+import Zoom from "@mui/material/Zoom";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import Iconify from 'src/components/iconify';
-import { varHover } from 'src/components/animate';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import Iconify from "src/components/iconify";
+import { varHover } from "src/components/animate";
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ComponentBlock from '../component-block';
+import ComponentBlock from "../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,8 @@ export default function TooltipView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -42,12 +43,12 @@ export default function TooltipView() {
             heading="Tooltip"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Tooltip' },
+              { name: "Tooltip" },
             ]}
-            moreLink={['https://mui.com/components/tooltips']}
+            moreLink={["https://mui.com/components/tooltips"]}
           />
         </Container>
       </Box>
@@ -109,7 +110,7 @@ export default function TooltipView() {
               <Button color="inherit">Custom Width [500px]</Button>
             </Tooltip>
 
-            <Tooltip title={LONG_TEXT} sx={{ maxWidth: 'none' }}>
+            <Tooltip title={LONG_TEXT} sx={{ maxWidth: "none" }}>
               <Button color="inherit">No wrapping</Button>
             </Tooltip>
           </ComponentBlock>
@@ -119,7 +120,11 @@ export default function TooltipView() {
               <Button color="inherit">Grow</Button>
             </Tooltip>
 
-            <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} title="Add">
+            <Tooltip
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              title="Add"
+            >
               <Button color="inherit">Fade</Button>
             </Tooltip>
 

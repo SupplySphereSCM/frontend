@@ -1,16 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
 // routes
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 // components
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ProgressLinear from './progress-linear';
-import ProgressCircular from './progress-circular';
-import ComponentBlock from '../../component-block';
+import ProgressLinear from "./progress-linear";
+import ProgressCircular from "./progress-circular";
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +66,8 @@ export default function ProgressView() {
       <Box
         sx={{
           py: 5,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800'),
+          bgcolor: (theme) =>
+            theme.palette.mode === "light" ? "grey.200" : "grey.800",
         }}
       >
         <Container>
@@ -74,12 +75,12 @@ export default function ProgressView() {
             heading="Progress"
             links={[
               {
-                name: 'Components',
+                name: "Components",
                 href: paths.components,
               },
-              { name: 'Progress' },
+              { name: "Progress" },
             ]}
-            moreLink={['https://mui.com/components/progress']}
+            moreLink={["https://mui.com/components/progress"]}
           />
         </Container>
       </Box>

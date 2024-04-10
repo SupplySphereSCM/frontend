@@ -1,12 +1,12 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import { useTheme, styled } from '@mui/material/styles';
-import CardHeader from '@mui/material/CardHeader';
-import Card, { CardProps } from '@mui/material/Card';
+import { useTheme, styled } from "@mui/material/styles";
+import CardHeader from "@mui/material/CardHeader";
+import Card, { CardProps } from "@mui/material/Card";
 // utils
-import { fNumber } from 'src/utils/format-number';
+import { fNumber } from "src/utils/format-number";
 // components
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from "src/components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ const LEGEND_HEIGHT = 72;
 
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
-  '& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject': {
+  "& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject": {
     height: `100% !important`,
   },
-  '& .apexcharts-legend': {
+  "& .apexcharts-legend": {
     height: LEGEND_HEIGHT,
     borderTop: `dashed 1px ${theme.palette.divider}`,
     top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
@@ -41,7 +41,12 @@ interface Props extends CardProps {
   };
 }
 
-export default function AnalyticsCurrentVisits({ title, subheader, chart, ...other }: Props) {
+export default function AnalyticsCurrentVisits({
+  title,
+  subheader,
+  chart,
+  ...other
+}: Props) {
   const theme = useTheme();
 
   const { colors, series, options } = chart;
@@ -61,8 +66,8 @@ export default function AnalyticsCurrentVisits({ title, subheader, chart, ...oth
     },
     legend: {
       floating: true,
-      position: 'bottom',
-      horizontalAlign: 'center',
+      position: "bottom",
+      horizontalAlign: "center",
     },
     dataLabels: {
       enabled: true,
@@ -95,7 +100,13 @@ export default function AnalyticsCurrentVisits({ title, subheader, chart, ...oth
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
 
-      <StyledChart dir="ltr" type="pie" series={chartSeries} options={chartOptions} height={280} />
+      <StyledChart
+        dir="ltr"
+        type="pie"
+        series={chartSeries}
+        options={chartOptions}
+        height={280}
+      />
     </Card>
   );
 }

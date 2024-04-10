@@ -1,28 +1,28 @@
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 // @mui
-import Masonry from '@mui/lab/Masonry';
-import Box from '@mui/material/Box';
-import Fab, { fabClasses } from '@mui/material/Fab';
+import Masonry from "@mui/lab/Masonry";
+import Box from "@mui/material/Box";
+import Fab, { fabClasses } from "@mui/material/Fab";
 // components
-import Iconify from 'src/components/iconify';
-import { varHover } from 'src/components/animate';
+import Iconify from "src/components/iconify";
+import { varHover } from "src/components/animate";
 //
-import ComponentBlock from '../../component-block';
+import ComponentBlock from "../../component-block";
 
 // ----------------------------------------------------------------------
 
 const COLORS = [
-  'default',
-  'inherit',
-  'primary',
-  'secondary',
-  'info',
-  'success',
-  'warning',
-  'error',
+  "default",
+  "inherit",
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
 ] as const;
 
-const SIZES = ['small', 'medium', 'large'] as const;
+const SIZES = ["small", "medium", "large"] as const;
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ export default function FloatingActionButton() {
       spacing={3}
       sx={{
         [`& .${fabClasses.root}`]: {
-          textTransform: 'capitalize',
+          textTransform: "capitalize",
         },
       }}
     >
@@ -44,7 +44,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {COLORS.map((color) => (
           <Fab key={color} color={color} variant="extended">
@@ -53,7 +53,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         <Fab color="info" disabled>
           <Iconify icon="ic:round-access-alarm" width={24} />
@@ -72,7 +72,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {COLORS.map((color) => (
           <Fab key={color} color={color} variant="outlinedExtended">
@@ -81,7 +81,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         <Fab color="info" disabled variant="outlined">
           <Iconify icon="ic:round-access-alarm" width={24} />
@@ -100,7 +100,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {COLORS.map((color) => (
           <Fab key={color} color={color} variant="softExtended">
@@ -109,7 +109,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         <Fab color="info" disabled variant="soft">
           <Iconify icon="ic:round-access-alarm" width={24} />
@@ -128,7 +128,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {SIZES.map((size) => (
           <Fab key={size} size={size} color="info" variant="extended">
@@ -137,7 +137,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {SIZES.map((size) => (
           <Fab key={size} size={size} color="info" variant="soft">
@@ -145,7 +145,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {SIZES.map((size) => (
           <Fab key={size} size={size} color="info" variant="softExtended">
@@ -154,7 +154,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {SIZES.map((size) => (
           <Fab key={size} size={size} color="info" variant="outlined">
@@ -162,7 +162,7 @@ export default function FloatingActionButton() {
           </Fab>
         ))}
 
-        <Box sx={{ display: 'block', width: 1, height: 2 }} />
+        <Box sx={{ display: "block", width: 1, height: 2 }} />
 
         {SIZES.map((size) => (
           <Fab key={size} size={size} color="info" variant="outlinedExtended">
@@ -180,8 +180,8 @@ export default function FloatingActionButton() {
             whileTap="tap"
             whileHover="hover"
             variants={
-              (size === 'small' && varHover(1.1, 0.95)) ||
-              (size === 'large' && varHover(1.08, 0.99)) ||
+              (size === "small" && varHover(1.1, 0.95)) ||
+              (size === "large" && varHover(1.08, 0.99)) ||
               varHover()
             }
             variant="extended"

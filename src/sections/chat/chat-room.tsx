@@ -1,23 +1,23 @@
-import uniq from 'lodash/uniq';
-import flatten from 'lodash/flatten';
-import { useEffect, useCallback } from 'react';
+import uniq from "lodash/uniq";
+import flatten from "lodash/flatten";
+import { useEffect, useCallback } from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
 // hooks
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from "src/hooks/use-responsive";
 // types
-import { IChatConversation, IChatParticipant } from 'src/types/chat';
+import { IChatConversation, IChatParticipant } from "src/types/chat";
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from "src/components/iconify";
 //
-import { useCollapseNav } from './hooks';
-import ChatRoomGroup from './chat-room-group';
-import ChatRoomSingle from './chat-room-single';
-import ChatRoomAttachments from './chat-room-attachments';
+import { useCollapseNav } from "./hooks";
+import ChatRoomGroup from "./chat-room-group";
+import ChatRoomSingle from "./chat-room-single";
+import ChatRoomAttachments from "./chat-room-attachments";
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ type Props = {
 export default function ChatRoom({ participants, conversation }: Props) {
   const theme = useTheme();
 
-  const lgUp = useResponsive('up', 'lg');
+  const lgUp = useResponsive("up", "lg");
 
   const {
     collapseDesktop,
@@ -60,7 +60,9 @@ export default function ChatRoom({ participants, conversation }: Props) {
 
   const group = participants.length > 1;
 
-  const attachments = uniq(flatten(conversation.messages.map((messages) => messages.attachments)));
+  const attachments = uniq(
+    flatten(conversation.messages.map((messages) => messages.attachments)),
+  );
 
   const renderContent = (
     <>
@@ -84,12 +86,12 @@ export default function ChatRoom({ participants, conversation }: Props) {
         width: 32,
         height: 32,
         borderRight: 0,
-        position: 'absolute',
+        position: "absolute",
         borderRadius: `12px 0 0 12px`,
         boxShadow: theme.customShadows.z8,
         bgcolor: theme.palette.background.paper,
         border: `solid 1px ${theme.palette.divider}`,
-        '&:hover': {
+        "&:hover": {
           bgcolor: theme.palette.background.neutral,
         },
         ...(lgUp && {
@@ -102,7 +104,11 @@ export default function ChatRoom({ participants, conversation }: Props) {
       {lgUp ? (
         <Iconify
           width={16}
-          icon={collapseDesktop ? 'eva:arrow-ios-back-fill' : 'eva:arrow-ios-forward-fill'}
+          icon={
+            collapseDesktop
+              ? "eva:arrow-ios-back-fill"
+              : "eva:arrow-ios-forward-fill"
+          }
         />
       ) : (
         <Iconify width={16} icon="eva:arrow-ios-back-fill" />
@@ -111,7 +117,7 @@ export default function ChatRoom({ participants, conversation }: Props) {
   );
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: "relative" }}>
       {renderToggleBtn}
 
       {lgUp ? (
@@ -121,7 +127,7 @@ export default function ChatRoom({ participants, conversation }: Props) {
             flexShrink: 0,
             width: NAV_WIDTH,
             borderLeft: `solid 1px ${theme.palette.divider}`,
-            transition: theme.transitions.create(['width'], {
+            transition: theme.transitions.create(["width"], {
               duration: theme.transitions.duration.shorter,
             }),
             ...(collapseDesktop && {

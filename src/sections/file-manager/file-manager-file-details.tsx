@@ -1,30 +1,30 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // @mui
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
-import Drawer, { DrawerProps } from '@mui/material/Drawer';
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Autocomplete from "@mui/material/Autocomplete";
+import Drawer, { DrawerProps } from "@mui/material/Drawer";
 // utils
-import { fData } from 'src/utils/format-number';
-import { fDateTime } from 'src/utils/format-time';
+import { fData } from "src/utils/format-number";
+import { fDateTime } from "src/utils/format-time";
 // types
-import { IFile } from 'src/types/file';
+import { IFile } from "src/types/file";
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from "src/hooks/use-boolean";
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import FileThumbnail, { fileFormat } from 'src/components/file-thumbnail';
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
+import FileThumbnail, { fileFormat } from "src/components/file-thumbnail";
 //
-import FileManagerShareDialog from './file-manager-share-dialog';
-import FileManagerInvitedItem from './file-manager-invited-item';
+import FileManagerShareDialog from "./file-manager-share-dialog";
+import FileManagerInvitedItem from "./file-manager-invited-item";
 
 // ----------------------------------------------------------------------
 
@@ -60,13 +60,16 @@ export default function FileManagerFileDetails({
 
   const properties = useBoolean(true);
 
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmail, setInviteEmail] = useState("");
 
   const [tags, setTags] = useState(item.tags.slice(0, 3));
 
-  const handleChangeInvite = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setInviteEmail(event.target.value);
-  }, []);
+  const handleChangeInvite = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInviteEmail(event.target.value);
+    },
+    [],
+  );
 
   const handleChangeTags = useCallback((newValue: string[]) => {
     setTags(newValue);
@@ -78,12 +81,16 @@ export default function FileManagerFileDetails({
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        sx={{ typography: 'subtitle2' }}
+        sx={{ typography: "subtitle2" }}
       >
         Tags
         <IconButton size="small" onClick={toggleTags.onToggle}>
           <Iconify
-            icon={toggleTags.value ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+            icon={
+              toggleTags.value
+                ? "eva:arrow-ios-upward-fill"
+                : "eva:arrow-ios-downward-fill"
+            }
           />
         </IconButton>
       </Stack>
@@ -115,7 +122,9 @@ export default function FileManagerFileDetails({
               />
             ))
           }
-          renderInput={(params) => <TextField {...params} placeholder="#Add a tags" />}
+          renderInput={(params) => (
+            <TextField {...params} placeholder="#Add a tags" />
+          )}
         />
       )}
     </Stack>
@@ -127,34 +136,56 @@ export default function FileManagerFileDetails({
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        sx={{ typography: 'subtitle2' }}
+        sx={{ typography: "subtitle2" }}
       >
         Properties
         <IconButton size="small" onClick={properties.onToggle}>
           <Iconify
-            icon={properties.value ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+            icon={
+              properties.value
+                ? "eva:arrow-ios-upward-fill"
+                : "eva:arrow-ios-downward-fill"
+            }
           />
         </IconButton>
       </Stack>
 
       {properties.value && (
         <>
-          <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
-            <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
+          <Stack
+            direction="row"
+            sx={{ typography: "caption", textTransform: "capitalize" }}
+          >
+            <Box
+              component="span"
+              sx={{ width: 80, color: "text.secondary", mr: 2 }}
+            >
               Size
             </Box>
             {fData(size)}
           </Stack>
 
-          <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
-            <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
+          <Stack
+            direction="row"
+            sx={{ typography: "caption", textTransform: "capitalize" }}
+          >
+            <Box
+              component="span"
+              sx={{ width: 80, color: "text.secondary", mr: 2 }}
+            >
               Modified
             </Box>
             {fDateTime(modifiedAt)}
           </Stack>
 
-          <Stack direction="row" sx={{ typography: 'caption', textTransform: 'capitalize' }}>
-            <Box component="span" sx={{ width: 80, color: 'text.secondary', mr: 2 }}>
+          <Stack
+            direction="row"
+            sx={{ typography: "caption", textTransform: "capitalize" }}
+          >
+            <Box
+              component="span"
+              sx={{ width: 80, color: "text.secondary", mr: 2 }}
+            >
               Type
             </Box>
             {fileFormat(type)}
@@ -166,7 +197,12 @@ export default function FileManagerFileDetails({
 
   const renderShared = (
     <>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2.5 }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ p: 2.5 }}
+      >
         <Typography variant="subtitle2"> File Share With </Typography>
 
         <IconButton
@@ -176,10 +212,10 @@ export default function FileManagerFileDetails({
           sx={{
             width: 24,
             height: 24,
-            bgcolor: 'primary.main',
-            color: 'primary.contrastText',
-            '&:hover': {
-              bgcolor: 'primary.dark',
+            bgcolor: "primary.main",
+            color: "primary.contrastText",
+            "&:hover": {
+              bgcolor: "primary.dark",
             },
           }}
         >
@@ -212,7 +248,12 @@ export default function FileManagerFileDetails({
         {...other}
       >
         <Scrollbar sx={{ height: 1 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2.5 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ p: 2.5 }}
+          >
             <Typography variant="h6"> Info </Typography>
 
             <Checkbox
@@ -229,21 +270,21 @@ export default function FileManagerFileDetails({
             justifyContent="center"
             sx={{
               p: 2.5,
-              bgcolor: 'background.neutral',
+              bgcolor: "background.neutral",
             }}
           >
             <FileThumbnail
               imageView
-              file={type === 'folder' ? type : url}
+              file={type === "folder" ? type : url}
               sx={{ width: 64, height: 64 }}
               imgSx={{ borderRadius: 1 }}
             />
 
-            <Typography variant="subtitle1" sx={{ wordBreak: 'break-all' }}>
+            <Typography variant="subtitle1" sx={{ wordBreak: "break-all" }}>
               {name}
             </Typography>
 
-            <Divider sx={{ borderStyle: 'dashed' }} />
+            <Divider sx={{ borderStyle: "dashed" }} />
 
             {renderTags}
 
@@ -275,7 +316,7 @@ export default function FileManagerFileDetails({
         onCopyLink={onCopyLink}
         onClose={() => {
           share.onFalse();
-          setInviteEmail('');
+          setInviteEmail("");
         }}
       />
     </>
