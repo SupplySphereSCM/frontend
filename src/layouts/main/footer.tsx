@@ -19,7 +19,7 @@ import Logo from "src/components/logo";
 import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
-
+const currentYear = new Date().getFullYear();
 const LINKS = [
   {
     headline: "Minimal",
@@ -38,7 +38,7 @@ const LINKS = [
   },
   {
     headline: "Contact",
-    children: [{ name: "support@minimals.cc", href: "#" }],
+    children: [{ name: "support@supplysphere.com", href: "#" }],
   },
 ];
 
@@ -65,7 +65,8 @@ export default function Footer() {
         <Typography variant="caption" component="div">
           © All rights reserved
           <br /> made by
-          <Link href="https://minimals.cc/"> minimals.cc </Link>
+          {/*  Add the deployed link after deploying frontend  */}
+          <Link href="#"> Supplysphere.com </Link>
         </Typography>
       </Container>
     </Box>
@@ -105,9 +106,7 @@ export default function Footer() {
                 mx: { xs: "auto", md: "unset" },
               }}
             >
-              The starting point for your next project with Minimal UI Kit,
-              built on the newest version of Material-UI ©, ready to be
-              customized to your style.
+              SupplySphere: Orbiting Supply-Chain Management with blockchain.
             </Typography>
 
             <Stack
@@ -164,7 +163,7 @@ export default function Footer() {
         </Grid>
 
         <Typography variant="body2" sx={{ mt: 10 }}>
-          © 2021. All rights reserved
+          © {currentYear}. All rights reserved
         </Typography>
       </Container>
     </Box>

@@ -98,7 +98,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       newLabel: currentProduct?.newLabel || { enabled: false, content: "" },
       saleLabel: currentProduct?.saleLabel || { enabled: false, content: "" },
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   const methods = useForm({
@@ -149,12 +149,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
+        })
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveFile = useCallback(
@@ -163,7 +163,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -174,7 +174,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   const renderDetails = (
@@ -228,140 +228,140 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     </>
   );
 
-  const renderProperties = (
-    <>
-      {mdUp && (
-        <Grid md={4}>
-          <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Properties
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Additional functions and attributes...
-          </Typography>
-        </Grid>
-      )}
+  // const renderProperties = (
+  //   <>
+  //     {mdUp && (
+  //       <Grid md={4}>
+  //         <Typography variant="h6" sx={{ mb: 0.5 }}>
+  //           Properties
+  //         </Typography>
+  //         <Typography variant="body2" sx={{ color: "text.secondary" }}>
+  //           Additional functions and attributes...
+  //         </Typography>
+  //       </Grid>
+  //     )}
 
-      <Grid xs={12} md={8}>
-        <Card>
-          {!mdUp && <CardHeader title="Properties" />}
+  //     <Grid xs={12} md={8}>
+  //       <Card>
+  //         {!mdUp && <CardHeader title="Properties" />}
 
-          <Stack spacing={3} sx={{ p: 3 }}>
-            <Box
-              columnGap={2}
-              rowGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-              }}
-            >
-              <RHFTextField name="code" label="Product Code" />
+  //         <Stack spacing={3} sx={{ p: 3 }}>
+  //           <Box
+  //             columnGap={2}
+  //             rowGap={3}
+  //             display="grid"
+  //             gridTemplateColumns={{
+  //               xs: "repeat(1, 1fr)",
+  //               md: "repeat(2, 1fr)",
+  //             }}
+  //           >
+  //             <RHFTextField name="code" label="Product Code" />
 
-              <RHFTextField name="sku" label="Product SKU" />
+  //             <RHFTextField name="sku" label="Product SKU" />
 
-              <RHFTextField
-                name="quantity"
-                label="Quantity"
-                placeholder="0"
-                type="number"
-                InputLabelProps={{ shrink: true }}
-              />
+  //             <RHFTextField
+  //               name="quantity"
+  //               label="Quantity"
+  //               placeholder="0"
+  //               type="number"
+  //               InputLabelProps={{ shrink: true }}
+  //             />
 
-              <RHFSelect
-                native
-                name="category"
-                label="Category"
-                InputLabelProps={{ shrink: true }}
-              >
-                {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-                  <optgroup key={category.group} label={category.group}>
-                    {category.classify.map((classify) => (
-                      <option key={classify} value={classify}>
-                        {classify}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </RHFSelect>
+  //             <RHFSelect
+  //               native
+  //               name="category"
+  //               label="Category"
+  //               InputLabelProps={{ shrink: true }}
+  //             >
+  //               {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+  //                 <optgroup key={category.group} label={category.group}>
+  //                   {category.classify.map((classify) => (
+  //                     <option key={classify} value={classify}>
+  //                       {classify}
+  //                     </option>
+  //                   ))}
+  //                 </optgroup>
+  //               ))}
+  //             </RHFSelect>
 
-              <RHFMultiSelect
-                checkbox
-                name="colors"
-                label="Colors"
-                options={PRODUCT_COLOR_NAME_OPTIONS}
-              />
+  //             <RHFMultiSelect
+  //               checkbox
+  //               name="colors"
+  //               label="Colors"
+  //               options={PRODUCT_COLOR_NAME_OPTIONS}
+  //             />
 
-              <RHFMultiSelect
-                checkbox
-                name="sizes"
-                label="Sizes"
-                options={PRODUCT_SIZE_OPTIONS}
-              />
-            </Box>
+  //             <RHFMultiSelect
+  //               checkbox
+  //               name="sizes"
+  //               label="Sizes"
+  //               options={PRODUCT_SIZE_OPTIONS}
+  //             />
+  //           </Box>
 
-            <RHFAutocomplete
-              name="tags"
-              label="Tags"
-              placeholder="+ Tags"
-              multiple
-              freeSolo
-              options={_tags.map((option) => option)}
-              getOptionLabel={(option) => option}
-              renderOption={(props, option) => (
-                <li {...props} key={option}>
-                  {option}
-                </li>
-              )}
-              renderTags={(selected, getTagProps) =>
-                selected.map((option, index) => (
-                  <Chip
-                    {...getTagProps({ index })}
-                    key={option}
-                    label={option}
-                    size="small"
-                    color="info"
-                    variant="soft"
-                  />
-                ))
-              }
-            />
+  //           <RHFAutocomplete
+  //             name="tags"
+  //             label="Tags"
+  //             placeholder="+ Tags"
+  //             multiple
+  //             freeSolo
+  //             options={_tags.map((option) => option)}
+  //             getOptionLabel={(option) => option}
+  //             renderOption={(props, option) => (
+  //               <li {...props} key={option}>
+  //                 {option}
+  //               </li>
+  //             )}
+  //             renderTags={(selected, getTagProps) =>
+  //               selected.map((option, index) => (
+  //                 <Chip
+  //                   {...getTagProps({ index })}
+  //                   key={option}
+  //                   label={option}
+  //                   size="small"
+  //                   color="info"
+  //                   variant="soft"
+  //                 />
+  //               ))
+  //             }
+  //           />
 
-            <Stack spacing={1}>
-              <Typography variant="subtitle2">Gender</Typography>
-              <RHFMultiCheckbox
-                row
-                name="gender"
-                spacing={2}
-                options={PRODUCT_GENDER_OPTIONS}
-              />
-            </Stack>
+  //           <Stack spacing={1}>
+  //             <Typography variant="subtitle2">Gender</Typography>
+  //             <RHFMultiCheckbox
+  //               row
+  //               name="gender"
+  //               spacing={2}
+  //               options={PRODUCT_GENDER_OPTIONS}
+  //             />
+  //           </Stack>
 
-            <Divider sx={{ borderStyle: "dashed" }} />
+  //           <Divider sx={{ borderStyle: "dashed" }} />
 
-            <Stack direction="row" alignItems="center" spacing={3}>
-              <RHFSwitch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
-              <RHFTextField
-                name="saleLabel.content"
-                label="Sale Label"
-                fullWidth
-                disabled={!values.saleLabel.enabled}
-              />
-            </Stack>
+  //           <Stack direction="row" alignItems="center" spacing={3}>
+  //             <RHFSwitch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
+  //             <RHFTextField
+  //               name="saleLabel.content"
+  //               label="Sale Label"
+  //               fullWidth
+  //               disabled={!values.saleLabel.enabled}
+  //             />
+  //           </Stack>
 
-            <Stack direction="row" alignItems="center" spacing={3}>
-              <RHFSwitch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
-              <RHFTextField
-                name="newLabel.content"
-                label="New Label"
-                fullWidth
-                disabled={!values.newLabel.enabled}
-              />
-            </Stack>
-          </Stack>
-        </Card>
-      </Grid>
-    </>
-  );
+  //           <Stack direction="row" alignItems="center" spacing={3}>
+  //             <RHFSwitch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
+  //             <RHFTextField
+  //               name="newLabel.content"
+  //               label="New Label"
+  //               fullWidth
+  //               disabled={!values.newLabel.enabled}
+  //             />
+  //           </Stack>
+  //         </Stack>
+  //       </Card>
+  //     </Grid>
+  //   </>
+  // );
 
   const renderPricing = (
     <>
@@ -476,7 +476,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       <Grid container spacing={3}>
         {renderDetails}
 
-        {renderProperties}
+        {/* {renderProperties} */}
 
         {renderPricing}
 
