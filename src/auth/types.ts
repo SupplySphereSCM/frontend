@@ -3,7 +3,7 @@ import {
   RedirectLoginOptions,
   PopupLoginOptions,
 } from "@auth0/auth0-react";
-
+import { IUser } from "src/types/user";
 // ----------------------------------------------------------------------
 
 export type ActionMapType<M extends { [index: string]: any }> = {
@@ -17,7 +17,7 @@ export type ActionMapType<M extends { [index: string]: any }> = {
       };
 };
 
-export type AuthUserType = null | Record<string, any>;
+export type AuthUserType = null | IUser;
 
 export type AuthStateType = {
   status?: string;
@@ -44,7 +44,7 @@ type CanRemove = {
   newPassword?: (
     email: string,
     code: string,
-    password: string,
+    password: string
   ) => Promise<void>;
 };
 

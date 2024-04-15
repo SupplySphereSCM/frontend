@@ -12,6 +12,20 @@ export type IUserTableFilters = {
 
 // ----------------------------------------------------------------------
 
+export type IUser = {
+  // name: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  isEmailVerified: boolean;
+  profilePictureUrl: string;
+  googleId: string;
+  ethAddress: string;
+  role: string;
+};
+
 export type IUserSocialLink = {
   facebook: string;
   instagram: string;
