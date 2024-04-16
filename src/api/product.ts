@@ -78,8 +78,9 @@ export async function createProduct(product: Partial<IProductItem>) {
   /**
    * Work on server
    */
-  const data = { product };
+  const data = { ...product };
   await axiosInstance.post(URL, data);
+  console.log(data);
 
   /**
    * Work in local
