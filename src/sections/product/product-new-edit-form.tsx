@@ -27,6 +27,8 @@ import {
   PRODUCT_COLOR_NAME_OPTIONS,
   PRODUCT_CATEGORY_GROUP_OPTIONS,
 } from "src/_mock";
+// API
+import { createProduct } from "src/api/product";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
@@ -49,6 +51,17 @@ type Props = {
   currentProduct?: IProductItem;
 };
 
+type IProductSchema = {
+  name: string;
+  price: number;
+  tax: number;
+  images: string[];
+  description: string;
+  subDescription: string;
+  quantity: number;
+  product_id: string;
+};
+
 export default function ProductNewEditForm({ currentProduct }: Props) {
   const router = useRouter();
 
@@ -58,23 +71,26 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
-  const NewProductSchema = Yup.object().shape({
+  const NewProductSchema = Yup.object<IProductSchema>().shape({
     name: Yup.string().required("Name is required"),
     images: Yup.array().min(1, "Images is required"),
-    tags: Yup.array().min(2, "Must have at least 2 tags"),
-    category: Yup.string().required("Category is required"),
     price: Yup.number().moreThan(0, "Price should not be $0.00"),
     description: Yup.string().required("Description is required"),
+    tax: Yup.number(),
+    product_id: Yup.string().required("Product ID is required"),
+    subDescription: Yup.string().required("Sub Description is required"),
+    quantity: Yup.number().required("Quantity is required"),
+    // tags: Yup.array().min(2, "Must have at least 2 tags"),
+    // category: Yup.string().required("Category is required"),
     // not required
-    taxes: Yup.number(),
-    newLabel: Yup.object().shape({
-      enabled: Yup.boolean(),
-      content: Yup.string(),
-    }),
-    saleLabel: Yup.object().shape({
-      enabled: Yup.boolean(),
-      content: Yup.string(),
-    }),
+    // newLabel: Yup.object().shape({
+    //   enabled: Yup.boolean(),
+    //   content: Yup.string(),
+    // }),
+    // saleLabel: Yup.object().shape({
+    //   enabled: Yup.boolean(),
+    //   content: Yup.string(),
+    // }),
   });
 
   const defaultValues = useMemo(
@@ -83,20 +99,20 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       description: currentProduct?.description || "",
       subDescription: currentProduct?.subDescription || "",
       images: currentProduct?.images || [],
-      //
-      code: currentProduct?.code || "",
-      sku: currentProduct?.sku || "",
       price: currentProduct?.price || 0,
+      // priceSale: currentProduct?.priceSale || 0,
+      tax: currentProduct?.tax || 0,
       quantity: currentProduct?.quantity || 0,
-      priceSale: currentProduct?.priceSale || 0,
-      tags: currentProduct?.tags || [],
-      taxes: currentProduct?.taxes || 0,
-      gender: currentProduct?.gender || "",
-      category: currentProduct?.category || "",
-      colors: currentProduct?.colors || [],
-      sizes: currentProduct?.sizes || [],
-      newLabel: currentProduct?.newLabel || { enabled: false, content: "" },
-      saleLabel: currentProduct?.saleLabel || { enabled: false, content: "" },
+      product_id: String(Math.random()),
+      // code: currentProduct?.code || "",
+      // sku: currentProduct?.sku || "",
+      // tags: currentProduct?.tags || [],
+      // gender: currentProduct?.gender || "",
+      // category: currentProduct?.category || "",
+      // colors: currentProduct?.colors || [],
+      // sizes: currentProduct?.sizes || [],
+      // newLabel: currentProduct?.newLabel || { enabled: false, content: "" },
+      // saleLabel: currentProduct?.saleLabel || { enabled: false, content: "" },
     }),
     [currentProduct]
   );
@@ -124,15 +140,16 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   useEffect(() => {
     if (includeTaxes) {
-      setValue("taxes", 0);
+      setValue("tax", 0);
     } else {
-      setValue("taxes", currentProduct?.taxes || 0);
+      setValue("tax", currentProduct?.tax || 0);
     }
-  }, [currentProduct?.taxes, includeTaxes, setValue]);
+  }, [currentProduct?.tax, includeTaxes, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
+      createProduct(data as IProductItem);
       reset();
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       router.push(paths.dashboard.product.root);
@@ -383,7 +400,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           <Stack spacing={3} sx={{ p: 3 }}>
             <RHFTextField
               name="price"
-              label="Regular Price"
+              label="Price"
               placeholder="0.00"
               type="number"
               InputLabelProps={{ shrink: true }}
@@ -398,7 +415,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
               }}
             />
 
-            <RHFTextField
+            {/* <RHFTextField
               name="priceSale"
               label="Sale Price"
               placeholder="0.00"
@@ -413,7 +430,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
                   </InputAdornment>
                 ),
               }}
-            />
+            /> */}
 
             <FormControlLabel
               control={
@@ -422,12 +439,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
                   onChange={handleChangeIncludeTaxes}
                 />
               }
-              label="Price includes taxes"
+              label="Price includes tax"
             />
 
             {!includeTaxes && (
               <RHFTextField
-                name="taxes"
+                name="tax"
                 label="Tax (%)"
                 placeholder="0.00"
                 type="number"

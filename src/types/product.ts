@@ -32,44 +32,44 @@ export type IProductReview = {
 };
 
 export type IProductItem = {
-  id: string;
-  sku: string;
   name: string;
-  code: string;
   price: number;
-  taxes: number;
-  tags: string[];
-  gender: string;
-  sizes: string[];
-  publish: string;
-  coverUrl: string;
+  tax: number;
   images: string[];
-  colors: string[];
-  quantity: number;
-  category: string;
-  available: number;
-  totalSold: number;
+  // available: number;
   description: string;
-  totalRatings: number;
-  totalReviews: number;
-  inventoryType: string;
   subDescription: string;
-  priceSale: number | null;
-  reviews: IProductReview[];
-  createdAt: Date;
-  ratings: {
-    name: string;
-    starCount: number;
-    reviewCount: number;
-  }[];
-  saleLabel: {
-    enabled: boolean;
-    content: string;
-  };
-  newLabel: {
-    enabled: boolean;
-    content: string;
-  };
+  // priceSale: number | null;
+  quantity: number;
+  product_id: string;
+  // coverUrl: string;
+  // publish: string;
+  // sku: string;
+  // code: string;
+  // tags: string[];
+  // gender: string;
+  // sizes: string[];
+  // colors: string[];
+  // category: string;
+  // totalSold: number;
+  // totalRatings: number;
+  // totalReviews: number;
+  // inventoryType: string;
+  // reviews: IProductReview[];
+  // createdAt: Date;
+  // ratings: {
+  //   name: string;
+  //   starCount: number;
+  //   reviewCount: number;
+  // }[];
+  // saleLabel: {
+  //   enabled: boolean;
+  //   content: string;
+  // };
+  // newLabel: {
+  //   enabled: boolean;
+  //   content: string;
+  // };
 };
 
 export type IProductTableFilterValue = string | string[];
@@ -77,5 +77,5 @@ export type IProductTableFilterValue = string | string[];
 export type IProductTableFilters = {
   name: string;
   stock: string[];
-  publish: string[];
+  // publish: string[];
 };

@@ -26,7 +26,8 @@ export default function ProductList({ products, loading, ...other }: Props) {
   const renderList = (
     <>
       {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
+        // <ProductItem key={product.id} product={product} />
+        <ProductItem key={product.product_id} product={product} />
       ))}
     </>
   );

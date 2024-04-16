@@ -73,7 +73,7 @@ export function useSearchProducts(query: string) {
 
 // ----------------------------------------------------------------------
 
-export async function createProduct(product: IProductItem) {
+export async function createProduct(product: Partial<IProductItem>) {
   const URL = endpoints.product.root;
   /**
    * Work on server

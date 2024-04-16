@@ -29,18 +29,17 @@ type Props = {
     value: string;
     label: string;
   }[];
-  publishOptions: {
-    value: string;
-    label: string;
-  }[];
+  // publishOptions: {
+  //   value: string;
+  //   label: string;
+  // }[];
 };
 
 export default function ProductTableToolbar({
   filters,
   onFilters,
   //
-  stockOptions,
-  publishOptions,
+  stockOptions, // publishOptions,
 }: Props) {
   const popover = usePopover();
 
@@ -48,7 +47,7 @@ export default function ProductTableToolbar({
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onFilters("name", event.target.value);
     },
-    [onFilters],
+    [onFilters]
   );
 
   const handleFilterStock = useCallback(
@@ -57,10 +56,10 @@ export default function ProductTableToolbar({
         "stock",
         typeof event.target.value === "string"
           ? event.target.value.split(",")
-          : event.target.value,
+          : event.target.value
       );
     },
-    [onFilters],
+    [onFilters]
   );
 
   const handleFilterPublish = useCallback(
@@ -69,10 +68,10 @@ export default function ProductTableToolbar({
         "publish",
         typeof event.target.value === "string"
           ? event.target.value.split(",")
-          : event.target.value,
+          : event.target.value
       );
     },
-    [onFilters],
+    [onFilters]
   );
 
   return (
@@ -120,7 +119,7 @@ export default function ProductTableToolbar({
           </Select>
         </FormControl>
 
-        <FormControl
+        {/* <FormControl
           sx={{
             flexShrink: 0,
             width: { xs: 1, md: 200 },
@@ -149,14 +148,14 @@ export default function ProductTableToolbar({
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <Stack
           direction="row"
           alignItems="center"
           spacing={2}
-          flexGrow={1}
-          sx={{ width: 1 }}
+          // flexGrow={4}
+          sx={{ width: "auto" }}
         >
           <TextField
             fullWidth

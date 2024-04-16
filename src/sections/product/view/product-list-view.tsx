@@ -54,18 +54,18 @@ const TABLE_HEAD = [
   { id: "createdAt", label: "Create at", width: 160 },
   { id: "inventoryType", label: "Stock", width: 160 },
   { id: "price", label: "Price", width: 140 },
-  { id: "publish", label: "Publish", width: 110 },
+  // { id: "publish", label: "Publish", width: 110 },
   { id: "", width: 88 },
 ];
 
-const PUBLISH_OPTIONS = [
-  { value: "published", label: "Published" },
-  { value: "draft", label: "Draft" },
-];
+// const PUBLISH_OPTIONS = [
+//   { value: "published", label: "Published" },
+//   { value: "draft", label: "Draft" },
+// ];
 
 const defaultFilters: IProductTableFilters = {
   name: "",
-  publish: [],
+  // publish: [],
   stock: [],
 };
 
@@ -100,7 +100,7 @@ export default function ProductListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage,
+    table.page * table.rowsPerPage + table.rowsPerPage
   );
 
   const denseHeight = table.dense ? 60 : 80;
@@ -117,22 +117,22 @@ export default function ProductListView() {
         [name]: value,
       }));
     },
-    [table],
+    [table]
   );
 
   const handleDeleteRow = useCallback(
     (id: string) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
+      const deleteRow = tableData.filter((row) => row.product_id !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData],
+    [dataInPage.length, table, tableData]
   );
 
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id),
+      (row) => !table.selected.includes(row.product_id)
     );
     setTableData(deleteRows);
 
@@ -147,14 +147,14 @@ export default function ProductListView() {
     (id: string) => {
       router.push(paths.dashboard.product.edit(id));
     },
-    [router],
+    [router]
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.product.details(id));
     },
-    [router],
+    [router]
   );
 
   const handleResetFilters = useCallback(() => {
@@ -191,9 +191,8 @@ export default function ProductListView() {
           <ProductTableToolbar
             filters={filters}
             onFilters={handleFilters}
-            //
             stockOptions={PRODUCT_STOCK_OPTIONS}
-            publishOptions={PUBLISH_OPTIONS}
+            // publishOptions={PUBLISH_OPTIONS}
           />
 
           {canReset && (
@@ -216,7 +215,7 @@ export default function ProductListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id),
+                  tableData.map((row) => row.product_id)
                 )
               }
               action={
@@ -243,7 +242,7 @@ export default function ProductListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id),
+                      tableData.map((row) => row.product_id)
                     )
                   }
                 />
@@ -258,17 +257,19 @@ export default function ProductListView() {
                       {dataFiltered
                         .slice(
                           table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage,
+                          table.page * table.rowsPerPage + table.rowsPerPage
                         )
                         .map((row) => (
                           <ProductTableRow
-                            key={row.id}
+                            key={row.product_id}
                             row={row}
-                            selected={table.selected.includes(row.id)}
-                            onSelectRow={() => table.onSelectRow(row.id)}
-                            onDeleteRow={() => handleDeleteRow(row.id)}
-                            onEditRow={() => handleEditRow(row.id)}
-                            onViewRow={() => handleViewRow(row.id)}
+                            selected={table.selected.includes(row.product_id)}
+                            onSelectRow={() =>
+                              table.onSelectRow(row.product_id)
+                            }
+                            onDeleteRow={() => handleDeleteRow(row.product_id)}
+                            onEditRow={() => handleEditRow(row.product_id)}
+                            onViewRow={() => handleViewRow(row.product_id)}
                           />
                         ))}
                     </>
@@ -279,7 +280,7 @@ export default function ProductListView() {
                     emptyRows={emptyRows(
                       table.page,
                       table.rowsPerPage,
-                      tableData.length,
+                      tableData.length
                     )}
                   />
 
@@ -340,7 +341,8 @@ function applyFilter({
   comparator: (a: any, b: any) => number;
   filters: IProductTableFilters;
 }) {
-  const { name, stock, publish } = filters;
+  // const { name, stock, publish } = filters;
+  const { name, stock } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
@@ -354,22 +356,21 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (product) =>
-        product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
+      (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
-  if (stock.length) {
-    inputData = inputData.filter((product) =>
-      stock.includes(product.inventoryType),
-    );
-  }
+  // if (stock.length) {
+  //   inputData = inputData.filter((product) =>
+  //     stock.includes(product.inventoryType)
+  //   );
+  // }
 
-  if (publish.length) {
-    inputData = inputData.filter((product) =>
-      publish.includes(product.publish),
-    );
-  }
+  // if (publish.length) {
+  //   inputData = inputData.filter((product) =>
+  //     publish.includes(product.publish)
+  //   );
+  // }
 
   return inputData;
 }

@@ -34,12 +34,12 @@ export default function ProductItem({ product }: Props) {
     name,
     coverUrl,
     price,
-    colors,
+    // colors,
     available,
-    sizes,
+    // sizes,
     priceSale,
-    newLabel,
-    saleLabel,
+    // newLabel,
+    // saleLabel,
   } = product;
 
   const linkTo = paths.product.details(id);
@@ -51,9 +51,9 @@ export default function ProductItem({ product }: Props) {
       coverUrl,
       available,
       price,
-      colors: [colors[0]],
-      size: sizes[0],
       quantity: 1,
+      // colors: [colors[0]],
+      // size: sizes[0],
     };
     try {
       onAddToCart(newProduct);
@@ -62,25 +62,25 @@ export default function ProductItem({ product }: Props) {
     }
   };
 
-  const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-    <Stack
-      direction="row"
-      alignItems="center"
-      spacing={1}
-      sx={{ position: "absolute", zIndex: 9, top: 16, right: 16 }}
-    >
-      {newLabel.enabled && (
-        <Label variant="filled" color="info">
-          {newLabel.content}
-        </Label>
-      )}
-      {saleLabel.enabled && (
-        <Label variant="filled" color="error">
-          {saleLabel.content}
-        </Label>
-      )}
-    </Stack>
-  );
+  // const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
+  //   <Stack
+  //     direction="row"
+  //     alignItems="center"
+  //     spacing={1}
+  //     sx={{ position: "absolute", zIndex: 9, top: 16, right: 16 }}
+  //   >
+  //     {newLabel.enabled && (
+  //       <Label variant="filled" color="info">
+  //         {newLabel.content}
+  //       </Label>
+  //     )}
+  //     {saleLabel.enabled && (
+  //       <Label variant="filled" color="error">
+  //         {saleLabel.content}
+  //       </Label>
+  //     )}
+  //   </Stack>
+  // );
 
   const renderImg = (
     <Box sx={{ position: "relative", p: 1 }}>
@@ -137,7 +137,7 @@ export default function ProductItem({ product }: Props) {
       </Link>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <ColorPreview colors={colors} />
+        {/* <ColorPreview colors={colors} /> */}
 
         <Stack direction="row" spacing={0.5} sx={{ typography: "subtitle1" }}>
           {priceSale && (
@@ -163,7 +163,7 @@ export default function ProductItem({ product }: Props) {
         },
       }}
     >
-      {renderLabels}
+      {/* {renderLabels} */}
 
       {renderImg}
 

@@ -8,10 +8,10 @@ export type ICheckoutItem = {
   coverUrl: string;
   available: number;
   price: number;
-  colors: string[];
-  size: string;
   quantity: number;
   subTotal: number;
+  // colors: string[];
+  // size: string;
 };
 
 export type ICheckoutDeliveryOption = {
