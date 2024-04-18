@@ -10,9 +10,9 @@ export type ICheckoutItem = {
   price: number;
   quantity: number;
   subTotal: number;
-  // colors: string[];
-  // size: string;
 };
+// colors: string[];
+// size: string;
 
 export type ICheckoutDeliveryOption = {
   value: number;

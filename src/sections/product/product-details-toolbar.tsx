@@ -30,8 +30,8 @@ export default function ProductDetailsToolbar({
   backLink,
   editLink,
   liveLink,
-  publishOptions,
-  onChangePublish,
+  // publishOptions,
+  // onChangePublish,
   sx,
   ...other
 }: Props) {
@@ -91,7 +91,7 @@ export default function ProductDetailsToolbar({
         arrow="top-right"
         sx={{ width: 140 }}
       >
-        {publishOptions.map((option) => (
+        {/* {publishOptions.map((option) => (
           <MenuItem
             key={option.value}
             selected={option.value === publish}
@@ -108,7 +108,7 @@ export default function ProductDetailsToolbar({
             )}
             {option.label}
           </MenuItem>
-        ))}
+        ))} */}
       </CustomPopover>
     </>
   );

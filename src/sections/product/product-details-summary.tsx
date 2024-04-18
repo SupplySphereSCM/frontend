@@ -47,38 +47,43 @@ export default function ProductDetailsSummary({
   const router = useRouter();
 
   const {
-    id,
+    product_id,
     name,
-    sizes,
+    // sizes,
     price,
-    coverUrl,
-    colors,
-    newLabel,
+    // quantity,
+    // coverUrl,
+
+    // colors,
+    // newLabel,
     available,
-    priceSale,
-    saleLabel,
-    totalRatings,
-    totalReviews,
-    inventoryType,
+    // priceSale,
+    // saleLabel,
+    // totalRatings,
+    // totalReviews,
+    // inventoryType,
     subDescription,
   } = product;
 
   const existProduct =
-    !!items?.length && items.map((item) => item.id).includes(id);
+    !!items?.length && items.map((item) => item.id).includes(product_id);
 
   const isMaxQuantity =
     !!items?.length &&
-    items.filter((item) => item.id === id).map((item) => item.quantity)[0] >=
-      available;
+    items
+      .filter((item) => item.id === product_id)
+      .map((item) => item.quantity)[0] >= available;
+  // quantity;
 
   const defaultValues = {
-    id,
+    product_id,
     name,
-    coverUrl,
+    // coverUrl,
     available,
+
     price,
-    colors: colors[0],
-    size: sizes[4],
+    // colors: colors[0],
+    // size: sizes[4],
     quantity: available < 1 ? 0 : 1,
   };
 
@@ -102,7 +107,6 @@ export default function ProductDetailsSummary({
       if (!existProduct) {
         onAddCart?.({
           ...data,
-          colors: [values.colors],
           subTotal: data.price * data.quantity,
         });
       }
@@ -117,7 +121,7 @@ export default function ProductDetailsSummary({
     try {
       onAddCart?.({
         ...values,
-        colors: [values.colors],
+
         subTotal: values.price * values.quantity,
       });
     } catch (error) {
@@ -127,7 +131,7 @@ export default function ProductDetailsSummary({
 
   const renderPrice = (
     <Box sx={{ typography: "h5" }}>
-      {priceSale && (
+      {/* {price && (
         <Box
           component="span"
           sx={{
@@ -136,9 +140,9 @@ export default function ProductDetailsSummary({
             mr: 0.5,
           }}
         >
-          {fCurrency(priceSale)}
+          {fCurrency(price)}
         </Box>
-      )}
+      )} */}
 
       {fCurrency(price)}
     </Box>
@@ -184,58 +188,58 @@ export default function ProductDetailsSummary({
     </Stack>
   );
 
-  const renderColorOptions = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Color
-      </Typography>
+  // const renderColorOptions = (
+  //   <Stack direction="row">
+  //     <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
+  //       Color
+  //     </Typography>
 
-      <Controller
-        name="colors"
-        control={control}
-        render={({ field }) => (
-          <ColorPicker
-            colors={colors}
-            selected={field.value}
-            onSelectColor={(color) => field.onChange(color as string)}
-            limit={4}
-          />
-        )}
-      />
-    </Stack>
-  );
+  //     <Controller
+  //       name="colors"
+  //       control={control}
+  //       render={({ field }) => (
+  //         <ColorPicker
+  //           colors={colors}
+  //           selected={field.value}
+  //           onSelectColor={(color) => field.onChange(color as string)}
+  //           limit={4}
+  //         />
+  //       )}
+  //     />
+  //   </Stack>
+  // );
 
-  const renderSizeOptions = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Size
-      </Typography>
+  // const renderSizeOptions = (
+  //   <Stack direction="row">
+  //     <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
+  //       Size
+  //     </Typography>
 
-      <RHFSelect
-        name="size"
-        size="small"
-        helperText={
-          <Link underline="always" color="textPrimary">
-            Size Chart
-          </Link>
-        }
-        sx={{
-          maxWidth: 88,
-          [`& .${formHelperTextClasses.root}`]: {
-            mx: 0,
-            mt: 1,
-            textAlign: "right",
-          },
-        }}
-      >
-        {sizes.map((size) => (
-          <MenuItem key={size} value={size}>
-            {size}
-          </MenuItem>
-        ))}
-      </RHFSelect>
-    </Stack>
-  );
+  //     <RHFSelect
+  //       name="size"
+  //       size="small"
+  //       helperText={
+  //         <Link underline="always" color="textPrimary">
+  //           Size Chart
+  //         </Link>
+  //       }
+  //       sx={{
+  //         maxWidth: 88,
+  //         [`& .${formHelperTextClasses.root}`]: {
+  //           mx: 0,
+  //           mt: 1,
+  //           textAlign: "right",
+  //         },
+  //       }}
+  //     >
+  //       {sizes.map((size) => (
+  //         <MenuItem key={size} value={size}>
+  //           {size}
+  //         </MenuItem>
+  //       ))}
+  //     </RHFSelect>
+  //   </Stack>
+  // );
 
   const renderQuantity = (
     <Stack direction="row">
@@ -297,59 +301,59 @@ export default function ProductDetailsSummary({
     </Typography>
   );
 
-  const renderRating = (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        color: "text.disabled",
-        typography: "body2",
-      }}
-    >
-      <Rating
-        size="small"
-        value={totalRatings}
-        precision={0.1}
-        readOnly
-        sx={{ mr: 1 }}
-      />
-      {`(${fShortenNumber(totalReviews)} reviews)`}
-    </Stack>
-  );
+  // const renderRating = (
+  //   <Stack
+  //     direction="row"
+  //     alignItems="center"
+  //     sx={{
+  //       color: "text.disabled",
+  //       typography: "body2",
+  //     }}
+  //   >
+  //     <Rating
+  //       size="small"
+  //       value={totalRatings}
+  //       precision={0.1}
+  //       readOnly
+  //       sx={{ mr: 1 }}
+  //     />
+  //     {`(${fShortenNumber(totalReviews)} reviews)`}
+  //   </Stack>
+  // );
 
-  const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-    <Stack direction="row" alignItems="center" spacing={1}>
-      {newLabel.enabled && <Label color="info">{newLabel.content}</Label>}
-      {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>}
-    </Stack>
-  );
+  // const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
+  //   <Stack direction="row" alignItems="center" spacing={1}>
+  //     {newLabel.enabled && <Label color="info">{newLabel.content}</Label>}
+  //     {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>}
+  //   </Stack>
+  // );
 
-  const renderInventoryType = (
-    <Box
-      component="span"
-      sx={{
-        typography: "overline",
-        color:
-          (inventoryType === "out of stock" && "error.main") ||
-          (inventoryType === "low stock" && "warning.main") ||
-          "success.main",
-      }}
-    >
-      {inventoryType}
-    </Box>
-  );
+  // const renderInventoryType = (
+  //   <Box
+  //     component="span"
+  //     sx={{
+  //       typography: "overline",
+  //       color:
+  //         (inventoryType === "out of stock" && "error.main") ||
+  //         (inventoryType === "low stock" && "warning.main") ||
+  //         "success.main",
+  //     }}
+  //   >
+  //     {inventoryType}
+  //   </Box>
+  // );
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={3} sx={{ pt: 3 }} {...other}>
         <Stack spacing={2} alignItems="flex-start">
-          {renderLabels}
+          {/* {renderLabels} */}
 
-          {renderInventoryType}
+          {/* {renderInventoryType} */}
 
           <Typography variant="h5">{name}</Typography>
 
-          {renderRating}
+          {/* {renderRating} */}
 
           {renderPrice}
 
@@ -358,9 +362,9 @@ export default function ProductDetailsSummary({
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        {renderColorOptions}
+        {/* {renderColorOptions} */}
 
-        {renderSizeOptions}
+        {/* {renderSizeOptions} */}
 
         {renderQuantity}
 

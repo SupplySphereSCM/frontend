@@ -36,7 +36,7 @@ export type IProductItem = {
   price: number;
   tax: number;
   images: string[];
-  // available: number;
+  available: number;
   description: string;
   subDescription: string;
   // priceSale: number | null;

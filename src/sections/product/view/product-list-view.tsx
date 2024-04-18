@@ -79,10 +79,12 @@ export default function ProductListView() {
   const settings = useSettingsContext();
 
   const [tableData, setTableData] = useState<IProductItem[]>([]);
+  // console.log(tableData);
 
   const [filters, setFilters] = useState(defaultFilters);
 
   const { products, productsLoading, productsEmpty } = useGetProducts();
+  console.log(products);
 
   const confirm = useBoolean();
 

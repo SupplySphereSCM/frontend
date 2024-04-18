@@ -11,17 +11,19 @@ export function useGetProducts() {
   const URL = endpoints.product.list;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data?.products as IProductItem[]) || [],
+      products: (data as IProductItem[]) || [],
       productsLoading: isLoading,
       productsError: error,
       productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.products?.length,
+      productsEmpty: !isLoading && !data?.length,
     }),
-    [data?.products, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating]
   );
+  // console.log(memoizedValue);
 
   return memoizedValue;
 }
@@ -30,19 +32,21 @@ export function useGetProducts() {
 
 export function useGetProduct(productId: string) {
   const URL = productId
-    ? [endpoints.product.details, { params: { productId } }]
+    ? [`${endpoints.product.details}/${productId}`, { params: { productId } }]
     : null;
+  console.log(URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  console.log(data);
 
   const memoizedValue = useMemo(
     () => ({
-      product: data?.product as IProductItem,
+      product: data as IProductItem,
       productLoading: isLoading,
       productError: error,
       productValidating: isValidating,
     }),
-    [data?.product, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -80,21 +84,23 @@ export async function createProduct(product: Partial<IProductItem>) {
    */
   const data = { ...product };
   await axiosInstance.post(URL, data);
-  console.log(data);
+  // console.log(data);
 
   /**
    * Work in local
    */
-  mutate(
-    URL,
-    (currentData: any) => {
-      const products: IProductItem[] = [...currentData.products, product];
+  // mutate(
+  //   URL,
+  //   (currentData: any) => {
+  //     console.log(currentData);
 
-      return {
-        ...currentData,
-        products,
-      };
-    },
-    false
-  );
+  //     const products: IProductItem[] = [...currentData?.products, product];
+
+  //     return {
+  //       ...currentData,
+  //       products,
+  //     };
+  //   },
+  //   false
+  // );
 }
