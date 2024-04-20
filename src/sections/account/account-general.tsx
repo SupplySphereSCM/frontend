@@ -25,43 +25,33 @@ import FormProvider, {
   RHFUploadAvatar,
   RHFAutocomplete,
 } from "src/components/hook-form";
+import { useAuthContext } from "src/auth/hooks";
+import { IUser } from "src/types/user";
 
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { user } = useMockedUser();
+  const { user } = useAuthContext();
 
-  const UpdateUserSchema = Yup.object().shape({
-    displayName: Yup.string().required("Name is required"),
+  const UpdateUserSchema = Yup.object().shape<Partial<IUser>>({
+    firstName: Yup.string().required("Name is required"),
+    lastName: Yup.string().required("Name is required"),
     email: Yup.string()
       .required("Email is required")
       .email("Email must be a valid email address"),
-    photoURL: Yup.mixed<any>().nullable().required("Avatar is required"),
-    phoneNumber: Yup.string().required("Phone number is required"),
-    country: Yup.string().required("Country is required"),
-    address: Yup.string().required("Address is required"),
-    state: Yup.string().required("State is required"),
-    city: Yup.string().required("City is required"),
-    zipCode: Yup.string().required("Zip code is required"),
-    about: Yup.string().required("About is required"),
-    // not required
-    isPublic: Yup.boolean(),
+    ethAddress: Yup.string().required("Address is required"),
+    profilePictureUrl: Yup.mixed<any>().nullable().required("Avatar is required"),
+
   });
 
-  const defaultValues = {
-    displayName: user?.displayName || "",
+  const defaultValues: Partial<IUser> = {
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
     email: user?.email || "",
-    photoURL: user?.photoURL || null,
-    phoneNumber: user?.phoneNumber || "",
-    country: user?.country || "",
-    address: user?.address || "",
-    state: user?.state || "",
-    city: user?.city || "",
-    zipCode: user?.zipCode || "",
-    about: user?.about || "",
-    isPublic: user?.isPublic || false,
+    ethAddress: user?.ethAddress || "",
+    profilePictureUrl: user?.profilePictureUrl || ""
   };
 
   const methods = useForm({
@@ -150,42 +140,9 @@ export default function AccountGeneral() {
                 sm: "repeat(2, 1fr)",
               }}
             >
-              <RHFTextField name="displayName" label="Name" />
+              <RHFTextField name="firstName" label="First Name" />
+              <RHFTextField name="lastName" label="Last Name" />
               <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="phoneNumber" label="Phone Number" />
-              <RHFTextField name="address" label="Address" />
-
-              <RHFAutocomplete
-                name="country"
-                label="Country"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option,
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
-              />
-
-              <RHFTextField name="state" label="State/Region" />
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
             </Box>
 
             <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>

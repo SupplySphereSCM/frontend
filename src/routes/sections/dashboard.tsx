@@ -39,7 +39,7 @@ const InvoiceEditPage = lazy(() => import("src/pages/dashboard/invoice/edit"));
 // const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
 // const UserCardsPage = lazy(() => import('src/pages/dashboard/user/cards'));
 // const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
-// const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
+const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
 // const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
 // const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
 // BLOG
@@ -92,18 +92,18 @@ export const dashboardRoutes = [
       // { path: 'banking', element: <OverviewBankingPage /> },
       // { path: 'booking', element: <OverviewBookingPage /> },
       // { path: 'file', element: <OverviewFilePage /> },
-      // {
-      //   path: 'user',
-      //   children: [
-      //     { element: <UserProfilePage />, index: true },
-      //     { path: 'profile', element: <UserProfilePage /> },
-      //     { path: 'cards', element: <UserCardsPage /> },
-      //     { path: 'list', element: <UserListPage /> },
-      //     { path: 'new', element: <UserCreatePage /> },
-      //     { path: ':id/edit', element: <UserEditPage /> },
-      //     { path: 'account', element: <UserAccountPage /> },
-      //   ],
-      // },
+      {
+        path: 'user',
+        children: [
+          //     { element: <UserProfilePage />, index: true },
+          //     { path: 'profile', element: <UserProfilePage /> },
+          //     { path: 'cards', element: <UserCardsPage /> },
+          //     { path: 'list', element: <UserListPage /> },
+          //     { path: 'new', element: <UserCreatePage /> },
+          //     { path: ':id/edit', element: <UserEditPage /> },
+          { path: 'account', element: <UserAccountPage /> },
+        ],
+      },
       {
         path: "product",
         children: [

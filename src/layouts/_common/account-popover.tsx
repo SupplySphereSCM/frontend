@@ -27,10 +27,10 @@ const OPTIONS = [
     label: "Home",
     linkTo: "/",
   },
-  {
-    label: "Profile",
-    linkTo: paths.dashboard.user.profile,
-  },
+  // {
+  //   label: "Profile",
+  //   linkTo: paths.dashboard.user.profile,
+  // },
   {
     label: "Settings",
     linkTo: paths.dashboard.user.account,
@@ -42,11 +42,7 @@ const OPTIONS = [
 export default function AccountPopover() {
   const router = useRouter();
 
-  // const { user } = useMockedUser();
-
   const { logout, user } = useAuthContext();
-
-  // console.log("Auth User: ", testUser);
 
   const { enqueueSnackbar } = useSnackbar();
 
