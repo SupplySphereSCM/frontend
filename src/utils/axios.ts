@@ -49,8 +49,9 @@ export const endpoints = {
     search: "/api/post/search",
   },
   product: {
-    root: "api/products",
-    list: "/api/products",
+    shop: "/api/products/shop",
+    root: "/api/products",
+    list: "/api/products/user",
     search: "/api/products/search",
     details: "/api/products",
   },

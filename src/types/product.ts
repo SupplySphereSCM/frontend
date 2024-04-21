@@ -39,10 +39,10 @@ export type IProductItem = {
   available: number;
   description: string;
   subDescription: string;
-  // priceSale: number | null;
+  priceSale: number | null;
   quantity: number;
   product_id: string;
-  // coverUrl: string;
+  coverUrl: string;
   // publish: string;
   // sku: string;
   // code: string;

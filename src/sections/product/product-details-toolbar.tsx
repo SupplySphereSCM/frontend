@@ -17,16 +17,16 @@ type Props = StackProps & {
   backLink: string;
   editLink: string;
   liveLink: string;
-  publish: string;
-  onChangePublish: (newValue: string) => void;
-  publishOptions: {
-    value: string;
-    label: string;
-  }[];
+  // publish: string;
+  // onChangePublish: (newValue: string) => void;
+  // publishOptions: {
+  //   value: string;
+  //   label: string;
+  // }[];
 };
 
 export default function ProductDetailsToolbar({
-  publish,
+  // publish,
   backLink,
   editLink,
   liveLink,
@@ -58,13 +58,13 @@ export default function ProductDetailsToolbar({
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {publish === "published" && (
+        {/* {publish === "published" && (
           <Tooltip title="Go Live">
             <IconButton component={RouterLink} href={liveLink}>
               <Iconify icon="eva:external-link-fill" />
             </IconButton>
           </Tooltip>
-        )}
+        )} */}
 
         <Tooltip title="Edit">
           <IconButton component={RouterLink} href={editLink}>
@@ -72,7 +72,7 @@ export default function ProductDetailsToolbar({
           </IconButton>
         </Tooltip>
 
-        <LoadingButton
+        {/* <LoadingButton
           color="inherit"
           variant="contained"
           loading={!publish}
@@ -82,7 +82,7 @@ export default function ProductDetailsToolbar({
           sx={{ textTransform: "capitalize" }}
         >
           {publish}
-        </LoadingButton>
+        </LoadingButton> */}
       </Stack>
 
       <CustomPopover

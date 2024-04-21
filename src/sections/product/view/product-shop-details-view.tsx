@@ -161,10 +161,10 @@ export default function ProductShopDetailsView({ id }: Props) {
               value: "description",
               label: "Description",
             },
-            {
-              value: "reviews",
-              label: `Reviews (${product.reviews.length})`,
-            },
+            // {
+            //   value: "reviews",
+            //   label: `Reviews (${product.reviews.length})`,
+            // },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
           ))}
@@ -174,14 +174,14 @@ export default function ProductShopDetailsView({ id }: Props) {
           <ProductDetailsDescription description={product?.description} />
         )}
 
-        {currentTab === "reviews" && (
+        {/* {currentTab === "reviews" && (
           <ProductDetailsReview
             ratings={product.ratings}
             reviews={product.reviews}
             totalRatings={product.totalRatings}
             totalReviews={product.totalReviews}
           />
-        )}
+        )} */}
       </Card>
     </>
   );

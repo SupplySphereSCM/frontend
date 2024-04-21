@@ -1,9 +1,18 @@
 // ----------------------------------------------------------------------
 
+import { label } from "yet-another-react-lightbox";
+
 export const PRODUCT_GENDER_OPTIONS = [
   { label: "Men", value: "Men" },
   { label: "Women", value: "Women" },
   { label: "Kids", value: "Kids" },
+];
+
+export const ROLE_OPTIONS = [
+  { label: "Manufacturer", value: "Manufacturer" },
+  { label: "Seller", value: "Seller" },
+  { label: "Transporter", value: "Transporter" },
+  { label: "Retailer", value: "Retailer" },
 ];
 
 export const PRODUCT_CATEGORY_OPTIONS = ["Shose", "Apparel", "Accessories"];

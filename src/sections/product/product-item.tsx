@@ -30,7 +30,7 @@ export default function ProductItem({ product }: Props) {
   const { onAddToCart } = useCheckoutContext();
 
   const {
-    id,
+    product_id,
     name,
     coverUrl,
     price,
@@ -42,11 +42,11 @@ export default function ProductItem({ product }: Props) {
     // saleLabel,
   } = product;
 
-  const linkTo = paths.product.details(id);
+  const linkTo = paths.product.details(product_id);
 
   const handleAddCart = async () => {
     const newProduct = {
-      id,
+      product_id,
       name,
       coverUrl,
       available,

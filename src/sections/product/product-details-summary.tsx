@@ -51,8 +51,8 @@ export default function ProductDetailsSummary({
     name,
     // sizes,
     price,
-    // quantity,
-    // coverUrl,
+    quantity,
+    coverUrl,
 
     // colors,
     // newLabel,
@@ -87,7 +87,7 @@ export default function ProductDetailsSummary({
     quantity: available < 1 ? 0 : 1,
   };
 
-  const methods = useForm({
+  const methods = useForm<ICheckoutItem>({
     defaultValues,
   });
 
@@ -102,14 +102,15 @@ export default function ProductDetailsSummary({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: ICheckoutItem) => {
     try {
       if (!existProduct) {
         onAddCart?.({
           ...data,
           subTotal: data.price * data.quantity,
-        });
+        } as ICheckoutItem);
       }
+
       onGotoStep?.(0);
       router.push(paths.product.checkout);
     } catch (error) {
@@ -121,7 +122,6 @@ export default function ProductDetailsSummary({
     try {
       onAddCart?.({
         ...values,
-
         subTotal: values.price * values.quantity,
       });
     } catch (error) {

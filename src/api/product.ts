@@ -30,6 +30,29 @@ export function useGetProducts() {
 
 // ----------------------------------------------------------------------
 
+export function useGetShopProducts() {
+  const URL = endpoints.product.shop;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // console.log("Data:", data); // Check if data is being fetched
+
+  const memoizedValue = useMemo(
+    () => ({
+      products: (data as IProductItem[]) || [],
+      productsLoading: isLoading,
+      productsError: error,
+      productsValidating: isValidating,
+      productsEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+  // console.log(memoizedValue);
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
 export function useGetProduct(productId: string) {
   const URL = productId
     ? [`${endpoints.product.details}/${productId}`, { params: { productId } }]

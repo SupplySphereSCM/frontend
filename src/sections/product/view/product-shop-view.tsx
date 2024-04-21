@@ -17,9 +17,10 @@ import {
   PRODUCT_GENDER_OPTIONS,
   PRODUCT_RATING_OPTIONS,
   PRODUCT_CATEGORY_OPTIONS,
+  ROLE_OPTIONS,
 } from "src/_mock";
 // api
-import { useGetProducts, useSearchProducts } from "src/api/product";
+import { useGetShopProducts, useSearchProducts } from "src/api/product";
 // components
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
@@ -65,7 +66,7 @@ export default function ProductShopView() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetProducts();
+  const { products, productsLoading, productsEmpty } = useGetShopProducts();
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 
@@ -76,7 +77,7 @@ export default function ProductShopView() {
         [name]: value,
       }));
     },
-    [],
+    []
   );
 
   const dataFiltered = applyFilter({
@@ -130,7 +131,7 @@ export default function ProductShopView() {
           //
           colorOptions={PRODUCT_COLOR_OPTIONS}
           ratingOptions={PRODUCT_RATING_OPTIONS}
-          genderOptions={PRODUCT_GENDER_OPTIONS}
+          genderOptions={ROLE_OPTIONS}
           categoryOptions={["all", ...PRODUCT_CATEGORY_OPTIONS]}
         />
 
@@ -230,37 +231,37 @@ function applyFilter({
   }
 
   // FILTERS
-  if (gender.length) {
-    inputData = inputData.filter((product) => gender.includes(product.gender));
-  }
+  // if (gender.length) {
+  //   inputData = inputData.filter((product) => gender.includes(product.gender));
+  // }
 
-  if (category !== "all") {
-    inputData = inputData.filter((product) => product.category === category);
-  }
+  // if (category !== "all") {
+  //   inputData = inputData.filter((product) => product.category === category);
+  // }
 
-  if (colors.length) {
-    inputData = inputData.filter((product) =>
-      product.colors.some((color) => colors.includes(color)),
-    );
-  }
+  // if (colors.length) {
+  //   inputData = inputData.filter((product) =>
+  //     product.colors.some((color) => colors.includes(color)),
+  //   );
+  // }
 
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
-      (product) => product.price >= min && product.price <= max,
+      (product) => product.price >= min && product.price <= max
     );
   }
 
-  if (rating) {
-    inputData = inputData.filter((product) => {
-      const convertRating = (value: string) => {
-        if (value === "up4Star") return 4;
-        if (value === "up3Star") return 3;
-        if (value === "up2Star") return 2;
-        return 1;
-      };
-      return product.totalRatings > convertRating(rating);
-    });
-  }
+  // if (rating) {
+  //   inputData = inputData.filter((product) => {
+  //     const convertRating = (value: string) => {
+  //       if (value === "up4Star") return 4;
+  //       if (value === "up3Star") return 3;
+  //       if (value === "up2Star") return 2;
+  //       return 1;
+  //     };
+  //     return product.totalRatings > convertRating(rating);
+  //   });
+  // }
 
   return inputData;
 }
