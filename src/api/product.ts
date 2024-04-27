@@ -21,7 +21,7 @@ export function useGetProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -44,7 +44,7 @@ export function useGetShopProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -69,7 +69,7 @@ export function useGetProduct(productId: string) {
       productError: error,
       productValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -92,7 +92,7 @@ export function useSearchProducts(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -112,18 +112,57 @@ export async function createProduct(product: Partial<IProductItem>) {
   /**
    * Work in local
    */
-  // mutate(
-  //   URL,
-  //   (currentData: any) => {
-  //     console.log(currentData);
+  mutate(
+    URL,
+    (currentData: any) => {
+      const products: IProductItem[] = [...currentData?.products, product];
 
-  //     const products: IProductItem[] = [...currentData?.products, product];
+      return {
+        ...currentData,
+        products,
+      };
+    },
+    false,
+  );
+}
+// ----------------------------------------------------------------------
 
-  //     return {
-  //       ...currentData,
-  //       products,
-  //     };
-  //   },
-  //   false
-  // );
+export async function updateProduct(product: Partial<IProductItem>) {
+  const URL = endpoints.product.details(`${product.id}`);
+  /**
+   * Work on server
+   */
+  const data = { ...product };
+  await axiosInstance.patch(URL, data);
+  // console.log(data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentData: any) => {
+      const updatedProducts = currentData.products.map((p: IProductItem) => {
+        return p.id === product.id ? { ...p, ...product } : p;
+      });
+
+      return { ...currentData, products: updatedProducts };
+    },
+    false,
+  );
+}
+
+export async function deleteProducts(ids: string | string[]) {
+  try {
+    // if (Array.isArray(ids) && ids.length > 1) {
+    //   return await axiosInstance.delete(endpoints.product.root, {
+    //     data: [...ids],
+    //   });
+    // }
+
+    return await axiosInstance.delete(endpoints.product.details(ids as string));
+  } catch (error) {
+    console.error("Failed to delete products:", error);
+    // Optionally, handle errors more gracefully here
+  }
 }

@@ -31,45 +31,49 @@ export type IProductReview = {
   postedAt: Date;
 };
 
-export type IProductItem = {
+export type IProductSchema = {
+  id?: string;
+
   name: string;
+  subDescription: string;
+  description: string;
+  images: string[] | File[];
+
+  code: string;
+  quantity: number;
+
   price: number;
   tax: number;
-  images: string[];
-  available: number;
+};
+
+export type IProductItem = {
+  id: string;
+
+  name: string;
   description: string;
   subDescription: string;
-  priceSale: number | null;
+  images: string[];
+
+  code: string;
   quantity: number;
-  product_id: string;
+
+  price: number;
+  tax: number;
+
+  available: number;
   coverUrl: string;
-  // publish: string;
-  // sku: string;
-  // code: string;
-  // tags: string[];
-  // gender: string;
-  // sizes: string[];
-  // colors: string[];
-  // category: string;
+  createdAt: Date;
+
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
   // inventoryType: string;
   // reviews: IProductReview[];
-  // createdAt: Date;
   // ratings: {
   //   name: string;
   //   starCount: number;
   //   reviewCount: number;
   // }[];
-  // saleLabel: {
-  //   enabled: boolean;
-  //   content: string;
-  // };
-  // newLabel: {
-  //   enabled: boolean;
-  //   content: string;
-  // };
 };
 
 export type IProductTableFilterValue = string | string[];

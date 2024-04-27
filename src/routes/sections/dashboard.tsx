@@ -10,7 +10,7 @@ import { LoadingScreen } from "src/components/loading-screen";
 // ----------------------------------------------------------------------
 
 // OVERVIEW
-const IndexPage = lazy(() => import('src/pages/dashboard/app'));
+const IndexPage = lazy(() => import("src/pages/dashboard/app"));
 // const OverviewEcommercePage = lazy(() => import('src/pages/dashboard/ecommerce'));
 // const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));
 // const OverviewBankingPage = lazy(() => import('src/pages/dashboard/banking'));
@@ -23,6 +23,13 @@ const ProductDetailsPage = lazy(
 const ProductListPage = lazy(() => import("src/pages/dashboard/product/list"));
 const ProductCreatePage = lazy(() => import("src/pages/dashboard/product/new"));
 const ProductEditPage = lazy(() => import("src/pages/dashboard/product/edit"));
+// SERIVCE
+const ServiceDetailsPage = lazy(
+  () => import("src/pages/dashboard/service/details"),
+);
+const ServiceListPage = lazy(() => import("src/pages/dashboard/service/list"));
+const ServiceCreatePage = lazy(() => import("src/pages/dashboard/service/new"));
+const ServiceEditPage = lazy(() => import("src/pages/dashboard/service/edit"));
 // ORDER
 const OrderListPage = lazy(() => import("src/pages/dashboard/order/list"));
 const OrderDetailsPage = lazy(
@@ -39,7 +46,7 @@ const InvoiceEditPage = lazy(() => import("src/pages/dashboard/invoice/edit"));
 // const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
 // const UserCardsPage = lazy(() => import('src/pages/dashboard/user/cards'));
 // const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
-const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
+const UserAccountPage = lazy(() => import("src/pages/dashboard/user/account"));
 // const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
 // const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
 // BLOG
@@ -47,11 +54,19 @@ const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
 // const BlogPostPage = lazy(() => import('src/pages/dashboard/post/details'));
 // const BlogNewPostPage = lazy(() => import('src/pages/dashboard/post/new'));
 // const BlogEditPostPage = lazy(() => import('src/pages/dashboard/post/edit'));
-// JOB
-// const JobDetailsPage = lazy(() => import('src/pages/dashboard/job/details'));
-// const JobListPage = lazy(() => import('src/pages/dashboard/job/list'));
-// const JobCreatePage = lazy(() => import('src/pages/dashboard/job/new'));
-// const JobEditPage = lazy(() => import('src/pages/dashboard/job/edit'));
+// SUPPLYCHAIN
+const SupplyChainDetailsPage = lazy(
+  () => import("src/pages/dashboard/supplychain/details"),
+);
+const SupplyChainListPage = lazy(
+  () => import("src/pages/dashboard/supplychain/list"),
+);
+const SupplyChainCreatePage = lazy(
+  () => import("src/pages/dashboard/supplychain/new"),
+);
+const SupplyChainEditPage = lazy(
+  () => import("src/pages/dashboard/supplychain/edit"),
+);
 // TOUR
 // const TourDetailsPage = lazy(() => import('src/pages/dashboard/tour/details'));
 // const TourListPage = lazy(() => import('src/pages/dashboard/tour/list'));
@@ -93,7 +108,7 @@ export const dashboardRoutes = [
       // { path: 'booking', element: <OverviewBookingPage /> },
       // { path: 'file', element: <OverviewFilePage /> },
       {
-        path: 'user',
+        path: "user",
         children: [
           //     { element: <UserProfilePage />, index: true },
           //     { path: 'profile', element: <UserProfilePage /> },
@@ -101,7 +116,7 @@ export const dashboardRoutes = [
           //     { path: 'list', element: <UserListPage /> },
           //     { path: 'new', element: <UserCreatePage /> },
           //     { path: ':id/edit', element: <UserEditPage /> },
-          { path: 'account', element: <UserAccountPage /> },
+          { path: "account", element: <UserAccountPage /> },
         ],
       },
       {
@@ -112,6 +127,16 @@ export const dashboardRoutes = [
           { path: ":id", element: <ProductDetailsPage /> },
           { path: "new", element: <ProductCreatePage /> },
           { path: ":id/edit", element: <ProductEditPage /> },
+        ],
+      },
+      {
+        path: "service",
+        children: [
+          { element: <ServiceListPage />, index: true },
+          { path: "list", element: <ServiceListPage /> },
+          { path: ":id", element: <ServiceDetailsPage /> },
+          { path: "new", element: <ServiceCreatePage /> },
+          { path: ":id/edit", element: <ServiceEditPage /> },
         ],
       },
       {
@@ -142,16 +167,16 @@ export const dashboardRoutes = [
       //     { path: 'new', element: <BlogNewPostPage /> },
       //   ],
       // },
-      // {
-      //   path: 'job',
-      //   children: [
-      //     { element: <JobListPage />, index: true },
-      //     { path: 'list', element: <JobListPage /> },
-      //     { path: ':id', element: <JobDetailsPage /> },
-      //     { path: 'new', element: <JobCreatePage /> },
-      //     { path: ':id/edit', element: <JobEditPage /> },
-      //   ],
-      // },
+      {
+        path: "supplychain",
+        children: [
+          { element: <SupplyChainListPage />, index: true },
+          { path: "list", element: <SupplyChainListPage /> },
+          { path: ":id", element: <SupplyChainDetailsPage /> },
+          { path: "new", element: <SupplyChainCreatePage /> },
+          { path: ":id/edit", element: <SupplyChainEditPage /> },
+        ],
+      },
       // {
       //   path: 'tour',
       //   children: [

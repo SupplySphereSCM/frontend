@@ -1,15 +1,13 @@
 import * as Yup from "yup";
-import { useCallback, useMemo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useCallback, useMemo, useEffect, useState } from "react";
 // @mui
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
@@ -19,47 +17,25 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { paths } from "src/routes/paths";
 // hooks
 import { useResponsive } from "src/hooks/use-responsive";
-// _mock
-import {
-  _tags,
-  PRODUCT_SIZE_OPTIONS,
-  PRODUCT_GENDER_OPTIONS,
-  PRODUCT_COLOR_NAME_OPTIONS,
-  PRODUCT_CATEGORY_GROUP_OPTIONS,
-} from "src/_mock";
 // API
-import { createProduct } from "src/api/product";
+import { createProduct, updateProduct } from "src/api/product";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
 import FormProvider, {
-  RHFSelect,
   RHFEditor,
   RHFUpload,
-  RHFSwitch,
   RHFTextField,
-  RHFMultiSelect,
-  RHFAutocomplete,
-  RHFMultiCheckbox,
 } from "src/components/hook-form";
 // types
-import { IProductItem } from "src/types/product";
+import { IProductItem, IProductSchema } from "src/types/product";
+// utils
+import axiosInstance, { endpoints } from "src/utils/axios";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   currentProduct?: IProductItem;
-};
-
-type IProductSchema = {
-  name: string;
-  price: number;
-  tax: number;
-  images: string[];
-  description: string;
-  subDescription: string;
-  quantity: number;
-  product_id: string;
 };
 
 export default function ProductNewEditForm({ currentProduct }: Props) {
@@ -71,50 +47,39 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
+  const [images, setImages] = useState<string[]>([]);
+
   const NewProductSchema = Yup.object<IProductSchema>().shape({
+    id: Yup.string(),
+
     name: Yup.string().required("Name is required"),
-    images: Yup.array().min(1, "Images is required"),
-    price: Yup.number().moreThan(0, "Price should not be $0.00"),
-    description: Yup.string().required("Description is required"),
-    tax: Yup.number(),
-    product_id: Yup.string().required("Product ID is required"),
     subDescription: Yup.string().required("Sub Description is required"),
+    description: Yup.string().required("Description is required"),
+    images: Yup.array().min(1, "Images is required"),
+
+    code: Yup.string().required("Product code is required"),
     quantity: Yup.number().required("Quantity is required"),
-    // tags: Yup.array().min(2, "Must have at least 2 tags"),
-    // category: Yup.string().required("Category is required"),
-    // not required
-    // newLabel: Yup.object().shape({
-    //   enabled: Yup.boolean(),
-    //   content: Yup.string(),
-    // }),
-    // saleLabel: Yup.object().shape({
-    //   enabled: Yup.boolean(),
-    //   content: Yup.string(),
-    // }),
+
+    price: Yup.number().moreThan(0, "Price should not be $0.00"),
+    tax: Yup.number(),
   });
 
-  const defaultValues = useMemo(
+  const defaultValues: IProductSchema = useMemo(
     () => ({
+      id: currentProduct?.id,
+
       name: currentProduct?.name || "",
-      description: currentProduct?.description || "",
       subDescription: currentProduct?.subDescription || "",
+      description: currentProduct?.description || "",
       images: currentProduct?.images || [],
-      price: currentProduct?.price || 0,
-      // priceSale: currentProduct?.priceSale || 0,
-      tax: currentProduct?.tax || 0,
+
+      code: currentProduct?.code || "",
       quantity: currentProduct?.quantity || 0,
-      product_id: String(Math.random()),
-      // code: currentProduct?.code || "",
-      // sku: currentProduct?.sku || "",
-      // tags: currentProduct?.tags || [],
-      // gender: currentProduct?.gender || "",
-      // category: currentProduct?.category || "",
-      // colors: currentProduct?.colors || [],
-      // sizes: currentProduct?.sizes || [],
-      // newLabel: currentProduct?.newLabel || { enabled: false, content: "" },
-      // saleLabel: currentProduct?.saleLabel || { enabled: false, content: "" },
+
+      price: currentProduct?.price || 0,
+      tax: currentProduct?.tax || 0,
     }),
-    [currentProduct]
+    [currentProduct],
   );
 
   const methods = useForm({
@@ -148,12 +113,14 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      createProduct(data as IProductItem);
+      data.images = images;
+
+      if (currentProduct?.id) await updateProduct(data as IProductItem);
+      else await createProduct(data as IProductItem);
+
       reset();
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       router.push(paths.dashboard.product.root);
-      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -166,12 +133,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images]
+    [setValue, values.images],
   );
 
   const handleRemoveFile = useCallback(
@@ -180,7 +147,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images]
+    [setValue, values.images],
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -191,8 +158,41 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    []
+    [],
   );
+
+  const handleImageUpload = async () => {
+    try {
+      const formData = new FormData();
+      if (Array.isArray(values.images)) {
+        values.images.forEach((file) => {
+          formData.append("files", file);
+        });
+      } else {
+        formData.append("files", values.images as any);
+      }
+
+      const results = await axiosInstance.post(
+        endpoints.upload.files,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      setImages(results.data);
+      enqueueSnackbar("Image Uploaded", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar(
+        `Image Upload Failed: ${
+          error.response ? error.response.data.message : error.message
+        }`,
+        { variant: "error" },
+      );
+    }
+  };
 
   const renderDetails = (
     <>
@@ -236,7 +236,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
                 onDrop={handleDrop}
                 onRemove={handleRemoveFile}
                 onRemoveAll={handleRemoveAllFiles}
-                onUpload={() => console.info("ON UPLOAD")}
+                onUpload={handleImageUpload}
               />
             </Stack>
           </Stack>
@@ -245,140 +245,48 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     </>
   );
 
-  // const renderProperties = (
-  //   <>
-  //     {mdUp && (
-  //       <Grid md={4}>
-  //         <Typography variant="h6" sx={{ mb: 0.5 }}>
-  //           Properties
-  //         </Typography>
-  //         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-  //           Additional functions and attributes...
-  //         </Typography>
-  //       </Grid>
-  //     )}
+  const renderProperties = (
+    <>
+      {mdUp && (
+        <Grid md={4}>
+          <Typography variant="h6" sx={{ mb: 0.5 }}>
+            Properties
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Additional functions and attributes...
+          </Typography>
+        </Grid>
+      )}
 
-  //     <Grid xs={12} md={8}>
-  //       <Card>
-  //         {!mdUp && <CardHeader title="Properties" />}
+      <Grid xs={12} md={8}>
+        <Card>
+          {!mdUp && <CardHeader title="Properties" />}
 
-  //         <Stack spacing={3} sx={{ p: 3 }}>
-  //           <Box
-  //             columnGap={2}
-  //             rowGap={3}
-  //             display="grid"
-  //             gridTemplateColumns={{
-  //               xs: "repeat(1, 1fr)",
-  //               md: "repeat(2, 1fr)",
-  //             }}
-  //           >
-  //             <RHFTextField name="code" label="Product Code" />
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <Box
+              columnGap={2}
+              rowGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+              }}
+            >
+              <RHFTextField name="code" label="Product Code" />
 
-  //             <RHFTextField name="sku" label="Product SKU" />
-
-  //             <RHFTextField
-  //               name="quantity"
-  //               label="Quantity"
-  //               placeholder="0"
-  //               type="number"
-  //               InputLabelProps={{ shrink: true }}
-  //             />
-
-  //             <RHFSelect
-  //               native
-  //               name="category"
-  //               label="Category"
-  //               InputLabelProps={{ shrink: true }}
-  //             >
-  //               {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-  //                 <optgroup key={category.group} label={category.group}>
-  //                   {category.classify.map((classify) => (
-  //                     <option key={classify} value={classify}>
-  //                       {classify}
-  //                     </option>
-  //                   ))}
-  //                 </optgroup>
-  //               ))}
-  //             </RHFSelect>
-
-  //             <RHFMultiSelect
-  //               checkbox
-  //               name="colors"
-  //               label="Colors"
-  //               options={PRODUCT_COLOR_NAME_OPTIONS}
-  //             />
-
-  //             <RHFMultiSelect
-  //               checkbox
-  //               name="sizes"
-  //               label="Sizes"
-  //               options={PRODUCT_SIZE_OPTIONS}
-  //             />
-  //           </Box>
-
-  //           <RHFAutocomplete
-  //             name="tags"
-  //             label="Tags"
-  //             placeholder="+ Tags"
-  //             multiple
-  //             freeSolo
-  //             options={_tags.map((option) => option)}
-  //             getOptionLabel={(option) => option}
-  //             renderOption={(props, option) => (
-  //               <li {...props} key={option}>
-  //                 {option}
-  //               </li>
-  //             )}
-  //             renderTags={(selected, getTagProps) =>
-  //               selected.map((option, index) => (
-  //                 <Chip
-  //                   {...getTagProps({ index })}
-  //                   key={option}
-  //                   label={option}
-  //                   size="small"
-  //                   color="info"
-  //                   variant="soft"
-  //                 />
-  //               ))
-  //             }
-  //           />
-
-  //           <Stack spacing={1}>
-  //             <Typography variant="subtitle2">Gender</Typography>
-  //             <RHFMultiCheckbox
-  //               row
-  //               name="gender"
-  //               spacing={2}
-  //               options={PRODUCT_GENDER_OPTIONS}
-  //             />
-  //           </Stack>
-
-  //           <Divider sx={{ borderStyle: "dashed" }} />
-
-  //           <Stack direction="row" alignItems="center" spacing={3}>
-  //             <RHFSwitch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
-  //             <RHFTextField
-  //               name="saleLabel.content"
-  //               label="Sale Label"
-  //               fullWidth
-  //               disabled={!values.saleLabel.enabled}
-  //             />
-  //           </Stack>
-
-  //           <Stack direction="row" alignItems="center" spacing={3}>
-  //             <RHFSwitch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
-  //             <RHFTextField
-  //               name="newLabel.content"
-  //               label="New Label"
-  //               fullWidth
-  //               disabled={!values.newLabel.enabled}
-  //             />
-  //           </Stack>
-  //         </Stack>
-  //       </Card>
-  //     </Grid>
-  //   </>
-  // );
+              <RHFTextField
+                name="quantity"
+                label="Quantity"
+                placeholder="0"
+                type="number"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Box>
+          </Stack>
+        </Card>
+      </Grid>
+    </>
+  );
 
   const renderPricing = (
     <>
@@ -414,23 +322,6 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
                 ),
               }}
             />
-
-            {/* <RHFTextField
-              name="priceSale"
-              label="Sale Price"
-              placeholder="0.00"
-              type="number"
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
-                    </Box>
-                  </InputAdornment>
-                ),
-              }}
-            /> */}
 
             <FormControlLabel
               control={
@@ -470,11 +361,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     <>
       {mdUp && <Grid md={4} />}
       <Grid xs={12} md={8} sx={{ display: "flex", alignItems: "center" }}>
-        <FormControlLabel
-          control={<Switch defaultChecked />}
-          label="Publish"
-          sx={{ flexGrow: 1, pl: 3 }}
-        />
+        <Box flex={1} />
 
         <LoadingButton
           type="submit"
@@ -493,7 +380,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       <Grid container spacing={3}>
         {renderDetails}
 
-        {/* {renderProperties} */}
+        {renderProperties}
 
         {renderPricing}
 

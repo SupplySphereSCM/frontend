@@ -71,8 +71,8 @@ export const mainRoutes = [
       </SimpleLayout>
     ),
     // children: [
-      // { path: "pricing", element: <PricingPage /> },
-      // { path: "payment", element: <PaymentPage /> },
+    // { path: "pricing", element: <PricingPage /> },
+    // { path: "payment", element: <PaymentPage /> },
     // ],
   },
   {

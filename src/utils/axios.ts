@@ -10,8 +10,8 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   (error) =>
     Promise.reject(
-      (error.response && error.response.data) || "Something went wrong"
-    )
+      (error.response && error.response.data) || "Something went wrong",
+    ),
 );
 
 export default axiosInstance;
@@ -36,6 +36,7 @@ export const endpoints = {
     me: "/api/auth/me",
     login: "/api/auth/login",
     register: "/api/auth/register",
+    delete: "/api/auth",
   },
   mail: {
     list: "/api/mail/list",
@@ -53,6 +54,10 @@ export const endpoints = {
     root: "/api/products",
     list: "/api/products/user",
     search: "/api/products/search",
-    details: "/api/products",
+    details: (id: string) => `/api/products/${id}`,
+  },
+  upload: {
+    file: "/api/upload/file",
+    files: "/api/upload/files",
   },
 };

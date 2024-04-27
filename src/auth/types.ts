@@ -44,7 +44,7 @@ type CanRemove = {
   newPassword?: (
     email: string,
     code: string,
-    password: string
+    password: string,
   ) => Promise<void>;
 };
 

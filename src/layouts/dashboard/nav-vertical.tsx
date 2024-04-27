@@ -13,7 +13,7 @@ import { usePathname } from "src/routes/hooks";
 import { NavSectionVertical } from "src/components/nav-section";
 //
 import { NAV } from "../config-layout";
-import { useNavData, useSecondaryNavData } from "./config-navigation";
+import { useNavData } from "./config-navigation";
 import { NavToggleButton } from "../_common";
 
 // ----------------------------------------------------------------------
@@ -31,7 +31,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
   const lgUp = useResponsive("up", "lg");
 
   const navData = useNavData();
-  const secondaryNavData = useSecondaryNavData();
 
   useEffect(() => {
     if (openNav) {
@@ -61,7 +60,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       />
 
       <Box sx={{ flexGrow: 1 }} />
-      <NavSectionVertical data={secondaryNavData} />
     </Scrollbar>
   );
 

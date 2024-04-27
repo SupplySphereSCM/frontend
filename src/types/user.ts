@@ -6,7 +6,7 @@ export type IUserTableFilterValue = string | string[];
 
 export type IUserTableFilters = {
   name: string;
-  role: string[];
+  roles: string[];
   status: string;
 };
 
@@ -23,7 +23,7 @@ export type IUser = {
   profilePictureUrl: string;
   googleId: string;
   ethAddress: string;
-  role: string;
+  roles: string[];
 };
 
 export type IUserSocialLink = {

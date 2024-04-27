@@ -73,14 +73,7 @@ export default function Header() {
                 rel="noopener"
                 underline="none"
                 sx={{ ml: 1 }}
-              >
-                <Label
-                  color="info"
-                  sx={{ textTransform: "unset", height: 22, px: 0.5 }}
-                >
-                  v5.5.0
-                </Label>
-              </Link>
+              ></Link>
             }
           >
             <Logo />
@@ -94,14 +87,14 @@ export default function Header() {
             alignItems="center"
             direction={{ xs: "row", md: "row-reverse" }}
           >
-            <Button
+            {/* <Button
               variant="contained"
               target="_blank"
               rel="noopener"
               href={paths.minimalUI}
             >
               Purchase Now
-            </Button>
+            </Button> */}
 
             {mdUp && <LoginButton />}
 

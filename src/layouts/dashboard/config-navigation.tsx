@@ -7,6 +7,7 @@ import { useLocales } from "src/locales";
 import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import SvgColor from "src/components/svg-color";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,8 @@ const ICONS = {
   booking: icon("ic_booking"),
   invoice: icon("ic_invoice"),
   product: icon("ic_product"),
+  supplychain: <Iconify icon={"tdesign:blockchain"} />,
+  service: <Iconify icon="mingcute:process-fill" />,
   calendar: icon("ic_calendar"),
   disabled: icon("ic_disabled"),
   external: icon("ic_external"),
@@ -69,7 +72,7 @@ export function useSecondaryNavData() {
 }
 
 export function useNavData() {
-  const {} = useLocales();
+  const { user } = useAuthContext();
 
   const data = useMemo(
     () => [
@@ -116,36 +119,54 @@ export function useNavData() {
       {
         subheader: "management",
         items: [
-          // USER
-          // {
-          //   title: ('user'),
-          //   path: paths.dashboard.user.root,
-          //   icon: ICONS.user,
-          //   children: [
-          //     { title: ('profile'), path: paths.dashboard.user.root },
-          //     { title: ('cards'), path: paths.dashboard.user.cards },
-          //     { title: ('list'), path: paths.dashboard.user.list },
-          //     { title: ('create'), path: paths.dashboard.user.new },
-          //     { title: ('edit'), path: paths.dashboard.user.demo.edit },
-          //     { title: ('account'), path: paths.dashboard.user.account },
-          //   ],
-          // },
+          // SUPPLYCHAIN
+          ...(user?.roles.some((role) => ["MANUFACTURER"].includes(role))
+            ? [
+                {
+                  title: "Supply Chain",
+                  path: paths.dashboard.supplychain.root,
+                  icon: ICONS.supplychain,
+                  children: [
+                    { title: "list", path: paths.dashboard.supplychain.root },
+                    { title: "create", path: paths.dashboard.supplychain.new },
+                  ],
+                },
+              ]
+            : []),
 
           // PRODUCT
-          {
-            title: "product",
-            path: paths.dashboard.product.root,
-            icon: ICONS.product,
-            children: [
-              { title: "list", path: paths.dashboard.product.root },
-              {
-                title: "details",
-                path: paths.dashboard.product.demo.details,
-              },
-              { title: "create", path: paths.dashboard.product.new },
-              { title: "edit", path: paths.dashboard.product.demo.edit },
-            ],
-          },
+          ...(user?.roles.some((role) =>
+            ["SELLER", "MANUFACTURER"].includes(role),
+          )
+            ? [
+                {
+                  title: "product",
+                  path: paths.dashboard.product.root,
+                  icon: ICONS.product,
+                  children: [
+                    { title: "list", path: paths.dashboard.product.root },
+                    { title: "create", path: paths.dashboard.product.new },
+                  ],
+                },
+              ]
+            : []),
+
+          // SERVICES
+          ...(user?.roles.some((role) =>
+            ["SELLER", "TRANSPORTER"].includes(role),
+          )
+            ? [
+                {
+                  title: "service",
+                  path: paths.dashboard.service.root,
+                  icon: ICONS.service,
+                  children: [
+                    { title: "list", path: paths.dashboard.service.root },
+                    { title: "create", path: paths.dashboard.service.new },
+                  ],
+                },
+              ]
+            : []),
 
           // ORDER
           {
@@ -154,7 +175,7 @@ export function useNavData() {
             icon: ICONS.order,
             children: [
               { title: "list", path: paths.dashboard.order.root },
-              { title: "details", path: paths.dashboard.order.demo.details },
+              // { title: "details", path: paths.dashboard.order.demo.details },
             ],
           },
 
@@ -165,89 +186,9 @@ export function useNavData() {
             icon: ICONS.invoice,
             children: [
               { title: "list", path: paths.dashboard.invoice.root },
-              {
-                title: "details",
-                path: paths.dashboard.invoice.demo.details,
-              },
               { title: "create", path: paths.dashboard.invoice.new },
-              { title: "edit", path: paths.dashboard.invoice.demo.edit },
             ],
           },
-
-          // BLOG
-          // {
-          //   title: ('blog'),
-          //   path: paths.dashboard.post.root,
-          //   icon: ICONS.blog,
-          //   children: [
-          //     { title: ('list'), path: paths.dashboard.post.root },
-          //     { title: ('details'), path: paths.dashboard.post.demo.details },
-          //     { title: ('create'), path: paths.dashboard.post.new },
-          //     { title: ('edit'), path: paths.dashboard.post.demo.edit },
-          //   ],
-          // },
-
-          // JOB
-          // {
-          //   title: ('job'),
-          //   path: paths.dashboard.job.root,
-          //   icon: ICONS.job,
-          //   children: [
-          //     { title: ('list'), path: paths.dashboard.job.root },
-          //     { title: ('details'), path: paths.dashboard.job.demo.details },
-          //     { title: ('create'), path: paths.dashboard.job.new },
-          //     { title: ('edit'), path: paths.dashboard.job.demo.edit },
-          //   ],
-          // },
-
-          // TOUR
-          // {
-          //   title: ('tour'),
-          //   path: paths.dashboard.tour.root,
-          //   icon: ICONS.tour,
-          //   children: [
-          //     { title: ('list'), path: paths.dashboard.tour.root },
-          //     { title: ('details'), path: paths.dashboard.tour.demo.details },
-          //     { title: ('create'), path: paths.dashboard.tour.new },
-          //     { title: ('edit'), path: paths.dashboard.tour.demo.edit },
-          //   ],
-          // },
-
-          // FILE MANAGER
-          // {
-          //   title: ('file_manager'),
-          //   path: paths.dashboard.fileManager,
-          //   icon: ICONS.folder,
-          // },
-
-          // MAIL
-          // {
-          //   title: ('mail'),
-          //   path: paths.dashboard.mail,
-          //   icon: ICONS.mail,
-          //   info: <Label color="error">+32</Label>,
-          // },
-
-          // CHAT
-          // {
-          //   title: ('chat'),
-          //   path: paths.dashboard.chat,
-          //   icon: ICONS.chat,
-          // },
-
-          // CALENDAR
-          // {
-          //   title: ('calendar'),
-          //   path: paths.dashboard.calendar,
-          //   icon: ICONS.calendar,
-          // },
-
-          // KANBAN
-          // {
-          //   title: ('kanban'),
-          //   path: paths.dashboard.kanban,
-          //   icon: ICONS.kanban,
-          // },
         ],
       },
 
@@ -338,7 +279,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    []
+    [],
   );
 
   return data;

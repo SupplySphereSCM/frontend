@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { format } from "date-fns";
 // @mui
 import Box from "@mui/material/Box";
@@ -34,7 +35,7 @@ type Props = {
   onDeleteRow: VoidFunction;
 };
 
-export default function ProductTableRow({
+function ProductTableRow({
   row,
   selected,
   onSelectRow,
@@ -45,8 +46,7 @@ export default function ProductTableRow({
   const {
     name,
     price,
-    publish,
-    coverUrl,
+    images,
     category,
     quantity,
     createdAt,
@@ -60,7 +60,7 @@ export default function ProductTableRow({
 
   return (
     <>
-      <TableRow hover selected={selected}>
+      <TableRow hover selected={selected} sx={{ maxWidth: "fit-content" }}>
         <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
@@ -68,7 +68,7 @@ export default function ProductTableRow({
         <TableCell sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             alt={name}
-            src={coverUrl}
+            src={images[0]}
             variant="rounded"
             sx={{ width: 64, height: 64, mr: 2 }}
           />
@@ -110,7 +110,7 @@ export default function ProductTableRow({
           />
         </TableCell>
 
-        <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
+        {/* <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
           <LinearProgress
             value={(available * 100) / quantity}
             variant="determinate"
@@ -122,18 +122,9 @@ export default function ProductTableRow({
             sx={{ mb: 1, height: 6, maxWidth: 80 }}
           />
           {!!available && available} {inventoryType}
-        </TableCell>
+        </TableCell> */}
 
         <TableCell>{fCurrency(price)}</TableCell>
-
-        <TableCell>
-          <Label
-            variant="soft"
-            color={(publish === "published" && "info") || "default"}
-          >
-            {publish}
-          </Label>
-        </TableCell>
 
         <TableCell align="right">
           <IconButton
@@ -197,3 +188,5 @@ export default function ProductTableRow({
     </>
   );
 }
+
+export default memo(ProductTableRow);
