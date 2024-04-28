@@ -22,6 +22,7 @@ export default function ProductList({ products, loading, ...other }: Props) {
       ))}
     </>
   );
+  console.log("Product list", products);
 
   const renderList = (
     <>

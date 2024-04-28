@@ -40,13 +40,13 @@ export function CheckoutProvider({ children }: Props) {
   const onGetCart = useCallback(() => {
     const totalItems: number = state.items.reduce(
       (total: number, item: ICheckoutItem) => total + item.quantity,
-      0,
+      0
     );
 
     const subTotal: number = state.items.reduce(
       (total: number, item: ICheckoutItem) =>
         total + item.quantity * item.price,
-      0,
+      0
     );
 
     update("subTotal", subTotal);
@@ -77,35 +77,39 @@ export function CheckoutProvider({ children }: Props) {
     (newItem: ICheckoutItem) => {
       const updatedItems: ICheckoutItem[] = state.items.map(
         (item: ICheckoutItem) => {
-          if (item.id === newItem.id) {
+          if (item.product_id === newItem.product_id) {
             return {
               ...item,
-              colors: uniq([...item.colors, ...newItem.colors]),
+              // colors: uniq([...item.colors, ...newItem.colors]),
               quantity: item.quantity + 1,
             };
           }
           return item;
-        },
+        }
       );
 
-      if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
+      if (
+        !updatedItems.some(
+          (item: ICheckoutItem) => item.product_id === newItem.product_id
+        )
+      ) {
         updatedItems.push(newItem);
       }
 
       update("items", updatedItems);
     },
-    [update, state.items],
+    [update, state.items]
   );
 
   const onDeleteCart = useCallback(
     (itemId: string) => {
       const updatedItems = state.items.filter(
-        (item: ICheckoutItem) => item.id !== itemId,
+        (item: ICheckoutItem) => item.product_id !== itemId
       );
 
       update("items", updatedItems);
     },
-    [update, state.items],
+    [update, state.items]
   );
 
   const onBackStep = useCallback(() => {
@@ -120,13 +124,13 @@ export function CheckoutProvider({ children }: Props) {
     (step: number) => {
       update("activeStep", step);
     },
-    [update],
+    [update]
   );
 
   const onIncreaseQuantity = useCallback(
     (itemId: string) => {
       const updatedItems = state.items.map((item: ICheckoutItem) => {
-        if (item.id === itemId) {
+        if (item.product_id === itemId) {
           return {
             ...item,
             quantity: item.quantity + 1,
@@ -137,13 +141,13 @@ export function CheckoutProvider({ children }: Props) {
 
       update("items", updatedItems);
     },
-    [update, state.items],
+    [update, state.items]
   );
 
   const onDecreaseQuantity = useCallback(
     (itemId: string) => {
       const updatedItems = state.items.map((item: ICheckoutItem) => {
-        if (item.id === itemId) {
+        if (item.product_id === itemId) {
           return {
             ...item,
             quantity: item.quantity - 1,
@@ -154,7 +158,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("items", updatedItems);
     },
-    [update, state.items],
+    [update, state.items]
   );
 
   const onCreateBilling = useCallback(
@@ -163,21 +167,21 @@ export function CheckoutProvider({ children }: Props) {
 
       onNextStep();
     },
-    [onNextStep, update],
+    [onNextStep, update]
   );
 
   const onApplyDiscount = useCallback(
     (discount: number) => {
       update("discount", discount);
     },
-    [update],
+    [update]
   );
 
   const onApplyShipping = useCallback(
     (shipping: number) => {
       update("shipping", shipping);
     },
-    [update],
+    [update]
   );
 
   const completed = state.activeStep === PRODUCT_CHECKOUT_STEPS.length;
@@ -225,7 +229,7 @@ export function CheckoutProvider({ children }: Props) {
       onNextStep,
       onReset,
       state,
-    ],
+    ]
   );
 
   return (

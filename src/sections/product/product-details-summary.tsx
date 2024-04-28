@@ -66,12 +66,13 @@ export default function ProductDetailsSummary({
   } = product;
 
   const existProduct =
-    !!items?.length && items.map((item) => item.id).includes(product_id);
+    !!items?.length &&
+    items.map((item) => item.product_id).includes(product_id);
 
   const isMaxQuantity =
     !!items?.length &&
     items
-      .filter((item) => item.id === product_id)
+      .filter((item) => item.product_id === product_id)
       .map((item) => item.quantity)[0] >= available;
   // quantity;
 
