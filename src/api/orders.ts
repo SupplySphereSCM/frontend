@@ -21,7 +21,7 @@ export function useGetOrders() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -44,7 +44,7 @@ export function useGetShopOrders() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -69,7 +69,7 @@ export function useGetOrder(productId: string) {
       productError: error,
       productValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -92,7 +92,7 @@ export function useSearchOrders(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
