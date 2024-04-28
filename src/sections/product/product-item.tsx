@@ -41,6 +41,7 @@ export default function ProductItem({ product }: Props) {
     // newLabel,
     // saleLabel,
   } = product;
+  // console.log(product);
 
   const linkTo = paths.product.details(product_id);
 

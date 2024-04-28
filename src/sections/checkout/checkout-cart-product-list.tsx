@@ -35,6 +35,8 @@ export default function CheckoutCartProductList({
   onIncreaseQuantity,
   onDecreaseQuantity,
 }: Props) {
+  console.log(products);
+
   return (
     <TableContainer sx={{ overflow: "unset" }}>
       <Scrollbar>
@@ -44,11 +46,11 @@ export default function CheckoutCartProductList({
           <TableBody>
             {products.map((row) => (
               <CheckoutCartProduct
-                key={row.id}
+                key={row.product_id}
                 row={row}
-                onDelete={() => onDelete(row.id)}
-                onDecrease={() => onDecreaseQuantity(row.id)}
-                onIncrease={() => onIncreaseQuantity(row.id)}
+                onDelete={() => onDelete(row.product_id)}
+                onDecrease={() => onDecreaseQuantity(row.product_id)}
+                onIncrease={() => onIncreaseQuantity(row.product_id)}
               />
             ))}
           </TableBody>

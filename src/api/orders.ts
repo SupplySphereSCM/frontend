@@ -7,7 +7,7 @@ import { IProductItem } from "src/types/product";
 
 // ----------------------------------------------------------------------
 
-export function useGetProducts() {
+export function useGetOrders() {
   const URL = endpoints.product.list;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
@@ -21,7 +21,7 @@ export function useGetProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
   // console.log(memoizedValue);
 
@@ -30,7 +30,7 @@ export function useGetProducts() {
 
 // ----------------------------------------------------------------------
 
-export function useGetShopProducts() {
+export function useGetShopOrders() {
   const URL = endpoints.product.shop;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
@@ -44,7 +44,7 @@ export function useGetShopProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
   // console.log(memoizedValue);
 
@@ -53,11 +53,14 @@ export function useGetShopProducts() {
 
 // ----------------------------------------------------------------------
 
-export function useGetProduct(productId: string) {
-  const URL = endpoints.product.details(productId);
+export function useGetOrder(productId: string) {
+  const URL = productId
+    ? [`${endpoints.product.details}/${productId}`, { params: { productId } }]
+    : null;
+  // console.log(URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  console.log(data);
+  // console.log(data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -66,7 +69,7 @@ export function useGetProduct(productId: string) {
       productError: error,
       productValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -74,7 +77,7 @@ export function useGetProduct(productId: string) {
 
 // ----------------------------------------------------------------------
 
-export function useSearchProducts(query: string) {
+export function useSearchOrders(query: string) {
   const URL = query ? [endpoints.product.search, { params: { query } }] : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
@@ -89,7 +92,7 @@ export function useSearchProducts(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating],
+    [data?.results, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -97,7 +100,7 @@ export function useSearchProducts(query: string) {
 
 // ----------------------------------------------------------------------
 
-export async function createProduct(product: Partial<IProductItem>) {
+export async function createOrder(product: Partial<IProductItem>) {
   const URL = endpoints.product.root;
   /**
    * Work on server
@@ -109,57 +112,18 @@ export async function createProduct(product: Partial<IProductItem>) {
   /**
    * Work in local
    */
-  mutate(
-    URL,
-    (currentData: any) => {
-      const products: IProductItem[] = [...currentData?.products, product];
+  // mutate(
+  //   URL,
+  //   (currentData: any) => {
+  //     console.log(currentData);
 
-      return {
-        ...currentData,
-        products,
-      };
-    },
-    false,
-  );
-}
-// ----------------------------------------------------------------------
+  //     const products: IProductItem[] = [...currentData?.products, product];
 
-export async function updateProduct(product: Partial<IProductItem>) {
-  const URL = endpoints.product.details(`${product.id}`);
-  /**
-   * Work on server
-   */
-  const data = { ...product };
-  await axiosInstance.patch(URL, data);
-  // console.log(data);
-
-  /**
-   * Work in local
-   */
-  mutate(
-    URL,
-    (currentData: any) => {
-      const updatedProducts = currentData.products.map((p: IProductItem) => {
-        return p.id === product.id ? { ...p, ...product } : p;
-      });
-
-      return { ...currentData, products: updatedProducts };
-    },
-    false,
-  );
-}
-
-export async function deleteProducts(ids: string | string[]) {
-  try {
-    // if (Array.isArray(ids) && ids.length > 1) {
-    //   return await axiosInstance.delete(endpoints.product.root, {
-    //     data: [...ids],
-    //   });
-    // }
-
-    return await axiosInstance.delete(endpoints.product.details(ids as string));
-  } catch (error) {
-    console.error("Failed to delete products:", error);
-    // Optionally, handle errors more gracefully here
-  }
+  //     return {
+  //       ...currentData,
+  //       products,
+  //     };
+  //   },
+  //   false
+  // );
 }
