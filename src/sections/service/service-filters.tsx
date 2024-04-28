@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import InputBase, { inputBaseClasses } from "@mui/material/InputBase";
 // types
-import { IProductFilters, IProductFilterValue } from "src/types/product";
+import { IServiceFilters, IServiceFilterValue } from "src/types/service";
 // components
 import Iconify from "src/components/iconify";
 import Scrollbar from "src/components/scrollbar";
@@ -29,8 +29,8 @@ type Props = {
   onOpen: VoidFunction;
   onClose: VoidFunction;
   //
-  filters: IProductFilters;
-  onFilters: (name: string, value: IProductFilterValue) => void;
+  filters: IServiceFilters;
+  onFilters: (name: string, value: IServiceFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
@@ -44,7 +44,7 @@ type Props = {
   colorOptions: string[];
 };
 
-export default function ProductFilters({
+export default function ServiceFilters({
   open,
   onOpen,
   onClose,
@@ -310,7 +310,7 @@ export default function ProductFilters({
 type InputRangeProps = {
   type: "min" | "max";
   value: number[];
-  onFilters: (name: string, value: IProductFilterValue) => void;
+  onFilters: (name: string, value: IServiceFilterValue) => void;
 };
 
 function InputRange({ type, value, onFilters }: InputRangeProps) {

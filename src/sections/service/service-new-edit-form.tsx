@@ -22,7 +22,7 @@ import { useResponsive } from "src/hooks/use-responsive";
 // _mock
 import { _tags } from "src/_mock";
 // API
-import { createProduct } from "src/api/product";
+import { createService } from "src/api/service";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
@@ -32,28 +32,17 @@ import FormProvider, {
   RHFTextField,
 } from "src/components/hook-form";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem, IServiceSchema } from "src/types/service";
 
 import axiosInstance, { endpoints } from "src/utils/axios";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  currentProduct?: IProductItem;
+  currentService?: IServiceItem;
 };
 
-type IProductSchema = {
-  name: string;
-  price: number;
-  tax: number;
-  images: string[] | File[];
-  description: string;
-  subDescription: string;
-  quantity: number;
-  product_id: string;
-};
-
-export default function ProductNewEditForm({ currentProduct }: Props) {
+export default function ServiceNewEditForm({ currentService }: Props) {
   const router = useRouter();
 
   const mdUp = useResponsive("up", "md");
@@ -62,13 +51,13 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
-  const NewProductSchema = Yup.object<IProductSchema>().shape({
+  const NewServiceSchema = Yup.object<IServiceSchema>().shape({
     name: Yup.string().required("Name is required"),
     images: Yup.array().min(1, "Images is required"),
     price: Yup.number().moreThan(0, "Price should not be $0.00"),
     description: Yup.string().required("Description is required"),
     tax: Yup.number(),
-    product_id: Yup.string().required("Product ID is required"),
+    id: Yup.string().required("Service ID is required"),
     subDescription: Yup.string().required("Sub Description is required"),
     quantity: Yup.number().required("Quantity is required"),
     // tags: Yup.array().min(2, "Must have at least 2 tags"),
@@ -86,30 +75,30 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const defaultValues = useMemo(
     () => ({
-      name: currentProduct?.name || "",
-      description: currentProduct?.description || "",
-      subDescription: currentProduct?.subDescription || "",
-      images: currentProduct?.images || [],
-      price: currentProduct?.price || 0,
-      // priceSale: currentProduct?.priceSale || 0,
-      tax: currentProduct?.tax || 0,
-      quantity: currentProduct?.quantity || 0,
-      product_id: String(Math.random()),
-      // code: currentProduct?.code || "",
-      // sku: currentProduct?.sku || "",
-      // tags: currentProduct?.tags || [],
-      // gender: currentProduct?.gender || "",
-      // category: currentProduct?.category || "",
-      // colors: currentProduct?.colors || [],
-      // sizes: currentProduct?.sizes || [],
-      // newLabel: currentProduct?.newLabel || { enabled: false, content: "" },
-      // saleLabel: currentProduct?.saleLabel || { enabled: false, content: "" },
+      name: currentService?.name || "",
+      description: currentService?.description || "",
+      subDescription: currentService?.subDescription || "",
+      images: currentService?.images || [],
+      price: currentService?.price || 0,
+      // priceSale: currentService?.priceSale || 0,
+      tax: currentService?.tax || 0,
+      quantity: currentService?.quantity || 0,
+      id: String(Math.random()),
+      // code: currentService?.code || "",
+      // sku: currentService?.sku || "",
+      // tags: currentService?.tags || [],
+      // gender: currentService?.gender || "",
+      // category: currentService?.category || "",
+      // colors: currentService?.colors || [],
+      // sizes: currentService?.sizes || [],
+      // newLabel: currentService?.newLabel || { enabled: false, content: "" },
+      // saleLabel: currentService?.saleLabel || { enabled: false, content: "" },
     }),
-    [currentProduct],
+    [currentService],
   );
 
   const methods = useForm({
-    resolver: yupResolver(NewProductSchema),
+    resolver: yupResolver(NewServiceSchema),
     defaultValues,
   });
 
@@ -124,26 +113,26 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
   const values = watch();
 
   useEffect(() => {
-    if (currentProduct) {
+    if (currentService) {
       reset(defaultValues);
     }
-  }, [currentProduct, defaultValues, reset]);
+  }, [currentService, defaultValues, reset]);
 
   useEffect(() => {
     if (includeTaxes) {
       setValue("tax", 0);
     } else {
-      setValue("tax", currentProduct?.tax || 0);
+      setValue("tax", currentService?.tax || 0);
     }
-  }, [currentProduct?.tax, includeTaxes, setValue]);
+  }, [currentService?.tax, includeTaxes, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      createProduct(data as IProductItem);
+      createService(data as IServiceItem);
       reset();
-      enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
-      router.push(paths.dashboard.product.root);
+      enqueueSnackbar(currentService ? "Update success!" : "Create success!");
+      router.push(paths.dashboard.service.root);
       console.info("DATA", data);
     } catch (error) {
       console.error(error);
@@ -188,7 +177,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
   const handleImageUpload = async () => {
     try {
       const formData = new FormData();
-      formData.append("files", values.images);
+      formData.append("files", values.images as any);
       await axiosInstance.post(endpoints.upload.files, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -218,7 +207,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           {!mdUp && <CardHeader title="Details" />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="name" label="Product Name" />
+            <RHFTextField name="name" label="Service Name" />
 
             <RHFTextField
               name="subDescription"
@@ -278,9 +267,9 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
   //               md: "repeat(2, 1fr)",
   //             }}
   //           >
-  //             <RHFTextField name="code" label="Product Code" />
+  //             <RHFTextField name="code" label="Service Code" />
 
-  //             <RHFTextField name="sku" label="Product SKU" />
+  //             <RHFTextField name="sku" label="Service SKU" />
 
   //             <RHFTextField
   //               name="quantity"
@@ -488,7 +477,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           size="large"
           loading={isSubmitting}
         >
-          {!currentProduct ? "Create Product" : "Save Changes"}
+          {!currentService ? "Create Service" : "Save Changes"}
         </LoadingButton>
       </Grid>
     </>

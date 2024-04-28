@@ -8,13 +8,13 @@ import Stack, { StackProps } from "@mui/material/Stack";
 // components
 import Iconify from "src/components/iconify";
 // types
-import { IProductFilters, IProductFilterValue } from "src/types/product";
+import { IServiceFilters, IServiceFilterValue } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
-  filters: IProductFilters;
-  onFilters: (name: string, value: IProductFilterValue) => void;
+  filters: IServiceFilters;
+  onFilters: (name: string, value: IServiceFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
@@ -22,7 +22,7 @@ type Props = StackProps & {
   results: number;
 };
 
-export default function ProductFiltersResult({
+export default function ServiceFiltersResult({
   filters,
   onFilters,
   //

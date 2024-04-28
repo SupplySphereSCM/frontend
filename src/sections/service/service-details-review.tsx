@@ -14,10 +14,10 @@ import { useBoolean } from "src/hooks/use-boolean";
 // components
 import Iconify from "src/components/iconify";
 // types
-import { IProductReview } from "src/types/product";
+import { IServiceReview } from "src/types/service";
 //
-import ProductReviewList from "./product-review-list";
-import ProductReviewNewForm from "./product-review-new-form";
+import ServiceReviewList from "./service-review-list";
+import ServiceReviewNewForm from "./service-review-new-form";
 
 // ----------------------------------------------------------------------
 
@@ -29,10 +29,10 @@ type Props = {
     starCount: number;
     reviewCount: number;
   }[];
-  reviews: IProductReview[];
+  reviews: IServiceReview[];
 };
 
-export default function ProductDetailsReview({
+export default function ServiceDetailsReview({
   totalRatings,
   totalReviews,
   ratings,
@@ -139,9 +139,9 @@ export default function ProductDetailsReview({
 
       <Divider sx={{ borderStyle: "dashed" }} />
 
-      <ProductReviewList reviews={reviews} />
+      <ServiceReviewList reviews={reviews} />
 
-      <ProductReviewNewForm open={review.value} onClose={review.onFalse} />
+      <ServiceReviewNewForm open={review.value} onClose={review.onFalse} />
     </>
   );
 }

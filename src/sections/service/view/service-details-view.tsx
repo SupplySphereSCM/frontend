@@ -15,18 +15,18 @@ import { PRODUCT_PUBLISH_OPTIONS } from "src/_mock";
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 // api
-import { useGetProduct } from "src/api/product";
+import { useGetService } from "src/api/service";
 // components
 import Iconify from "src/components/iconify";
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
 //
-import { ProductDetailsSkeleton } from "../product-skeleton";
-import ProductDetailsReview from "../product-details-review";
-import ProductDetailsSummary from "../product-details-summary";
-import ProductDetailsToolbar from "../product-details-toolbar";
-import ProductDetailsCarousel from "../product-details-carousel";
-import ProductDetailsDescription from "../product-details-description";
+import { ServiceDetailsSkeleton } from "../service-skeleton";
+import ServiceDetailsReview from "../service-details-review";
+import ServiceDetailsSummary from "../service-details-summary";
+import ServiceDetailsToolbar from "../service-details-toolbar";
+import ServiceDetailsCarousel from "../service-details-carousel";
+import ServiceDetailsDescription from "../service-details-description";
 
 // ----------------------------------------------------------------------
 
@@ -54,22 +54,22 @@ type Props = {
   id: string;
 };
 
-export default function ProductDetailsView({ id }: Props) {
-  const { product, productLoading, productError } = useGetProduct(id);
-  // const product = useGetProduct(id);
+export default function ServiceDetailsView({ id }: Props) {
+  const { service, serviceLoading, serviceError } = useGetService(id);
+  // const service = useGetService(id);
 
   const settings = useSettingsContext();
 
   const [currentTab, setCurrentTab] = useState("description");
 
   const [publish, setPublish] = useState("");
-  console.log(product);
+  console.log(service);
 
   // useEffect(() => {
-  //   if (product) {
-  //     setPublish(product?.publish);
+  //   if (service) {
+  //     setPublish(service?.publish);
   //   }
-  // }, [product]);
+  // }, [service]);
 
   // const handleChangePublish = useCallback((newValue: string) => {
   //   setPublish(newValue);
@@ -82,16 +82,16 @@ export default function ProductDetailsView({ id }: Props) {
     [],
   );
 
-  const renderSkeleton = <ProductDetailsSkeleton />;
+  const renderSkeleton = <ServiceDetailsSkeleton />;
 
   const renderError = (
     <EmptyContent
       filled
-      title={`${productError?.message}`}
+      title={`${serviceError?.message}`}
       action={
         <Button
           component={RouterLink}
-          href={paths.dashboard.product.root}
+          href={paths.dashboard.service.root}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
@@ -102,12 +102,12 @@ export default function ProductDetailsView({ id }: Props) {
     />
   );
 
-  const renderProduct = product && (
+  const renderService = service && (
     <>
-      <ProductDetailsToolbar
-        backLink={paths.dashboard.product.root}
-        editLink={paths.dashboard.product.edit(`${product?.product_id}`)}
-        liveLink={paths.product.details(`${product?.product_id}`)}
+      <ServiceDetailsToolbar
+        backLink={paths.dashboard.service.root}
+        editLink={paths.dashboard.service.edit(`${service?.id}`)}
+        liveLink={paths.dashboard.service.details(`${service?.id}`)}
         // publish={publish || ""}
         // onChangePublish={handleChangePublish}
         // publishOptions={PRODUCT_PUBLISH_OPTIONS}
@@ -115,11 +115,11 @@ export default function ProductDetailsView({ id }: Props) {
 
       <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
         <Grid xs={12} md={6} lg={7}>
-          <ProductDetailsCarousel product={product} />
+          <ServiceDetailsCarousel service={service} />
         </Grid>
 
         <Grid xs={12} md={6} lg={5}>
-          <ProductDetailsSummary disabledActions product={product} />
+          <ServiceDetailsSummary disabledActions service={service} />
         </Grid>
       </Grid>
 
@@ -168,7 +168,7 @@ export default function ProductDetailsView({ id }: Props) {
             },
             // {
             //   value: "reviews",
-            //   label: `Reviews (${product.reviews.length})`,
+            //   label: `Reviews (${service.reviews.length})`,
             // },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
@@ -176,15 +176,15 @@ export default function ProductDetailsView({ id }: Props) {
         </Tabs>
 
         {currentTab === "description" && (
-          <ProductDetailsDescription description={product?.description} />
+          <ServiceDetailsDescription description={service?.description} />
         )}
 
         {/* {currentTab === "reviews" && (
-          <ProductDetailsReview
-            ratings={product.ratings}
-            reviews={product.reviews}
-            totalRatings={product.totalRatings}
-            totalReviews={product.totalReviews}
+          <ServiceDetailsReview
+            ratings={service.ratings}
+            reviews={service.reviews}
+            totalRatings={service.totalRatings}
+            totalReviews={service.totalReviews}
           />
         )} */}
       </Card>
@@ -193,11 +193,11 @@ export default function ProductDetailsView({ id }: Props) {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : "lg"}>
-      {productLoading && renderSkeleton}
+      {serviceLoading && renderSkeleton}
 
-      {productError && renderError}
+      {serviceError && renderError}
 
-      {product && renderProduct}
+      {service && renderService}
     </Container>
   );
 }

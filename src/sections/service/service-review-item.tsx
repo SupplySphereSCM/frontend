@@ -8,17 +8,17 @@ import ListItemText from "@mui/material/ListItemText";
 // utils
 import { fDate } from "src/utils/format-time";
 // types
-import { IProductReview } from "src/types/product";
+import { IServiceReview } from "src/types/service";
 // components
 import Iconify from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  review: IProductReview;
+  review: IServiceReview;
 };
 
-export default function ProductReviewItem({ review }: Props) {
+export default function ServiceReviewItem({ review }: Props) {
   const {
     name,
     rating,

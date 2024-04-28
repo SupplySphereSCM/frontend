@@ -20,28 +20,28 @@ import {
   ROLE_OPTIONS,
 } from "src/_mock";
 // api
-import { useGetShopProducts, useSearchProducts } from "src/api/product";
+import { useGetShopServices, useSearchServices } from "src/api/service";
 // components
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
 // types
 import {
-  IProductItem,
-  IProductFilters,
-  IProductFilterValue,
-} from "src/types/product";
+  IServiceItem,
+  IServiceFilters,
+  IServiceFilterValue,
+} from "src/types/service";
 //
 import { useCheckoutContext } from "../../checkout/context";
 import CartIcon from "../common/cart-icon";
-import ProductList from "../product-list";
-import ProductSort from "../product-sort";
-import ProductSearch from "../product-search";
-import ProductFilters from "../product-filters";
-import ProductFiltersResult from "../product-filters-result";
+import ServiceList from "../service-list";
+import ServiceSort from "../service-sort";
+import ServiceSearch from "../service-search";
+import ServiceFilters from "../service-filters";
+import ServiceFiltersResult from "../service-filters-result";
 
 // ----------------------------------------------------------------------
 
-const defaultFilters: IProductFilters = {
+const defaultFilters: IServiceFilters = {
   gender: [],
   colors: [],
   rating: "",
@@ -51,7 +51,7 @@ const defaultFilters: IProductFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function ProductShopView() {
+export default function ServiceShopView() {
   const settings = useSettingsContext();
 
   const checkout = useCheckoutContext();
@@ -66,12 +66,12 @@ export default function ProductShopView() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetShopProducts();
+  const { services, servicesLoading, servicesEmpty } = useGetShopServices();
 
-  const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
+  const { searchResults, searchLoading } = useSearchServices(debouncedQuery);
 
   const handleFilters = useCallback(
-    (name: string, value: IProductFilterValue) => {
+    (name: string, value: IServiceFilterValue) => {
       setFilters((prevState) => ({
         ...prevState,
         [name]: value,
@@ -81,7 +81,7 @@ export default function ProductShopView() {
   );
 
   const dataFiltered = applyFilter({
-    inputData: products,
+    inputData: services,
     filters,
     sortBy,
   });
@@ -109,16 +109,16 @@ export default function ProductShopView() {
       alignItems={{ xs: "flex-end", sm: "center" }}
       direction={{ xs: "column", sm: "row" }}
     >
-      <ProductSearch
+      <ServiceSearch
         query={debouncedQuery}
         results={searchResults}
         onSearch={handleSearch}
         loading={searchLoading}
-        hrefItem={(id: string) => paths.product.details(id)}
+        hrefItem={(id: string) => paths.service.details(id)}
       />
 
       <Stack direction="row" spacing={1} flexShrink={0}>
-        <ProductFilters
+        <ServiceFilters
           open={openFilters.value}
           onOpen={openFilters.onTrue}
           onClose={openFilters.onFalse}
@@ -135,7 +135,7 @@ export default function ProductShopView() {
           categoryOptions={["all", ...PRODUCT_CATEGORY_OPTIONS]}
         />
 
-        <ProductSort
+        <ServiceSort
           sort={sortBy}
           onSort={handleSortBy}
           sortOptions={PRODUCT_SORT_OPTIONS}
@@ -145,7 +145,7 @@ export default function ProductShopView() {
   );
 
   const renderResults = (
-    <ProductFiltersResult
+    <ServiceFiltersResult
       filters={filters}
       onFilters={handleFilters}
       //
@@ -189,9 +189,9 @@ export default function ProductShopView() {
         {canReset && renderResults}
       </Stack>
 
-      {(notFound || productsEmpty) && renderNotFound}
+      {(notFound || servicesEmpty) && renderNotFound}
 
-      <ProductList products={dataFiltered} loading={productsLoading} />
+      <ServiceList services={dataFiltered} loading={servicesLoading} />
     </Container>
   );
 }
@@ -203,8 +203,8 @@ function applyFilter({
   filters,
   sortBy,
 }: {
-  inputData: IProductItem[];
-  filters: IProductFilters;
+  inputData: IServiceItem[];
+  filters: IServiceFilters;
   sortBy: string;
 }) {
   const { gender, category, colors, priceRange, rating } = filters;
@@ -232,34 +232,34 @@ function applyFilter({
 
   // FILTERS
   // if (gender.length) {
-  //   inputData = inputData.filter((product) => gender.includes(product.gender));
+  //   inputData = inputData.filter((service) => gender.includes(service.gender));
   // }
 
   // if (category !== "all") {
-  //   inputData = inputData.filter((product) => product.category === category);
+  //   inputData = inputData.filter((service) => service.category === category);
   // }
 
   // if (colors.length) {
-  //   inputData = inputData.filter((product) =>
-  //     product.colors.some((color) => colors.includes(color)),
+  //   inputData = inputData.filter((service) =>
+  //     service.colors.some((color) => colors.includes(color)),
   //   );
   // }
 
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
-      (product) => product.price >= min && product.price <= max,
+      (service) => service.price >= min && service.price <= max,
     );
   }
 
   // if (rating) {
-  //   inputData = inputData.filter((product) => {
+  //   inputData = inputData.filter((service) => {
   //     const convertRating = (value: string) => {
   //       if (value === "up4Star") return 4;
   //       if (value === "up3Star") return 3;
   //       if (value === "up2Star") return 2;
   //       return 1;
   //     };
-  //     return product.totalRatings > convertRating(rating);
+  //     return service.totalRatings > convertRating(rating);
   //   });
   // }
 

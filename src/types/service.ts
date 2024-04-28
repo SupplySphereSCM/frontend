@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------
 
-export type IProductFilterValue = string | string[] | number | number[];
+export type IServiceFilterValue = string | string[] | number | number[];
 
-export type IProductFilters = {
+export type IServiceFilters = {
   rating: string;
   gender: string[];
   category: string;
@@ -12,14 +12,14 @@ export type IProductFilters = {
 
 // ----------------------------------------------------------------------
 
-export type IProductReviewNewForm = {
+export type IServiceReviewNewForm = {
   rating: number | null;
   review: string;
   name: string;
   email: string;
 };
 
-export type IProductReview = {
+export type IServiceReview = {
   id: string;
   name: string;
   rating: number;
@@ -31,7 +31,7 @@ export type IProductReview = {
   postedAt: Date;
 };
 
-export type IProductSchema = {
+export type IServiceSchema = {
   id?: string;
 
   name: string;
@@ -46,7 +46,7 @@ export type IProductSchema = {
   tax: number;
 };
 
-export type IProductItem = {
+export type IServiceItem = {
   id: string;
 
   name: string;
@@ -68,7 +68,7 @@ export type IProductItem = {
   // totalRatings: number;
   // totalReviews: number;
   // inventoryType: string;
-  // reviews: IProductReview[];
+  // reviews: IServiceReview[];
   // ratings: {
   //   name: string;
   //   starCount: number;
@@ -76,9 +76,9 @@ export type IProductItem = {
   // }[];
 };
 
-export type IProductTableFilterValue = string | string[];
+export type IServiceTableFilterValue = string | string[];
 
-export type IProductTableFilters = {
+export type IServiceTableFilters = {
   name: string;
   stock: string[];
   // publish: string[];

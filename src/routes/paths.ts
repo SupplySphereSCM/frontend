@@ -43,6 +43,14 @@ export const paths = {
       details: `/product/${MOCK_ID}`,
     },
   },
+  service: {
+    root: `/service`,
+    checkout: `/service/checkout`,
+    details: (id: string) => `/service/${id}`,
+    demo: {
+      details: `/service/${MOCK_ID}`,
+    },
+  },
   post: {
     root: `/post`,
     details: (title: string) => `/post/${paramCase(title)}`,

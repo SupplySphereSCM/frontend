@@ -30,23 +30,23 @@ import ProductDetailsDescription from "../product-details-description";
 
 // ----------------------------------------------------------------------
 
-const SUMMARY = [
-  {
-    title: "100% Original",
-    description: "Chocolate bar candy canes ice cream toffee cookie halvah.",
-    icon: "solar:verified-check-bold",
-  },
-  {
-    title: "10 Day Replacement",
-    description: "Marshmallow biscuit donut dragée fruitcake wafer.",
-    icon: "solar:clock-circle-bold",
-  },
-  {
-    title: "Year Warranty",
-    description: "Cotton candy gingerbread cake I love sugar sweet.",
-    icon: "solar:shield-check-bold",
-  },
-];
+// const SUMMARY = [
+//   {
+//     title: "100% Original",
+//     description: "Chocolate bar candy canes ice cream toffee cookie halvah.",
+//     icon: "solar:verified-check-bold",
+//   },
+//   {
+//     title: "10 Day Replacement",
+//     description: "Marshmallow biscuit donut dragée fruitcake wafer.",
+//     icon: "solar:clock-circle-bold",
+//   },
+//   {
+//     title: "Year Warranty",
+//     description: "Cotton candy gingerbread cake I love sugar sweet.",
+//     icon: "solar:shield-check-bold",
+//   },
+// ];
 
 // ----------------------------------------------------------------------
 
@@ -56,14 +56,12 @@ type Props = {
 
 export default function ProductDetailsView({ id }: Props) {
   const { product, productLoading, productError } = useGetProduct(id);
-  // const product = useGetProduct(id);
 
   const settings = useSettingsContext();
 
   const [currentTab, setCurrentTab] = useState("description");
 
-  const [publish, setPublish] = useState("");
-  console.log(product);
+  // const [publish, setPublish] = useState("");
 
   // useEffect(() => {
   //   if (product) {
@@ -106,8 +104,8 @@ export default function ProductDetailsView({ id }: Props) {
     <>
       <ProductDetailsToolbar
         backLink={paths.dashboard.product.root}
-        editLink={paths.dashboard.product.edit(`${product?.product_id}`)}
-        liveLink={paths.product.details(`${product?.product_id}`)}
+        editLink={paths.dashboard.product.edit(`${product?.id}`)}
+        liveLink={paths.product.details(`${product?.id}`)}
         // publish={publish || ""}
         // onChangePublish={handleChangePublish}
         // publishOptions={PRODUCT_PUBLISH_OPTIONS}
@@ -123,7 +121,7 @@ export default function ProductDetailsView({ id }: Props) {
         </Grid>
       </Grid>
 
-      <Box
+      {/* <Box
         gap={5}
         display="grid"
         gridTemplateColumns={{
@@ -149,9 +147,9 @@ export default function ProductDetailsView({ id }: Props) {
             </Typography>
           </Box>
         ))}
-      </Box>
+      </Box> */}
 
-      <Card>
+      <Card sx={{ my: 10 }}>
         <Tabs
           value={currentTab}
           onChange={handleChangeTab}
@@ -166,10 +164,11 @@ export default function ProductDetailsView({ id }: Props) {
               value: "description",
               label: "Description",
             },
-            // {
-            //   value: "reviews",
-            //   label: `Reviews (${product.reviews.length})`,
-            // },
+            {
+              value: "reviews",
+              // label: `Reviews (${product.reviews.length})`,
+              label: `Reviews (9)`,
+            },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
           ))}

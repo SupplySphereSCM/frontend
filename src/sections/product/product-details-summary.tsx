@@ -47,7 +47,7 @@ export default function ProductDetailsSummary({
   const router = useRouter();
 
   const {
-    product_id,
+    id,
     name,
     // sizes,
     price,
@@ -66,17 +66,16 @@ export default function ProductDetailsSummary({
   } = product;
 
   const existProduct =
-    !!items?.length && items.map((item) => item.id).includes(product_id);
+    !!items?.length && items.map((item) => item.id).includes(id);
 
   const isMaxQuantity =
     !!items?.length &&
-    items
-      .filter((item) => item.id === product_id)
-      .map((item) => item.quantity)[0] >= available;
+    items.filter((item) => item.id === id).map((item) => item.quantity)[0] >=
+      available;
   // quantity;
 
   const defaultValues = {
-    product_id,
+    id,
     name,
     // coverUrl,
     available,
@@ -148,45 +147,45 @@ export default function ProductDetailsSummary({
     </Box>
   );
 
-  const renderShare = (
-    <Stack direction="row" spacing={3} justifyContent="center">
-      <Link
-        variant="subtitle2"
-        sx={{
-          color: "text.secondary",
-          display: "inline-flex",
-          alignItems: "center",
-        }}
-      >
-        <Iconify icon="mingcute:add-line" width={16} sx={{ mr: 1 }} />
-        Compare
-      </Link>
+  // const renderShare = (
+  //   <Stack direction="row" spacing={3} justifyContent="center">
+  //     <Link
+  //       variant="subtitle2"
+  //       sx={{
+  //         color: "text.secondary",
+  //         display: "inline-flex",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <Iconify icon="mingcute:add-line" width={16} sx={{ mr: 1 }} />
+  //       Compare
+  //     </Link>
 
-      <Link
-        variant="subtitle2"
-        sx={{
-          color: "text.secondary",
-          display: "inline-flex",
-          alignItems: "center",
-        }}
-      >
-        <Iconify icon="solar:heart-bold" width={16} sx={{ mr: 1 }} />
-        Favorite
-      </Link>
+  //     <Link
+  //       variant="subtitle2"
+  //       sx={{
+  //         color: "text.secondary",
+  //         display: "inline-flex",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <Iconify icon="solar:heart-bold" width={16} sx={{ mr: 1 }} />
+  //       Favorite
+  //     </Link>
 
-      <Link
-        variant="subtitle2"
-        sx={{
-          color: "text.secondary",
-          display: "inline-flex",
-          alignItems: "center",
-        }}
-      >
-        <Iconify icon="solar:share-bold" width={16} sx={{ mr: 1 }} />
-        Share
-      </Link>
-    </Stack>
-  );
+  //     <Link
+  //       variant="subtitle2"
+  //       sx={{
+  //         color: "text.secondary",
+  //         display: "inline-flex",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <Iconify icon="solar:share-bold" width={16} sx={{ mr: 1 }} />
+  //       Share
+  //     </Link>
+  //   </Stack>
+  // );
 
   // const renderColorOptions = (
   //   <Stack direction="row">
@@ -372,7 +371,7 @@ export default function ProductDetailsSummary({
 
         {renderActions}
 
-        {renderShare}
+        {/* {renderShare} */}
       </Stack>
     </FormProvider>
   );

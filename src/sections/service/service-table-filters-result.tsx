@@ -8,22 +8,22 @@ import Stack, { StackProps } from "@mui/material/Stack";
 import Iconify from "src/components/iconify";
 // types
 import {
-  IProductTableFilters,
-  IProductTableFilterValue,
-} from "src/types/product";
+  IServiceTableFilters,
+  IServiceTableFilterValue,
+} from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
-  filters: IProductTableFilters;
-  onFilters: (name: string, value: IProductTableFilterValue) => void;
+  filters: IServiceTableFilters;
+  onFilters: (name: string, value: IServiceTableFilterValue) => void;
   //
   onResetFilters: VoidFunction;
   //
   results: number;
 };
 
-export default function ProductTableFiltersResult({
+export default function ServiceTableFiltersResult({
   filters,
   onFilters,
   //

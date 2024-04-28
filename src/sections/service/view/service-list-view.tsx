@@ -18,7 +18,7 @@ import { useBoolean } from "src/hooks/use-boolean";
 // _mock
 import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
 // api
-import { useGetProducts } from "src/api/product";
+import { useGetServices } from "src/api/service";
 // components
 import { useSettingsContext } from "src/components/settings";
 import {
@@ -38,19 +38,19 @@ import { ConfirmDialog } from "src/components/custom-dialog";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 // types
 import {
-  IProductItem,
-  IProductTableFilters,
-  IProductTableFilterValue,
-} from "src/types/product";
+  IServiceItem,
+  IServiceTableFilters,
+  IServiceTableFilterValue,
+} from "src/types/service";
 //
-import ProductTableRow from "../product-table-row";
-import ProductTableToolbar from "../product-table-toolbar";
-import ProductTableFiltersResult from "../product-table-filters-result";
+import ServiceTableRow from "../service-table-row";
+import ServiceTableToolbar from "../service-table-toolbar";
+import ServiceTableFiltersResult from "../service-table-filters-result";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: "name", label: "Product" },
+  { id: "name", label: "Service" },
   { id: "createdAt", label: "Create at", width: 160 },
   { id: "inventoryType", label: "Stock", width: 160 },
   { id: "price", label: "Price", width: 140 },
@@ -63,7 +63,7 @@ const TABLE_HEAD = [
 //   { value: "draft", label: "Draft" },
 // ];
 
-const defaultFilters: IProductTableFilters = {
+const defaultFilters: IServiceTableFilters = {
   name: "",
   // publish: [],
   stock: [],
@@ -71,28 +71,27 @@ const defaultFilters: IProductTableFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function ProductListView() {
+export default function ServiceListView() {
   const router = useRouter();
 
   const table = useTable();
 
   const settings = useSettingsContext();
 
-  const [tableData, setTableData] = useState<IProductItem[]>([]);
+  const [tableData, setTableData] = useState<IServiceItem[]>([]);
   // console.log(tableData);
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetProducts();
-  console.log(products);
+  const { services, servicesLoading, servicesEmpty } = useGetServices();
 
   const confirm = useBoolean();
 
   useEffect(() => {
-    if (products.length) {
-      setTableData(products);
+    if (services.length) {
+      setTableData(services);
     }
-  }, [products]);
+  }, [services]);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -109,10 +108,10 @@ export default function ProductListView() {
 
   const canReset = !isEqual(defaultFilters, filters);
 
-  const notFound = (!dataFiltered.length && canReset) || productsEmpty;
+  const notFound = (!dataFiltered.length && canReset) || servicesEmpty;
 
   const handleFilters = useCallback(
-    (name: string, value: IProductTableFilterValue) => {
+    (name: string, value: IServiceTableFilterValue) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -124,7 +123,7 @@ export default function ProductListView() {
 
   const handleDeleteRow = useCallback(
     (id: string) => {
-      const deleteRow = tableData.filter((row) => row.product_id !== id);
+      const deleteRow = tableData.filter((row) => row.id !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
@@ -134,7 +133,7 @@ export default function ProductListView() {
 
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.product_id),
+      (row) => !table.selected.includes(row.id),
     );
     setTableData(deleteRows);
 
@@ -147,14 +146,14 @@ export default function ProductListView() {
 
   const handleEditRow = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.product.edit(id));
+      router.push(paths.dashboard.service.edit(id));
     },
     [router],
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.product.details(id));
+      router.push(paths.dashboard.service.details(id));
     },
     [router],
   );
@@ -171,26 +170,26 @@ export default function ProductListView() {
           links={[
             { name: "Dashboard", href: paths.dashboard.root },
             {
-              name: "Product",
-              href: paths.dashboard.product.root,
+              name: "Service",
+              href: paths.dashboard.service.root,
             },
             { name: "List" },
           ]}
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.product.new}
+              href={paths.dashboard.service.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New Product
+              New Service
             </Button>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
         <Card>
-          <ProductTableToolbar
+          <ServiceTableToolbar
             filters={filters}
             onFilters={handleFilters}
             stockOptions={PRODUCT_STOCK_OPTIONS}
@@ -198,7 +197,7 @@ export default function ProductListView() {
           />
 
           {canReset && (
-            <ProductTableFiltersResult
+            <ServiceTableFiltersResult
               filters={filters}
               onFilters={handleFilters}
               //
@@ -217,7 +216,7 @@ export default function ProductListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.product_id),
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -244,13 +243,13 @@ export default function ProductListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.product_id),
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
 
                 <TableBody>
-                  {productsLoading ? (
+                  {servicesLoading ? (
                     [...Array(table.rowsPerPage)].map((i, index) => (
                       <TableSkeleton key={index} sx={{ height: denseHeight }} />
                     ))
@@ -262,16 +261,14 @@ export default function ProductListView() {
                           table.page * table.rowsPerPage + table.rowsPerPage,
                         )
                         .map((row) => (
-                          <ProductTableRow
-                            key={row.product_id}
+                          <ServiceTableRow
+                            key={row.id}
                             row={row}
-                            selected={table.selected.includes(row.product_id)}
-                            onSelectRow={() =>
-                              table.onSelectRow(row.product_id)
-                            }
-                            onDeleteRow={() => handleDeleteRow(row.product_id)}
-                            onEditRow={() => handleEditRow(row.product_id)}
-                            onViewRow={() => handleViewRow(row.product_id)}
+                            selected={table.selected.includes(row.id)}
+                            onSelectRow={() => table.onSelectRow(row.id)}
+                            onDeleteRow={() => handleDeleteRow(row.id)}
+                            onEditRow={() => handleEditRow(row.id)}
+                            onViewRow={() => handleViewRow(row.id)}
                           />
                         ))}
                     </>
@@ -339,9 +336,9 @@ function applyFilter({
   comparator,
   filters,
 }: {
-  inputData: IProductItem[];
+  inputData: IServiceItem[];
   comparator: (a: any, b: any) => number;
-  filters: IProductTableFilters;
+  filters: IServiceTableFilters;
 }) {
   // const { name, stock, publish } = filters;
   const { name, stock } = filters;
@@ -358,20 +355,20 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (product) =>
-        product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
+      (service) =>
+        service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
   // if (stock.length) {
-  //   inputData = inputData.filter((product) =>
-  //     stock.includes(product.inventoryType)
+  //   inputData = inputData.filter((service) =>
+  //     stock.includes(service.inventoryType)
   //   );
   // }
 
   // if (publish.length) {
-  //   inputData = inputData.filter((product) =>
-  //     publish.includes(product.publish)
+  //   inputData = inputData.filter((service) =>
+  //     publish.includes(service.publish)
   //   );
   // }
 

@@ -13,7 +13,7 @@ import Carousel, {
   useCarousel,
 } from "src/components/carousel";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
@@ -68,13 +68,13 @@ const StyledThumbnailsContainer = styled("div")<{ length: number }>(
 // ----------------------------------------------------------------------
 
 type Props = {
-  product: IProductItem;
+  service: IServiceItem;
 };
 
-export default function ProductDetailsCarousel({ product }: Props) {
+export default function ServiceDetailsCarousel({ service }: Props) {
   const theme = useTheme();
 
-  // const slides = product.images.map((img) => ({
+  // const slides = service.images.map((img) => ({
   //   src: img,
   // }));
 

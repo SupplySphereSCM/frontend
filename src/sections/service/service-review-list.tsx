@@ -1,21 +1,21 @@
 // @mui
 import Pagination, { paginationClasses } from "@mui/material/Pagination";
 // types
-import { IProductReview } from "src/types/product";
+import { IServiceReview } from "src/types/service";
 //
-import ProductReviewItem from "./product-review-item";
+import ServiceReviewItem from "./service-review-item";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  reviews: IProductReview[];
+  reviews: IServiceReview[];
 };
 
-export default function ProductReviewList({ reviews }: Props) {
+export default function ServiceReviewList({ reviews }: Props) {
   return (
     <>
       {reviews.map((review) => (
-        <ProductReviewItem key={review.id} review={review} />
+        <ServiceReviewItem key={review.id} review={review} />
       ))}
 
       <Pagination

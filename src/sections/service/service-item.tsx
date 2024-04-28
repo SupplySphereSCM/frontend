@@ -16,21 +16,21 @@ import Image from "src/components/image";
 import Iconify from "src/components/iconify";
 import { ColorPreview } from "src/components/color-utils";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem } from "src/types/service";
 //
 import { useCheckoutContext } from "../checkout/context";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  product: IProductItem;
+  service: IServiceItem;
 };
 
-export default function ProductItem({ product }: Props) {
+export default function ServiceItem({ service }: Props) {
   const { onAddToCart } = useCheckoutContext();
 
   const {
-    product_id,
+    id,
     name,
     coverUrl,
     price,
@@ -40,13 +40,13 @@ export default function ProductItem({ product }: Props) {
     priceSale,
     // newLabel,
     // saleLabel,
-  } = product;
+  } = service;
 
-  const linkTo = paths.product.details(product_id);
+  const linkTo = paths.service.details(id);
 
   const handleAddCart = async () => {
-    const newProduct = {
-      product_id,
+    const newService = {
+      id,
       name,
       coverUrl,
       available,
@@ -56,7 +56,7 @@ export default function ProductItem({ product }: Props) {
       // size: sizes[0],
     };
     try {
-      onAddToCart(newProduct);
+      onAddToCart(newService);
     } catch (error) {
       console.error(error);
     }

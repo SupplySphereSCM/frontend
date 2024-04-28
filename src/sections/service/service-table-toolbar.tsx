@@ -15,15 +15,15 @@ import Iconify from "src/components/iconify";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
 // types
 import {
-  IProductTableFilters,
-  IProductTableFilterValue,
-} from "src/types/product";
+  IServiceTableFilters,
+  IServiceTableFilterValue,
+} from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  filters: IProductTableFilters;
-  onFilters: (name: string, value: IProductTableFilterValue) => void;
+  filters: IServiceTableFilters;
+  onFilters: (name: string, value: IServiceTableFilterValue) => void;
   //
   stockOptions: {
     value: string;
@@ -35,7 +35,7 @@ type Props = {
   // }[];
 };
 
-export default function ProductTableToolbar({
+export default function ServiceTableToolbar({
   filters,
   onFilters,
   //

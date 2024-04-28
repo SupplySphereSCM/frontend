@@ -21,7 +21,7 @@ import Iconify from "src/components/iconify";
 import { ColorPicker } from "src/components/color-utils";
 import FormProvider, { RHFSelect } from "src/components/hook-form";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem } from "src/types/service";
 import { ICheckoutItem } from "src/types/checkout";
 //
 import IncrementerButton from "./common/incrementer-button";
@@ -29,16 +29,16 @@ import IncrementerButton from "./common/incrementer-button";
 // ----------------------------------------------------------------------
 
 type Props = {
-  product: IProductItem;
+  service: IServiceItem;
   items?: ICheckoutItem[];
   disabledActions?: boolean;
   onGotoStep?: (step: number) => void;
   onAddCart?: (cartItem: ICheckoutItem) => void;
 };
 
-export default function ProductDetailsSummary({
+export default function ServiceDetailsSummary({
   items,
-  product,
+  service,
   onAddCart,
   onGotoStep,
   disabledActions,
@@ -47,7 +47,7 @@ export default function ProductDetailsSummary({
   const router = useRouter();
 
   const {
-    product_id,
+    id,
     name,
     // sizes,
     price,
@@ -63,20 +63,19 @@ export default function ProductDetailsSummary({
     // totalReviews,
     // inventoryType,
     subDescription,
-  } = product;
+  } = service;
 
-  const existProduct =
-    !!items?.length && items.map((item) => item.id).includes(product_id);
+  const existService =
+    !!items?.length && items.map((item) => item.id).includes(id);
 
   const isMaxQuantity =
     !!items?.length &&
-    items
-      .filter((item) => item.id === product_id)
-      .map((item) => item.quantity)[0] >= available;
+    items.filter((item) => item.id === id).map((item) => item.quantity)[0] >=
+      available;
   // quantity;
 
   const defaultValues = {
-    product_id,
+    id,
     name,
     // coverUrl,
     available,
@@ -96,15 +95,15 @@ export default function ProductDetailsSummary({
   const values = watch();
 
   useEffect(() => {
-    if (product) {
+    if (service) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product]);
+  }, [service]);
 
   const onSubmit = handleSubmit(async (data: ICheckoutItem) => {
     try {
-      if (!existProduct) {
+      if (!existService) {
         onAddCart?.({
           ...data,
           subTotal: data.price * data.quantity,
@@ -112,7 +111,7 @@ export default function ProductDetailsSummary({
       }
 
       onGotoStep?.(0);
-      router.push(paths.product.checkout);
+      router.push(paths.service.checkout);
     } catch (error) {
       console.error(error);
     }

@@ -6,7 +6,7 @@ import Grid, { Grid2Props } from "@mui/material/Unstable_Grid2";
 
 // ----------------------------------------------------------------------
 
-export function ProductItemSkeleton({ sx, ...other }: PaperProps) {
+export function ServiceItemSkeleton({ sx, ...other }: PaperProps) {
   return (
     <Paper
       variant="outlined"
@@ -41,7 +41,7 @@ export function ProductItemSkeleton({ sx, ...other }: PaperProps) {
 
 // ----------------------------------------------------------------------
 
-export function ProductDetailsSkeleton({ ...other }: Grid2Props) {
+export function ServiceDetailsSkeleton({ ...other }: Grid2Props) {
   return (
     <Grid container spacing={8} {...other}>
       <Grid xs={12} md={6} lg={7}>

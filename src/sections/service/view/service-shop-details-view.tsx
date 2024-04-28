@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 // routes
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
-import { useGetProduct } from "src/api/product";
+import { useGetService } from "src/api/service";
 // components
 import Iconify from "src/components/iconify";
 import EmptyContent from "src/components/empty-content";
@@ -20,11 +20,11 @@ import { useSettingsContext } from "src/components/settings";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
 import CartIcon from "../common/cart-icon";
-import ProductDetailsReview from "../product-details-review";
-import { ProductDetailsSkeleton } from "../product-skeleton";
-import ProductDetailsSummary from "../product-details-summary";
-import ProductDetailsCarousel from "../product-details-carousel";
-import ProductDetailsDescription from "../product-details-description";
+import ServiceDetailsReview from "../service-details-review";
+import { ServiceDetailsSkeleton } from "../service-skeleton";
+import ServiceDetailsSummary from "../service-details-summary";
+import ServiceDetailsCarousel from "../service-details-carousel";
+import ServiceDetailsDescription from "../service-details-description";
 import { useCheckoutContext } from "../../checkout/context";
 
 // ----------------------------------------------------------------------
@@ -53,14 +53,14 @@ type Props = {
   id: string;
 };
 
-export default function ProductShopDetailsView({ id }: Props) {
+export default function ServiceShopDetailsView({ id }: Props) {
   const settings = useSettingsContext();
 
   const checkout = useCheckoutContext();
 
   const [currentTab, setCurrentTab] = useState("description");
 
-  const { product, productLoading, productError } = useGetProduct(id);
+  const { service, serviceLoading, serviceError } = useGetService(id);
 
   const handleChangeTab = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -69,16 +69,16 @@ export default function ProductShopDetailsView({ id }: Props) {
     [],
   );
 
-  const renderSkeleton = <ProductDetailsSkeleton />;
+  const renderSkeleton = <ServiceDetailsSkeleton />;
 
   const renderError = (
     <EmptyContent
       filled
-      title={`${productError?.message}`}
+      title={`${serviceError?.message}`}
       action={
         <Button
           component={RouterLink}
-          href={paths.product.root}
+          href={paths.service.root}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
@@ -89,28 +89,28 @@ export default function ProductShopDetailsView({ id }: Props) {
     />
   );
 
-  const renderProduct = product && (
+  const renderService = service && (
     <>
       <CustomBreadcrumbs
         links={[
           { name: "Home", href: "/" },
           {
             name: "Shop",
-            href: paths.product.root,
+            href: paths.service.root,
           },
-          { name: product?.name },
+          { name: service?.name },
         ]}
         sx={{ mb: 5 }}
       />
 
       <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
         <Grid xs={12} md={6} lg={7}>
-          <ProductDetailsCarousel product={product} />
+          <ServiceDetailsCarousel service={service} />
         </Grid>
 
         <Grid xs={12} md={6} lg={5}>
-          <ProductDetailsSummary
-            product={product}
+          <ServiceDetailsSummary
+            service={service}
             items={checkout.items}
             onAddCart={checkout.onAddToCart}
             onGotoStep={checkout.onGotoStep}
@@ -163,7 +163,7 @@ export default function ProductShopDetailsView({ id }: Props) {
             },
             // {
             //   value: "reviews",
-            //   label: `Reviews (${product.reviews.length})`,
+            //   label: `Reviews (${service.reviews.length})`,
             // },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
@@ -171,15 +171,15 @@ export default function ProductShopDetailsView({ id }: Props) {
         </Tabs>
 
         {currentTab === "description" && (
-          <ProductDetailsDescription description={product?.description} />
+          <ServiceDetailsDescription description={service?.description} />
         )}
 
         {/* {currentTab === "reviews" && (
-          <ProductDetailsReview
-            ratings={product.ratings}
-            reviews={product.reviews}
-            totalRatings={product.totalRatings}
-            totalReviews={product.totalReviews}
+          <ServiceDetailsReview
+            ratings={service.ratings}
+            reviews={service.reviews}
+            totalRatings={service.totalRatings}
+            totalReviews={service.totalReviews}
           />
         )} */}
       </Card>
@@ -196,11 +196,11 @@ export default function ProductShopDetailsView({ id }: Props) {
     >
       <CartIcon totalItems={checkout.totalItems} />
 
-      {productLoading && renderSkeleton}
+      {serviceLoading && renderSkeleton}
 
-      {productError && renderError}
+      {serviceError && renderError}
 
-      {product && renderProduct}
+      {service && renderService}
     </Container>
   );
 }

@@ -25,7 +25,7 @@ type Props = StackProps & {
   // }[];
 };
 
-export default function ProductDetailsToolbar({
+export default function ServiceDetailsToolbar({
   // publish,
   backLink,
   editLink,

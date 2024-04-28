@@ -13,19 +13,19 @@ import { useRouter } from "src/routes/hooks";
 import Iconify from "src/components/iconify";
 import SearchNotFound from "src/components/search-not-found";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   query: string;
-  results: IProductItem[];
+  results: IServiceItem[];
   onSearch: (inputValue: string) => void;
   hrefItem: (id: string) => string;
   loading?: boolean;
 };
 
-export default function ProductSearch({
+export default function ServiceSearch({
   query,
   results,
   onSearch,
@@ -42,7 +42,7 @@ export default function ProductSearch({
     if (query) {
       if (event.key === "Enter") {
         const selectItem = results.filter(
-          (product) => product.name === query,
+          (service) => service.name === query,
         )[0];
 
         handleClick(selectItem.id);
@@ -102,21 +102,21 @@ export default function ProductSearch({
           }}
         />
       )}
-      renderOption={(props, product, { inputValue }) => {
-        const matches = match(product.name, inputValue);
-        const parts = parse(product.name, matches);
+      renderOption={(props, service, { inputValue }) => {
+        const matches = match(service.name, inputValue);
+        const parts = parse(service.name, matches);
 
         return (
           <Box
             component="li"
             {...props}
-            onClick={() => handleClick(product.id)}
-            key={product.id}
+            onClick={() => handleClick(service.id)}
+            key={service.id}
           >
             <Avatar
-              key={product.id}
-              alt={product.name}
-              src={product.coverUrl}
+              key={service.id}
+              alt={service.name}
+              src={service.coverUrl}
               variant="rounded"
               sx={{
                 width: 48,

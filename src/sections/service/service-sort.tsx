@@ -17,7 +17,7 @@ type Props = {
   }[];
 };
 
-export default function ProductSort({ sort, onSort, sortOptions }: Props) {
+export default function ServiceSort({ sort, onSort, sortOptions }: Props) {
   const popover = usePopover();
 
   const sortLabel = sortOptions.find((option) => option.value === sort)?.label;

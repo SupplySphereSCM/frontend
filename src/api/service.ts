@@ -3,23 +3,23 @@ import { useMemo } from "react";
 // utils
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
-export function useGetProducts() {
-  const URL = endpoints.product.list;
+export function useGetServices() {
+  const URL = endpoints.service.list;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data as IProductItem[]) || [],
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.length,
+      services: (data as IServiceItem[]) || [],
+      servicesLoading: isLoading,
+      servicesError: error,
+      servicesValidating: isValidating,
+      servicesEmpty: !isLoading && !data?.length,
     }),
     [data, error, isLoading, isValidating],
   );
@@ -30,19 +30,19 @@ export function useGetProducts() {
 
 // ----------------------------------------------------------------------
 
-export function useGetShopProducts() {
-  const URL = endpoints.product.shop;
+export function useGetShopServices() {
+  const URL = endpoints.service.shop;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data as IProductItem[]) || [],
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.length,
+      services: (data as IServiceItem[]) || [],
+      servicesLoading: isLoading,
+      servicesError: error,
+      servicesValidating: isValidating,
+      servicesEmpty: !isLoading && !data?.length,
     }),
     [data, error, isLoading, isValidating],
   );
@@ -53,17 +53,17 @@ export function useGetShopProducts() {
 
 // ----------------------------------------------------------------------
 
-export function useGetProduct(productId: string) {
-  const URL = endpoints.product.details(productId);
+export function useGetService(serviceId: string) {
+  const URL = endpoints.service.details(serviceId);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(
     () => ({
-      product: data as IProductItem,
-      productLoading: isLoading,
-      productError: error,
-      productValidating: isValidating,
+      service: data as IServiceItem,
+      serviceLoading: isLoading,
+      serviceError: error,
+      serviceValidating: isValidating,
     }),
     [data, error, isLoading, isValidating],
   );
@@ -73,8 +73,8 @@ export function useGetProduct(productId: string) {
 
 // ----------------------------------------------------------------------
 
-export function useSearchProducts(query: string) {
-  const URL = query ? [endpoints.product.search, { params: { query } }] : null;
+export function useSearchServices(query: string) {
+  const URL = query ? [endpoints.service.search, { params: { query } }] : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
     keepPreviousData: true,
@@ -82,7 +82,7 @@ export function useSearchProducts(query: string) {
 
   const memoizedValue = useMemo(
     () => ({
-      searchResults: (data?.results as IProductItem[]) || [],
+      searchResults: (data?.results as IServiceItem[]) || [],
       searchLoading: isLoading,
       searchError: error,
       searchValidating: isValidating,
@@ -96,12 +96,12 @@ export function useSearchProducts(query: string) {
 
 // ----------------------------------------------------------------------
 
-export async function createProduct(product: Partial<IProductItem>) {
-  const URL = endpoints.product.root;
+export async function createService(service: Partial<IServiceItem>) {
+  const URL = endpoints.service.root;
   /**
    * Work on server
    */
-  const data = { ...product };
+  const data = { ...service };
   await axiosInstance.post(URL, data);
   // console.log(data);
 
@@ -111,11 +111,11 @@ export async function createProduct(product: Partial<IProductItem>) {
   mutate(
     URL,
     (currentData: any) => {
-      const products: IProductItem[] = [...currentData?.products, product];
+      const services: IServiceItem[] = [...currentData?.services, service];
 
       return {
         ...currentData,
-        products,
+        services,
       };
     },
     false,
@@ -123,12 +123,12 @@ export async function createProduct(product: Partial<IProductItem>) {
 }
 // ----------------------------------------------------------------------
 
-export async function updateProduct(product: Partial<IProductItem>) {
-  const URL = endpoints.product.details(`${product.id}`);
+export async function updateService(service: Partial<IServiceItem>) {
+  const URL = endpoints.service.details(`${service.id}`);
   /**
    * Work on server
    */
-  const data = { ...product };
+  const data = { ...service };
   await axiosInstance.patch(URL, data);
   // console.log(data);
 
@@ -138,27 +138,27 @@ export async function updateProduct(product: Partial<IProductItem>) {
   mutate(
     URL,
     (currentData: any) => {
-      const updatedProducts = currentData.products.map((p: IProductItem) => {
-        return p.id === product.id ? { ...p, ...product } : p;
+      const updatedServices = currentData.services.map((p: IServiceItem) => {
+        return p.id === service.id ? { ...p, ...service } : p;
       });
 
-      return { ...currentData, products: updatedProducts };
+      return { ...currentData, services: updatedServices };
     },
     false,
   );
 }
 
-export async function deleteProducts(ids: string | string[]) {
+export async function deleteServices(ids: string | string[]) {
   try {
     // if (Array.isArray(ids) && ids.length > 1) {
-    //   return await axiosInstance.delete(endpoints.product.root, {
+    //   return await axiosInstance.delete(endpoints.service.root, {
     //     data: [...ids],
     //   });
     // }
 
-    return await axiosInstance.delete(endpoints.product.details(ids as string));
+    return await axiosInstance.delete(endpoints.service.details(ids as string));
   } catch (error) {
-    console.error("Failed to delete products:", error);
+    console.error("Failed to delete services:", error);
     // Optionally, handle errors more gracefully here
   }
 }

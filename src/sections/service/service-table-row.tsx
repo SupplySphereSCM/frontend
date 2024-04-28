@@ -21,12 +21,12 @@ import Iconify from "src/components/iconify";
 import { ConfirmDialog } from "src/components/custom-dialog";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
 // types
-import { IProductItem } from "src/types/product";
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: IProductItem;
+  row: IServiceItem;
   selected: boolean;
   onEditRow: VoidFunction;
   onViewRow: VoidFunction;
@@ -34,7 +34,7 @@ type Props = {
   onDeleteRow: VoidFunction;
 };
 
-export default function ProductTableRow({
+export default function ServiceTableRow({
   row,
   selected,
   onSelectRow,
