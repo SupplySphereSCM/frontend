@@ -6,6 +6,7 @@ import { AuthGuard } from "src/auth/guard";
 import DashboardLayout from "src/layouts/dashboard";
 // components
 import { LoadingScreen } from "src/components/loading-screen";
+import { CheckoutProvider } from "src/sections/supplychain/supplychain-new-edit-form/context";
 
 // ----------------------------------------------------------------------
 
@@ -169,6 +170,11 @@ export const dashboardRoutes = [
       // },
       {
         path: "supplychain",
+        element: (
+          <CheckoutProvider>
+            <Outlet />
+          </CheckoutProvider>
+        ),
         children: [
           { element: <SupplyChainListPage />, index: true },
           { path: "list", element: <SupplyChainListPage /> },

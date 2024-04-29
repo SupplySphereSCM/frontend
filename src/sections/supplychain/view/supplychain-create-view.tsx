@@ -5,8 +5,8 @@ import { paths } from "src/routes/paths";
 // components
 import { useSettingsContext } from "src/components/settings";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
-
 import SupplyChainNewEditForm from "../supplychain-new-edit-form";
+
 //
 
 // ----------------------------------------------------------------------
@@ -30,10 +30,9 @@ export default function SupplyChainCreateView() {
           { name: "New SupplyChain" },
         ]}
         sx={{
-          mb: { xs: 3, md: 5 },
+          mb: 2,
         }}
       />
-
       <SupplyChainNewEditForm />
     </Container>
   );

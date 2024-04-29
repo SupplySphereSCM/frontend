@@ -1,19 +1,20 @@
 // @mui
+import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Stack, { StackProps } from "@mui/material/Stack";
-// types
-import { IJobFilters, IJobFilterValue } from "src/types/job";
 // components
 import Iconify from "src/components/iconify";
+// types
+import { IServiceFilters, IServiceFilterValue } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
-  filters: IJobFilters;
-  onFilters: (name: string, value: IJobFilterValue) => void;
+  filters: IServiceFilters;
+  onFilters: (name: string, value: IServiceFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
@@ -21,7 +22,7 @@ type Props = StackProps & {
   results: number;
 };
 
-export default function JobFiltersResult({
+export default function ServiceFiltersResult({
   filters,
   onFilters,
   //
@@ -31,30 +32,28 @@ export default function JobFiltersResult({
   results,
   ...other
 }: Props) {
-  const handleRemoveEmploymentTypes = (inputValue: string) => {
-    const newValue = filters.employmentTypes.filter(
-      (item) => item !== inputValue,
+  const handleRemoveGender = (inputValue: string) => {
+    const newValue = filters.gender.filter((item) => item !== inputValue);
+    onFilters("gender", newValue);
+  };
+
+  const handleRemoveCategory = () => {
+    onFilters("category", "all");
+  };
+
+  const handleRemoveColor = (inputValue: string | string[]) => {
+    const newValue = filters.colors.filter(
+      (item: string) => item !== inputValue,
     );
-    onFilters("employmentTypes", newValue);
+    onFilters("colors", newValue);
   };
 
-  const handleRemoveExperience = () => {
-    onFilters("experience", "all");
+  const handleRemovePrice = () => {
+    onFilters("priceRange", [0, 200]);
   };
 
-  const handleRemoveRoles = (inputValue: string) => {
-    const newValue = filters.roles.filter((item) => item !== inputValue);
-    onFilters("role", newValue);
-  };
-
-  const handleRemoveLocations = (inputValue: string) => {
-    const newValue = filters.locations.filter((item) => item !== inputValue);
-    onFilters("locations", newValue);
-  };
-
-  const handleRemoveBenefits = (inputValue: string) => {
-    const newValue = filters.benefits.filter((item) => item !== inputValue);
-    onFilters("benefits", newValue);
+  const handleRemoveRating = () => {
+    onFilters("rating", "");
   };
 
   return (
@@ -73,65 +72,71 @@ export default function JobFiltersResult({
         flexWrap="wrap"
         alignItems="center"
       >
-        {!!filters.employmentTypes.length && (
-          <Block label="Employment Types:">
-            {filters.employmentTypes.map((item) => (
+        {!!filters.gender.length && (
+          <Block label="Gender:">
+            {filters.gender.map((item) => (
               <Chip
                 key={item}
                 label={item}
                 size="small"
-                onDelete={() => handleRemoveEmploymentTypes(item)}
+                onDelete={() => handleRemoveGender(item)}
               />
             ))}
           </Block>
         )}
 
-        {filters.experience !== "all" && (
-          <Block label="Experience:">
+        {filters.category !== "all" && (
+          <Block label="Category:">
             <Chip
               size="small"
-              label={filters.experience}
-              onDelete={handleRemoveExperience}
+              label={filters.category}
+              onDelete={handleRemoveCategory}
             />
           </Block>
         )}
 
-        {!!filters.roles.length && (
-          <Block label="Roles:">
-            {filters.roles.map((item) => (
+        {!!filters.colors.length && (
+          <Block label="Colors:">
+            {filters.colors.map((item) => (
               <Chip
                 key={item}
-                label={item}
                 size="small"
-                onDelete={() => handleRemoveRoles(item)}
+                label={
+                  <Box
+                    sx={{
+                      ml: -0.5,
+                      width: 18,
+                      height: 18,
+                      bgcolor: item,
+                      borderRadius: "50%",
+                      border: (theme) =>
+                        `solid 1px ${alpha(theme.palette.common.white, 0.24)}`,
+                    }}
+                  />
+                }
+                onDelete={() => handleRemoveColor(item)}
               />
             ))}
           </Block>
         )}
 
-        {!!filters.locations.length && (
-          <Block label="Locations:">
-            {filters.locations.map((item) => (
-              <Chip
-                key={item}
-                label={item}
-                size="small"
-                onDelete={() => handleRemoveLocations(item)}
-              />
-            ))}
+        {(filters.priceRange[0] !== 0 || filters.priceRange[1] !== 200) && (
+          <Block label="Price:">
+            <Chip
+              size="small"
+              label={`$${filters.priceRange[0]} - ${filters.priceRange[1]}`}
+              onDelete={handleRemovePrice}
+            />
           </Block>
         )}
 
-        {!!filters.benefits.length && (
-          <Block label="Benefits:">
-            {filters.benefits.map((item) => (
-              <Chip
-                key={item}
-                label={item}
-                size="small"
-                onDelete={() => handleRemoveBenefits(item)}
-              />
-            ))}
+        {!!filters.rating && (
+          <Block label="Rating:">
+            <Chip
+              size="small"
+              label={filters.rating}
+              onDelete={handleRemoveRating}
+            />
           </Block>
         )}
 

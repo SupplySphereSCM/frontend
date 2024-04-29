@@ -8,7 +8,6 @@ import { useGetProduct } from "src/api/product";
 import { useSettingsContext } from "src/components/settings";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import ProductNewEditForm from "../product-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +36,6 @@ export default function ProductEditView({ id }: Props) {
           mb: { xs: 3, md: 5 },
         }}
       />
-
-      <ProductNewEditForm currentProduct={currentProduct} />
     </Container>
   );
 }

@@ -2,31 +2,35 @@ import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 // @mui
 import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
-// types
-import { ISupplyChainItem } from "src/types/supplychain";
+import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
+// routes
+import { useRouter } from "src/routes/hooks";
 // components
 import Iconify from "src/components/iconify";
-import { useRouter } from "src/routes/hooks";
 import SearchNotFound from "src/components/search-not-found";
+// types
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   query: string;
-  results: ISupplyChainItem[];
+  results: IServiceItem[];
   onSearch: (inputValue: string) => void;
   hrefItem: (id: string) => string;
+  loading?: boolean;
 };
 
-export default function SupplyChainSearch({
+export default function ServiceSearch({
   query,
   results,
   onSearch,
   hrefItem,
+  loading,
 }: Props) {
   const router = useRouter();
 
@@ -37,11 +41,11 @@ export default function SupplyChainSearch({
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (query) {
       if (event.key === "Enter") {
-        const selectProduct = results.filter(
-          (supplyChain) => supplyChain.name === query,
+        const selectItem = results.filter(
+          (service) => service.name === query,
         )[0];
 
-        handleClick(selectProduct.id);
+        handleClick(selectItem.id);
       }
     }
   };
@@ -49,6 +53,7 @@ export default function SupplyChainSearch({
   return (
     <Autocomplete
       sx={{ width: { xs: 1, sm: 260 } }}
+      loading={loading}
       autoHighlight
       popupIcon={null}
       options={results}
@@ -56,6 +61,21 @@ export default function SupplyChainSearch({
       getOptionLabel={(option) => option.name}
       noOptionsText={<SearchNotFound query={query} sx={{ bgcolor: "unset" }} />}
       isOptionEqualToValue={(option, value) => option.id === value.id}
+      slotProps={{
+        popper: {
+          placement: "bottom-start",
+          sx: {
+            minWidth: 320,
+          },
+        },
+        paper: {
+          sx: {
+            [` .${autocompleteClasses.option}`]: {
+              pl: 0.75,
+            },
+          },
+        },
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -71,21 +91,43 @@ export default function SupplyChainSearch({
                 />
               </InputAdornment>
             ),
+            endAdornment: (
+              <>
+                {loading ? (
+                  <Iconify icon="svg-spinners:8-dots-rotate" sx={{ mr: -3 }} />
+                ) : null}
+                {params.InputProps.endAdornment}
+              </>
+            ),
           }}
         />
       )}
-      renderOption={(props, supplyChain, { inputValue }) => {
-        const matches = match(supplyChain.name, inputValue);
-        const parts = parse(supplyChain.name, matches);
+      renderOption={(props, service, { inputValue }) => {
+        const matches = match(service.name, inputValue);
+        const parts = parse(service.name, matches);
 
         return (
           <Box
             component="li"
             {...props}
-            onClick={() => handleClick(supplyChain.id)}
-            key={supplyChain.id}
+            onClick={() => handleClick(service.id)}
+            key={service.id}
           >
-            <div>
+            <Avatar
+              key={service.id}
+              alt={service.name}
+              src={service.coverUrl}
+              variant="rounded"
+              sx={{
+                width: 48,
+                height: 48,
+                flexShrink: 0,
+                mr: 1.5,
+                borderRadius: 1,
+              }}
+            />
+
+            <div key={inputValue}>
               {parts.map((part, index) => (
                 <Typography
                   key={index}

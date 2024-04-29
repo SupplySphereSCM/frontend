@@ -11,14 +11,10 @@ import { RouterLink } from "src/routes/components";
 // utils
 import { fCurrency } from "src/utils/format-number";
 // components
-import Label from "src/components/label";
 import Image from "src/components/image";
 import Iconify from "src/components/iconify";
-import { ColorPreview } from "src/components/color-utils";
 // types
 import { IProductItem } from "src/types/product";
-//
-import { useCheckoutContext } from "../checkout/context";
 
 // ----------------------------------------------------------------------
 
@@ -26,22 +22,8 @@ type Props = {
   product: IProductItem;
 };
 
-export default function ProductItem({ product }: Props) {
-  const { onAddToCart } = useCheckoutContext();
-
-  const {
-    id,
-    name,
-    coverUrl,
-    price,
-    // colors,
-    available,
-    // sizes,
-    priceSale,
-    // newLabel,
-    // saleLabel,
-  } = product;
-  // console.log(product);
+export default function MaterialItem({ product }: Props) {
+  const { id, name, price, available, images } = product;
 
   const linkTo = paths.product.details(id);
 
@@ -49,39 +31,16 @@ export default function ProductItem({ product }: Props) {
     const newProduct = {
       id,
       name,
-      coverUrl,
       available,
       price,
       quantity: 1,
-      // colors: [colors[0]],
-      // size: sizes[0],
     };
     try {
-      onAddToCart(newProduct);
+      console.log("ADD TO CART: ", newProduct);
     } catch (error) {
       console.error(error);
     }
   };
-
-  // const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-  //   <Stack
-  //     direction="row"
-  //     alignItems="center"
-  //     spacing={1}
-  //     sx={{ position: "absolute", zIndex: 9, top: 16, right: 16 }}
-  //   >
-  //     {newLabel.enabled && (
-  //       <Label variant="filled" color="info">
-  //         {newLabel.content}
-  //       </Label>
-  //     )}
-  //     {saleLabel.enabled && (
-  //       <Label variant="filled" color="error">
-  //         {saleLabel.content}
-  //       </Label>
-  //     )}
-  //   </Stack>
-  // );
 
   const renderImg = (
     <Box sx={{ position: "relative", p: 1 }}>
@@ -111,7 +70,7 @@ export default function ProductItem({ product }: Props) {
       <Tooltip title={!available && "Out of stock"} placement="bottom-end">
         <Image
           alt={name}
-          src={coverUrl || "/assets/icons/files/ic_file.svg"}
+          src={images[0] || "/assets/icons/files/ic_file.svg"}
           ratio="1/1"
           sx={{
             borderRadius: 1.5,
@@ -138,20 +97,7 @@ export default function ProductItem({ product }: Props) {
       </Link>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        {/* <ColorPreview colors={colors} /> */}
-
-        <Stack direction="row" spacing={0.5} sx={{ typography: "subtitle1" }}>
-          {priceSale && (
-            <Box
-              component="span"
-              sx={{ color: "text.disabled", textDecoration: "line-through" }}
-            >
-              {fCurrency(priceSale)}
-            </Box>
-          )}
-
-          <Box component="span">{fCurrency(price)}</Box>
-        </Stack>
+        <Box component="span">{fCurrency(price)}</Box>
       </Stack>
     </Stack>
   );
@@ -164,8 +110,6 @@ export default function ProductItem({ product }: Props) {
         },
       }}
     >
-      {/* {renderLabels} */}
-
       {renderImg}
 
       {renderContent}

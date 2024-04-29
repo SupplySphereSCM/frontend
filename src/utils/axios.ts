@@ -63,6 +63,10 @@ export const endpoints = {
     search: "/api/services/search",
     details: (id: string) => `/api/services/${id}`,
   },
+  supplychain: {
+    root: "/api/supplychains",
+    details: (id: string) => `/api/services/${id}`,
+  },
   upload: {
     file: "/api/upload/file",
     files: "/api/upload/files",

@@ -1,19 +1,15 @@
 // @mui
-import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
-import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import ListItemText from "@mui/material/ListItemText";
 // types
-import { IJobItem } from "src/types/job";
+import { ISupplyChainItem } from "src/types/supplychain";
 // utils
 import { fDate } from "src/utils/format-time";
-import { fCurrency } from "src/utils/format-number";
 // routes
 import { paths } from "src/routes/paths";
 // components
@@ -24,26 +20,21 @@ import CustomPopover, { usePopover } from "src/components/custom-popover";
 // ----------------------------------------------------------------------
 
 type Props = {
-  job: IJobItem;
+  supplyChain: ISupplyChainItem;
   onView: VoidFunction;
   onEdit: VoidFunction;
   onDelete: VoidFunction;
 };
 
-export default function JobItem({ job, onView, onEdit, onDelete }: Props) {
+export default function SupplyChainItem({
+  supplyChain,
+  onView,
+  onEdit,
+  onDelete,
+}: Props) {
   const popover = usePopover();
 
-  const {
-    id,
-    title,
-    company,
-    createdAt,
-    candidates,
-    experience,
-    employmentTypes,
-    salary,
-    role,
-  } = job;
+  const { id, name, image, createdAt } = supplyChain;
 
   return (
     <>
@@ -56,25 +47,27 @@ export default function JobItem({ job, onView, onEdit, onDelete }: Props) {
         </IconButton>
 
         <Stack sx={{ p: 3, pb: 2 }}>
-          <Avatar
-            alt={company.name}
-            src={company.logo}
-            variant="rounded"
-            sx={{ width: 48, height: 48, mb: 2 }}
-          />
+          {image && (
+            <Avatar
+              alt={name}
+              src={image}
+              variant="rounded"
+              sx={{ width: 48, height: 48, mb: 2 }}
+            />
+          )}
 
           <ListItemText
             sx={{ mb: 1 }}
             primary={
               <Link
                 component={RouterLink}
-                href={paths.dashboard.job.details(id)}
+                href={paths.dashboard.supplychain.details(id)}
                 color="inherit"
               >
-                {title}
+                {name}
               </Link>
             }
-            secondary={`Posted date: ${fDate(createdAt)}`}
+            secondary={`Created date: ${fDate(createdAt)}`}
             primaryTypographyProps={{
               typography: "subtitle1",
             }}
@@ -85,83 +78,7 @@ export default function JobItem({ job, onView, onEdit, onDelete }: Props) {
               color: "text.disabled",
             }}
           />
-
-          <Stack
-            spacing={0.5}
-            direction="row"
-            alignItems="center"
-            sx={{ color: "primary.main", typography: "caption" }}
-          >
-            <Iconify width={16} icon="solar:users-group-rounded-bold" />
-            {candidates.length} Candidates
-          </Stack>
         </Stack>
-
-        <Divider sx={{ borderStyle: "dashed" }} />
-
-        <Box
-          rowGap={1.5}
-          display="grid"
-          gridTemplateColumns="repeat(2, 1fr)"
-          sx={{ p: 3 }}
-        >
-          {[
-            {
-              label: experience,
-              icon: (
-                <Iconify
-                  width={16}
-                  icon="carbon:skill-level-basic"
-                  sx={{ flexShrink: 0 }}
-                />
-              ),
-            },
-            {
-              label: employmentTypes.join(", "),
-              icon: (
-                <Iconify
-                  width={16}
-                  icon="solar:clock-circle-bold"
-                  sx={{ flexShrink: 0 }}
-                />
-              ),
-            },
-            {
-              label: salary.negotiable ? "Negotiable" : fCurrency(salary.price),
-              icon: (
-                <Iconify
-                  width={16}
-                  icon="solar:wad-of-money-bold"
-                  sx={{ flexShrink: 0 }}
-                />
-              ),
-            },
-            {
-              label: role,
-              icon: (
-                <Iconify
-                  width={16}
-                  icon="solar:user-rounded-bold"
-                  sx={{ flexShrink: 0 }}
-                />
-              ),
-            },
-          ].map((item) => (
-            <Stack
-              key={item.label}
-              spacing={0.5}
-              flexShrink={0}
-              direction="row"
-              alignItems="center"
-              sx={{ color: "text.disabled", minWidth: 0 }}
-            >
-              {item.icon}
-              <Typography variant="caption" noWrap>
-                {item.label}
-              </Typography>
-            </Stack>
-          ))}
-        </Box>
       </Card>
 
       <CustomPopover

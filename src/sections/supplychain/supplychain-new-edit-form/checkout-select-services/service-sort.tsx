@@ -17,8 +17,10 @@ type Props = {
   }[];
 };
 
-export default function SupplyChainSort({ sort, onSort, sortOptions }: Props) {
+export default function ServiceSort({ sort, onSort, sortOptions }: Props) {
   const popover = usePopover();
+
+  const sortLabel = sortOptions.find((option) => option.value === sort)?.label;
 
   return (
     <>
@@ -38,15 +40,8 @@ export default function SupplyChainSort({ sort, onSort, sortOptions }: Props) {
         sx={{ fontWeight: "fontWeightSemiBold" }}
       >
         Sort By:
-        <Box
-          component="span"
-          sx={{
-            ml: 0.5,
-            fontWeight: "fontWeightBold",
-            textTransform: "capitalize",
-          }}
-        >
-          {sort}
+        <Box component="span" sx={{ ml: 0.5, fontWeight: "fontWeightBold" }}>
+          {sortLabel}
         </Box>
       </Button>
 

@@ -4,21 +4,19 @@ import Pagination, { paginationClasses } from "@mui/material/Pagination";
 // types
 import { IProductItem } from "src/types/product";
 //
-import ProductItem from "./product-item";
-import { ProductItemSkeleton } from "./product-skeleton";
-
-// ----------------------------------------------------------------------
+import MaterialItem from "./material-item";
+import { MaterialItemSkeleton } from "./material-skeleton";
 
 type Props = BoxProps & {
   products: IProductItem[];
   loading?: boolean;
 };
 
-export default function ProductList({ products, loading, ...other }: Props) {
+export default function MaterialList({ products, loading, ...other }: Props) {
   const renderSkeleton = (
     <>
       {[...Array(16)].map((_, index) => (
-        <ProductItemSkeleton key={index} />
+        <MaterialItemSkeleton key={index} />
       ))}
     </>
   );
@@ -27,7 +25,7 @@ export default function ProductList({ products, loading, ...other }: Props) {
     <>
       {products.map((product) => (
         // <ProductItem key={product.id} product={product} />
-        <ProductItem key={product.id} product={product} />
+        <MaterialItem key={product.id} product={product} />
       ))}
     </>
   );

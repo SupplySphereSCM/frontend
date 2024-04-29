@@ -6,29 +6,26 @@ import Pagination, { paginationClasses } from "@mui/material/Pagination";
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
 // types
-import { IJobItem } from "src/types/job";
-//
-import JobItem from "./job-item";
-
-// ----------------------------------------------------------------------
+import { ISupplyChainItem } from "src/types/supplychain";
+import SupplyChainItem from "./supplychain-item";
 
 type Props = {
-  jobs: IJobItem[];
+  supplyChains: ISupplyChainItem[];
 };
 
-export default function JobList({ jobs }: Props) {
+export default function SupplyChainList({ supplyChains }: Props) {
   const router = useRouter();
 
   const handleView = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.job.details(id));
+      router.push(paths.dashboard.supplychain.details(id));
     },
     [router],
   );
 
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.job.edit(id));
+      router.push(paths.dashboard.supplychain.edit(id));
     },
     [router],
   );
@@ -48,18 +45,18 @@ export default function JobList({ jobs }: Props) {
           md: "repeat(3, 1fr)",
         }}
       >
-        {jobs.map((job) => (
-          <JobItem
-            key={job.id}
-            job={job}
-            onView={() => handleView(job.id)}
-            onEdit={() => handleEdit(job.id)}
-            onDelete={() => handleDelete(job.id)}
+        {supplyChains.map((supplyChain) => (
+          <SupplyChainItem
+            key={supplyChain.id}
+            supplyChain={supplyChain}
+            onView={() => handleView(supplyChain.id)}
+            onEdit={() => handleEdit(supplyChain.id)}
+            onDelete={() => handleDelete(supplyChain.id)}
           />
         ))}
       </Box>
 
-      {jobs.length > 8 && (
+      {supplyChains.length > 8 && (
         <Pagination
           count={8}
           sx={{

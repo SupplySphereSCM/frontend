@@ -1,379 +1,226 @@
+import orderBy from "lodash/orderBy";
 import isEqual from "lodash/isEqual";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 // @mui
-import Card from "@mui/material/Card";
-import Table from "@mui/material/Table";
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import Container from "@mui/material/Container";
-import TableBody from "@mui/material/TableBody";
-import IconButton from "@mui/material/IconButton";
-import TableContainer from "@mui/material/TableContainer";
 // routes
 import { paths } from "src/routes/paths";
-import { useRouter } from "src/routes/hooks";
 import { RouterLink } from "src/routes/components";
 // hooks
 import { useBoolean } from "src/hooks/use-boolean";
-// _mock
-import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
-// api
-import { useGetProducts } from "src/api/product";
 // components
-import { useSettingsContext } from "src/components/settings";
-import {
-  useTable,
-  getComparator,
-  emptyRows,
-  TableNoData,
-  TableSkeleton,
-  TableEmptyRows,
-  TableHeadCustom,
-  TableSelectedAction,
-  TablePaginationCustom,
-} from "src/components/table";
 import Iconify from "src/components/iconify";
-import Scrollbar from "src/components/scrollbar";
-import { ConfirmDialog } from "src/components/custom-dialog";
+import EmptyContent from "src/components/empty-content";
+import { useSettingsContext } from "src/components/settings";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
+
 // types
 import {
-  IProductItem,
-  IProductTableFilters,
-  IProductTableFilterValue,
-} from "src/types/product";
-//
-import ProductTableRow from "../product-table-row";
-import ProductTableToolbar from "../product-table-toolbar";
-import ProductTableFiltersResult from "../product-table-filters-result";
+  ISupplyChainItem,
+  ISupplyChainFilters,
+  ISupplyChainFilterValue,
+  SUPPLYCHAIN_SORT_OPTIONS,
+} from "src/types/supplychain";
+
+import SupplyChainList from "../supplychain-list";
+import SupplyChainSort from "../supplychain-sort";
+import SupplyChainSearch from "../supplychain-search";
+import { useGetSupplyChains } from "src/api/supplychain";
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [
-  { id: "name", label: "Product" },
-  { id: "createdAt", label: "Create at", width: 160 },
-  { id: "inventoryType", label: "Stock", width: 160 },
-  { id: "price", label: "Price", width: 140 },
-  // { id: "publish", label: "Publish", width: 110 },
-  { id: "", width: 88 },
-];
-
-// const PUBLISH_OPTIONS = [
-//   { value: "published", label: "Published" },
-//   { value: "draft", label: "Draft" },
-// ];
-
-const defaultFilters: IProductTableFilters = {
-  name: "",
-  // publish: [],
-  stock: [],
-};
+const defaultFilters: ISupplyChainFilters = {};
 
 // ----------------------------------------------------------------------
 
-export default function ProductListView() {
-  const router = useRouter();
-
-  const table = useTable();
-
+export default function SupplyChainListView() {
   const settings = useSettingsContext();
 
-  const [tableData, setTableData] = useState<IProductItem[]>([]);
-  // console.log(tableData);
+  const openFilters = useBoolean();
+
+  const { supplyChains } = useGetSupplyChains();
+
+  const [sortBy, setSortBy] = useState("latest");
+
+  const [search, setSearch] = useState<{
+    query: string;
+    results: ISupplyChainItem[];
+  }>({
+    query: "",
+    results: [],
+  });
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetProducts();
-  console.log(products);
-
-  const confirm = useBoolean();
-
-  useEffect(() => {
-    if (products.length) {
-      setTableData(products);
-    }
-  }, [products]);
-
   const dataFiltered = applyFilter({
-    inputData: tableData,
-    comparator: getComparator(table.order, table.orderBy),
+    inputData: supplyChains,
     filters,
+    sortBy,
   });
-
-  const dataInPage = dataFiltered.slice(
-    table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage,
-  );
-
-  const denseHeight = table.dense ? 60 : 80;
 
   const canReset = !isEqual(defaultFilters, filters);
 
-  const notFound = (!dataFiltered.length && canReset) || productsEmpty;
+  const notFound = !dataFiltered.length && canReset;
 
   const handleFilters = useCallback(
-    (name: string, value: IProductTableFilterValue) => {
-      table.onResetPage();
+    (name: string, value: ISupplyChainFilterValue) => {
       setFilters((prevState) => ({
         ...prevState,
         [name]: value,
       }));
     },
-    [table],
+    [],
   );
 
-  const handleDeleteRow = useCallback(
-    (id: string) => {
-      const deleteRow = tableData.filter((row) => row.product_id !== id);
-      setTableData(deleteRow);
+  const handleSortBy = useCallback((newValue: string) => {
+    setSortBy(newValue);
+  }, []);
 
-      table.onUpdatePageDeleteRow(dataInPage.length);
+  const handleSearch = useCallback(
+    (inputValue: string) => {
+      setSearch((prevState) => ({
+        ...prevState,
+        query: inputValue,
+      }));
+
+      if (inputValue) {
+        const results = supplyChains.filter(
+          (supplychain) =>
+            supplychain.name
+              .toLowerCase()
+              .indexOf(search.query.toLowerCase()) !== -1,
+        );
+
+        setSearch((prevState) => ({
+          ...prevState,
+          results,
+        }));
+      }
     },
-    [dataInPage.length, table, tableData],
-  );
-
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.product_id),
-    );
-    setTableData(deleteRows);
-
-    table.onUpdatePageDeleteRows({
-      totalRows: tableData.length,
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
-  const handleEditRow = useCallback(
-    (id: string) => {
-      router.push(paths.dashboard.product.edit(id));
-    },
-    [router],
-  );
-
-  const handleViewRow = useCallback(
-    (id: string) => {
-      router.push(paths.dashboard.product.details(id));
-    },
-    [router],
+    [search.query],
   );
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
   }, []);
 
-  return (
-    <>
-      <Container maxWidth={settings.themeStretch ? false : "lg"}>
-        <CustomBreadcrumbs
-          heading="List"
-          links={[
-            { name: "Dashboard", href: paths.dashboard.root },
-            {
-              name: "Product",
-              href: paths.dashboard.product.root,
-            },
-            { name: "List" },
-          ]}
-          action={
-            <Button
-              component={RouterLink}
-              href={paths.dashboard.product.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              New Product
-            </Button>
-          }
-          sx={{ mb: { xs: 3, md: 5 } }}
+  const renderFilters = (
+    <Stack
+      spacing={3}
+      justifyContent="space-between"
+      alignItems={{ xs: "flex-end", sm: "center" }}
+      direction={{ xs: "column", sm: "row" }}
+    >
+      <SupplyChainSearch
+        query={search.query}
+        results={search.results}
+        onSearch={handleSearch}
+        hrefItem={(id: string) => paths.dashboard.supplychain.details(id)}
+      />
+
+      <Stack direction="row" spacing={1} flexShrink={0}>
+        <SupplyChainSort
+          sort={sortBy}
+          onSort={handleSortBy}
+          sortOptions={SUPPLYCHAIN_SORT_OPTIONS}
         />
+      </Stack>
+    </Stack>
+  );
 
-        <Card>
-          <ProductTableToolbar
-            filters={filters}
-            onFilters={handleFilters}
-            stockOptions={PRODUCT_STOCK_OPTIONS}
-            // publishOptions={PUBLISH_OPTIONS}
-          />
-
-          {canReset && (
-            <ProductTableFiltersResult
-              filters={filters}
-              onFilters={handleFilters}
-              //
-              onResetFilters={handleResetFilters}
-              //
-              results={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
-
-          <TableContainer sx={{ position: "relative", overflow: "unset" }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={tableData.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  tableData.map((row) => row.product_id),
-                )
-              }
-              action={
-                <Tooltip title="Delete">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
-
-            <Scrollbar>
-              <Table
-                size={table.dense ? "small" : "medium"}
-                sx={{ minWidth: 960 }}
-              >
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={tableData.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.product_id),
-                    )
-                  }
-                />
-
-                <TableBody>
-                  {productsLoading ? (
-                    [...Array(table.rowsPerPage)].map((i, index) => (
-                      <TableSkeleton key={index} sx={{ height: denseHeight }} />
-                    ))
-                  ) : (
-                    <>
-                      {dataFiltered
-                        .slice(
-                          table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage,
-                        )
-                        .map((row) => (
-                          <ProductTableRow
-                            key={row.product_id}
-                            row={row}
-                            selected={table.selected.includes(row.product_id)}
-                            onSelectRow={() =>
-                              table.onSelectRow(row.product_id)
-                            }
-                            onDeleteRow={() => handleDeleteRow(row.product_id)}
-                            onEditRow={() => handleEditRow(row.product_id)}
-                            onViewRow={() => handleViewRow(row.product_id)}
-                          />
-                        ))}
-                    </>
-                  )}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(
-                      table.page,
-                      table.rowsPerPage,
-                      tableData.length,
-                    )}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
-
-          <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            //
-            dense={table.dense}
-            onChangeDense={table.onChangeDense}
-          />
-        </Card>
-      </Container>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete{" "}
-            <strong> {table.selected.length} </strong> items?
-          </>
-        }
+  return (
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
+      <CustomBreadcrumbs
+        heading="List"
+        links={[
+          { name: "Dashboard", href: paths.dashboard.root },
+          {
+            name: "SupplyChain",
+            href: paths.dashboard.supplychain.root,
+          },
+          { name: "List" },
+        ]}
         action={
           <Button
+            component={RouterLink}
+            href={paths.dashboard.supplychain.new}
             variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirm.onFalse();
-            }}
+            startIcon={<Iconify icon="mingcute:add-line" />}
           >
-            Delete
+            New SupplyChain
           </Button>
         }
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
       />
-    </>
+
+      <Stack
+        spacing={2.5}
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
+      >
+        {renderFilters}
+      </Stack>
+
+      {notFound && <EmptyContent filled title="No Data" sx={{ py: 10 }} />}
+
+      <SupplyChainList supplyChains={dataFiltered} />
+    </Container>
   );
 }
 
 // ----------------------------------------------------------------------
 
-function applyFilter({
+const applyFilter = ({
   inputData,
-  comparator,
   filters,
+  sortBy,
 }: {
-  inputData: IProductItem[];
-  comparator: (a: any, b: any) => number;
-  filters: IProductTableFilters;
-}) {
-  // const { name, stock, publish } = filters;
-  const { name, stock } = filters;
+  inputData: ISupplyChainItem[];
+  filters: ISupplyChainFilters;
+  sortBy: string;
+}) => {
+  const {} = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
+  // // SORT BY
+  // if (sortBy === 'latest') {
+  //   inputData = orderBy(inputData, ['createdAt'], ['desc']);
+  // }
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // if (sortBy === 'oldest') {
+  //   inputData = orderBy(inputData, ['createdAt'], ['asc']);
+  // }
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  // if (sortBy === 'popular') {
+  //   inputData = orderBy(inputData, ['totalViews'], ['desc']);
+  // }
 
-  if (name) {
-    inputData = inputData.filter(
-      (product) =>
-        product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
-    );
-  }
-
-  // if (stock.length) {
-  //   inputData = inputData.filter((product) =>
-  //     stock.includes(product.inventoryType)
+  // // FILTERS
+  // if (employmentTypes.length) {
+  //   inputData = inputData.filter((job) =>
+  //     job.employmentTypes.some((item) => employmentTypes.includes(item))
   //   );
   // }
 
-  // if (publish.length) {
-  //   inputData = inputData.filter((product) =>
-  //     publish.includes(product.publish)
-  //   );
+  // if (experience !== 'all') {
+  //   inputData = inputData.filter((job) => job.experience === experience);
+  // }
+
+  // if (roles.length) {
+  //   inputData = inputData.filter((job) => roles.includes(job.role));
+  // }
+
+  // if (locations.length) {
+  //   inputData = inputData.filter((job) => job.locations.some((item) => locations.includes(item)));
+  // }
+
+  // if (benefits.length) {
+  //   inputData = inputData.filter((job) => job.benefits.some((item) => benefits.includes(item)));
   // }
 
   return inputData;
-}
+};
