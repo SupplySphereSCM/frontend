@@ -12,10 +12,10 @@ import { paths } from "src/routes/paths";
 import EmptyContent from "src/components/empty-content";
 //types
 import {
-  IProductFilterValue,
-  IProductFilters,
-  IProductItem,
-} from "src/types/product";
+  IServiceFilterValue,
+  IServiceFilters,
+  IServiceItem,
+} from "src/types/service";
 //apis
 import { useGetShopServices, useSearchServices } from "src/api/service";
 //
@@ -35,7 +35,7 @@ import ServiceFiltersResult from "./service-filter-results";
 
 // ----------------------------------------------------------------------
 
-const defaultFilters: IProductFilters = {
+const defaultFilters: IServiceFilters = {
   gender: [],
   colors: [],
   rating: "",
@@ -61,7 +61,7 @@ export default function CheckoutSelectServices() {
   const { searchResults, searchLoading } = useSearchServices(debouncedQuery);
 
   const handleFilters = useCallback(
-    (name: string, value: IProductFilterValue) => {
+    (name: string, value: IServiceFilterValue) => {
       setFilters((prevState) => ({
         ...prevState,
         [name]: value,
@@ -103,7 +103,6 @@ export default function CheckoutSelectServices() {
         query={debouncedQuery}
         results={searchResults}
         onSearch={handleSearch}
-        loading={searchLoading}
         hrefItem={(id: string) => paths.product.details(id)}
       />
 
@@ -137,17 +136,13 @@ export default function CheckoutSelectServices() {
   const renderResults = (
     <ServiceFiltersResult
       filters={filters}
-      onFilters={handleFilters}
+      onResetFilters={handleResetFilters}
       //
       canReset={canReset}
-      onResetFilters={handleResetFilters}
+      onFilters={handleFilters}
       //
       results={dataFiltered.length}
     />
-  );
-
-  const renderNotFound = (
-    <EmptyContent filled title="No Data" sx={{ py: 10 }} />
   );
 
   return (
@@ -164,9 +159,9 @@ export default function CheckoutSelectServices() {
         {canReset && renderResults}
       </Stack>
 
-      {(notFound || servicesEmpty) && renderNotFound}
+      {notFound && <EmptyContent filled title="No Data" sx={{ py: 10 }} />}
 
-      <ServiceList services={dataFiltered} loading={servicesLoading} />
+      <ServiceList services={dataFiltered} />
     </Container>
   );
 }
@@ -178,8 +173,8 @@ function applyFilter({
   filters,
   sortBy,
 }: {
-  inputData: IProductItem[];
-  filters: IProductFilters;
+  inputData: IServiceItem[];
+  filters: IServiceFilters;
   sortBy: string;
 }) {
   const { gender, category, priceRange, rating } = filters;
