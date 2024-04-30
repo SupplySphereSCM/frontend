@@ -15,6 +15,7 @@ import Image from "src/components/image";
 import Iconify from "src/components/iconify";
 // types
 import { IProductItem } from "src/types/product";
+import { idID } from "@mui/material/locale";
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,12 @@ type Props = {
 
 export default function MaterialItem({ product }: Props) {
   const { id, name, price, available, images } = product;
+  // console.log("images ", images);
+  // console.log("Price ", price);
+  // console.log("name ", name);
+  // console.log(id);
+
+  console.log(product);
 
   const linkTo = paths.product.details(id);
 

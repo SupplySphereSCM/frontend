@@ -77,7 +77,7 @@ export default function ProductDetailsView({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    [],
+    []
   );
 
   const renderSkeleton = <ProductDetailsSkeleton />;

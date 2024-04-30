@@ -45,13 +45,13 @@ export default function ServiceTableRow({
   const {
     name,
     price,
-    publish,
+    // publish,
     coverUrl,
-    category,
+    // category,
     quantity,
     createdAt,
     available,
-    inventoryType,
+    // inventoryType,
   } = row;
 
   const confirm = useBoolean();
@@ -86,14 +86,14 @@ export default function ServiceTableRow({
                 {name}
               </Link>
             }
-            secondary={
-              <Box
-                component="div"
-                sx={{ typography: "body2", color: "text.disabled" }}
-              >
-                {category}
-              </Box>
-            }
+            // secondary={
+            //   <Box
+            //     component="div"
+            //     sx={{ typography: "body2", color: "text.disabled" }}
+            //   >
+            //     {category}
+            //   </Box>
+            // }
           />
         </TableCell>
 
@@ -110,7 +110,7 @@ export default function ServiceTableRow({
           />
         </TableCell>
 
-        <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
+        {/* <TableCell sx={{ typography: "caption", color: "text.secondary" }}>
           <LinearProgress
             value={(available * 100) / quantity}
             variant="determinate"
@@ -122,10 +122,10 @@ export default function ServiceTableRow({
             sx={{ mb: 1, height: 6, maxWidth: 80 }}
           />
           {!!available && available} {inventoryType}
-        </TableCell>
+        </TableCell> */}
 
         <TableCell>{fCurrency(price)}</TableCell>
-
+        {/* 
         <TableCell>
           <Label
             variant="soft"
@@ -133,7 +133,7 @@ export default function ServiceTableRow({
           >
             {publish}
           </Label>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell align="right">
           <IconButton

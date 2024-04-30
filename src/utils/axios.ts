@@ -10,8 +10,8 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   (error) =>
     Promise.reject(
-      (error.response && error.response.data) || "Something went wrong",
-    ),
+      (error.response && error.response.data) || "Something went wrong"
+    )
 );
 
 export default axiosInstance;
@@ -50,13 +50,20 @@ export const endpoints = {
     search: "/api/post/search",
   },
   product: {
-    shop: "/api/products/shop",
+    shop: "/api/products",
     root: "/api/products",
     list: "/api/products/user",
     search: "/api/products/search",
     details: (id: string) => `/api/products/${id}`,
   },
   service: {
+    shop: "/api/services/shop",
+    root: "/api/services",
+    list: "/api/services",
+    search: "/api/services/search",
+    details: (id: string) => `/api/services/${id}`,
+  },
+  invoice: {
     shop: "/api/services/shop",
     root: "/api/services",
     list: "/api/services/user",

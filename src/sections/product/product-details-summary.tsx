@@ -49,37 +49,40 @@ export default function ProductDetailsSummary({
   const {
     id,
     name,
-    // sizes,
     price,
     quantity,
     coverUrl,
+    available,
+    subDescription,
 
+    // sizes,
     // colors,
     // newLabel,
-    available,
     // priceSale,
     // saleLabel,
     // totalRatings,
     // totalReviews,
     // inventoryType,
-    subDescription,
   } = product;
 
   const existProduct =
     !!items?.length && items.map((item) => item.id).includes(id);
+  console.log(items);
 
   const isMaxQuantity =
     !!items?.length &&
     items.filter((item) => item.id === id).map((item) => item.quantity)[0] >=
       available;
   // quantity;
+  // console.log(disabledActions);
+
+  // console.log(isMaxQuantity);
 
   const defaultValues = {
     id,
     name,
     // coverUrl,
     available,
-
     price,
     // colors: colors[0],
     // size: sizes[4],

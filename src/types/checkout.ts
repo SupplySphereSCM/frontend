@@ -3,7 +3,7 @@ import { IAddressItem } from "./address";
 // ----------------------------------------------------------------------
 
 export type ICheckoutItem = {
-  product_id: string;
+  id: string;
   name: string;
   coverUrl: string;
   available: number;

@@ -3,50 +3,25 @@ import { useMemo } from "react";
 // utils
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IProductItem } from "src/types/product";
+import { IInvoiceItem } from "src/types/invoice";
 
 // ----------------------------------------------------------------------
 
-export function useGetProducts() {
-  const URL = endpoints.product.list;
+export function useGetInvoices() {
+  const URL = endpoints.invoice.list;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data as IProductItem[]) || [],
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.length,
+      invoices: (data as IInvoiceItem[]) || [],
+      invoicesLoading: isLoading,
+      invoicesError: error,
+      invoicesValidating: isValidating,
+      invoicesEmpty: !isLoading && !data?.length,
     }),
     [data, error, isLoading, isValidating]
-  );
-  // console.log("Product", memoizedValue);
-
-  return memoizedValue;
-}
-
-// ----------------------------------------------------------------------
-
-export function useGetShopProducts() {
-  const URL = endpoints.product.shop;
-
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
-  const products = data.data;
-  console.log("data", products);
-
-  const memoizedValue = useMemo(
-    () => ({
-      products: (products as IProductItem[]) || [],
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
-      productsEmpty: !isLoading && !products?.length,
-    }),
-    [products, error, isLoading, isValidating]
   );
   // console.log(memoizedValue);
 
@@ -55,18 +30,41 @@ export function useGetShopProducts() {
 
 // ----------------------------------------------------------------------
 
-export function useGetProduct(productId: string) {
-  const URL = endpoints.product.details(productId);
+export function useGetShopInvoices() {
+  const URL = endpoints.invoice.shop;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log(data);
+  // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      product: data as IProductItem,
-      productLoading: isLoading,
-      productError: error,
-      productValidating: isValidating,
+      invoices: (data as IInvoiceItem[]) || [],
+      invoicesLoading: isLoading,
+      invoicesError: error,
+      invoicesValidating: isValidating,
+      invoicesEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+  // console.log(memoizedValue);
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useGetInvoice(invoiceId: string) {
+  const URL = endpoints.invoice.details(invoiceId);
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  console.log(data);
+
+  const memoizedValue = useMemo(
+    () => ({
+      invoice: data as IInvoiceItem,
+      invoiceLoading: isLoading,
+      invoiceError: error,
+      invoiceValidating: isValidating,
     }),
     [data, error, isLoading, isValidating]
   );
@@ -76,8 +74,8 @@ export function useGetProduct(productId: string) {
 
 // ----------------------------------------------------------------------
 
-export function useSearchProducts(query: string) {
-  const URL = query ? [endpoints.product.search, { params: { query } }] : null;
+export function useSearchInvoices(query: string) {
+  const URL = query ? [endpoints.invoice.search, { params: { query } }] : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
     keepPreviousData: true,
@@ -85,7 +83,7 @@ export function useSearchProducts(query: string) {
 
   const memoizedValue = useMemo(
     () => ({
-      searchResults: (data?.results as IProductItem[]) || [],
+      searchResults: (data?.results as IInvoiceItem[]) || [],
       searchLoading: isLoading,
       searchError: error,
       searchValidating: isValidating,
@@ -99,14 +97,13 @@ export function useSearchProducts(query: string) {
 
 // ----------------------------------------------------------------------
 
-export async function createProduct(product: Partial<IProductItem>) {
-  const URL = endpoints.product.root;
+export async function createInvoice(invoice: Partial<IInvoiceItem>) {
+  const URL = endpoints.invoice.root;
   /**
    * Work on server
    */
-  const data = { ...product };
+  const data = { ...invoice };
   await axiosInstance.post(URL, data);
-  // console.log(data);
 
   /**
    * Work in local
@@ -114,11 +111,11 @@ export async function createProduct(product: Partial<IProductItem>) {
   mutate(
     URL,
     (currentData: any) => {
-      const products: IProductItem[] = [...currentData?.products, product];
+      const invoices: IInvoiceItem[] = [...currentData?.invoices, invoice];
 
       return {
         ...currentData,
-        products,
+        invoices,
       };
     },
     false
@@ -126,12 +123,12 @@ export async function createProduct(product: Partial<IProductItem>) {
 }
 // ----------------------------------------------------------------------
 
-export async function updateProduct(product: Partial<IProductItem>) {
-  const URL = endpoints.product.details(`${product.id}`);
+export async function updateInvoice(invoice: Partial<IInvoiceItem>) {
+  const URL = endpoints.invoice.details(`${invoice.id}`);
   /**
    * Work on server
    */
-  const data = { ...product };
+  const data = { ...invoice };
   await axiosInstance.patch(URL, data);
   // console.log(data);
 
@@ -141,27 +138,27 @@ export async function updateProduct(product: Partial<IProductItem>) {
   mutate(
     URL,
     (currentData: any) => {
-      const updatedProducts = currentData.products.map((p: IProductItem) => {
-        return p.id === product.id ? { ...p, ...product } : p;
+      const updatedinvoices = currentData.invoices.map((p: IInvoiceItem) => {
+        return p.id === invoice.id ? { ...p, ...invoice } : p;
       });
 
-      return { ...currentData, products: updatedProducts };
+      return { ...currentData, invoices: updatedinvoices };
     },
     false
   );
 }
 
-export async function deleteProducts(ids: string | string[]) {
+export async function deleteInvoices(ids: string | string[]) {
   try {
     // if (Array.isArray(ids) && ids.length > 1) {
-    //   return await axiosInstance.delete(endpoints.product.root, {
+    //   return await axiosInstance.delete(endpoints.invoice.root, {
     //     data: [...ids],
     //   });
     // }
 
-    return await axiosInstance.delete(endpoints.product.details(ids as string));
+    return await axiosInstance.delete(endpoints.invoice.details(ids as string));
   } catch (error) {
-    console.error("Failed to delete products:", error);
+    console.error("Failed to delete invoices:", error);
     // Optionally, handle errors more gracefully here
   }
 }

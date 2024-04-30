@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
 // types
-import { IInvoice } from "src/types/invoice";
+import { IInvoice, IInvoiceItem } from "src/types/invoice";
 // _mock
 import { _addressBooks } from "src/_mock";
 // hooks
@@ -21,6 +21,7 @@ import FormProvider from "src/components/hook-form";
 import InvoiceNewEditDetails from "./invoice-new-edit-details";
 import InvoiceNewEditAddress from "./invoice-new-edit-address";
 import InvoiceNewEditStatusDate from "./invoice-new-edit-status-date";
+import { createInvoice } from "src/api/invoice";
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
       .test(
         "date-min",
         "Due date must be later than create date",
-        (value, { parent }) => value.getTime() > parent.createDate.getTime(),
+        (value, { parent }) => value.getTime() > parent.createDate.getTime()
       ),
     // not required
     taxes: Yup.number(),
@@ -78,7 +79,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
       ],
       totalAmount: currentInvoice?.totalAmount || 0,
     }),
-    [currentInvoice],
+    [currentInvoice]
   );
 
   const methods = useForm({
@@ -113,6 +114,7 @@ export default function InvoiceNewEditForm({ currentInvoice }: Props) {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
+      createInvoice(data as IInvoiceItem);
       reset();
       loadingSend.onFalse();
       router.push(paths.dashboard.invoice.root);

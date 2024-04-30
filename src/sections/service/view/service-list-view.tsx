@@ -9,6 +9,8 @@ import Container from "@mui/material/Container";
 import TableBody from "@mui/material/TableBody";
 import IconButton from "@mui/material/IconButton";
 import TableContainer from "@mui/material/TableContainer";
+import Stack from "@mui/material/Stack";
+
 // routes
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
@@ -21,6 +23,8 @@ import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
 import { useGetServices } from "src/api/service";
 // components
 import { useSettingsContext } from "src/components/settings";
+import EmptyContent from "src/components/empty-content";
+
 import {
   useTable,
   getComparator,
@@ -88,10 +92,13 @@ export default function ServiceListView() {
   const confirm = useBoolean();
 
   useEffect(() => {
+    // console.log("Services", services);
     if (services.length) {
       setTableData(services);
     }
   }, [services]);
+
+  // console.log("tableData", tableData);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -101,7 +108,7 @@ export default function ServiceListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage,
+    table.page * table.rowsPerPage + table.rowsPerPage
   );
 
   const denseHeight = table.dense ? 60 : 80;
@@ -118,7 +125,7 @@ export default function ServiceListView() {
         [name]: value,
       }));
     },
-    [table],
+    [table]
   );
 
   const handleDeleteRow = useCallback(
@@ -128,12 +135,12 @@ export default function ServiceListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData],
+    [dataInPage.length, table, tableData]
   );
 
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id),
+      (row) => !table.selected.includes(row.id)
     );
     setTableData(deleteRows);
 
@@ -148,14 +155,14 @@ export default function ServiceListView() {
     (id: string) => {
       router.push(paths.dashboard.service.edit(id));
     },
-    [router],
+    [router]
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.service.details(id));
     },
-    [router],
+    [router]
   );
 
   const handleResetFilters = useCallback(() => {
@@ -187,8 +194,24 @@ export default function ServiceListView() {
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
+        {/* CARDS NEED TO BE COMPLETED */}
+        <Stack
+          spacing={2.5}
+          sx={{
+            mb: { xs: 3, md: 5 },
+          }}
+        >
+          {/* {renderFilters}
 
-        <Card>
+          {canReset && renderResults} */}
+        </Stack>
+
+        {notFound && <EmptyContent filled title="No Data" sx={{ py: 10 }} />}
+
+        {/* <JobList jobs={dataFiltered} /> */}
+
+        {/* THIS IS THE TABLE FORMAT */}
+        {/* <Card>
           <ServiceTableToolbar
             filters={filters}
             onFilters={handleFilters}
@@ -206,9 +229,9 @@ export default function ServiceListView() {
               results={dataFiltered.length}
               sx={{ p: 2.5, pt: 0 }}
             />
-          )}
+          )} */}
 
-          <TableContainer sx={{ position: "relative", overflow: "unset" }}>
+        {/* <TableContainer sx={{ position: "relative", overflow: "unset" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -216,7 +239,7 @@ export default function ServiceListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id),
+                  tableData.map((row) => row.id)
                 )
               }
               action={
@@ -243,7 +266,7 @@ export default function ServiceListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id),
+                      tableData.map((row) => row.id)
                     )
                   }
                 />
@@ -258,7 +281,7 @@ export default function ServiceListView() {
                       {dataFiltered
                         .slice(
                           table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage,
+                          table.page * table.rowsPerPage + table.rowsPerPage
                         )
                         .map((row) => (
                           <ServiceTableRow
@@ -279,7 +302,7 @@ export default function ServiceListView() {
                     emptyRows={emptyRows(
                       table.page,
                       table.rowsPerPage,
-                      tableData.length,
+                      tableData.length
                     )}
                   />
 
@@ -298,8 +321,8 @@ export default function ServiceListView() {
             //
             dense={table.dense}
             onChangeDense={table.onChangeDense}
-          />
-        </Card>
+          /> */}
+        {/* </Card> */}
       </Container>
 
       <ConfirmDialog
@@ -342,6 +365,7 @@ function applyFilter({
 }) {
   // const { name, stock, publish } = filters;
   const { name, stock } = filters;
+  // console.log("input data", inputData);
 
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
@@ -355,8 +379,7 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (service) =>
-        service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
+      (service) => service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 

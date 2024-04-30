@@ -20,7 +20,7 @@ import { paths } from "src/routes/paths";
 // hooks
 import { useResponsive } from "src/hooks/use-responsive";
 // _mock
-import { _tags } from "src/_mock";
+import { _tags, CAPACITY_OPTIONS } from "src/_mock";
 // API
 import { createService } from "src/api/service";
 // components
@@ -30,9 +30,11 @@ import FormProvider, {
   RHFEditor,
   RHFUpload,
   RHFTextField,
+  RHFRadioGroup,
 } from "src/components/hook-form";
 // types
 import { IServiceItem, IServiceSchema } from "src/types/service";
+import { useAuthContext } from "src/auth/hooks";
 
 import axiosInstance, { endpoints } from "src/utils/axios";
 
@@ -43,6 +45,7 @@ type Props = {
 };
 
 export default function ServiceNewEditForm({ currentService }: Props) {
+  const { user } = useAuthContext();
   const router = useRouter();
 
   const mdUp = useResponsive("up", "md");
@@ -50,16 +53,21 @@ export default function ServiceNewEditForm({ currentService }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
+  const [quantity, setQuantity] = useState("");
+  // const [volume, setVolume] = useState("");
 
   const NewServiceSchema = Yup.object<IServiceSchema>().shape({
     name: Yup.string().required("Name is required"),
-    images: Yup.array().min(1, "Images is required"),
     price: Yup.number().moreThan(0, "Price should not be $0.00"),
     description: Yup.string().required("Description is required"),
     tax: Yup.number(),
-    id: Yup.string().required("Service ID is required"),
+    id: Yup.string(),
     subDescription: Yup.string().required("Sub Description is required"),
+    type: Yup.string(),
     quantity: Yup.number().required("Quantity is required"),
+    volume: Yup.number().required("Volume is required"),
+    // images: Yup.string().required("Images is required"),
+    // capacity: Yup.number().required("Capacity is required"),
     // tags: Yup.array().min(2, "Must have at least 2 tags"),
     // category: Yup.string().required("Category is required"),
     // not required
@@ -78,12 +86,16 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       name: currentService?.name || "",
       description: currentService?.description || "",
       subDescription: currentService?.subDescription || "",
-      images: currentService?.images || [],
       price: currentService?.price || 0,
-      // priceSale: currentService?.priceSale || 0,
       tax: currentService?.tax || 0,
       quantity: currentService?.quantity || 0,
-      id: String(Math.random()),
+      volume: currentService?.volume || 0,
+      // id: String(Math.random()),
+      id: currentService?.id,
+      type: currentService?.type || "Quantity",
+      // images: currentService?.images || "",
+
+      // priceSale: currentService?.priceSale || 0,
       // code: currentService?.code || "",
       // sku: currentService?.sku || "",
       // tags: currentService?.tags || [],
@@ -94,7 +106,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       // newLabel: currentService?.newLabel || { enabled: false, content: "" },
       // saleLabel: currentService?.saleLabel || { enabled: false, content: "" },
     }),
-    [currentService],
+    [currentService]
   );
 
   const methods = useForm({
@@ -111,6 +123,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
   } = methods;
 
   const values = watch();
+  console.log(user);
 
   useEffect(() => {
     if (currentService) {
@@ -139,55 +152,57 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     }
   });
 
-  const handleDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const files = values.images || [];
+  // const handleDrop = useCallback(
+  //   (acceptedFiles: File[]) => {
+  //     const file = acceptedFiles[0];
 
-      const newFiles = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      );
+  //     const newFile = Object.assign(file, {
+  //       preview: URL.createObjectURL(file),
+  //     });
+  //     // console.log(newFile);
 
-      setValue("images", [...files, ...newFiles], { shouldValidate: true });
-    },
-    [setValue, values.images],
-  );
+  //     setValue("images", newFile.preview, { shouldValidate: true });
+  //   },
+  //   [setValue]
+  // );
 
-  const handleRemoveFile = useCallback(
-    (inputFile: File | string) => {
-      const filtered =
-        values.images && values.images?.filter((file) => file !== inputFile);
-      setValue("images", filtered);
-    },
-    [setValue, values.images],
-  );
+  // const handleRemoveFile = useCallback(() => {
+  //   setValue("images", "");
+  // }, [setValue]);
 
-  const handleRemoveAllFiles = useCallback(() => {
-    setValue("images", []);
-  }, [setValue]);
+  // const handleRemoveAllFiles = useCallback(() => {
+  //   setValue("images", []);
+  // }, [setValue]);
+
+  // Handler for radio button change
+  const handleTypeChange = (event: { target: { value: any } }) => {
+    const selectedType = event.target.value;
+    if (selectedType === "Volume") {
+      setQuantity(""); // Clear volume if switching to Quantity
+    }
+  };
 
   const handleChangeIncludeTaxes = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
-  const handleImageUpload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("files", values.images as any);
-      await axiosInstance.post(endpoints.upload.files, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      enqueueSnackbar("Image Uploaded", { variant: "success" });
-    } catch (error) {
-      enqueueSnackbar("Image Upload Failed", { variant: "error" });
-    }
-  };
+  // const handleImageUpload = async () => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("files", values.images as any);
+  //     await axiosInstance.post(endpoints.upload.files, formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     enqueueSnackbar("Image Uploaded", { variant: "success" });
+  //   } catch (error) {
+  //     enqueueSnackbar("Image Upload Failed", { variant: "error" });
+  //   }
+  // };
 
   const renderDetails = (
     <>
@@ -221,159 +236,88 @@ export default function ServiceNewEditForm({ currentService }: Props) {
               <RHFEditor simple name="description" />
             </Stack>
 
-            <Stack spacing={1.5}>
+            {/* <Stack spacing={1.5}>
               <Typography variant="subtitle2">Images</Typography>
               <RHFUpload
-                multiple
+                // multiple
                 thumbnail
                 name="images"
                 maxSize={3145728}
                 onDrop={handleDrop}
                 onRemove={handleRemoveFile}
-                onRemoveAll={handleRemoveAllFiles}
+                // onRemoveAll={handleRemoveAllFiles}
                 onUpload={handleImageUpload}
               />
-            </Stack>
+            </Stack> */}
           </Stack>
         </Card>
       </Grid>
     </>
   );
 
-  // const renderProperties = (
-  //   <>
-  //     {mdUp && (
-  //       <Grid md={4}>
-  //         <Typography variant="h6" sx={{ mb: 0.5 }}>
-  //           Properties
-  //         </Typography>
-  //         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-  //           Additional functions and attributes...
-  //         </Typography>
-  //       </Grid>
-  //     )}
+  const renderProperties = (
+    <>
+      {mdUp && (
+        <Grid md={4}>
+          <Typography variant="h6" sx={{ mb: 0.5 }}>
+            Properties
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Additional functions and attributes...
+          </Typography>
+        </Grid>
+      )}
 
-  //     <Grid xs={12} md={8}>
-  //       <Card>
-  //         {!mdUp && <CardHeader title="Properties" />}
+      <Grid xs={12} md={8}>
+        <Card>
+          {!mdUp && <CardHeader title="Properties" />}
 
-  //         <Stack spacing={3} sx={{ p: 3 }}>
-  //           <Box
-  //             columnGap={2}
-  //             rowGap={3}
-  //             display="grid"
-  //             gridTemplateColumns={{
-  //               xs: "repeat(1, 1fr)",
-  //               md: "repeat(2, 1fr)",
-  //             }}
-  //           >
-  //             <RHFTextField name="code" label="Service Code" />
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <Stack spacing={1}>
+              <Typography variant="subtitle2">Type</Typography>
+              <RHFRadioGroup
+                row
+                spacing={4}
+                name="type"
+                options={CAPACITY_OPTIONS}
+                // onChange={handleTypeChange}
+              />
+            </Stack>
+          </Stack>
 
-  //             <RHFTextField name="sku" label="Service SKU" />
-
-  //             <RHFTextField
-  //               name="quantity"
-  //               label="Quantity"
-  //               placeholder="0"
-  //               type="number"
-  //               InputLabelProps={{ shrink: true }}
-  //             />
-
-  //             <RHFSelect
-  //               native
-  //               name="category"
-  //               label="Category"
-  //               InputLabelProps={{ shrink: true }}
-  //             >
-  //               {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-  //                 <optgroup key={category.group} label={category.group}>
-  //                   {category.classify.map((classify) => (
-  //                     <option key={classify} value={classify}>
-  //                       {classify}
-  //                     </option>
-  //                   ))}
-  //                 </optgroup>
-  //               ))}
-  //             </RHFSelect>
-
-  //             <RHFMultiSelect
-  //               checkbox
-  //               name="colors"
-  //               label="Colors"
-  //               options={PRODUCT_COLOR_NAME_OPTIONS}
-  //             />
-
-  //             <RHFMultiSelect
-  //               checkbox
-  //               name="sizes"
-  //               label="Sizes"
-  //               options={PRODUCT_SIZE_OPTIONS}
-  //             />
-  //           </Box>
-
-  //           <RHFAutocomplete
-  //             name="tags"
-  //             label="Tags"
-  //             placeholder="+ Tags"
-  //             multiple
-  //             freeSolo
-  //             options={_tags.map((option) => option)}
-  //             getOptionLabel={(option) => option}
-  //             renderOption={(props, option) => (
-  //               <li {...props} key={option}>
-  //                 {option}
-  //               </li>
-  //             )}
-  //             renderTags={(selected, getTagProps) =>
-  //               selected.map((option, index) => (
-  //                 <Chip
-  //                   {...getTagProps({ index })}
-  //                   key={option}
-  //                   label={option}
-  //                   size="small"
-  //                   color="info"
-  //                   variant="soft"
-  //                 />
-  //               ))
-  //             }
-  //           />
-
-  //           <Stack spacing={1}>
-  //             <Typography variant="subtitle2">Gender</Typography>
-  //             <RHFMultiCheckbox
-  //               row
-  //               name="gender"
-  //               spacing={2}
-  //               options={PRODUCT_GENDER_OPTIONS}
-  //             />
-  //           </Stack>
-
-  //           <Divider sx={{ borderStyle: "dashed" }} />
-
-  //           <Stack direction="row" alignItems="center" spacing={3}>
-  //             <RHFSwitch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
-  //             <RHFTextField
-  //               name="saleLabel.content"
-  //               label="Sale Label"
-  //               fullWidth
-  //               disabled={!values.saleLabel.enabled}
-  //             />
-  //           </Stack>
-
-  //           <Stack direction="row" alignItems="center" spacing={3}>
-  //             <RHFSwitch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
-  //             <RHFTextField
-  //               name="newLabel.content"
-  //               label="New Label"
-  //               fullWidth
-  //               disabled={!values.newLabel.enabled}
-  //             />
-  //           </Stack>
-  //         </Stack>
-  //       </Card>
-  //     </Grid>
-  //   </>
-  // );
+          {!mdUp && <CardHeader title={values.type} />}
+          {values.type === "Quantity" ? (
+            <Stack spacing={3} sx={{ p: 3 }}>
+              <RHFTextField name="quantity" label="Quantity" />
+            </Stack>
+          ) : (
+            <Stack spacing={3} sx={{ p: 3 }}>
+              <RHFTextField name="volume" label="Volume" />
+            </Stack>
+          )}
+          {/* 
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <RHFTextField
+              name="price"
+              label="Price"
+              placeholder="0.00"
+              type="number"
+              InputLabelProps={{ shrink: true }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Box component="span" sx={{ color: "text.disabled" }}>
+                      $
+                    </Box>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack> */}
+        </Card>
+      </Grid>
+    </>
+  );
 
   const renderPricing = (
     <>
@@ -483,12 +427,86 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     </>
   );
 
-  return (
+  const renderTransporterDetails = (
+    <>
+      {mdUp && (
+        <Grid md={4}>
+          <Typography variant="h6" sx={{ mb: 0.5 }}>
+            Details
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Title, short description, image...
+          </Typography>
+        </Grid>
+      )}
+
+      <Grid xs={12} md={8}>
+        <Card>
+          {!mdUp && <CardHeader title="Details" />}
+
+          <Stack spacing={3} sx={{ p: 3 }}>
+            <RHFTextField name="name" label="Transporter Service Name" />
+
+            <RHFTextField
+              name="subDescription"
+              label="Sub Description"
+              multiline
+              rows={4}
+            />
+
+            <Stack spacing={1.5}>
+              <RHFTextField
+                name="priceWithInState"
+                label="Price With In State"
+              />
+            </Stack>
+            <Stack spacing={1.5}>
+              <RHFTextField name="priceInterState" label="Price Inter State" />
+            </Stack>
+            <Stack spacing={1.5}>
+              <RHFTextField
+                name="priceInternational"
+                label="Price International"
+              />
+            </Stack>
+
+            {/* <Stack spacing={1.5}>
+            <Typography variant="subtitle2">Images</Typography>
+            <RHFUpload
+              // multiple
+              thumbnail
+              name="images"
+              maxSize={3145728}
+              onDrop={handleDrop}
+              onRemove={handleRemoveFile}
+              // onRemoveAll={handleRemoveAllFiles}
+              onUpload={handleImageUpload}
+            />
+          </Stack> */}
+          </Stack>
+        </Card>
+      </Grid>
+    </>
+  );
+
+  return user?.roles.some((role) => ["TRANSPORTER"].includes(role)) ? (
+    <FormProvider methods={methods} onSubmit={onSubmit}>
+      <Grid container spacing={3}>
+        {renderTransporterDetails}
+
+        {/* {renderProperties}
+    
+        {renderPricing}
+    
+        {renderActions} */}
+      </Grid>
+    </FormProvider>
+  ) : (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         {renderDetails}
 
-        {/* {renderProperties} */}
+        {renderProperties}
 
         {renderPricing}
 

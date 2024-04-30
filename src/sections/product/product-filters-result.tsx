@@ -43,7 +43,7 @@ export default function ProductFiltersResult({
 
   const handleRemoveColor = (inputValue: string | string[]) => {
     const newValue = filters.colors.filter(
-      (item: string) => item !== inputValue,
+      (item: string) => item !== inputValue
     );
     onFilters("colors", newValue);
   };

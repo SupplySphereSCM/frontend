@@ -33,34 +33,31 @@ export type IServiceReview = {
 
 export type IServiceSchema = {
   id?: string;
-
+  type: string;
   name: string;
   subDescription: string;
   description: string;
-  images: string[] | File[];
-
+  images: string;
   code: string;
   quantity: number;
-
+  volume: number;
   price: number;
   tax: number;
 };
 
 export type IServiceItem = {
   id: string;
-
+  type: string;
   name: string;
   description: string;
   subDescription: string;
-  images: string[];
-
+  images: string;
   code: string;
   quantity: number;
+  volume: number;
   available: number;
-
   price: number;
   tax: number;
-
   coverUrl: string;
   createdAt: Date;
 

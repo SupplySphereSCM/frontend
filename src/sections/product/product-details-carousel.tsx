@@ -62,7 +62,7 @@ const StyledThumbnailsContainer = styled("div")<{ length: number }>(
         transform: "scaleX(-1)",
       },
     }),
-  }),
+  })
 );
 
 // ----------------------------------------------------------------------

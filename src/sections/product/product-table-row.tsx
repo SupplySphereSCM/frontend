@@ -47,11 +47,11 @@ function ProductTableRow({
     name,
     price,
     images,
-    category,
+    // category,
     quantity,
     createdAt,
     available,
-    inventoryType,
+    // inventoryType,
   } = row;
 
   const confirm = useBoolean();
@@ -86,14 +86,14 @@ function ProductTableRow({
                 {name}
               </Link>
             }
-            secondary={
-              <Box
-                component="div"
-                sx={{ typography: "body2", color: "text.disabled" }}
-              >
-                {category}
-              </Box>
-            }
+            // secondary={
+            //   <Box
+            //     component="div"
+            //     sx={{ typography: "body2", color: "text.disabled" }}
+            //   >
+            //     {category}
+            //   </Box>
+            // }
           />
         </TableCell>
 

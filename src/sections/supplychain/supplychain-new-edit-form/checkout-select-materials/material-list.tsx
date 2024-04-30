@@ -20,11 +20,13 @@ export default function MaterialList({ products, loading, ...other }: Props) {
       ))}
     </>
   );
+  // console.log(products);
 
   const renderList = (
     <>
       {products.map((product) => (
         // <ProductItem key={product.id} product={product} />
+
         <MaterialItem key={product.id} product={product} />
       ))}
     </>

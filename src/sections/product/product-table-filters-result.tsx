@@ -37,10 +37,10 @@ export default function ProductTableFiltersResult({
     onFilters("stock", newValue);
   };
 
-  const handleRemovePublish = (inputValue: string) => {
-    const newValue = filters.publish.filter((item) => item !== inputValue);
-    onFilters("publish", newValue);
-  };
+  // const handleRemovePublish = (inputValue: string) => {
+  //   const newValue = filters.publish.filter((item) => item !== inputValue);
+  //   onFilters("publish", newValue);
+  // };
 
   return (
     <Stack spacing={1.5} {...other}>
@@ -71,7 +71,7 @@ export default function ProductTableFiltersResult({
           </Block>
         )}
 
-        {!!filters.publish.length && (
+        {/* {!!filters.publish.length && (
           <Block label="Publish:">
             {filters.publish.map((item) => (
               <Chip
@@ -82,7 +82,7 @@ export default function ProductTableFiltersResult({
               />
             ))}
           </Block>
-        )}
+        )} */}
 
         <Button
           color="error"
