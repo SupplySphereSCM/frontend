@@ -16,6 +16,7 @@ import { useCheckoutContext } from "./context";
 import CheckoutBasic from "./checkout-basic";
 import CheckoutSteps from "./checkout-steps";
 import CheckoutSelectItems from "./checkout-select-items";
+import CheckoutConfigureSteps from "./checkout-configure-steps";
 
 // ----------------------------------------------------------------------
 
@@ -85,6 +86,8 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       {checkout.activeStep === 0 && <CheckoutBasic />}
 
       {checkout.activeStep === 1 && <CheckoutSelectItems />}
+
+      {checkout.activeStep === 2 && <CheckoutConfigureSteps />}
     </FormProvider>
   );
 }

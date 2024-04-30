@@ -32,3 +32,5 @@ export type CheckoutContextProps = {
   canReset: boolean;
   onReset: VoidFunction;
 };
+
+export type ISupplyChainStepItem = {};
