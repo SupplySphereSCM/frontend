@@ -20,7 +20,7 @@ import {
   ROLE_OPTIONS,
 } from "src/_mock";
 // api
-import { useGetShopProducts, useSearchProducts } from "src/api/product";
+import { useGetProducts, useSearchProducts } from "src/api/product";
 // components
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
@@ -66,7 +66,7 @@ export default function ProductShopView() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetShopProducts();
+  const { products, productsLoading, productsEmpty } = useGetProducts();
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 
@@ -77,7 +77,7 @@ export default function ProductShopView() {
         [name]: value,
       }));
     },
-    []
+    [],
   );
 
   const dataFiltered = applyFilter({
@@ -247,7 +247,7 @@ function applyFilter({
 
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
-      (product) => product.price >= min && product.price <= max
+      (product) => product.price >= min && product.price <= max,
     );
   }
 

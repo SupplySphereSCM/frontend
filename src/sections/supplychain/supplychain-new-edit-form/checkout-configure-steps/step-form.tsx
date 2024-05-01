@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -11,7 +11,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 //type
-import { ISupplyChainStepItem } from "src/types/supplychain";
+import {
+  ISupplyChainSchema,
+  ISupplyChainStepItem,
+} from "src/types/supplychain";
 // components
 import Iconify from "src/components/iconify";
 import FormProvider, {
@@ -20,6 +23,8 @@ import FormProvider, {
   RHFRadioGroup,
   RHFAutocomplete,
 } from "src/components/hook-form";
+
+import { NewStepSchema } from "..";
 
 // ----------------------------------------------------------------------
 
@@ -30,27 +35,19 @@ type Props = {
 };
 
 export default function StepForm({ open, onClose, onCreate }: Props) {
-  const NewStepSchema = Yup.object().shape<ISupplyChainStepItem>({});
-
-  const defaultValues: ISupplyChainStepItem = {};
-
   const methods = useForm({
     resolver: yupResolver(NewStepSchema),
-    defaultValues,
   });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const { control } = useFormContext<ISupplyChainSchema>();
 
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      onCreate({});
-      onClose();
-    } catch (error) {
-      console.error(error);
-    }
+  const { append } = useFieldArray({
+    control,
+    name: "steps",
+  });
+
+  const onSubmit = methods.handleSubmit((data) => {
+    append(data as ISupplyChainStepItem);
   });
 
   return (
@@ -59,7 +56,9 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
         <DialogTitle>New Step</DialogTitle>
 
         <DialogContent dividers>
-          <Stack spacing={3}>test</Stack>
+          <Stack spacing={3}>
+            <RHFTextField name="from" />
+          </Stack>
         </DialogContent>
 
         <DialogActions>
@@ -67,11 +66,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
             Cancel
           </Button>
 
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
+          <LoadingButton type="submit" variant="contained">
             Add Step
           </LoadingButton>
         </DialogActions>

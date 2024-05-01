@@ -4,11 +4,12 @@ import { useMemo } from "react";
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
 import { IProductItem } from "src/types/product";
+import { IRawMaterialItem } from "src/types/raw-materials";
 
 // ----------------------------------------------------------------------
 
 export function useGetProducts() {
-  const URL = endpoints.product.list;
+  const URL = endpoints.product.root;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   // console.log("Data:", data); // Check if data is being fetched
@@ -21,22 +22,28 @@ export function useGetProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
-  // console.log("Product", memoizedValue);
 
   return memoizedValue;
 }
 
 // ----------------------------------------------------------------------
 
-export function useGetShopProducts() {
-  const URL = endpoints.product.shop;
+type UseGetUserProductsProps = {
+  role?: "SELLER" | "MANUFACTURER";
+};
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
-  const products = data.data;
-  console.log("data", products);
+export function useGetUserProducts({ role }: UseGetUserProductsProps) {
+  const URL =
+    role === "SELLER" ? endpoints.rawMaterials.user : endpoints.product.user;
+
+  const {
+    data: products,
+    isLoading,
+    error,
+    isValidating,
+  } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(
     () => ({
@@ -46,20 +53,26 @@ export function useGetShopProducts() {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !products?.length,
     }),
-    [products, error, isLoading, isValidating]
+    [error, isLoading, isValidating],
   );
-  // console.log(memoizedValue);
 
   return memoizedValue;
 }
 
 // ----------------------------------------------------------------------
 
-export function useGetProduct(productId: string) {
-  const URL = endpoints.product.details(productId);
+type UseGetProductProps = {
+  role?: "SELLER" | "MANUFACTURER";
+  productId: string;
+};
+
+export function useGetProduct({ productId, role }: UseGetProductProps) {
+  const URL =
+    role === "SELLER"
+      ? endpoints.rawMaterials.details(productId)
+      : endpoints.product.details(productId);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log(data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -68,7 +81,7 @@ export function useGetProduct(productId: string) {
       productError: error,
       productValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -91,7 +104,7 @@ export function useSearchProducts(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -121,9 +134,10 @@ export async function createProduct(product: Partial<IProductItem>) {
         products,
       };
     },
-    false
+    false,
   );
 }
+
 // ----------------------------------------------------------------------
 
 export async function updateProduct(product: Partial<IProductItem>) {
@@ -147,11 +161,87 @@ export async function updateProduct(product: Partial<IProductItem>) {
 
       return { ...currentData, products: updatedProducts };
     },
-    false
+    false,
   );
 }
 
+// ----------------------------------------------------------------------
+
 export async function deleteProducts(ids: string | string[]) {
+  try {
+    // if (Array.isArray(ids) && ids.length > 1) {
+    //   return await axiosInstance.delete(endpoints.product.root, {
+    //     data: [...ids],
+    //   });
+    // }
+
+    return await axiosInstance.delete(endpoints.product.details(ids as string));
+  } catch (error) {
+    console.error("Failed to delete products:", error);
+    // Optionally, handle errors more gracefully here
+  }
+}
+
+// ----------------------------------------------------------------------
+
+export async function createRawMaterial(product: Partial<IRawMaterialItem>) {
+  const URL = endpoints.rawMaterials.root;
+  /**
+   * Work on server
+   */
+  const data = { ...product };
+  await axiosInstance.post(URL, data);
+  // console.log(data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentData: any) => {
+      const products: IRawMaterialItem[] = [...currentData?.products, product];
+
+      return {
+        ...currentData,
+        products,
+      };
+    },
+    false,
+  );
+}
+
+// ----------------------------------------------------------------------
+
+export async function updateRawMaterial(product: Partial<IRawMaterialItem>) {
+  const URL = endpoints.rawMaterials.details(`${product.id}`);
+  /**
+   * Work on server
+   */
+  const data = { ...product };
+  await axiosInstance.patch(URL, data);
+  // console.log(data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentData: any) => {
+      const updatedRawMaterials = currentData.products.map(
+        (p: IRawMaterialItem) => {
+          return p.id === product.id ? { ...p, ...product } : p;
+        },
+      );
+
+      return { ...currentData, products: updatedRawMaterials };
+    },
+    false,
+  );
+}
+
+// ----------------------------------------------------------------------
+
+export async function deleteRawMaterials(ids: string | string[]) {
   try {
     // if (Array.isArray(ids) && ids.length > 1) {
     //   return await axiosInstance.delete(endpoints.product.root, {

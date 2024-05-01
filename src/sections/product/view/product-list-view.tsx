@@ -18,7 +18,11 @@ import { useBoolean } from "src/hooks/use-boolean";
 // _mock
 import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
 // api
-import { deleteProducts, useGetProducts } from "src/api/product";
+import {
+  deleteProducts,
+  useGetProducts,
+  useGetUserProducts,
+} from "src/api/product";
 // components
 import { useSettingsContext } from "src/components/settings";
 import {
@@ -46,6 +50,7 @@ import {
 import ProductTableRow from "../product-table-row";
 import ProductTableToolbar from "../product-table-toolbar";
 import ProductTableFiltersResult from "../product-table-filters-result";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -76,14 +81,17 @@ export default function ProductListView() {
 
   const table = useTable();
 
-  const settings = useSettingsContext();
+  const { user } = useAuthContext();
 
-  const [tableData, setTableData] = useState<IProductItem[]>([]);
-  // console.log(tableData);
+  const settings = useSettingsContext();
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetProducts();
+  const [tableData, setTableData] = useState<IProductItem[]>([]);
+
+  const { products, productsLoading, productsEmpty } = useGetUserProducts({
+    role: user?.roles[0] as any,
+  });
 
   const confirm = useBoolean();
 
@@ -101,14 +109,14 @@ export default function ProductListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 60 : 80;
 
   const canReset = !isEqual(defaultFilters, filters);
 
-  const notFound = (!dataFiltered.length && canReset) || productsEmpty;
+  const notFound = productsEmpty || (!dataFiltered.length && canReset);
 
   const handleFilters = useCallback(
     (name: string, value: IProductTableFilterValue) => {
@@ -118,7 +126,7 @@ export default function ProductListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -129,14 +137,14 @@ export default function ProductListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(async () => {
     await deleteProducts(table.selected);
 
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id)
+      (row) => !table.selected.includes(row.id),
     );
     setTableData(deleteRows);
 
@@ -151,14 +159,14 @@ export default function ProductListView() {
     (id: string) => {
       router.push(paths.dashboard.product.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.product.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleResetFilters = useCallback(() => {
@@ -219,7 +227,7 @@ export default function ProductListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -246,7 +254,7 @@ export default function ProductListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -261,7 +269,7 @@ export default function ProductListView() {
                       {dataFiltered
                         .slice(
                           table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage
+                          table.page * table.rowsPerPage + table.rowsPerPage,
                         )
                         .map((row) => (
                           <ProductTableRow
@@ -282,7 +290,7 @@ export default function ProductListView() {
                     emptyRows={emptyRows(
                       table.page,
                       table.rowsPerPage,
-                      tableData.length
+                      tableData.length,
                     )}
                   />
 
@@ -357,7 +365,8 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (product) =>
+        product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 

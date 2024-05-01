@@ -66,7 +66,7 @@ export default function ProductShopDetailsView({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    []
+    [],
   );
   console.log(checkout);
 

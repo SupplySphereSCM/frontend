@@ -53,32 +53,21 @@ export default function ServiceNewEditForm({ currentService }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
+
   const [quantity, setQuantity] = useState("");
+
   // const [volume, setVolume] = useState("");
 
   const NewServiceSchema = Yup.object<IServiceSchema>().shape({
+    id: Yup.string(),
     name: Yup.string().required("Name is required"),
     price: Yup.number().moreThan(0, "Price should not be $0.00"),
     description: Yup.string().required("Description is required"),
     tax: Yup.number(),
-    id: Yup.string(),
     subDescription: Yup.string().required("Sub Description is required"),
     type: Yup.string(),
     quantity: Yup.number().required("Quantity is required"),
     volume: Yup.number().required("Volume is required"),
-    // images: Yup.string().required("Images is required"),
-    // capacity: Yup.number().required("Capacity is required"),
-    // tags: Yup.array().min(2, "Must have at least 2 tags"),
-    // category: Yup.string().required("Category is required"),
-    // not required
-    // newLabel: Yup.object().shape({
-    //   enabled: Yup.boolean(),
-    //   content: Yup.string(),
-    // }),
-    // saleLabel: Yup.object().shape({
-    //   enabled: Yup.boolean(),
-    //   content: Yup.string(),
-    // }),
   });
 
   const defaultValues = useMemo(
@@ -90,23 +79,10 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       tax: currentService?.tax || 0,
       quantity: currentService?.quantity || 0,
       volume: currentService?.volume || 0,
-      // id: String(Math.random()),
       id: currentService?.id,
       type: currentService?.type || "Quantity",
-      // images: currentService?.images || "",
-
-      // priceSale: currentService?.priceSale || 0,
-      // code: currentService?.code || "",
-      // sku: currentService?.sku || "",
-      // tags: currentService?.tags || [],
-      // gender: currentService?.gender || "",
-      // category: currentService?.category || "",
-      // colors: currentService?.colors || [],
-      // sizes: currentService?.sizes || [],
-      // newLabel: currentService?.newLabel || { enabled: false, content: "" },
-      // saleLabel: currentService?.saleLabel || { enabled: false, content: "" },
     }),
-    [currentService]
+    [currentService],
   );
 
   const methods = useForm({
@@ -186,7 +162,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    []
+    [],
   );
 
   // const handleImageUpload = async () => {

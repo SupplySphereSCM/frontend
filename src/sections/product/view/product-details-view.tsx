@@ -27,6 +27,7 @@ import ProductDetailsSummary from "../product-details-summary";
 import ProductDetailsToolbar from "../product-details-toolbar";
 import ProductDetailsCarousel from "../product-details-carousel";
 import ProductDetailsDescription from "../product-details-description";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -55,11 +56,16 @@ type Props = {
 };
 
 export default function ProductDetailsView({ id }: Props) {
-  const { product, productLoading, productError } = useGetProduct(id);
-
   const settings = useSettingsContext();
 
+  const { user } = useAuthContext();
+
   const [currentTab, setCurrentTab] = useState("description");
+
+  const { product, productLoading, productError } = useGetProduct({
+    productId: id,
+    role: user?.roles[0] as any,
+  });
 
   // const [publish, setPublish] = useState("");
 
@@ -77,7 +83,7 @@ export default function ProductDetailsView({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    []
+    [],
   );
 
   const renderSkeleton = <ProductDetailsSkeleton />;

@@ -18,7 +18,12 @@ import { paths } from "src/routes/paths";
 // hooks
 import { useResponsive } from "src/hooks/use-responsive";
 // API
-import { createProduct, updateProduct } from "src/api/product";
+import {
+  createProduct,
+  createRawMaterial,
+  updateProduct,
+  updateRawMaterial,
+} from "src/api/product";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
@@ -31,6 +36,8 @@ import FormProvider, {
 import { IProductItem, IProductSchema } from "src/types/product";
 // utils
 import axiosInstance, { endpoints } from "src/utils/axios";
+import { useAuthContext } from "src/auth/hooks";
+import { IRawMaterialItem } from "src/types/raw-materials";
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +47,8 @@ type Props = {
 
 export default function ProductNewEditForm({ currentProduct }: Props) {
   const router = useRouter();
+
+  const { user } = useAuthContext();
 
   const mdUp = useResponsive("up", "md");
 
@@ -79,7 +88,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       price: currentProduct?.price || 0,
       tax: currentProduct?.tax || 0,
     }),
-    [currentProduct]
+    [currentProduct],
   );
 
   const methods = useForm({
@@ -113,11 +122,16 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // console.log(images);
       data.images = images;
 
-      if (currentProduct?.id) await updateProduct(data as IProductItem);
-      else await createProduct(data as IProductItem);
+      if (user?.roles.includes("SELLER")) {
+        if (currentProduct?.id)
+          await updateRawMaterial(data as IRawMaterialItem);
+        else createRawMaterial(data as IRawMaterialItem);
+      } else if (user?.roles.includes("MANUFACTURER")) {
+        if (currentProduct?.id) await updateProduct(data as IProductItem);
+        else await createProduct(data as IProductItem);
+      }
 
       reset();
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
@@ -134,12 +148,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images]
+    [setValue, values.images],
   );
 
   const handleRemoveFile = useCallback(
@@ -148,7 +162,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images]
+    [setValue, values.images],
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -159,7 +173,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    []
+    [],
   );
 
   const handleImageUpload = async () => {
@@ -180,7 +194,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       console.log(results);
 
@@ -191,7 +205,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         `Image Upload Failed: ${
           error.response ? error.response.data.message : error.message
         }`,
-        { variant: "error" }
+        { variant: "error" },
       );
     }
   };

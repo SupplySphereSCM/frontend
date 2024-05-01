@@ -18,7 +18,7 @@ import {
   IProductItem,
 } from "src/types/product";
 //apis
-import { useGetShopProducts, useSearchProducts } from "src/api/product";
+import { useGetProducts, useSearchProducts } from "src/api/product";
 //
 import {
   PRODUCT_CATEGORY_OPTIONS,
@@ -57,7 +57,7 @@ export default function CheckoutSelectMaterials() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetShopProducts();
+  const { products, productsLoading, productsEmpty } = useGetProducts();
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 

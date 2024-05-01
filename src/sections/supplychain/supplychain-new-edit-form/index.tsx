@@ -9,7 +9,11 @@ import { useRouter } from "src/routes/hooks";
 import FormProvider from "src/components/hook-form";
 import { useSnackbar } from "src/components/snackbar";
 //types
-import { ISupplyChainItem, ISupplyChainSchema } from "src/types/supplychain";
+import {
+  ISupplyChainItem,
+  ISupplyChainSchema,
+  ISupplyChainStepItem,
+} from "src/types/supplychain";
 
 import { useCheckoutContext } from "./context";
 
@@ -29,9 +33,22 @@ export const STEPS = [
 
 // ----------------------------------------------------------------------
 
+export const NewStepSchema = Yup.object<ISupplyChainStepItem>({
+  from: Yup.string().required(),
+});
+
+export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
+  id: Yup.string(),
+  name: Yup.string().required("Name is required"),
+  description: Yup.string().required("Description is required"),
+  steps: Yup.array().of(NewStepSchema),
+});
+
 type Props = {
   currentProduct?: ISupplyChainItem;
 };
+
+// ----------------------------------------------------------------------
 
 export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const router = useRouter();
@@ -40,17 +57,12 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
-    id: Yup.string(),
-    name: Yup.string().required("Name is required"),
-    description: Yup.string().required("Description is required"),
-  });
-
   const defaultValues: ISupplyChainSchema = useMemo(
     () => ({
       id: currentProduct?.id,
       name: currentProduct?.name || "",
       description: currentProduct?.description || "",
+      steps: currentProduct?.steps || [],
     }),
     [currentProduct],
   );

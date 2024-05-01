@@ -2,6 +2,7 @@ export type ISupplyChainItem = {
   id: string;
   name: string;
   description: string;
+  steps: ISupplyChainStepItem[];
 
   createdAt: Date;
 };
@@ -20,6 +21,7 @@ export type ISupplyChainSchema = {
   id?: string;
   name: string;
   description: string;
+  steps: ISupplyChainStepItem[];
 };
 
 export type CheckoutContextProps = {
@@ -33,4 +35,6 @@ export type CheckoutContextProps = {
   onReset: VoidFunction;
 };
 
-export type ISupplyChainStepItem = {};
+export type ISupplyChainStepItem = {
+  from: string;
+};

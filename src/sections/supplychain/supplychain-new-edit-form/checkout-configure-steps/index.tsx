@@ -11,6 +11,9 @@ import { useBoolean } from "src/hooks/use-boolean";
 import Iconify from "src/components/iconify";
 import { useCheckoutContext } from "../context";
 import StepForm from "./step-form";
+import { useFormContext } from "react-hook-form";
+import { ISupplyChainSchema } from "src/types/supplychain";
+import { Typography } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -19,8 +22,17 @@ export default function CheckoutConfigureSteps() {
 
   const stepForm = useBoolean();
 
+  const { watch } = useFormContext<ISupplyChainSchema>();
+
+  const steps = watch("steps");
+
   return (
     <>
+      {steps.map((step) => (
+        <>
+          <Typography>{step.from}</Typography>
+        </>
+      ))}
       <Button
         fullWidth
         onClick={stepForm.onTrue}

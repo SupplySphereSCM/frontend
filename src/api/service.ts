@@ -22,7 +22,7 @@ export function useGetServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.length,
     }),
-    [data?.data, error, isLoading, isValidating]
+    [data?.data, error, isLoading, isValidating],
   );
   // console.log("Services", memoizedValue);
 
@@ -37,7 +37,6 @@ export function useGetShopServices() {
   const URL = endpoints.service.shop;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
@@ -47,7 +46,7 @@ export function useGetShopServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -67,7 +66,7 @@ export function useGetService(serviceId: string) {
       serviceError: error,
       serviceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -90,7 +89,7 @@ export function useSearchServices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -120,7 +119,7 @@ export async function createService(service: Partial<IServiceItem>) {
         services,
       };
     },
-    false
+    false,
   );
 }
 // ----------------------------------------------------------------------
@@ -146,7 +145,7 @@ export async function updateService(service: Partial<IServiceItem>) {
 
       return { ...currentData, services: updatedServices };
     },
-    false
+    false,
   );
 }
 
