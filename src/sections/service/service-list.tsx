@@ -1,11 +1,16 @@
+import { useCallback } from "react";
+
 // @mui
 import Box, { BoxProps } from "@mui/material/Box";
 import Pagination, { paginationClasses } from "@mui/material/Pagination";
+// routes
+import { paths } from "src/routes/paths";
 // types
 import { IServiceItem } from "src/types/service";
 //
 import ServiceItem from "./service-item";
 import { ServiceItemSkeleton } from "./service-skeleton";
+import { useRouter } from "src/routes/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -15,22 +20,48 @@ type Props = BoxProps & {
 };
 
 export default function ServiceList({ services, loading, ...other }: Props) {
-  const renderSkeleton = (
-    <>
-      {[...Array(16)].map((_, index) => (
-        <ServiceItemSkeleton key={index} />
-      ))}
-    </>
+  const router = useRouter();
+
+  const handleView = useCallback(
+    (id: string) => {
+      router.push(paths.dashboard.service.details(id));
+    },
+    [router]
   );
 
-  const renderList = (
-    <>
-      {services.map((service) => (
-        // <ServiceItem key={service.id} service={service} />
-        <ServiceItem key={service.id} service={service} />
-      ))}
-    </>
+  const handleEdit = useCallback(
+    (id: string) => {
+      router.push(paths.dashboard.service.edit(id));
+    },
+    [router]
   );
+
+  const handleDelete = useCallback((id: string) => {
+    console.info("DELETE", id);
+  }, []);
+
+  // const renderSkeleton = (
+  //   <>
+  //     {[...Array(16)].map((_, index) => (
+  //       <ServiceItemSkeleton key={index} />
+  //     ))}
+  //   </>
+  // );
+
+  // const renderList = (
+  //   <>
+  //     {services.map((service) => (
+  //       // <ServiceItem key={service.id} service={service} />
+  //       <ServiceItem
+  //         key={service.id}
+  //         service={service}
+  //         onView={handleView}
+  //         onEdit={handleEdit}
+  //         onDelete={handleDelete}
+  //       />
+  //     ))}
+  //   </>
+  // );
 
   return (
     <>
@@ -45,7 +76,17 @@ export default function ServiceList({ services, loading, ...other }: Props) {
         }}
         {...other}
       >
-        {loading ? renderSkeleton : renderList}
+        {services.map((service) => (
+          <ServiceItem
+            key={service.id}
+            service={service}
+            onView={() => handleView(service.id)}
+            onEdit={() => handleEdit(service.id)}
+            onDelete={() => handleDelete(service.id)}
+          />
+        ))}
+
+        {/* {loading ? renderSkeleton : renderList} */}
       </Box>
 
       {services.length > 8 && (

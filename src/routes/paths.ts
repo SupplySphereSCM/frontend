@@ -145,6 +145,13 @@ export const paths = {
       details: (id: string) => `${ROOTS.DASHBOARD}/service/${id}`,
       edit: (id: string) => `${ROOTS.DASHBOARD}/service/${id}/edit`,
     },
+    transporter: {
+      root: `${ROOTS.DASHBOARD}/transporter`,
+      new: `${ROOTS.DASHBOARD}/transporter/new`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/transporter/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/transporter/${id}/edit`,
+    },
+
     invoice: {
       root: `${ROOTS.DASHBOARD}/invoice`,
       new: `${ROOTS.DASHBOARD}/invoice/new`,

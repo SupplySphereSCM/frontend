@@ -3,10 +3,12 @@ import { useMemo } from "react";
 // utils
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IServiceItem } from "src/types/service";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
+// const { user } = useAuthContext();
 export function useGetServices() {
   const URL = endpoints.service.list;
 
@@ -22,7 +24,7 @@ export function useGetServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.length,
     }),
-    [data?.data, error, isLoading, isValidating],
+    [data?.data, error, isLoading, isValidating]
   );
   // console.log("Services", memoizedValue);
 
@@ -46,7 +48,7 @@ export function useGetShopServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -55,18 +57,24 @@ export function useGetShopServices() {
 // ----------------------------------------------------------------------
 
 export function useGetService(serviceId: string) {
-  const URL = endpoints.service.details(serviceId);
+  const { user } = useAuthContext();
+  const URL = user?.roles.some((role) => ["TRANSPORTER"].includes(role))
+    ? endpoints.transporter.details(serviceId)
+    : endpoints.service.details(serviceId);
+  console.log("URL", URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(
     () => ({
-      service: data as IServiceItem,
+      service: user?.roles.some((role) => ["TRANSPORTER"].includes(role))
+        ? (data as ITransporterServiceItem)
+        : (data as IServiceItem),
       serviceLoading: isLoading,
       serviceError: error,
       serviceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -89,7 +97,7 @@ export function useSearchServices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating],
+    [data?.results, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -104,7 +112,7 @@ export async function createService(service: Partial<IServiceItem>) {
    */
   const data = { ...service };
   const res = await axiosInstance.post(URL, data);
-  console.log(res);
+  // console.log(res);
 
   /**
    * Work in local
@@ -119,9 +127,37 @@ export async function createService(service: Partial<IServiceItem>) {
         services,
       };
     },
-    false,
+    false
   );
 }
+// ----------------------------------------------------------------------
+
+export async function createTransportService(service: Partial<IServiceItem>) {
+  const URL = endpoints.transporter.root;
+  /**
+   * Work on server
+   */
+  const data = { ...service };
+  const res = await axiosInstance.post(URL, data);
+  // console.log(res);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentData: any) => {
+      const services: IServiceItem[] = [...currentData?.services, service];
+
+      return {
+        ...currentData,
+        services,
+      };
+    },
+    false
+  );
+}
+
 // ----------------------------------------------------------------------
 
 export async function updateService(service: Partial<IServiceItem>) {
@@ -145,7 +181,7 @@ export async function updateService(service: Partial<IServiceItem>) {
 
       return { ...currentData, services: updatedServices };
     },
-    false,
+    false
   );
 }
 

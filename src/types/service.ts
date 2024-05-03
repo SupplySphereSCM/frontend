@@ -1,3 +1,4 @@
+import { updateProduct } from "src/api/product";
 // ----------------------------------------------------------------------
 
 export type IServiceFilterValue = string | string[] | number | number[];
@@ -29,6 +30,8 @@ export type IServiceReview = {
   isPurchased: boolean;
   attachments?: string[];
   postedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type IServiceSchema = {
@@ -43,6 +46,8 @@ export type IServiceSchema = {
   volume: number;
   price: number;
   tax: number;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type IServiceItem = {
@@ -60,6 +65,7 @@ export type IServiceItem = {
   tax: number;
   coverUrl: string;
   createdAt: Date;
+  updatedAt: Date;
 
   // totalSold: number;
   // totalRatings: number;
@@ -71,6 +77,38 @@ export type IServiceItem = {
   //   starCount: number;
   //   reviewCount: number;
   // }[];
+};
+
+export type ITransporterServiceItem = {
+  id?: string;
+  name: string;
+  description: string;
+  priceWithinState: number;
+  priceInterState: number;
+  priceInternationl: number;
+  createdAt: Date;
+  updatedAt: Date;
+  // totalSold: number;
+  // totalRatings: number;
+  // totalReviews: number;
+  // inventoryType: string;
+  // reviews: IServiceReview[];
+  // ratings: {
+  //   name: string;
+  //   starCount: number;
+  //   reviewCount: number;
+  // }[];
+};
+
+export type ITransporterServiceSchema = {
+  id?: string;
+  name: string;
+  description: string;
+  priceWithinState: number;
+  priceInterState: number;
+  priceInternationl: number;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type IServiceTableFilterValue = string | string[];

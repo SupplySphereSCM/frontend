@@ -1,4 +1,5 @@
 import { IAddressItem } from "./address";
+import { IUser } from "./user";
 
 // ----------------------------------------------------------------------
 
@@ -16,9 +17,15 @@ export type IInvoiceTableFilters = {
 
 export type IInvoiceItem = {
   id: string;
+  from: IUser;
+  to?: IUser;
+  cgst: number;
+  sgst: number;
+  total: number;
+
   title: string;
   price: number;
-  total: number;
+
   service: string;
   quantity: number;
   description: string;
@@ -26,6 +33,12 @@ export type IInvoiceItem = {
 
 export type IInvoice = {
   id: string;
+  from: IUser;
+  to?: IUser;
+  cgst: number;
+  sgst: number;
+  total: number;
+
   sent: number;
   dueDate: Date;
   taxes: number;

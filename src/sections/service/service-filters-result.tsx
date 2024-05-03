@@ -13,8 +13,8 @@ import { IServiceFilters, IServiceFilterValue } from "src/types/service";
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
-  filters: IServiceFilters;
-  onFilters: (name: string, value: IServiceFilterValue) => void;
+  // filters: IServiceFilters;
+  // onFilters: (name: string, value: IServiceFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
@@ -23,8 +23,8 @@ type Props = StackProps & {
 };
 
 export default function ServiceFiltersResult({
-  filters,
-  onFilters,
+  // filters,
+  // onFilters,
   //
   canReset,
   onResetFilters,
@@ -32,29 +32,29 @@ export default function ServiceFiltersResult({
   results,
   ...other
 }: Props) {
-  const handleRemoveGender = (inputValue: string) => {
-    const newValue = filters.gender.filter((item) => item !== inputValue);
-    onFilters("gender", newValue);
-  };
+  // const handleRemoveGender = (inputValue: string) => {
+  //   const newValue = filters.gender.filter((item) => item !== inputValue);
+  //   onFilters("gender", newValue);
+  // };
 
-  const handleRemoveCategory = () => {
-    onFilters("category", "all");
-  };
+  // const handleRemoveCategory = () => {
+  //   onFilters("category", "all");
+  // };
 
-  const handleRemoveColor = (inputValue: string | string[]) => {
-    const newValue = filters.colors.filter(
-      (item: string) => item !== inputValue,
-    );
-    onFilters("colors", newValue);
-  };
+  // const handleRemoveColor = (inputValue: string | string[]) => {
+  //   const newValue = filters.colors.filter(
+  //     (item: string) => item !== inputValue
+  //   );
+  //   onFilters("colors", newValue);
+  // };
 
-  const handleRemovePrice = () => {
-    onFilters("priceRange", [0, 200]);
-  };
+  // const handleRemovePrice = () => {
+  //   onFilters("priceRange", [0, 200]);
+  // };
 
-  const handleRemoveRating = () => {
-    onFilters("rating", "");
-  };
+  // const handleRemoveRating = () => {
+  //   onFilters("rating", "");
+  // };
 
   return (
     <Stack spacing={1.5} {...other}>
@@ -72,7 +72,7 @@ export default function ServiceFiltersResult({
         flexWrap="wrap"
         alignItems="center"
       >
-        {!!filters.gender.length && (
+        {/* {!!filters.gender.length && (
           <Block label="Gender:">
             {filters.gender.map((item) => (
               <Chip
@@ -83,8 +83,8 @@ export default function ServiceFiltersResult({
               />
             ))}
           </Block>
-        )}
-
+        )} */}
+        {/* 
         {filters.category !== "all" && (
           <Block label="Category:">
             <Chip
@@ -118,9 +118,9 @@ export default function ServiceFiltersResult({
               />
             ))}
           </Block>
-        )}
+        )} */}
 
-        {(filters.priceRange[0] !== 0 || filters.priceRange[1] !== 200) && (
+        {/* {(filters.priceRange[0] !== 0 || filters.priceRange[1] !== 200) && (
           <Block label="Price:">
             <Chip
               size="small"
@@ -138,7 +138,7 @@ export default function ServiceFiltersResult({
               onDelete={handleRemoveRating}
             />
           </Block>
-        )}
+        )} */}
 
         {canReset && (
           <Button

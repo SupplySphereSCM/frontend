@@ -33,35 +33,32 @@ export type IRawMaterialReview = {
 
 export type IRawMaterialSchema = {
   id?: string;
-
   name: string;
   description: string;
+  subDescription: string;
   images: string[] | File[];
-
   code: string;
   quantity: number;
-
   price: number;
   tax: number;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type IRawMaterialItem = {
   id: string;
-
   name: string;
   description: string;
   subDescription: string;
   images: string[];
-
   code: string;
   quantity: number;
   available: number;
-
   price: number;
   tax: number;
-
   coverUrl: string;
   createdAt: Date;
+  updatedAt: Date;
 
   // totalSold: number;
   // totalRatings: number;

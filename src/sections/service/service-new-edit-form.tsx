@@ -19,6 +19,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { paths } from "src/routes/paths";
 // hooks
 import { useResponsive } from "src/hooks/use-responsive";
+import { useAuthContext } from "src/auth/hooks";
 // _mock
 import { _tags, CAPACITY_OPTIONS } from "src/_mock";
 // API
@@ -34,9 +35,9 @@ import FormProvider, {
 } from "src/components/hook-form";
 // types
 import { IServiceItem, IServiceSchema } from "src/types/service";
-import { useAuthContext } from "src/auth/hooks";
 
 import axiosInstance, { endpoints } from "src/utils/axios";
+import TransporterServiceNewEditForm from "./transporter-service-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -82,7 +83,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       id: currentService?.id,
       type: currentService?.type || "Quantity",
     }),
-    [currentService],
+    [currentService]
   );
 
   const methods = useForm({
@@ -117,6 +118,8 @@ export default function ServiceNewEditForm({ currentService }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      console.log("Service created");
+
       await new Promise((resolve) => setTimeout(resolve, 500));
       createService(data as IServiceItem);
       reset();
@@ -162,7 +165,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   // const handleImageUpload = async () => {
@@ -188,7 +191,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
             Details
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Title, short description, image...
+            Title, short description...
           </Typography>
         </Grid>
       )}
@@ -403,81 +406,69 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     </>
   );
 
-  const renderTransporterDetails = (
-    <>
-      {mdUp && (
-        <Grid md={4}>
-          <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Details
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Title, short description, image...
-          </Typography>
-        </Grid>
-      )}
+  // const renderTransporterDetails = (
+  //   <>
+  //     {mdUp && (
+  //       <Grid md={4}>
+  //         <Typography variant="h6" sx={{ mb: 0.5 }}>
+  //           Details
+  //         </Typography>
+  //         <Typography variant="body2" sx={{ color: "text.secondary" }}>
+  //           Title, short description, image...
+  //         </Typography>
+  //       </Grid>
+  //     )}
 
-      <Grid xs={12} md={8}>
-        <Card>
-          {!mdUp && <CardHeader title="Details" />}
+  //     <Grid xs={12} md={8}>
+  //       <Card>
+  //         {!mdUp && <CardHeader title="Details" />}
 
-          <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="name" label="Transporter Service Name" />
+  //         <Stack spacing={3} sx={{ p: 3 }}>
+  //           <RHFTextField name="name" label="Transporter Service Name" />
 
-            <RHFTextField
-              name="subDescription"
-              label="Sub Description"
-              multiline
-              rows={4}
-            />
+  //           <RHFTextField
+  //             name="subDescription"
+  //             label="Sub Description"
+  //             multiline
+  //             rows={4}
+  //           />
 
-            <Stack spacing={1.5}>
-              <RHFTextField
-                name="priceWithInState"
-                label="Price With In State"
-              />
-            </Stack>
-            <Stack spacing={1.5}>
-              <RHFTextField name="priceInterState" label="Price Inter State" />
-            </Stack>
-            <Stack spacing={1.5}>
-              <RHFTextField
-                name="priceInternational"
-                label="Price International"
-              />
-            </Stack>
+  //           <Stack spacing={1.5}>
+  //             <RHFTextField
+  //               name="priceWithInState"
+  //               label="Price With In State"
+  //             />
+  //           </Stack>
+  //           <Stack spacing={1.5}>
+  //             <RHFTextField name="priceInterState" label="Price Inter State" />
+  //           </Stack>
+  //           <Stack spacing={1.5}>
+  //             <RHFTextField
+  //               name="priceInternational"
+  //               label="Price International"
+  //             />
+  //           </Stack>
 
-            {/* <Stack spacing={1.5}>
-            <Typography variant="subtitle2">Images</Typography>
-            <RHFUpload
-              // multiple
-              thumbnail
-              name="images"
-              maxSize={3145728}
-              onDrop={handleDrop}
-              onRemove={handleRemoveFile}
-              // onRemoveAll={handleRemoveAllFiles}
-              onUpload={handleImageUpload}
-            />
-          </Stack> */}
-          </Stack>
-        </Card>
-      </Grid>
-    </>
-  );
+  //           {/* <Stack spacing={1.5}>
+  //           <Typography variant="subtitle2">Images</Typography>
+  //           <RHFUpload
+  //             // multiple
+  //             thumbnail
+  //             name="images"
+  //             maxSize={3145728}
+  //             onDrop={handleDrop}
+  //             onRemove={handleRemoveFile}
+  //             // onRemoveAll={handleRemoveAllFiles}
+  //             onUpload={handleImageUpload}
+  //           />
+  //         </Stack> */}
+  //         </Stack>
+  //       </Card>
+  //     </Grid>
+  //   </>
+  // );
 
-  return user?.roles.some((role) => ["TRANSPORTER"].includes(role)) ? (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Grid container spacing={3}>
-        {renderTransporterDetails}
-
-        {/* {renderProperties}
-    
-        {renderPricing}
-    
-        {renderActions} */}
-      </Grid>
-    </FormProvider>
-  ) : (
+  return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         {renderDetails}

@@ -63,6 +63,8 @@ export default function ServiceDetailsView({ id }: Props) {
   const [currentTab, setCurrentTab] = useState("description");
 
   const [publish, setPublish] = useState("");
+  // const [currentTab, setCurrentTab] = useState("content");
+
   console.log(service);
 
   // useEffect(() => {
@@ -79,7 +81,7 @@ export default function ServiceDetailsView({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    [],
+    []
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;
