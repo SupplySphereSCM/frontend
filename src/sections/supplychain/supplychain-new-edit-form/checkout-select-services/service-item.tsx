@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
 import ListItemText from "@mui/material/ListItemText";
 // routes
 import { paths } from "src/routes/paths";
@@ -52,8 +53,15 @@ export default function ServiceItem({ service }: Props) {
   return (
     <>
       <Card>
+        <IconButton
+          onClick={popover.onOpen}
+          sx={{ position: "absolute", top: 8, right: 8 }}
+        >
+          <Iconify icon="eva:more-vertical-fill" />
+        </IconButton>
+
         <Stack sx={{ p: 3, pb: 2 }}>
-          {images[0] && (
+          {images?.[0] && (
             <Avatar
               alt={name}
               src={images[0]}

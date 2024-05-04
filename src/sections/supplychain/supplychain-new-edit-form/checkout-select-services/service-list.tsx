@@ -19,6 +19,7 @@ export default function ServiceList({ services, loading, ...other }: Props) {
   return (
     <>
       <Box
+        key={services[0]?.id}
         gap={3}
         display="grid"
         gridTemplateColumns={{
@@ -29,8 +30,9 @@ export default function ServiceList({ services, loading, ...other }: Props) {
         {...other}
       >
         {services.map((service) => (
-          // <ServiceItem key={service.id} service={service} />
-          <ServiceItem key={service.id} service={service} />
+          <>
+            <ServiceItem key={service.id} service={service} />
+          </>
         ))}
       </Box>
 

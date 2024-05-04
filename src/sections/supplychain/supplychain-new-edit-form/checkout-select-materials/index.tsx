@@ -18,7 +18,11 @@ import {
   IProductItem,
 } from "src/types/product";
 //apis
-import { useGetProducts, useSearchProducts } from "src/api/product";
+import {
+  useGetProducts,
+  useGetRawMaterials,
+  useSearchProducts,
+} from "src/api/product";
 //
 import {
   PRODUCT_CATEGORY_OPTIONS,
@@ -57,7 +61,7 @@ export default function CheckoutSelectMaterials() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { products, productsLoading, productsEmpty } = useGetProducts();
+  const { materials, materialsLoading, materialsEmpty } = useGetRawMaterials();
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 
@@ -72,7 +76,7 @@ export default function CheckoutSelectMaterials() {
   );
 
   const dataFiltered = applyFilter({
-    inputData: products,
+    inputData: materials,
     filters,
     sortBy,
   });
@@ -165,9 +169,9 @@ export default function CheckoutSelectMaterials() {
         {canReset && renderResults}
       </Stack>
 
-      {(notFound || productsEmpty) && renderNotFound}
+      {(notFound || materialsEmpty) && renderNotFound}
 
-      <MaterialList products={dataFiltered} loading={productsLoading} />
+      <MaterialList products={dataFiltered} loading={materialsLoading} />
     </Container>
   );
 }

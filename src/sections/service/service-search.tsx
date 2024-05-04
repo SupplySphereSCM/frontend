@@ -42,7 +42,7 @@ export default function ServiceSearch({
     if (query) {
       if (event.key === "Enter") {
         const selectItem = results.filter(
-          (service) => service.name === query
+          (service) => service.name === query,
         )[0];
 
         handleClick(selectItem.id);

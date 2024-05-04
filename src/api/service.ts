@@ -8,13 +8,10 @@ import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
-// const { user } = useAuthContext();
 export function useGetServices() {
   const URL = endpoints.service.list;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
-  // console.log(data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -22,13 +19,10 @@ export function useGetServices() {
       servicesLoading: isLoading,
       servicesError: error,
       servicesValidating: isValidating,
-      servicesEmpty: !isLoading && !data?.length,
+      servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data?.data, error, isLoading, isValidating]
+    [data?.data, error, isLoading, isValidating],
   );
-  // console.log("Services", memoizedValue);
-
-  // console.log(memoizedValue);
 
   return memoizedValue;
 }
@@ -46,9 +40,9 @@ export function useGetShopServices() {
       servicesLoading: isLoading,
       servicesError: error,
       servicesValidating: isValidating,
-      servicesEmpty: !isLoading && !data?.length,
+      servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -74,7 +68,7 @@ export function useGetService(serviceId: string) {
       serviceError: error,
       serviceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -97,7 +91,7 @@ export function useSearchServices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -127,7 +121,7 @@ export async function createService(service: Partial<IServiceItem>) {
         services,
       };
     },
-    false
+    false,
   );
 }
 // ----------------------------------------------------------------------
@@ -154,7 +148,7 @@ export async function createTransportService(service: Partial<IServiceItem>) {
         services,
       };
     },
-    false
+    false,
   );
 }
 
@@ -181,7 +175,7 @@ export async function updateService(service: Partial<IServiceItem>) {
 
       return { ...currentData, services: updatedServices };
     },
-    false
+    false,
   );
 }
 

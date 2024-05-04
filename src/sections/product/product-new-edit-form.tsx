@@ -91,6 +91,8 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     [currentProduct],
   );
 
+  console.log("product-new-edit-form: defaultValues ", defaultValues);
+
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
     defaultValues,
@@ -122,7 +124,9 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      data.images = images;
+      if (!data.images) {
+        data.images = images;
+      }
 
       if (user?.roles.includes("SELLER")) {
         if (currentProduct?.id)

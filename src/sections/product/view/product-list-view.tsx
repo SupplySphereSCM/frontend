@@ -93,6 +93,8 @@ export default function ProductListView() {
     role: user?.roles[0] as any,
   });
 
+  console.log("Product-list-view: ", products);
+
   const confirm = useBoolean();
 
   useEffect(() => {

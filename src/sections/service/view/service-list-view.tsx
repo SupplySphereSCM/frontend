@@ -127,7 +127,7 @@ export default function ServiceListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 60 : 80;
@@ -145,7 +145,7 @@ export default function ServiceListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -155,12 +155,12 @@ export default function ServiceListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id)
+      (row) => !table.selected.includes(row.id),
     );
     setTableData(deleteRows);
 
@@ -175,14 +175,14 @@ export default function ServiceListView() {
     (id: string) => {
       router.push(paths.dashboard.service.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.service.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleResetFilters = useCallback(() => {
@@ -199,7 +199,7 @@ export default function ServiceListView() {
       if (inputValue) {
         const results = _jobs.filter(
           (job) =>
-            job.title.toLowerCase().indexOf(search.query.toLowerCase()) !== -1
+            job.title.toLowerCase().indexOf(search.query.toLowerCase()) !== -1,
         );
 
         // setSearch((prevState) => ({
@@ -208,7 +208,7 @@ export default function ServiceListView() {
         // }));
       }
     },
-    [search.query]
+    [search.query],
   );
 
   const renderFilters = (
@@ -533,7 +533,8 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (service) => service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (service) =>
+        service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 

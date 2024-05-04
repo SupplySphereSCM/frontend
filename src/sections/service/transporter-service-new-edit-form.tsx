@@ -73,7 +73,7 @@ export default function TransporterServiceNewEditForm({
       priceInterState: currentTransportService?.priceInterState || 0,
       priceInternationl: currentTransportService?.priceInternationl || 0,
     }),
-    [currentTransportService]
+    [currentTransportService],
   );
 
   const methods = useForm({
@@ -112,7 +112,7 @@ export default function TransporterServiceNewEditForm({
       createTransportService(data as ITransporterServiceItem);
       reset();
       enqueueSnackbar(
-        currentTransportService ? "Update success!" : "Create success!"
+        currentTransportService ? "Update success!" : "Create success!",
       );
       router.push(paths.dashboard.service.root);
       console.info("DATA", data);

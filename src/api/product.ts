@@ -8,6 +8,35 @@ import { IRawMaterialItem } from "src/types/raw-materials";
 
 // ----------------------------------------------------------------------
 
+type IRawMaterialRes = {
+  data: IRawMaterialItem[];
+  totalCount: number;
+  page: number;
+};
+
+export function useGetRawMaterials() {
+  const URL = endpoints.rawMaterials.root;
+
+  const { data, isLoading, error, isValidating } = useSWR<IRawMaterialRes>(
+    URL,
+    fetcher,
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      materials: data?.data || [],
+      materialsLoading: isLoading,
+      materialsError: error,
+      materialsValidating: isValidating,
+      materialsEmpty: !isLoading && !data?.data?.length,
+    }),
+    [data?.data, error, isLoading, isValidating],
+  );
+
+  return memoizedValue;
+}
+// ----------------------------------------------------------------------
+
 export function useGetProducts() {
   const URL = endpoints.product.root;
 

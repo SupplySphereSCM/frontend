@@ -17,7 +17,7 @@ import {
   IServiceItem,
 } from "src/types/service";
 //apis
-import { useGetShopServices, useSearchServices } from "src/api/service";
+import { useGetServices, useSearchServices } from "src/api/service";
 //
 import {
   PRODUCT_CATEGORY_OPTIONS,
@@ -56,7 +56,7 @@ export default function CheckoutSelectServices() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { services, servicesLoading, servicesEmpty } = useGetShopServices();
+  const { services, servicesLoading, servicesEmpty } = useGetServices();
 
   const { searchResults, searchLoading } = useSearchServices(debouncedQuery);
 
@@ -159,9 +159,11 @@ export default function CheckoutSelectServices() {
         {canReset && renderResults}
       </Stack>
 
-      {notFound && <EmptyContent filled title="No Data" sx={{ py: 10 }} />}
+      {(notFound || servicesEmpty) && (
+        <EmptyContent filled title="No Data" sx={{ py: 10 }} />
+      )}
 
-      <ServiceList services={dataFiltered} />
+      <ServiceList services={dataFiltered} loading={servicesLoading} />
     </Container>
   );
 }

@@ -9,6 +9,7 @@ import { useSettingsContext } from "src/components/settings";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
 import ProductNewEditForm from "../product-new-edit-form";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,12 @@ type Props = {
 export default function ProductEditView({ id }: Props) {
   const settings = useSettingsContext();
 
-  const { product: currentProduct } = useGetProduct(id);
+  const { user } = useAuthContext();
+
+  const { product: currentProduct } = useGetProduct({
+    productId: id,
+    role: user?.roles[0] as any,
+  });
 
   return (
     <Container maxWidth={settings.themeStretch ? false : "lg"}>

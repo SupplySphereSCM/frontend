@@ -40,7 +40,7 @@ export default function CheckoutBasic() {
           {!mdUp && <CardHeader title="Details" />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="name" label="Product Name" />
+            <RHFTextField name="name" label="Name" />
 
             <Stack spacing={1.5}>
               <Typography variant="subtitle2">Content</Typography>

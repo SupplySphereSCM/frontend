@@ -29,15 +29,11 @@ import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
 import FormProvider, {
   RHFEditor,
-  RHFUpload,
   RHFTextField,
   RHFRadioGroup,
 } from "src/components/hook-form";
 // types
 import { IServiceItem, IServiceSchema } from "src/types/service";
-
-import axiosInstance, { endpoints } from "src/utils/axios";
-import TransporterServiceNewEditForm from "./transporter-service-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -46,16 +42,15 @@ type Props = {
 };
 
 export default function ServiceNewEditForm({ currentService }: Props) {
-  const { user } = useAuthContext();
   const router = useRouter();
 
   const mdUp = useResponsive("up", "md");
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [includeTaxes, setIncludeTaxes] = useState(false);
-
   const [quantity, setQuantity] = useState("");
+
+  const [includeTaxes, setIncludeTaxes] = useState(false);
 
   // const [volume, setVolume] = useState("");
 
@@ -83,7 +78,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       id: currentService?.id,
       type: currentService?.type || "Quantity",
     }),
-    [currentService]
+    [currentService],
   );
 
   const methods = useForm({
@@ -100,7 +95,6 @@ export default function ServiceNewEditForm({ currentService }: Props) {
   } = methods;
 
   const values = watch();
-  console.log(user);
 
   useEffect(() => {
     if (currentService) {
@@ -118,14 +112,10 @@ export default function ServiceNewEditForm({ currentService }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      console.log("Service created");
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
       createService(data as IServiceItem);
       reset();
       enqueueSnackbar(currentService ? "Update success!" : "Create success!");
       router.push(paths.dashboard.service.root);
-      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -165,7 +155,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    []
+    [],
   );
 
   // const handleImageUpload = async () => {
