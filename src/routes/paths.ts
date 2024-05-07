@@ -51,6 +51,14 @@ export const paths = {
       details: `/service/${MOCK_ID}`,
     },
   },
+  transporter: {
+    root: `/transporter`,
+    checkout: `/transporter/checkout`,
+    details: (id: string) => `/transporter/${id}`,
+    demo: {
+      details: `/transporter/${MOCK_ID}`,
+    },
+  },
   post: {
     root: `/post`,
     details: (title: string) => `/post/${paramCase(title)}`,
@@ -145,13 +153,18 @@ export const paths = {
       details: (id: string) => `${ROOTS.DASHBOARD}/service/${id}`,
       edit: (id: string) => `${ROOTS.DASHBOARD}/service/${id}/edit`,
     },
+    shopservice: {
+      root: `${ROOTS.DASHBOARD}/shopservice`,
+      new: `${ROOTS.DASHBOARD}/shopservice/new`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/shopservice/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/shopservice/${id}/edit`,
+    },
     transporter: {
       root: `${ROOTS.DASHBOARD}/transporter`,
       new: `${ROOTS.DASHBOARD}/transporter/new`,
       details: (id: string) => `${ROOTS.DASHBOARD}/transporter/${id}`,
       edit: (id: string) => `${ROOTS.DASHBOARD}/transporter/${id}/edit`,
     },
-
     invoice: {
       root: `${ROOTS.DASHBOARD}/invoice`,
       new: `${ROOTS.DASHBOARD}/invoice/new`,
