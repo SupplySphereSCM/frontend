@@ -2,20 +2,44 @@
 import Box, { BoxProps } from "@mui/material/Box";
 import Pagination, { paginationClasses } from "@mui/material/Pagination";
 // types
-import { IServiceItem } from "src/types/service";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 //
 import ServiceItem from "./service-item";
 import { ServiceItemSkeleton } from "./service-skeleton";
 import { useRouter } from "src/routes/hooks";
 import { useCallback } from "react";
 import { paths } from "src/routes/paths";
+import { useAuthContext } from "src/auth/hooks";
 
 type Props = BoxProps & {
-  services: IServiceItem[];
+  services: ITransporterServiceItem[];
   loading?: boolean;
 };
 
 export default function ServiceList({ services, loading, ...other }: Props) {
+  const router = useRouter();
+  const { user } = useAuthContext();
+
+  const handleView = useCallback(
+    (id: string) => {
+      console.log("Go to details");
+
+      router.push(paths.dashboard.transporter.details(id));
+    },
+    [router]
+  );
+
+  const handleEdit = useCallback(
+    (id: string) => {
+      router.push(paths.dashboard.transporter.edit(id));
+    },
+    [router]
+  );
+
+  const handleDelete = useCallback((id: string) => {
+    console.info("DELETE", id);
+  }, []);
+
   return (
     <>
       <Box
@@ -29,8 +53,11 @@ export default function ServiceList({ services, loading, ...other }: Props) {
         {...other}
       >
         {services.map((service) => (
-          // <ServiceItem key={service.id} service={service} />
-          <ServiceItem key={service.id} service={service} />
+          <ServiceItem
+            key={service.id}
+            service={service}
+            // onView={() => handleView(service?.id as string)}
+          />
         ))}
       </Box>
 

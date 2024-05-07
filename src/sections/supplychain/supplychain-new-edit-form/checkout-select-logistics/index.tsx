@@ -15,9 +15,14 @@ import {
   IServiceFilterValue,
   IServiceFilters,
   IServiceItem,
+  ITransporterServiceItem,
 } from "src/types/service";
 //apis
-import { useGetShopServices, useSearchServices } from "src/api/service";
+import {
+  useGetShopServices,
+  useGetShopTransporterServices,
+  useSearchServices,
+} from "src/api/service";
 //
 import {
   PRODUCT_CATEGORY_OPTIONS,
@@ -56,7 +61,9 @@ export default function CheckoutSelectServices() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { services, servicesLoading, servicesEmpty } = useGetShopServices();
+  const { services, servicesLoading, servicesEmpty } =
+    useGetShopTransporterServices();
+  console.log(services);
 
   const { searchResults, searchLoading } = useSearchServices(debouncedQuery);
 
@@ -67,7 +74,7 @@ export default function CheckoutSelectServices() {
         [name]: value,
       }));
     },
-    [],
+    []
   );
 
   const dataFiltered = applyFilter({
@@ -103,7 +110,7 @@ export default function CheckoutSelectServices() {
         query={debouncedQuery}
         results={searchResults}
         onSearch={handleSearch}
-        hrefItem={(id: string) => paths.product.details(id)}
+        hrefItem={(id: string) => paths.transporter.details(id)}
       />
 
       <Stack direction="row" spacing={1} flexShrink={0}>
@@ -173,7 +180,7 @@ function applyFilter({
   filters,
   sortBy,
 }: {
-  inputData: IServiceItem[];
+  inputData: ITransporterServiceItem[];
   filters: IServiceFilters;
   sortBy: string;
 }) {
@@ -217,7 +224,8 @@ function applyFilter({
 
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
-      (product) => product.price >= min && product.price <= max,
+      (product) =>
+        product.priceWithinState >= min && product.priceInternationl <= max
     );
   }
 
