@@ -22,7 +22,11 @@ import { useResponsive } from "src/hooks/use-responsive";
 // _mock
 import { _tags, CAPACITY_OPTIONS } from "src/_mock";
 // API
-import { createService, createTransportService } from "src/api/service";
+import {
+  createService,
+  createTransportService,
+  updateTransporterService,
+} from "src/api/service";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
@@ -34,6 +38,7 @@ import FormProvider, {
 } from "src/components/hook-form";
 // types
 import {
+  IServiceItem,
   ITransporterServiceItem,
   ITransporterServiceSchema,
 } from "src/types/service";
@@ -62,6 +67,7 @@ export default function TransporterServiceNewEditForm({
     priceWithinState: Yup.number().moreThan(0, "Price should not be $0.00"),
     priceInterState: Yup.number().moreThan(0, "Price should not be $0.00"),
     priceInternationl: Yup.number().moreThan(0, "Price should not be $0.00"),
+    transactionHash: Yup.string(),
   });
 
   const defaultValues = useMemo(
@@ -72,8 +78,10 @@ export default function TransporterServiceNewEditForm({
       priceWithinState: currentTransportService?.priceWithinState || 0,
       priceInterState: currentTransportService?.priceInterState || 0,
       priceInternationl: currentTransportService?.priceInternationl || 0,
+      transactionHash:
+        currentTransportService?.transactionHash || Date.now().toString(),
     }),
-    [currentTransportService],
+    [currentTransportService]
   );
 
   const methods = useForm({
@@ -107,12 +115,16 @@ export default function TransporterServiceNewEditForm({
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      // currentTransportService?
+      // If condn currentTransportService.id?
+      if (currentTransportService?.id)
+        updateTransporterService(data as ITransporterServiceItem);
+      else createTransportService(data as ITransporterServiceItem);
 
-      createTransportService(data as ITransporterServiceItem);
       reset();
       enqueueSnackbar(
-        currentTransportService ? "Update success!" : "Create success!",
+        currentTransportService ? "Update success!" : "Create success!"
       );
       router.push(paths.dashboard.service.root);
       console.info("DATA", data);
