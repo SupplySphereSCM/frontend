@@ -65,7 +65,7 @@ export default function ServiceItem({
     // saleLabel,
   } = service;
 
-  console.log(service);
+  // console.log(service);
   // console.log("type", type);
   // console.log("volume", volume);
   // console.log(quantity);

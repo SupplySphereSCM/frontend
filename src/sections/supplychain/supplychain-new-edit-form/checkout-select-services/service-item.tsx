@@ -31,7 +31,7 @@ export default function ServiceItem({ service }: Props) {
 
   const popover = usePopover();
 
-  const linkTo = paths.service.details(id);
+  const linkTo = paths.dashboard.shopservice.details(id);
 
   const handleAddCart = async () => {
     const newService = {
@@ -75,7 +75,7 @@ export default function ServiceItem({ service }: Props) {
             primary={
               <Link
                 component={RouterLink}
-                href={paths.dashboard.service.details(id)}
+                href={paths.dashboard.shopservice.details(id)}
                 color="inherit"
               >
                 {name}

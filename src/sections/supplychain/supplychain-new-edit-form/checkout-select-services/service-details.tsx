@@ -17,22 +17,18 @@ import { _jobs, JOB_PUBLISH_OPTIONS, JOB_DETAILS_TABS } from "src/_mock";
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 // api
-import { useGetService } from "src/api/service";
+import { useGetService, useGetShopService } from "src/api/service";
 // components
 import Iconify from "src/components/iconify";
 import Label from "src/components/label";
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
 //
-import { ServiceDetailsSkeleton } from "../service-skeleton";
-import ServiceDetailsReview from "../service-details-review";
-import ServiceDetailsSummary from "../service-details-summary";
-import ServiceDetailsToolbar from "../service-details-toolbar";
-import ServiceDetailsCarousel from "../service-details-carousel";
-import ServiceDetailsDescription from "../service-details-description";
+import { ServiceDetailsSkeleton } from "./service-skeleton";
+import ServiceDetailsSummary from "./service-details-summary";
+import ServiceDetailsToolbar from "./service-details-toolbar";
 import { useAuthContext } from "src/auth/hooks";
-import TransporterServiceDetailsSummary from "../transporter-services-details-summery";
-import { IServiceItem, ITransporterServiceItem } from "src/types/service";
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
@@ -60,20 +56,18 @@ type Props = {
   id: string;
 };
 
-export default function ServiceDetailsView({ id }: Props) {
+export default function ServiceDetails({ id }: Props) {
   const { user } = useAuthContext();
 
   const settings = useSettingsContext();
 
   const [currentTab, setCurrentTab] = useState("description");
+  
 
-  const { service, serviceLoading, serviceError } = useGetService({
-    serviceId: id,
-    role: user?.roles[0] as any,
-  });
+  const { service, serviceLoading, serviceError } = useGetShopService(id);
   const [publish, setPublish] = useState("");
 
-  // console.log(service);
+  console.log("Supply chain services", service);
 
   // useEffect(() => {
   //   if (service) {
@@ -145,25 +139,19 @@ export default function ServiceDetailsView({ id }: Props) {
   const renderService = service && (
     <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <ServiceDetailsToolbar
-        backLink={paths.dashboard.service.root}
-        editLink={paths.dashboard.service.edit(`${service?.id}`)}
+        backLink={paths.dashboard.supplychain.new}
         liveLink={paths.dashboard.service.details(`${service?.id}`)}
+        // editLink={paths.dashboard.service.edit(`${service?.id}`)}
         // publish={publish || ""}
         // onChangePublish={handleChangePublish}
         // publishOptions={PRODUCT_PUBLISH_OPTIONS}
       />
-      {isTransporter && (
-        <TransporterServiceDetailsSummary
-          disabledActions
-          service={service as ITransporterServiceItem}
-        />
-      )}
-      {isService && (
-        <ServiceDetailsSummary
-          disabledActions
-          service={service as IServiceItem}
-        />
-      )}
+
+      <ServiceDetailsSummary
+        disabledActions
+        service={service as IServiceItem}
+      />
+
       {/* <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}> */}
       {/* <Grid xs={12} md={6} lg={7}>
           <ServiceDetailsCarousel service={service} />

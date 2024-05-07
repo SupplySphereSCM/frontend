@@ -50,6 +50,48 @@ export function useGetShopServices() {
 
 // ----------------------------------------------------------------------
 
+export function useGetShopTransporterServices() {
+  const URL = endpoints.transporter.list;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      services: (data?.data as ITransporterServiceItem[]) || [],
+      servicesLoading: isLoading,
+      servicesError: error,
+      servicesValidating: isValidating,
+      servicesEmpty: !isLoading && !data?.data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useGetShopService(serviceId: string) {
+  const URL = endpoints.service.details(serviceId);
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  console.log(data);
+
+  const memoizedValue = useMemo(
+    () => ({
+      service: (data as IServiceItem) || [],
+      serviceLoading: isLoading,
+      serviceError: error,
+      serviceValidating: isValidating,
+      serviceEmpty: !isLoading && !data?.data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+// ----------------------------------------------------------------------
+
 type UseGetServiceProps = {
   role?: "SELLER" | "TRANSPORTER";
   serviceId: string;
@@ -63,7 +105,7 @@ export function useGetService({ serviceId, role }: UseGetServiceProps) {
   // console.log("URL", URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  console.log("Data", data);
+  // console.log("Data", data);
 
   const memoizedValue = useMemo(
     () => ({

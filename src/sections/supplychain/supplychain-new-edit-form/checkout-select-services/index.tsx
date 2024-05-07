@@ -57,6 +57,7 @@ export default function CheckoutSelectServices() {
   const [filters, setFilters] = useState(defaultFilters);
 
   const { services, servicesLoading, servicesEmpty } = useGetServices();
+  console.log(services);
 
   const { searchResults, searchLoading } = useSearchServices(debouncedQuery);
 
@@ -67,7 +68,7 @@ export default function CheckoutSelectServices() {
         [name]: value,
       }));
     },
-    [],
+    []
   );
 
   const dataFiltered = applyFilter({
@@ -103,7 +104,7 @@ export default function CheckoutSelectServices() {
         query={debouncedQuery}
         results={searchResults}
         onSearch={handleSearch}
-        hrefItem={(id: string) => paths.product.details(id)}
+        hrefItem={(id: string) => paths.service.details(id)}
       />
 
       <Stack direction="row" spacing={1} flexShrink={0}>
@@ -219,7 +220,7 @@ function applyFilter({
 
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
-      (product) => product.price >= min && product.price <= max,
+      (product) => product.price >= min && product.price <= max
     );
   }
 
