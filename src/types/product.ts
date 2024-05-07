@@ -44,6 +44,7 @@ export type IProductSchema = {
 
   price: number;
   tax: number;
+  transactionHash: string;
 };
 
 export type IProductItem = {
@@ -63,7 +64,7 @@ export type IProductItem = {
 
   coverUrl: string;
   createdAt: Date;
-
+  transactionHash: string;
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
