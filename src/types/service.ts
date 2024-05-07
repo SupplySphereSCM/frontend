@@ -48,9 +48,11 @@ export type IServiceSchema = {
   tax: number;
   createdAt: Date;
   updatedAt: Date;
+  transactionHash: string;
 };
 
 export type IServiceItem = {
+  length: any;
   id: string;
   type: string;
   name: string;
@@ -66,7 +68,7 @@ export type IServiceItem = {
   coverUrl: string;
   createdAt: Date;
   updatedAt: Date;
-
+  transactionHash: string;
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
@@ -88,6 +90,9 @@ export type ITransporterServiceItem = {
   priceInternationl: number;
   createdAt: Date;
   updatedAt: Date;
+  transactionHash: string;
+  coverUrl: string;
+
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
@@ -109,6 +114,8 @@ export type ITransporterServiceSchema = {
   priceInternationl: number;
   createdAt: Date;
   updatedAt: Date;
+  transactionHash: string;
+  coverUrl: string;
 };
 
 export type IServiceTableFilterValue = string | string[];

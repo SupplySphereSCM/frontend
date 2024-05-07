@@ -11,6 +11,8 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 // _mock
 import { PRODUCT_PUBLISH_OPTIONS } from "src/_mock";
+import { _jobs, JOB_PUBLISH_OPTIONS, JOB_DETAILS_TABS } from "src/_mock";
+
 // routes
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
@@ -18,6 +20,7 @@ import { RouterLink } from "src/routes/components";
 import { useGetService } from "src/api/service";
 // components
 import Iconify from "src/components/iconify";
+import Label from "src/components/label";
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
 //
@@ -27,6 +30,9 @@ import ServiceDetailsSummary from "../service-details-summary";
 import ServiceDetailsToolbar from "../service-details-toolbar";
 import ServiceDetailsCarousel from "../service-details-carousel";
 import ServiceDetailsDescription from "../service-details-description";
+import { useAuthContext } from "src/auth/hooks";
+import TransporterServiceDetailsSummary from "../transporter-services-details-summery";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
@@ -55,15 +61,17 @@ type Props = {
 };
 
 export default function ServiceDetailsView({ id }: Props) {
-  const { service, serviceLoading, serviceError } = useGetService(id);
-  // const service = useGetService(id);
+  const { user } = useAuthContext();
 
   const settings = useSettingsContext();
 
   const [currentTab, setCurrentTab] = useState("description");
 
+  const { service, serviceLoading, serviceError } = useGetService({
+    serviceId: id,
+    role: user?.roles[0] as any,
+  });
   const [publish, setPublish] = useState("");
-  // const [currentTab, setCurrentTab] = useState("content");
 
   console.log(service);
 
@@ -81,10 +89,36 @@ export default function ServiceDetailsView({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    [],
+    []
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;
+
+  const renderTabs = (
+    <Tabs
+      value={currentTab}
+      onChange={handleChangeTab}
+      sx={{
+        mb: { xs: 3, md: 5 },
+      }}
+    >
+      {JOB_DETAILS_TABS.map((tab) => (
+        <Tab
+          key={tab.value}
+          iconPosition="end"
+          value={tab.value}
+          label={tab.label}
+          icon={
+            tab.value === "candidates" ? (
+              <Label variant="filled">{service?.name}</Label>
+            ) : (
+              ""
+            )
+          }
+        />
+      ))}
+    </Tabs>
+  );
 
   const renderError = (
     <EmptyContent
@@ -104,8 +138,12 @@ export default function ServiceDetailsView({ id }: Props) {
     />
   );
 
+  const isTransporter = user?.roles.includes("TRANSPORTER");
+
+  const isService = user?.roles.includes("SELLER");
+
   const renderService = service && (
-    <>
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <ServiceDetailsToolbar
         backLink={paths.dashboard.service.root}
         editLink={paths.dashboard.service.edit(`${service?.id}`)}
@@ -114,18 +152,26 @@ export default function ServiceDetailsView({ id }: Props) {
         // onChangePublish={handleChangePublish}
         // publishOptions={PRODUCT_PUBLISH_OPTIONS}
       />
-
-      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
-        <Grid xs={12} md={6} lg={7}>
+      {isTransporter && (
+        <TransporterServiceDetailsSummary
+          disabledActions
+          service={service as ITransporterServiceItem}
+        />
+      )}
+      {isService && (
+        <ServiceDetailsSummary
+          disabledActions
+          service={service as IServiceItem}
+        />
+      )}
+      {/* <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}> */}
+      {/* <Grid xs={12} md={6} lg={7}>
           <ServiceDetailsCarousel service={service} />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={5}>
-          <ServiceDetailsSummary disabledActions service={service} />
-        </Grid>
-      </Grid>
-
-      <Box
+        </Grid> */}
+      {/* <Grid xs={12} md={6} lg={5}> */}
+      {/* </Grid> */}
+      {/* </Grid> */}
+      {/* <Box
         gap={5}
         display="grid"
         gridTemplateColumns={{
@@ -181,16 +227,16 @@ export default function ServiceDetailsView({ id }: Props) {
           <ServiceDetailsDescription description={service?.description} />
         )}
 
-        {/* {currentTab === "reviews" && (
+        {currentTab === "reviews" && (
           <ServiceDetailsReview
             ratings={service.ratings}
             reviews={service.reviews}
             totalRatings={service.totalRatings}
             totalReviews={service.totalReviews}
           />
-        )} */}
-      </Card>
-    </>
+        )}
+      </Card> */}
+    </Container>
   );
 
   return (

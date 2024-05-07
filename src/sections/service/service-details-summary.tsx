@@ -1,14 +1,21 @@
 import { useEffect, useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 // @mui
+import Chip from "@mui/material/Chip";
+import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
 import Rating from "@mui/material/Rating";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
+
+import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
+import ListItemText from "@mui/material/ListItemText";
 import { formHelperTextClasses } from "@mui/material/FormHelperText";
 // routes
 import { paths } from "src/routes/paths";
@@ -18,13 +25,16 @@ import { fShortenNumber, fCurrency } from "src/utils/format-number";
 // components
 import Label from "src/components/label";
 import Iconify from "src/components/iconify";
+import Markdown from "src/components/markdown";
 import { ColorPicker } from "src/components/color-utils";
 import FormProvider, { RHFSelect } from "src/components/hook-form";
 // types
-import { IServiceItem } from "src/types/service";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 import { ICheckoutItem } from "src/types/checkout";
 //
 import IncrementerButton from "./common/incrementer-button";
+import { fDate } from "src/utils/format-time";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +55,7 @@ export default function ServiceDetailsSummary({
   ...other
 }: Props) {
   const router = useRouter();
-
+  const { user } = useAuthContext();
   const {
     id,
     name,
@@ -53,16 +63,22 @@ export default function ServiceDetailsSummary({
     price,
     quantity,
     coverUrl,
+    available,
+    description,
+    subDescription,
+    // images,
+    type,
+    volume,
+    createdAt,
+    updatedAt,
 
     // colors,
     // newLabel,
-    available,
     // priceSale,
     // saleLabel,
     // totalRatings,
     // totalReviews,
     // inventoryType,
-    subDescription,
   } = service;
 
   const existService =
@@ -187,6 +203,104 @@ export default function ServiceDetailsSummary({
     </Stack>
   );
 
+  const renderContent = (
+    <Stack component={Card} spacing={3} sx={{ p: 3 }}>
+      <Typography variant="h4">{name}</Typography>
+
+      <Markdown children={description} />
+
+      {/* <Stack spacing={2}>
+        <Typography variant="h6">Skills</Typography>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          {skills.map((skill) => (
+            <Chip key={skill} label={skill} variant="soft" />
+          ))}
+        </Stack>
+      </Stack>
+
+      <Stack spacing={2}>
+        <Typography variant="h6">Benefits</Typography>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          {benefits.map((benefit) => (
+            <Chip key={benefit} label={benefit} variant="soft" />
+          ))}
+        </Stack>
+      </Stack> */}
+    </Stack>
+  );
+
+  const renderOverview = (
+    <Stack component={Card} spacing={2} sx={{ p: 3 }}>
+      {[
+        {
+          label: "Date Posted",
+          value: fDate(createdAt),
+          icon: <Iconify icon="solar:calendar-date-bold" />,
+        },
+        {
+          label: "Updated date",
+          value: fDate(updatedAt),
+          icon: <Iconify icon="solar:calendar-date-bold" />,
+        },
+        // {
+        //   label: "Employment type",
+        //   value: employmentTypes,
+        //   icon: <Iconify icon="solar:clock-circle-bold" />,
+        // },
+        {
+          label: "Price",
+          value: fCurrency(price),
+          icon: <Iconify icon="solar:wad-of-money-bold" />,
+        },
+        {
+          label: type == "Volume" ? "Volume" : "Quantity",
+          value: type == "Volume" ? `${volume} Kg` : `${quantity} units`,
+          icon: <Iconify icon="carbon:skill-level-basic" />,
+        },
+      ].map((item) => (
+        <Stack key={item.label} spacing={1.5} direction="row">
+          {item.icon}
+          <ListItemText
+            primary={item.label}
+            secondary={item.value}
+            primaryTypographyProps={{
+              typography: "body2",
+              color: "text.secondary",
+              mb: 0.5,
+            }}
+            secondaryTypographyProps={{
+              typography: "subtitle2",
+              color: "text.primary",
+              component: "span",
+            }}
+          />
+        </Stack>
+      ))}
+    </Stack>
+  );
+
+  const renderCompany = (
+    <Stack
+      component={Paper}
+      variant="outlined"
+      spacing={2}
+      direction="row"
+      sx={{ p: 3, borderRadius: 2, mt: 3 }}
+    >
+      <Avatar
+        alt={name}
+        src={coverUrl}
+        variant="rounded"
+        sx={{ width: 64, height: 64 }}
+      />
+
+      <Stack spacing={1}>
+        <Typography variant="subtitle1">{name}</Typography>
+        {/* <Typography variant="body2">{user.address}</Typography>
+        <Typography variant="body2">{phoneNumber}</Typography> */}
+      </Stack>
+    </Stack>
+  );
   // const renderColorOptions = (
   //   <Stack direction="row">
   //     <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
@@ -268,7 +382,7 @@ export default function ServiceDetailsSummary({
   );
 
   const renderActions = (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="column" spacing={2} sx={{ mt: 3 }}>
       <Button
         fullWidth
         disabled={isMaxQuantity || disabledActions}
@@ -282,7 +396,7 @@ export default function ServiceDetailsSummary({
         Add to Cart
       </Button>
 
-      <Button
+      {/* <Button
         fullWidth
         size="large"
         type="submit"
@@ -290,7 +404,7 @@ export default function ServiceDetailsSummary({
         disabled={disabledActions}
       >
         Buy Now
-      </Button>
+      </Button> */}
     </Stack>
   );
 
@@ -343,36 +457,46 @@ export default function ServiceDetailsSummary({
   // );
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={3} sx={{ pt: 3 }} {...other}>
-        <Stack spacing={2} alignItems="flex-start">
-          {/* {renderLabels} */}
+    <Grid container spacing={3}>
+      <Grid xs={12} md={8}>
+        {renderContent}
+      </Grid>
 
-          {/* {renderInventoryType} */}
-
-          <Typography variant="h5">{name}</Typography>
-
-          {/* {renderRating} */}
-
-          {renderPrice}
-
-          {renderSubDescription}
-        </Stack>
-
-        <Divider sx={{ borderStyle: "dashed" }} />
-
-        {/* {renderColorOptions} */}
-
-        {/* {renderSizeOptions} */}
-
-        {renderQuantity}
-
-        <Divider sx={{ borderStyle: "dashed" }} />
-
+      <Grid xs={12} md={4}>
+        {renderOverview}
+        {renderCompany}
         {renderActions}
+      </Grid>
+    </Grid>
 
-        {renderShare}
-      </Stack>
-    </FormProvider>
+    // <FormProvider methods={methods} onSubmit={onSubmit}>
+    //   <Stack spacing={3} sx={{ pt: 3 }} {...other}>
+    //     <Stack spacing={2} alignItems="flex-start">
+    //       {/* {renderLabels} */}
+
+    //       {/* {renderInventoryType} */}
+
+    //       <Typography variant="h5">{name}</Typography>
+
+    //       {/* {renderRating} */}
+
+    //       {renderPrice}
+
+    //       {renderSubDescription}
+    //     </Stack>
+
+    //     <Divider sx={{ borderStyle: "dashed" }} />
+
+    //     {/* {renderColorOptions} */}
+
+    //     {/* {renderSizeOptions} */}
+
+    //     {renderQuantity}
+
+    //     <Divider sx={{ borderStyle: "dashed" }} />
+
+    //     {renderShare}
+    //   </Stack>
+    // </FormProvider>
   );
 }

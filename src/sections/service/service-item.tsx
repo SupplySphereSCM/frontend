@@ -25,7 +25,7 @@ import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 import { ColorPreview } from "src/components/color-utils";
 // types
-import { IServiceItem } from "src/types/service";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 //
 import { useCheckoutContext } from "../checkout/context";
 
@@ -70,25 +70,25 @@ export default function ServiceItem({
   // console.log("volume", volume);
   // console.log(quantity);
 
-  const linkTo = paths.service.details(id);
+  // const linkTo = paths.service.details(id);
 
-  const handleAddCart = async () => {
-    const newService = {
-      id,
-      name,
-      coverUrl,
-      available,
-      price,
-      quantity: 1,
-      // colors: [colors[0]],
-      // size: sizes[0],
-    };
-    try {
-      onAddToCart(newService);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleAddCart = async () => {
+  //   const newService = {
+  //     id,
+  //     name,
+  //     coverUrl,
+  //     available,
+  //     price,
+  //     quantity: 1,
+  //     // colors: [colors[0]],
+  //     // size: sizes[0],
+  //   };
+  //   try {
+  //     onAddToCart(newService);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   // const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
   //   <Stack
@@ -110,78 +110,78 @@ export default function ServiceItem({
   //   </Stack>
   // );
 
-  const renderImg = (
-    <Box sx={{ position: "relative", p: 1 }}>
-      {!!available && (
-        <Fab
-          color="warning"
-          size="medium"
-          className="add-cart-btn"
-          onClick={handleAddCart}
-          sx={{
-            right: 16,
-            bottom: 16,
-            zIndex: 9,
-            opacity: 0,
-            position: "absolute",
-            transition: (theme) =>
-              theme.transitions.create("all", {
-                easing: theme.transitions.easing.easeInOut,
-                duration: theme.transitions.duration.shorter,
-              }),
-          }}
-        >
-          <Iconify icon="solar:cart-plus-bold" width={24} />
-        </Fab>
-      )}
+  // const renderImg = (
+  //   <Box sx={{ position: "relative", p: 1 }}>
+  //     {!!available && (
+  //       <Fab
+  //         color="warning"
+  //         size="medium"
+  //         className="add-cart-btn"
+  //         onClick={handleAddCart}
+  //         sx={{
+  //           right: 16,
+  //           bottom: 16,
+  //           zIndex: 9,
+  //           opacity: 0,
+  //           position: "absolute",
+  //           transition: (theme) =>
+  //             theme.transitions.create("all", {
+  //               easing: theme.transitions.easing.easeInOut,
+  //               duration: theme.transitions.duration.shorter,
+  //             }),
+  //         }}
+  //       >
+  //         <Iconify icon="solar:cart-plus-bold" width={24} />
+  //       </Fab>
+  //     )}
 
-      <Tooltip title={!available && "Out of stock"} placement="bottom-end">
-        <Image
-          alt={name}
-          src={coverUrl || "/assets/icons/files/ic_file.svg"}
-          ratio="1/1"
-          sx={{
-            borderRadius: 1.5,
-            ...(!available && {
-              opacity: 0.48,
-              filter: "grayscale(1)",
-            }),
-          }}
-        />
-      </Tooltip>
-    </Box>
-  );
+  //     <Tooltip title={!available && "Out of stock"} placement="bottom-end">
+  //       <Image
+  //         alt={name}
+  //         src={coverUrl || "/assets/icons/files/ic_file.svg"}
+  //         ratio="1/1"
+  //         sx={{
+  //           borderRadius: 1.5,
+  //           ...(!available && {
+  //             opacity: 0.48,
+  //             filter: "grayscale(1)",
+  //           }),
+  //         }}
+  //       />
+  //     </Tooltip>
+  //   </Box>
+  // );
 
-  const renderContent = (
-    <Stack spacing={2.5} sx={{ p: 3, pt: 2 }}>
-      <Link
-        component={RouterLink}
-        href={linkTo}
-        color="inherit"
-        variant="subtitle2"
-        noWrap
-      >
-        {name}
-      </Link>
+  // const renderContent = (
+  //   <Stack spacing={2.5} sx={{ p: 3, pt: 2 }}>
+  //     <Link
+  //       component={RouterLink}
+  //       href={linkTo}
+  //       color="inherit"
+  //       variant="subtitle2"
+  //       noWrap
+  //     >
+  //       {name}
+  //     </Link>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
-        {/* <ColorPreview colors={colors} /> */}
+  //     <Stack direction="row" alignItems="center" justifyContent="space-between">
+  //       {/* <ColorPreview colors={colors} /> */}
 
-        {/* <Stack direction="row" spacing={0.5} sx={{ typography: "subtitle1" }}>
-          {priceSale && (
-            <Box
-              component="span"
-              sx={{ color: "text.disabled", textDecoration: "line-through" }}
-            >
-              {fCurrency(priceSale)}
-            </Box>
-          )}
+  //       {/* <Stack direction="row" spacing={0.5} sx={{ typography: "subtitle1" }}>
+  //         {priceSale && (
+  //           <Box
+  //             component="span"
+  //             sx={{ color: "text.disabled", textDecoration: "line-through" }}
+  //           >
+  //             {fCurrency(priceSale)}
+  //           </Box>
+  //         )}
 
-          <Box component="span">{fCurrency(price)}</Box>
-        </Stack> */}
-      </Stack>
-    </Stack>
-  );
+  //         <Box component="span">{fCurrency(price)}</Box>
+  //       </Stack> */}
+  //     </Stack>
+  //   </Stack>
+  // );
 
   return (
     <>
@@ -224,36 +224,44 @@ export default function ServiceItem({
             }}
           />
 
-          <Stack
-            spacing={0.5}
-            direction="row"
-            alignItems="center"
-            sx={{ color: "primary.main", typography: "h3" }}
-          >
-            {/* <Iconify width={16} icon="solar:users-group-rounded-bold" /> */}
-            {price} $
+          <Stack direction="row">
+            <Typography variant="h4">$</Typography>
+
+            <Typography variant="h2">{price}</Typography>
+
+            <Typography
+              component="span"
+              sx={{
+                alignSelf: "center",
+                color: "text.disabled",
+                ml: 1,
+                typography: "body2",
+              }}
+            >
+              / {service.volume != 0 ? `${volume} KG` : `${quantity} units`}
+            </Typography>
           </Stack>
         </Stack>
 
-        <Divider sx={{ borderStyle: "dashed" }} />
+        {/* <Divider sx={{ borderStyle: "dashed" }} /> */}
 
-        <Box
+        {/* <Box
           rowGap={1.5}
           display="grid"
           gridTemplateColumns="repeat(2, 1fr)"
           sx={{ p: 3 }}
         >
           {[
-            {
-              label: description,
-              icon: (
-                <Iconify
-                  width={16}
-                  icon="carbon:skill-level-basic"
-                  sx={{ flexShrink: 0 }}
-                />
-              ),
-            },
+            // {
+            //   label: description,
+            //   icon: (
+            //     <Iconify
+            //       width={16}
+            //       icon="carbon:skill-level-basic"
+            //       sx={{ flexShrink: 0 }}
+            //     />
+            //   ),
+            // },
             {
               label: service.volume != 0 ? `${volume} KG` : `${quantity} units`,
               icon: (
@@ -289,7 +297,7 @@ export default function ServiceItem({
               </Typography>
             </Stack>
           ))}
-        </Box>
+        </Box> */}
       </Card>
 
       <CustomPopover

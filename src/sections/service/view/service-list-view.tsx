@@ -28,7 +28,7 @@ import {
   JOB_EMPLOYMENT_TYPE_OPTIONS,
 } from "src/_mock";
 // api
-import { useGetServices } from "src/api/service";
+import { useGetServices, useGetUserServices } from "src/api/service";
 // components
 import { useSettingsContext } from "src/components/settings";
 import EmptyContent from "src/components/empty-content";
@@ -53,6 +53,7 @@ import {
   IServiceItem,
   IServiceTableFilters,
   IServiceTableFilterValue,
+  ITransporterServiceItem,
 } from "src/types/service";
 //
 import ServiceTableRow from "../service-table-row";
@@ -61,6 +62,7 @@ import ServiceTableFiltersResult from "../service-table-filters-result";
 import ServiceSearch from "../service-search";
 import ServiceFiltersResult from "../service-filters-result";
 import ServiceList from "../service-list";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -90,34 +92,41 @@ export default function ServiceListView() {
   const router = useRouter();
 
   const table = useTable();
+  const { user } = useAuthContext();
 
   const settings = useSettingsContext();
-
-  const [tableData, setTableData] = useState<IServiceItem[]>([]);
+  // type ServiceItem = IServiceItem[] | ITransporterServiceItem[];
+  const [tableData, setTableData] = useState<
+    (IServiceItem | ITransporterServiceItem)[]
+  >([]);
   // console.log(tableData);
 
   const [filters, setFilters] = useState(defaultFilters);
   const [search, setSearch] = useState<{
     query: string;
-    results: IServiceItem[];
+    results: (IServiceItem | ITransporterServiceItem)[];
   }>({
     query: "",
     results: [],
   });
 
-  const { services, servicesLoading, servicesEmpty } = useGetServices();
-  console.log(services);
+  // const { services, servicesLoading, servicesEmpty } = useGetServices();
+  const { services, servicesLoading, servicesEmpty } = useGetUserServices({
+    // userId: user?.id as string,
+    role: user?.roles[0] as any,
+  });
 
   const confirm = useBoolean();
 
   useEffect(() => {
     // console.log("Services", services);
-    if (services.length) {
+    if (services?.length) {
+      // console.log(services);
+
+      // if services is one (if array remove square bracket)
       setTableData(services);
     }
   }, [services]);
-
-  // console.log("tableData", tableData);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -127,7 +136,7 @@ export default function ServiceListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage,
+    table.page * table.rowsPerPage + table.rowsPerPage
   );
 
   const denseHeight = table.dense ? 60 : 80;
@@ -145,7 +154,7 @@ export default function ServiceListView() {
         [name]: value,
       }));
     },
-    [table],
+    [table]
   );
 
   const handleDeleteRow = useCallback(
@@ -155,12 +164,12 @@ export default function ServiceListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData],
+    [dataInPage.length, table, tableData]
   );
 
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id),
+      (row) => !table.selected.includes(row?.id as string)
     );
     setTableData(deleteRows);
 
@@ -175,14 +184,14 @@ export default function ServiceListView() {
     (id: string) => {
       router.push(paths.dashboard.service.edit(id));
     },
-    [router],
+    [router]
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.service.details(id));
     },
-    [router],
+    [router]
   );
 
   const handleResetFilters = useCallback(() => {
@@ -199,7 +208,7 @@ export default function ServiceListView() {
       if (inputValue) {
         const results = _jobs.filter(
           (job) =>
-            job.title.toLowerCase().indexOf(search.query.toLowerCase()) !== -1,
+            job.title.toLowerCase().indexOf(search.query.toLowerCase()) !== -1
         );
 
         // setSearch((prevState) => ({
@@ -208,7 +217,7 @@ export default function ServiceListView() {
         // }));
       }
     },
-    [search.query],
+    [search.query]
   );
 
   const renderFilters = (
@@ -270,6 +279,10 @@ export default function ServiceListView() {
     />
   );
 
+  const isTransporter = user?.roles.includes("TRANSPORTER");
+
+  const isService = user?.roles.includes("SELLER");
+
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : "lg"}>
@@ -310,6 +323,7 @@ export default function ServiceListView() {
         {notFound && <EmptyContent filled title="No Data" sx={{ py: 10 }} />}
 
         <ServiceList services={dataFiltered} />
+        {/* {isTransporter && <TransporterList services={dataFiltered} />} */}
 
         {/* THIS IS THE TABLE FORMAT */}
         {/* <Card>
@@ -513,7 +527,9 @@ function applyFilter({
   comparator,
   filters,
 }: {
-  inputData: IServiceItem[];
+  inputData: (IServiceItem | ITransporterServiceItem)[];
+  // (user?.roles === "SELLER") ? IServiceItem[] : ITransporterServiceItem[];
+
   comparator: (a: any, b: any) => number;
   filters: IServiceTableFilters;
 }) {
@@ -533,8 +549,7 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (service) =>
-        service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
+      (service) => service.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 

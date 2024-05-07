@@ -13,13 +13,13 @@ import { useRouter } from "src/routes/hooks";
 import Iconify from "src/components/iconify";
 import SearchNotFound from "src/components/search-not-found";
 // types
-import { IServiceItem } from "src/types/service";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   query: string;
-  results: IServiceItem[];
+  results: (IServiceItem | ITransporterServiceItem)[];
   onSearch: (inputValue: string) => void;
   hrefItem: (id: string) => string;
   loading?: boolean;
@@ -42,10 +42,10 @@ export default function ServiceSearch({
     if (query) {
       if (event.key === "Enter") {
         const selectItem = results.filter(
-          (service) => service.name === query,
+          (service) => service.name === query
         )[0];
 
-        handleClick(selectItem.id);
+        handleClick(selectItem?.id!);
       }
     }
   };
@@ -110,7 +110,7 @@ export default function ServiceSearch({
           <Box
             component="li"
             {...props}
-            onClick={() => handleClick(service.id)}
+            onClick={() => handleClick(service.id as string)}
             key={service.id}
           >
             <Avatar

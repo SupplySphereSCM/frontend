@@ -21,7 +21,7 @@ export function useGetServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data?.data, error, isLoading, isValidating],
+    [data?.data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -42,7 +42,7 @@ export function useGetShopServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -50,25 +50,70 @@ export function useGetShopServices() {
 
 // ----------------------------------------------------------------------
 
-export function useGetService(serviceId: string) {
-  const { user } = useAuthContext();
-  const URL = user?.roles.some((role) => ["TRANSPORTER"].includes(role))
-    ? endpoints.transporter.details(serviceId)
-    : endpoints.service.details(serviceId);
-  console.log("URL", URL);
+type UseGetServiceProps = {
+  role?: "SELLER" | "TRANSPORTER";
+  serviceId: string;
+};
+
+export function useGetService({ serviceId, role }: UseGetServiceProps) {
+  const URL =
+    role === "SELLER"
+      ? endpoints.service.details(serviceId)
+      : endpoints.transporter.details(serviceId);
+  // console.log("URL", URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  console.log("Data", data);
 
   const memoizedValue = useMemo(
     () => ({
-      service: user?.roles.some((role) => ["TRANSPORTER"].includes(role))
-        ? (data as ITransporterServiceItem)
-        : (data as IServiceItem),
+      service:
+        role === "SELLER"
+          ? (data as IServiceItem)
+          : (data as ITransporterServiceItem),
       serviceLoading: isLoading,
       serviceError: error,
       serviceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+type UseGetUserServicesProps = {
+  role?: "SELLER" | "TRANSPORTER";
+  // userId: string;
+};
+
+export function useGetUserServices({ role }: UseGetUserServicesProps) {
+  const URL =
+    role === "SELLER" ? endpoints.service.user : endpoints.transporter.user;
+  // const URL = `${serviceEndpoint}?filter=${userId}`;
+  // console.log(URL);
+
+  const {
+    data: services,
+    isLoading,
+    error,
+    isValidating,
+  } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      services:
+        (role === "TRANSPORTER"
+          ? (services as ITransporterServiceItem[])
+          : (services as IServiceItem[])) || [],
+      //  (services as IServiceItem) || [],
+      servicesLoading: isLoading,
+      servicesError: error,
+      servicesValidating: isValidating,
+      servicesEmpty: !isLoading && !services?.length,
+    }),
+    [error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -91,7 +136,7 @@ export function useSearchServices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating],
+    [data?.results, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -121,12 +166,14 @@ export async function createService(service: Partial<IServiceItem>) {
         services,
       };
     },
-    false,
+    false
   );
 }
 // ----------------------------------------------------------------------
 
-export async function createTransportService(service: Partial<IServiceItem>) {
+export async function createTransportService(
+  service: Partial<ITransporterServiceItem>
+) {
   const URL = endpoints.transporter.root;
   /**
    * Work on server
@@ -141,14 +188,17 @@ export async function createTransportService(service: Partial<IServiceItem>) {
   mutate(
     URL,
     (currentData: any) => {
-      const services: IServiceItem[] = [...currentData?.services, service];
+      const services: ITransporterServiceItem[] = [
+        ...currentData?.services,
+        service,
+      ];
 
       return {
         ...currentData,
         services,
       };
     },
-    false,
+    false
   );
 }
 
@@ -175,7 +225,37 @@ export async function updateService(service: Partial<IServiceItem>) {
 
       return { ...currentData, services: updatedServices };
     },
-    false,
+    false
+  );
+}
+// ----------------------------------------------------------------------
+
+export async function updateTransporterService(
+  service: Partial<ITransporterServiceItem>
+) {
+  const URL = endpoints.transporter.details(`${service.id}`);
+  /**
+   * Work on server
+   */
+  const data = { ...service };
+  await axiosInstance.patch(URL, data);
+  // console.log(data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentData: any) => {
+      const updatedServices = currentData.services.map(
+        (p: ITransporterServiceItem) => {
+          return p.id === service.id ? { ...p, ...service } : p;
+        }
+      );
+
+      return { ...currentData, services: updatedServices };
+    },
+    false
   );
 }
 

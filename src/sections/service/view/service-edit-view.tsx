@@ -11,22 +11,20 @@ import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 import ServiceNewEditForm from "../service-new-edit-form";
 import TransporterServiceNewEditForm from "../transporter-service-new-edit-form";
 import { useAuthContext } from "src/auth/hooks";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   id: string;
 };
+type ServiceProps = {
+  currentService: IServiceItem | ITransporterServiceItem;
+};
 
-export default function ServiceEditView({ id }: Props) {
-  const settings = useSettingsContext();
-  const { user } = useAuthContext();
-
-  const { service: currentService } = useGetService(id);
-  // console.log("Service:", currentService);
-
-  return user?.roles.some((role) => ["TRANSPORTER"].includes(role)) ? (
-    <Container maxWidth={settings.themeStretch ? false : "lg"}>
+const TransportUI = ({ currentService }: ServiceProps) => {
+  return (
+    <>
       <CustomBreadcrumbs
         heading="Edit"
         links={[
@@ -42,10 +40,16 @@ export default function ServiceEditView({ id }: Props) {
         }}
       />
 
-      <TransporterServiceNewEditForm currentTransportService={currentService} />
-    </Container>
-  ) : (
-    <Container maxWidth={settings.themeStretch ? false : "lg"}>
+      <TransporterServiceNewEditForm
+        currentTransportService={currentService as ITransporterServiceItem}
+      />
+    </>
+  );
+};
+
+const ServiceUI = ({ currentService }: ServiceProps) => {
+  return (
+    <>
       <CustomBreadcrumbs
         heading="Edit"
         links={[
@@ -61,7 +65,33 @@ export default function ServiceEditView({ id }: Props) {
         }}
       />
 
-      <ServiceNewEditForm currentService={currentService} />
+      <ServiceNewEditForm currentService={currentService as IServiceItem} />
+    </>
+  );
+};
+
+export default function ServiceEditView({ id }: Props) {
+  const settings = useSettingsContext();
+  const { user } = useAuthContext();
+
+  const { service: currentService } = useGetService({
+    serviceId: id,
+    role: user?.roles[0] as any,
+  });
+  // console.log("Service:", currentService);
+  const isTransporter = user?.roles.includes("TRANSPORTER");
+
+  const isService = user?.roles.includes("SELLER");
+
+  return (
+    // user?.roles.some((role) => ["TRANSPORTER"].includes(role)) ? (
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
+      {isTransporter && <TransportUI currentService={currentService} />}
+      {isService && <ServiceUI currentService={currentService} />}
     </Container>
+    // ) : (
+    //   <Container maxWidth={settings.themeStretch ? false : "lg"}>
+
+    //   </Container>
   );
 }

@@ -26,6 +26,9 @@ import ServiceDetailsSummary from "../service-details-summary";
 import ServiceDetailsCarousel from "../service-details-carousel";
 import ServiceDetailsDescription from "../service-details-description";
 import { useCheckoutContext } from "../../checkout/context";
+import { useAuthContext } from "src/auth/hooks";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
+import TransporterServiceDetailsSummary from "../transporter-services-details-summery";
 
 // ----------------------------------------------------------------------
 
@@ -54,19 +57,23 @@ type Props = {
 };
 
 export default function ServiceShopDetailsView({ id }: Props) {
+  const { user } = useAuthContext();
   const settings = useSettingsContext();
 
   const checkout = useCheckoutContext();
 
   const [currentTab, setCurrentTab] = useState("description");
 
-  const { service, serviceLoading, serviceError } = useGetService(id);
+  const { service, serviceLoading, serviceError } = useGetService({
+    serviceId: id,
+    role: user?.roles[0] as any,
+  });
 
   const handleChangeTab = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    [],
+    []
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;
@@ -89,6 +96,9 @@ export default function ServiceShopDetailsView({ id }: Props) {
     />
   );
 
+  const isTransporter = user?.roles.includes("TRANSPORTER");
+
+  const isService = user?.roles.includes("SERVICE");
   const renderService = service && (
     <>
       <CustomBreadcrumbs
@@ -104,18 +114,29 @@ export default function ServiceShopDetailsView({ id }: Props) {
       />
 
       <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
-        <Grid xs={12} md={6} lg={7}>
+        {/* <Grid xs={12} md={6} lg={7}>
           <ServiceDetailsCarousel service={service} />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={5}>
+        </Grid> */}
+        {isTransporter && (
+          <TransporterServiceDetailsSummary
+            disabledActions
+            service={service as ITransporterServiceItem}
+          />
+        )}
+        {isService && (
+          <ServiceDetailsSummary
+            disabledActions
+            service={service as IServiceItem}
+          />
+        )}
+        {/* <Grid xs={12} md={6} lg={5}>
           <ServiceDetailsSummary
             service={service}
             items={checkout.items}
             onAddCart={checkout.onAddToCart}
             onGotoStep={checkout.onGotoStep}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <Box

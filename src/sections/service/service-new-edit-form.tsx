@@ -23,7 +23,7 @@ import { useAuthContext } from "src/auth/hooks";
 // _mock
 import { _tags, CAPACITY_OPTIONS } from "src/_mock";
 // API
-import { createService } from "src/api/service";
+import { createService, updateService } from "src/api/service";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { useRouter } from "src/routes/hooks";
@@ -33,7 +33,11 @@ import FormProvider, {
   RHFRadioGroup,
 } from "src/components/hook-form";
 // types
-import { IServiceItem, IServiceSchema } from "src/types/service";
+import {
+  IServiceItem,
+  IServiceSchema,
+  ITransporterServiceItem,
+} from "src/types/service";
 
 // ----------------------------------------------------------------------
 
@@ -64,6 +68,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     type: Yup.string(),
     quantity: Yup.number().required("Quantity is required"),
     volume: Yup.number().required("Volume is required"),
+    transactionHash: Yup.string(),
   });
 
   const defaultValues = useMemo(
@@ -77,8 +82,9 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       volume: currentService?.volume || 0,
       id: currentService?.id,
       type: currentService?.type || "Quantity",
+      transactionHash: currentService?.transactionHash || Date.now().toString(),
     }),
-    [currentService],
+    [currentService]
   );
 
   const methods = useForm({
@@ -112,7 +118,10 @@ export default function ServiceNewEditForm({ currentService }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      createService(data as IServiceItem);
+      if (currentService?.id) updateService(data as IServiceItem);
+      // console.log(data);
+      else createService(data as IServiceItem);
+
       reset();
       enqueueSnackbar(currentService ? "Update success!" : "Create success!");
       router.push(paths.dashboard.service.root);
@@ -155,7 +164,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   // const handleImageUpload = async () => {
@@ -192,6 +201,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <RHFTextField name="name" label="Service Name" />
+            <RHFTextField name="transactionHash" label="Transaction Hash" />
 
             <RHFTextField
               name="subDescription"

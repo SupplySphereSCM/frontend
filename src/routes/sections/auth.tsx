@@ -36,7 +36,7 @@ const authJwt = {
     {
       path: "register",
       element: (
-        <AuthClassicLayout title="Manage the job more effectively with Minimal">
+        <AuthClassicLayout title="Manage your supply chain more effectively with Supply Sphere">
           <JwtRegisterPage />
         </AuthClassicLayout>
       ),
