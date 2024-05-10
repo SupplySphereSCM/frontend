@@ -77,7 +77,7 @@ export function CheckoutProvider({ children }: Props) {
     (newItem: ICheckoutItem) => {
       const updatedItems: ICheckoutItem[] = state.items.map(
         (item: ICheckoutItem) => {
-          if (item.product_id === newItem.product_id) {
+          if (item.id === newItem.id) {
             return {
               ...item,
               // colors: uniq([...item.colors, ...newItem.colors]),
@@ -88,11 +88,7 @@ export function CheckoutProvider({ children }: Props) {
         },
       );
 
-      if (
-        !updatedItems.some(
-          (item: ICheckoutItem) => item.product_id === newItem.product_id,
-        )
-      ) {
+      if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
         updatedItems.push(newItem);
       }
 
@@ -104,7 +100,7 @@ export function CheckoutProvider({ children }: Props) {
   const onDeleteCart = useCallback(
     (itemId: string) => {
       const updatedItems = state.items.filter(
-        (item: ICheckoutItem) => item.product_id !== itemId,
+        (item: ICheckoutItem) => item.id !== itemId,
       );
 
       update("items", updatedItems);
@@ -130,7 +126,7 @@ export function CheckoutProvider({ children }: Props) {
   const onIncreaseQuantity = useCallback(
     (itemId: string) => {
       const updatedItems = state.items.map((item: ICheckoutItem) => {
-        if (item.product_id === itemId) {
+        if (item.id === itemId) {
           return {
             ...item,
             quantity: item.quantity + 1,
@@ -147,7 +143,7 @@ export function CheckoutProvider({ children }: Props) {
   const onDecreaseQuantity = useCallback(
     (itemId: string) => {
       const updatedItems = state.items.map((item: ICheckoutItem) => {
-        if (item.product_id === itemId) {
+        if (item.id === itemId) {
           return {
             ...item,
             quantity: item.quantity - 1,

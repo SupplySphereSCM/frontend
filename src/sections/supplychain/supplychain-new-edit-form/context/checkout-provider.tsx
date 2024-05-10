@@ -10,6 +10,9 @@ import { ICheckoutItem } from "src/types/checkout";
 //
 import { CheckoutContext } from "./checkout-context";
 import { STEPS } from "..";
+import { IRawMaterialItem } from "src/types/raw-materials";
+import { CheckoutContextProps } from "src/types/supplychain";
+import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
@@ -53,22 +56,100 @@ export function CheckoutProvider({ children }: Props) {
     }
   }, [completed, reset, router]);
 
+  const onAddMaterial = useCallback(
+    (newItem: ICheckoutItem) => {
+      const updatedItems: ICheckoutItem[] = state.materials.map(
+        (item: ICheckoutItem) => {
+          if (item.id === newItem.id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        },
+      );
+
+      if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
+        updatedItems.push(newItem);
+      }
+
+      update("materials", updatedItems);
+    },
+    [update, state.materials],
+  );
+
+  const onAddService = useCallback(
+    (newItem: ICheckoutItem) => {
+      const updatedItems: ICheckoutItem[] = state.services.map(
+        (item: ICheckoutItem) => {
+          if (item.id === newItem.id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        },
+      );
+
+      if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
+        updatedItems.push(newItem);
+      }
+
+      update("services", updatedItems);
+    },
+    [update, state.services],
+  );
+
+  const onAddLogistics = useCallback(
+    (newItem: ICheckoutItem) => {
+      const updatedItems: ICheckoutItem[] = state.logistics.map(
+        (item: ICheckoutItem) => {
+          if (item.id === newItem.id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        },
+      );
+
+      if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
+        updatedItems.push(newItem);
+      }
+
+      update("logistics", updatedItems);
+    },
+    [update, state.logistics],
+  );
+
   const memoizedValue = useMemo(
-    () => ({
-      ...state,
-      completed,
-      onBackStep,
-      onNextStep,
-      onGotoStep,
-      //
-      onReset,
-    }),
+    () =>
+      ({
+        ...state,
+        completed,
+        onBackStep,
+        onNextStep,
+        onGotoStep,
+        //
+        onAddService,
+        onAddMaterial,
+        onAddLogistics,
+        //
+        onReset,
+      }) as CheckoutContextProps,
     [
       state,
       completed,
       onBackStep,
       onGotoStep,
       onNextStep,
+      //
+      onAddService,
+      onAddMaterial,
+      onAddLogistics,
       //
       onReset,
     ],

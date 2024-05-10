@@ -78,35 +78,35 @@ export default function ServiceFilters({
         : [...filters.gender, newValue];
       onFilters("gender", checked);
     },
-    [filters.gender, onFilters]
+    [filters.gender, onFilters],
   );
 
   const handleFilterCategory = useCallback(
     (newValue: string) => {
       onFilters("category", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterColors = useCallback(
     (newValue: string | string[]) => {
       onFilters("colors", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterPriceRange = useCallback(
     (event: Event, newValue: number | number[]) => {
       onFilters("priceRange", newValue as number[]);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const handleFilterRating = useCallback(
     (newValue: string) => {
       onFilters("rating", newValue);
     },
-    [onFilters]
+    [onFilters],
   );
 
   const renderHead = (

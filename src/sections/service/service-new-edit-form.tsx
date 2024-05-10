@@ -84,7 +84,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       type: currentService?.type || "Quantity",
       transactionHash: currentService?.transactionHash || Date.now().toString(),
     }),
-    [currentService]
+    [currentService],
   );
 
   const methods = useForm({
@@ -164,7 +164,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    []
+    [],
   );
 
   // const handleImageUpload = async () => {

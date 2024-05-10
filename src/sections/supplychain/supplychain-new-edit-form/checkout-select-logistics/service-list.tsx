@@ -26,14 +26,14 @@ export default function ServiceList({ services, loading, ...other }: Props) {
 
       router.push(paths.dashboard.transporter.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleEdit = useCallback(
     (id: string) => {
       router.push(paths.dashboard.transporter.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleDelete = useCallback((id: string) => {

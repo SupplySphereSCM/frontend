@@ -68,7 +68,7 @@ export default function CheckoutSelectServices() {
         [name]: value,
       }));
     },
-    []
+    [],
   );
 
   const dataFiltered = applyFilter({
@@ -220,7 +220,7 @@ function applyFilter({
 
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
-      (product) => product.price >= min && product.price <= max
+      (product) => product.price >= min && product.price <= max,
     );
   }
 

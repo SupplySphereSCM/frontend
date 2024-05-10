@@ -62,7 +62,6 @@ export default function ServiceDetails({ id }: Props) {
   const settings = useSettingsContext();
 
   const [currentTab, setCurrentTab] = useState("description");
-  
 
   const { service, serviceLoading, serviceError } = useGetShopService(id);
   const [publish, setPublish] = useState("");
@@ -83,7 +82,7 @@ export default function ServiceDetails({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    []
+    [],
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;

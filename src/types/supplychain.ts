@@ -1,3 +1,6 @@
+import { IRawMaterialItem } from "./raw-materials";
+import { IServiceItem } from "./service";
+
 export type ISupplyChainItem = {
   id: string;
   name: string;
@@ -31,6 +34,11 @@ export type CheckoutContextProps = {
   onBackStep: VoidFunction;
   onNextStep: VoidFunction;
   onGotoStep: (step: number) => void;
+  //
+  onAddMaterial: (material: IRawMaterialItem) => void;
+  onAddService: (service: IServiceItem) => void;
+  onAddLogistics: (logistics: any) => void;
+  //
   canReset: boolean;
   onReset: VoidFunction;
 };

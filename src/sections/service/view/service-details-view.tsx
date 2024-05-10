@@ -89,7 +89,7 @@ export default function ServiceDetailsView({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    []
+    [],
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;

@@ -15,6 +15,7 @@ import Image from "src/components/image";
 import Iconify from "src/components/iconify";
 // types
 import { IRawMaterialItem } from "src/types/raw-materials";
+import { useCheckoutContext } from "../context";
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +24,8 @@ type Props = {
 };
 
 export default function MaterialItem({ product }: Props) {
+  const { onAddMaterial } = useCheckoutContext();
+
   const { id, name, price, available, images } = product;
 
   const linkTo = paths.product.details(id);
@@ -36,7 +39,7 @@ export default function MaterialItem({ product }: Props) {
       quantity: 1,
     };
     try {
-      console.log("ADD TO CART: ", newProduct);
+      onAddMaterial({});
     } catch (error) {
       console.error(error);
     }

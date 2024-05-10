@@ -85,7 +85,7 @@ export default function TransportServiceDetails({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    []
+    [],
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;
