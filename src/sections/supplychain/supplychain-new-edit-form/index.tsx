@@ -32,10 +32,22 @@ export const STEPS = [
   "Preview",
 ];
 
+enum StepType {
+  Procurement = "Procuring",
+  Servicing = "Servicing",
+}
 // ----------------------------------------------------------------------
 
 export const NewStepSchema = Yup.object<ISupplyChainStepItem>({
-  from: Yup.string().required(),
+  from: Yup.string().required("From is required"),
+  to: Yup.string().required("To is required"),
+  product: Yup.string(),
+  service: Yup.string(),
+  rawMaterial: Yup.string(),
+  stepType: Yup.string()
+    .oneOf(Object.values(StepType).map((role) => role.toString()))
+    .required("Step Type is required"),
+  transport: Yup.string().required("Transporter is required"),
 });
 
 export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
@@ -65,7 +77,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       description: currentProduct?.description || "",
       steps: currentProduct?.steps || [],
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   const methods = useForm({
