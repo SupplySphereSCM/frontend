@@ -26,7 +26,7 @@ import FormProvider, {
   RHFUploadAvatar,
 } from "src/components/hook-form";
 import { ConfirmDialog } from "src/components/custom-dialog";
-import { Chip } from "@mui/material";
+import { Chip, TextField } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ export default function AccountGeneral() {
         setValue("profilePictureUrl", newFile, { shouldValidate: true });
       }
     },
-    [setValue],
+    [setValue]
   );
 
   const handleDeleteUser = async () => {
@@ -153,7 +153,25 @@ export default function AccountGeneral() {
                 <RHFTextField name="lastName" label="Last Name" />
                 <RHFTextField name="email" label="Email Address" disabled />
               </Box>
-
+              <Box display="flex" sx={{ pt: 3 }} flex={1}>
+                <TextField
+                  // variant={variant}
+                  disabled
+                  fullWidth
+                  label="Disabled"
+                  defaultValue="0xEthaddress"
+                />
+                {/* <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}> */}
+                <LoadingButton
+                  sx={{ ml: 2, width: 210 }}
+                  type="submit"
+                  variant="contained"
+                  loading={isSubmitting}
+                >
+                  Verify Address
+                </LoadingButton>
+                {/* </Stack> */}
+              </Box>
               <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
                 <RHFTextField name="about" multiline rows={4} label="About" />
 
