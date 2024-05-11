@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { IUser } from "./user";
+
 export type IRawMaterialFilterValue = string | string[] | number | number[];
 
 export type IRawMaterialFilters = {
@@ -41,6 +43,8 @@ export type IRawMaterialSchema = {
   quantity: number;
   price: number;
   tax: number;
+  transactionHash: string;
+  user: IUser;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -57,8 +61,10 @@ export type IRawMaterialItem = {
   price: number;
   tax: number;
   coverUrl: string;
+  user: IUser;
   createdAt: Date;
   updatedAt: Date;
+  transactionHash: string;
 
   // totalSold: number;
   // totalRatings: number;

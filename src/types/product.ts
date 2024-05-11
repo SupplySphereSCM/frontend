@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { IUser } from "./user";
+
 export type IProductFilterValue = string | string[] | number | number[];
 
 export type IProductFilters = {
@@ -33,37 +35,37 @@ export type IProductReview = {
 
 export type IProductSchema = {
   id?: string;
-
+  user: IUser;
   name: string;
   subDescription: string;
   description: string;
   images: string[] | File[];
-
+  coverUrl: string;
   code: string;
   quantity: number;
-
+  available: number;
   price: number;
   tax: number;
   transactionHash: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type IProductItem = {
   id: string;
-
+  user: IUser;
   name: string;
   description: string;
   subDescription: string;
   images: string[];
-
   code: string;
   quantity: number;
   available: number;
-
   price: number;
   tax: number;
-
   coverUrl: string;
   createdAt: Date;
+  updatedAt: Date;
   transactionHash: string;
   // totalSold: number;
   // totalRatings: number;

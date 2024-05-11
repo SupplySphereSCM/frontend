@@ -31,6 +31,11 @@ export type CheckoutContextProps = {
   activeStep: number;
   completed: boolean;
   //
+  onAddToCart: (newItem: Omit<ISupplyChainItem, "subTotal">) => void;
+  onDeleteCart: (itemId: string) => void;
+  //
+  onIncreaseQuantity: (itemId: string) => void;
+  onDecreaseQuantity: (itemId: string) => void;
   onBackStep: VoidFunction;
   onNextStep: VoidFunction;
   onGotoStep: (step: number) => void;
@@ -45,4 +50,10 @@ export type CheckoutContextProps = {
 
 export type ISupplyChainStepItem = {
   from: string;
+  to: string;
+  stepType: string;
+  transport: string;
+  service: string;
+  rawMaterial: string;
+  product: string;
 };

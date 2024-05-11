@@ -1,4 +1,5 @@
 import { updateProduct } from "src/api/product";
+import { IUser } from "./user";
 // ----------------------------------------------------------------------
 
 export type IServiceFilterValue = string | string[] | number | number[];
@@ -49,6 +50,7 @@ export type IServiceSchema = {
   createdAt: Date;
   updatedAt: Date;
   transactionHash: string;
+  user: IUser;
 };
 
 export type IServiceItem = {
@@ -69,6 +71,7 @@ export type IServiceItem = {
   createdAt: Date;
   updatedAt: Date;
   transactionHash: string;
+  user: IUser;
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
