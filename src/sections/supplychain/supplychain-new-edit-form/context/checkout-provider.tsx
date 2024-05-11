@@ -11,8 +11,9 @@ import { ICheckoutItem } from "src/types/checkout";
 import { CheckoutContext } from "./checkout-context";
 import { STEPS } from "..";
 import { IRawMaterialItem } from "src/types/raw-materials";
-import { CheckoutContextProps } from "src/types/supplychain";
+import { CheckoutContextProps, ISupplyChainItem } from "src/types/supplychain";
 import { IServiceItem } from "src/types/service";
+import { useCall } from "wagmi";
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +21,9 @@ const STORAGE_KEY = "checkout";
 
 const initialState = {
   activeStep: 0,
+  materials: [],
+  services: [],
+  logistics: [],
 };
 
 type Props = {
@@ -43,18 +47,50 @@ export function CheckoutProvider({ children }: Props) {
     (step: number) => {
       update("activeStep", step);
     },
-    [update],
+    [update]
   );
+  
 
-  const completed = state.activeStep === STEPS.length;
+  // console.log("Steps length", STEPS.length);
+  // console.log("Active step", state.activeStep);
 
+  // const completed = state.activeStep === STEPS.length;
+  const completed = true;
   // Reset
   const onReset = useCallback(() => {
+    // console.log(completed);
+
     if (completed) {
       reset();
-      router.replace(paths.product.root);
+      router.replace(paths.dashboard.product.root);
     }
   }, [completed, reset, router]);
+
+  const onAddSupplychainSteps = useCallback(
+    (newStep: ICheckoutItem) => {
+      const UpdatedSteps: ICheckoutItem[] = state.steps.map(
+        (supplychain: ICheckoutItem) => {
+          if (supplychain.id == newStep.id) {
+            return {
+              ...supplychain,
+              quantity: supplychain.quantity + 1,
+            };
+          }
+          return supplychain;
+        }
+      );
+      if (
+        !UpdatedSteps.some(
+          (supplyChain: ICheckoutItem) => supplyChain.id === newStep.id
+        )
+      ) {
+        UpdatedSteps.push(newStep);
+      }
+
+      update("steps", UpdatedSteps);
+    },
+    [update, state.steps]
+  );
 
   const onAddMaterial = useCallback(
     (newItem: ICheckoutItem) => {
@@ -67,7 +103,7 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return item;
-        },
+        }
       );
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
@@ -76,12 +112,12 @@ export function CheckoutProvider({ children }: Props) {
 
       update("materials", updatedItems);
     },
-    [update, state.materials],
+    [update, state.materials]
   );
 
   const onAddService = useCallback(
     (newItem: ICheckoutItem) => {
-      const updatedItems: ICheckoutItem[] = state.services.map(
+      const updatedItems: ICheckoutItem[] = state.services?.map(
         (item: ICheckoutItem) => {
           if (item.id === newItem.id) {
             return {
@@ -90,7 +126,7 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return item;
-        },
+        }
       );
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
@@ -99,7 +135,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("services", updatedItems);
     },
-    [update, state.services],
+    [update, state.services]
   );
 
   const onAddLogistics = useCallback(
@@ -113,7 +149,7 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return item;
-        },
+        }
       );
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
@@ -122,7 +158,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("logistics", updatedItems);
     },
-    [update, state.logistics],
+    [update, state.logistics]
   );
 
   const memoizedValue = useMemo(
@@ -152,7 +188,7 @@ export function CheckoutProvider({ children }: Props) {
       onAddLogistics,
       //
       onReset,
-    ],
+    ]
   );
 
   return (

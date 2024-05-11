@@ -18,11 +18,15 @@ import CustomPopover, { usePopover } from "src/components/custom-popover";
 // types
 import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 import { useRouter } from "src/routes/hooks";
+import { useCallback } from "react";
+import { useCheckoutContext } from "../context";
+import { useLocalStorage, getStorage } from "src/hooks/use-local-storage";
 
 // ----------------------------------------------------------------------
-
+const STORAGE_KEY = "checkout";
 type Props = {
   service: ITransporterServiceItem;
+
   // onView: VoidFunction;
   // onEdit: VoidFunction;
   // onDelete: VoidFunction;
@@ -40,19 +44,23 @@ export default function ServiceItem({ service }: Props) {
   } = service;
 
   const router = useRouter();
+  const { onAddLogistics } = useCheckoutContext();
 
   const popover = usePopover();
+  const value = getStorage(STORAGE_KEY);
 
   const linkTo = paths.dashboard.transporter.details(id as string);
+  // console.log(value);
 
   const handleAddCart = async () => {
-    const newService = {
+    const newLogistics = {
       id,
       name,
-      quantity: 1,
+      // quantity: 1,
+      priceWithinState,
     };
     try {
-      console.log("ADD TO CART: ", newService);
+      onAddLogistics(newLogistics);
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +111,7 @@ export default function ServiceItem({ service }: Props) {
               color: "text.disabled",
             }}
           />
-          {/* <Stack direction="row">
+          <Stack direction="row">
             <Typography variant="h4">$</Typography>
 
             <Typography variant="h2">{priceWithinState}</Typography>
@@ -117,10 +125,10 @@ export default function ServiceItem({ service }: Props) {
                 typography: "body2",
               }}
             >
-              for With in state
+              / 100 kms
             </Typography>
           </Stack>
-          <Stack direction="row">
+          {/* <Stack direction="row">
             <Typography variant="h4">$</Typography>
 
             <Typography variant="h2">{priceInterState}</Typography>

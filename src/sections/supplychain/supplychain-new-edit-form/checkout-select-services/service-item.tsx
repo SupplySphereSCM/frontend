@@ -17,30 +17,52 @@ import CustomPopover, { usePopover } from "src/components/custom-popover";
 // types
 import { IServiceItem } from "src/types/service";
 import { useRouter } from "src/routes/hooks";
+import { ICheckoutItem } from "src/types/checkout";
+import { useCheckoutContext } from "../context";
+import Typography from "@mui/material/Typography";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   service: IServiceItem;
+  onAddCart?: (cartItem: ICheckoutItem) => void;
 };
 
 export default function ServiceItem({ service }: Props) {
-  const { id, name, available, images, createdAt } = service;
+  const {
+    id,
+    name,
+    available,
+    price,
+    volume,
+    quantity,
+    images,
+    createdAt,
+    user,
+  } = service;
 
   const router = useRouter();
+  const { onAddService } = useCheckoutContext();
 
   const popover = usePopover();
 
   const linkTo = paths.dashboard.shopservice.details(id);
+  console.log(user);
 
   const handleAddCart = async () => {
     const newService = {
       id,
       name,
       quantity: 1,
-    };
+      available,
+      price,
+      volume,
+      user,
+    } as IServiceItem;
     try {
-      console.log("ADD TO CART: ", newService);
+      onAddService(newService);
+
+      // console.log("ADD TO CART: ", newService);
     } catch (error) {
       console.error(error);
     }
@@ -92,6 +114,27 @@ export default function ServiceItem({ service }: Props) {
               color: "text.disabled",
             }}
           />
+        </Stack>
+
+        <Stack direction="row" sx={{ p: 3, pb: 2 }}>
+          <Typography variant="h4">$</Typography>
+
+          <Typography variant="h2">
+            {(price / (service.volume != 0 ? volume : quantity)).toFixed(2)}
+          </Typography>
+
+          <Typography
+            component="span"
+            sx={{
+              alignSelf: "center",
+              color: "text.disabled",
+              ml: 1,
+              typography: "body2",
+            }}
+          >
+            / {service.volume != 0 ? "KG" : "units"}
+            {/* {service.volume != 0 ? `${volume} KG` : `${quantity} units`} */}
+          </Typography>
         </Stack>
       </Card>
 

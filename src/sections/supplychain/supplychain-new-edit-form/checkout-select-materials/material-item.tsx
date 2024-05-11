@@ -26,7 +26,8 @@ type Props = {
 export default function MaterialItem({ product }: Props) {
   const { onAddMaterial } = useCheckoutContext();
 
-  const { id, name, price, available, images } = product;
+  const { id, name, price, available, images, user } = product;
+  console.log(user);
 
   const linkTo = paths.product.details(id);
 
@@ -37,9 +38,10 @@ export default function MaterialItem({ product }: Props) {
       available,
       price,
       quantity: 1,
-    };
+      user,
+    } as IRawMaterialItem;
     try {
-      onAddMaterial({});
+      onAddMaterial(newProduct);
     } catch (error) {
       console.error(error);
     }

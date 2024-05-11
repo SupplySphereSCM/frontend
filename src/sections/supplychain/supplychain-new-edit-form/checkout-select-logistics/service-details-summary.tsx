@@ -35,6 +35,7 @@ import { ICheckoutItem } from "src/types/checkout";
 import IncrementerButton from "../../common/incrementer-button";
 import { fDate } from "src/utils/format-time";
 import { useAuthContext } from "src/auth/hooks";
+import { useCheckoutContext } from "../context";
 
 // ----------------------------------------------------------------------
 
@@ -106,6 +107,7 @@ export default function ServiceDetailsSummary({
   });
 
   const { reset, watch, control, setValue, handleSubmit } = methods;
+  const { onAddLogistics } = useCheckoutContext();
 
   const values = watch();
 
@@ -132,16 +134,19 @@ export default function ServiceDetailsSummary({
   //     }
   //   });
 
-  const handleAddCart = useCallback(() => {
+  const handleAddCart = async () => {
+    const newLogistics = {
+      id,
+      name,
+      // quantity: 1,
+      priceWithinState,
+    };
     try {
-      onAddCart?.({
-        ...values,
-        subTotal: values.price * values.quantity,
-      });
+      onAddLogistics(newLogistics);
     } catch (error) {
       console.error(error);
     }
-  }, [onAddCart, values]);
+  };
 
   //   const renderPrice = (
   //     <Box sx={{ typography: "h5" }}>

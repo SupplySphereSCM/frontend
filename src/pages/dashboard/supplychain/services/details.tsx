@@ -16,7 +16,7 @@ export default function ServicesShopDetailsPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Logistics Details</title>
+        <title> Dashboard: Services Details</title>
       </Helmet>
       {/* <ServiceDetailsPage id={`${id}`} /> */}
       <ServiceDetails id={`${id}`} />

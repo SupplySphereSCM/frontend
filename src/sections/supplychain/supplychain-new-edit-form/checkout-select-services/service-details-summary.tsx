@@ -35,6 +35,7 @@ import { ICheckoutItem } from "src/types/checkout";
 import IncrementerButton from "../../common/incrementer-button";
 import { fDate } from "src/utils/format-time";
 import { useAuthContext } from "src/auth/hooks";
+import { useCheckoutContext } from "../context";
 
 // ----------------------------------------------------------------------
 
@@ -55,10 +56,11 @@ export default function ServiceDetailsSummary({
   ...other
 }: Props) {
   const router = useRouter();
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const {
     id,
     name,
+    user,
     // sizes,
     price,
     quantity,
@@ -80,7 +82,7 @@ export default function ServiceDetailsSummary({
     // totalReviews,
     // inventoryType,
   } = service;
-  console.log("Services supply:", service);
+  // console.log("Services supply:", service);
 
   const existService =
     !!items?.length && items.map((item) => item.id).includes(id);
@@ -96,7 +98,7 @@ export default function ServiceDetailsSummary({
     name,
     // coverUrl,
     available,
-
+    user,
     price,
     // colors: colors[0],
     // size: sizes[4],
@@ -108,6 +110,7 @@ export default function ServiceDetailsSummary({
   });
 
   const { reset, watch, control, setValue, handleSubmit } = methods;
+  const { onAddService } = useCheckoutContext();
 
   const values = watch();
 
@@ -134,16 +137,24 @@ export default function ServiceDetailsSummary({
     }
   });
 
-  const handleAddCart = useCallback(() => {
+  const handleAddCart = async () => {
+    const newService = {
+      id,
+      name,
+      quantity: 1,
+      available,
+      price,
+      volume,
+      user,
+    } as IServiceItem;
     try {
-      onAddCart?.({
-        ...values,
-        subTotal: values.price * values.quantity,
-      });
+      onAddService(newService);
+
+      console.log("ADD TO CART: ", newService);
     } catch (error) {
       console.error(error);
     }
-  }, [onAddCart, values]);
+  };
 
   const renderPrice = (
     <Box sx={{ typography: "h5" }}>
