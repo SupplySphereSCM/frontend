@@ -41,6 +41,7 @@ export default function ServiceItem({ service }: Props) {
     priceWithinState,
     priceInternationl,
     createdAt,
+    user,
   } = service;
 
   const router = useRouter();
@@ -58,6 +59,7 @@ export default function ServiceItem({ service }: Props) {
       name,
       // quantity: 1,
       priceWithinState,
+      user,
     };
     try {
       onAddLogistics(newLogistics);
@@ -187,8 +189,8 @@ export default function ServiceItem({ service }: Props) {
             handleAddCart();
           }}
         >
-          <Iconify icon="solar:pen-bold" />
-          Add to Card
+          <Iconify icon="solar:cart-plus-bold" />
+          Add to Cart
         </MenuItem>
       </CustomPopover>
     </>

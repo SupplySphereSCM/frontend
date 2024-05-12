@@ -48,6 +48,21 @@ export type CheckoutContextProps = {
   onReset: VoidFunction;
 };
 
+// type typeField = {
+//   label: string;
+//   value: string;
+// };
+
+// export type ISupplyChainStepItem = {
+//   from: typeField;
+//   to: typeField;
+//   stepType: string;
+//   transport: typeField;
+//   service: typeField;
+//   rawMaterial: typeField;
+//   product: typeField;
+// };
+
 export type ISupplyChainStepItem = {
   from: string;
   to: string;
@@ -56,4 +71,16 @@ export type ISupplyChainStepItem = {
   service: string;
   rawMaterial: string;
   product: string;
+  quantity: number;
+};
+
+export type ISupplyChainStepLabel = {
+  from: string;
+  to: string;
+  stepType: string;
+  transport: string;
+  service: string;
+  rawMaterial: string;
+  product: string;
+  quantity: number;
 };

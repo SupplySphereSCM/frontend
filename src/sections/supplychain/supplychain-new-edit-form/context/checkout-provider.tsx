@@ -49,7 +49,6 @@ export function CheckoutProvider({ children }: Props) {
     },
     [update]
   );
-  
 
   // console.log("Steps length", STEPS.length);
   // console.log("Active step", state.activeStep);

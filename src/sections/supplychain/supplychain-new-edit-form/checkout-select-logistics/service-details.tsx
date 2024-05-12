@@ -67,9 +67,9 @@ export default function TransportServiceDetails({ id }: Props) {
     serviceId: id,
     role: user?.roles[0] as any,
   });
-  const [publish, setPublish] = useState("");
+  // const [publish, setPublish] = useState("");
 
-  console.log("Logistics services", service);
+  // console.log("Logistics services", service);
 
   // useEffect(() => {
   //   if (service) {

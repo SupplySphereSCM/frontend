@@ -2,11 +2,11 @@ import * as Yup from "yup";
 import { useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import LoadingButton from "@mui/lab/LoadingButton";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,6 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import {
   ISupplyChainSchema,
   ISupplyChainStepItem,
+  ISupplyChainStepLabel,
 } from "src/types/supplychain";
 // components
 import Iconify from "src/components/iconify";
@@ -36,6 +37,7 @@ import {
 } from "src/types/service";
 import { useAuthContext } from "src/auth/hooks";
 import { IRawMaterialItem } from "src/types/raw-materials";
+import { useState } from "react";
 
 // ----------------------------------------------------------------------
 const STORAGE_KEY = "checkout";
@@ -54,35 +56,99 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   });
 
   const { control } = useFormContext<ISupplyChainSchema>();
-  const { onAddLogistics } = useCheckoutContext();
+  const { reset } = useFormContext();
+  const { user } = useAuthContext();
+  const [selectedStepType, setSelectedStepType] = useState<string>("");
+  // const [formValues, setFormValues] = useState<ISupplyChainStepItem>({
+  //   from: "",
+  //   to: "",
+  //   transport: "",
+  //   stepType: "",
+  //   service: "",
+  //   rawMaterial: "",
+  //   product: "",
+  // });
+  const handleStepTypeChange = (
+    event: React.ChangeEvent<{}>,
+    value: string | null
+  ) => {
+    setSelectedStepType(value || "");
+  };
+
   const { materials, services, logistics } = getStorage(STORAGE_KEY);
+
   const productsAndServices: (IServiceItem | IRawMaterialItem)[] = [
     ...materials,
     ...services,
+    { user: user },
   ];
-  console.log(productsAndServices);
 
   const value = getStorage(STORAGE_KEY);
-  console.log(value);
+  console.log(value.services);
 
   // console.log("logi", logistics);
   // console.log("materi", materials);
   // console.log("service", services);
-
+  type ISupplyChainSchema = {
+    steps: ISupplyChainStepItem[];
+    stepArray: ISupplyChainStepLabel[]; // Add your new property here
+  };
   const { append } = useFieldArray({
     control,
     name: "steps",
   });
+  const { append: stepArrayAppend } = useFieldArray({
+    control,
+    name: "stepArray",
+  });
 
   const onSubmit = methods.handleSubmit((data) => {
     console.log("Clicked", data);
+    // const { to } = data;
 
-    append(data as ISupplyChainStepItem);
+    // const serviceQuantity = services.find(
+    //   (item) => item.id === data.service.value
+    // );
+    // const materialQuantity = materials.find(
+    //   (item) => item.id === data.service.value
+    // );
+
+    append({
+      from: data?.from?.value,
+      to: data.to.value,
+      transport: data.transport.value,
+      stepType: data.stepType,
+      service: data.stepType === "Procuring" ? null : data.service?.value,
+      rawMaterial:
+        data.stepType === "Servicing" ? null : data.rawMaterial?.value,
+      product: data.product?.value,
+      quantity:
+        data.stepType === "Servicing"
+          ? services[0].quantity
+          : materials[0].quantity,
+    } as ISupplyChainStepItem);
+
+    stepArrayAppend({
+      from: data?.from?.label,
+      to: data?.to.label,
+      transport: data.transport.label,
+      stepType: data.stepType,
+      service: data.stepType === "Procuring" ? null : data.service?.label,
+      rawMaterial:
+        data.stepType === "Servicing" ? null : data.rawMaterial?.label,
+      product: data.product?.label,
+      quantity:
+        data.stepType === "Servicing"
+          ? services[0].quantity
+          : materials[0].quantity,
+    } as ISupplyChainStepLabel);
+
+    onClose();
   });
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
-      <FormProvider methods={methods} onSubmit={onSubmit}>
+      <FormProvider methods={methods}>
         <DialogTitle>New Step</DialogTitle>
 
         <DialogContent dividers>
@@ -94,30 +160,22 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
               name="from"
               label="From"
               fullWidth
-              options={productsAndServices?.map(
-                (productAndService) => productAndService?.user?.firstName
-              )}
+              // options={productsAndServices?.map(
+              //   (productAndService) => productAndService?.user?.firstName
+              // )}
+              options={productsAndServices?.map((productAndService) => ({
+                label: productAndService?.user?.firstName,
+                value: productAndService?.user?.id,
+              }))}
               // getOptionLabel={(service) => service.name}
-              isOptionEqualToValue={(option, value) => option === value}
+              // isOptionEqualToValue={(option, value) => option === value}
+              isOptionEqualToValue={(option, value) =>
+                option.value === value.value
+              }
               renderOption={(props, option) => {
-                // const { code, label, phone } = countries.filter(
-                //   (country) => country.label === option
-                // )[0];
-
-                // if (!label) {
-                //   return null;
-                // }
-                console.log(option);
-
                 return (
-                  <li {...props} key={option}>
-                    {/* <Iconify
-                      key={label}
-                      icon={`circle-flags:${code.toLowerCase()}`}
-                      width={28}
-                      sx={{ mr: 1 }}
-                    /> */}
-                    {option}
+                  <li {...props} key={option.value}>
+                    {option.label}
                   </li>
                 );
               }}
@@ -126,11 +184,18 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
               name="to"
               label="To"
               fullWidth
-              options={productsAndServices?.map(
-                (productAndService) => productAndService?.user?.firstName
-              )}
+              // options={productsAndServices?.map(
+              //   (productAndService) => productAndService?.user?.firstName
+              // )}
+              options={productsAndServices?.map((productAndService) => ({
+                label: productAndService?.user?.firstName,
+                value: productAndService?.user?.id,
+              }))}
               // getOptionLabel={(service) => service.name}
-              isOptionEqualToValue={(option, value) => option === value}
+              // isOptionEqualToValue={(option, value) => option === value}
+              isOptionEqualToValue={(option, value) =>
+                option.value === value.value
+              }
               renderOption={(props, option) => {
                 // const { code, label, phone } = countries.filter(
                 //   (country) => country.label === option
@@ -141,18 +206,33 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
                 // }
 
                 return (
-                  <li {...props} key={option}>
+                  <li {...props} key={option.value}>
                     {/* <Iconify
                       key={label}
                       icon={`circle-flags:${code.toLowerCase()}`}
                       width={28}
                       sx={{ mr: 1 }}
                     /> */}
-                    {option}
+                    {option.label}
                   </li>
                 );
               }}
             />
+            {/* <Autocomplete
+              componentName="stepType"
+              fullWidth
+              options={stepType}
+              onInputChange={handleStepTypeChange}
+              getOptionLabel={(option) => option.title}
+              renderInput={(params) => (
+                <TextField {...params} label="From" margin="none" />
+              )}
+              renderOption={(props, option) => (
+                <li {...props} key={option.title}>
+                  {option.title}
+                </li>
+              )}
+            /> */}
             <RHFAutocomplete
               name="stepType"
               label="Step Type"
@@ -160,23 +240,10 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
               options={stepType.map((type) => type.title)}
               // getOptionLabel={(option) => option.title}
               isOptionEqualToValue={(option, value) => option === value}
+              onInputChange={handleStepTypeChange}
               renderOption={(props, option) => {
-                // const { code, label, phone } = countries.filter(
-                //   (country) => country.label === option
-                // )[0];
-
-                // if (!label) {
-                //   return null;
-                // }
-
                 return (
                   <li {...props} key={option}>
-                    {/* <Iconify
-                      key={label}
-                      icon={`circle-flags:${code.toLowerCase()}`}
-                      width={28}
-                      sx={{ mr: 1 }}
-                    /> */}
                     {option}
                   </li>
                 );
@@ -186,100 +253,143 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
               name="transport"
               label="Transport"
               fullWidth
-              options={logistics.map(
-                (logistic: ITransporterServiceItem) => logistic.name
-              )}
+              // options={logistics.map(
+              //   (logistic: ITransporterServiceItem) => logistic.name
+              // )}
+              options={logistics?.map((logistic: ITransporterServiceItem) => ({
+                label: logistic?.name,
+                value: logistic?.id,
+              }))}
               // getOptionLabel={(service) => service.name}
-              isOptionEqualToValue={(option, value) => option === value}
+              // isOptionEqualToValue={(option, value) => option === value}
+              isOptionEqualToValue={(option, value) =>
+                option.label === value.label
+              }
               renderOption={(props, option) => {
-                // const { code, label, phone } = countries.filter(
-                //   (country) => country.label === option
-                // )[0];
-
-                // if (!label) {
-                //   return null;
-                // }
-                // console.log(option);
-
                 return (
-                  <li {...props} key={option}>
-                    {/* <Iconify
-                      key={label}
-                      icon={`circle-flags:${code.toLowerCase()}`}
-                      width={28}
-                      sx={{ mr: 1 }}
-                    /> */}
-                    {option}
+                  <li {...props} key={option.value}>
+                    {option.label}
                   </li>
                 );
               }}
             />
 
-            <RHFAutocomplete
-              name="rawMaterial"
-              label="Raw Material"
-              fullWidth
-              options={materials.map(
-                (material: ITransporterServiceItem) => material.name
-              )}
-              // getOptionLabel={(service) => service.name}
-              isOptionEqualToValue={(option, value) => option === value}
-              renderOption={(props, option) => {
-                // const { code, label, phone } = countries.filter(
-                //   (country) => country.label === option
-                // )[0];
+            {selectedStepType === "Procuring" && (
+              <RHFAutocomplete
+                name="rawMaterial"
+                label="Raw Material"
+                fullWidth
+                // options={materials.map(
+                //   (material: IRawMaterialItem) => material.name
+                // )}
+                options={materials?.map((material: IRawMaterialItem) => ({
+                  label: material?.name,
+                  value: material?.id,
+                }))}
+                // getOptionLabel={(service) => service.name}
+                // isOptionEqualToValue={(option, value) => option === value}
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
+                renderOption={(props, option) => {
+                  // const { code, label, phone } = countries.filter(
+                  //   (country) => country.label === option
+                  // )[0];
 
-                // if (!label) {
-                //   return null;
-                // }
+                  // if (!label) {
+                  //   return null;
+                  // }
 
-                return (
-                  <li {...props} key={option}>
-                    {/* <Iconify
+                  return (
+                    <li {...props} key={option.value}>
+                      {/* <Iconify
                       key={label}
                       icon={`circle-flags:${code.toLowerCase()}`}
                       width={28}
                       sx={{ mr: 1 }}
                     /> */}
-                    {option}
-                  </li>
-                );
-              }}
-            />
-            <RHFAutocomplete
-              name="service"
-              label="Service"
-              fullWidth
-              options={services.map(
-                (service: ITransporterServiceItem) => service.name
-              )}
-              // getOptionLabel={(service) => service.name}
-              isOptionEqualToValue={(option, value) => option === value}
-              renderOption={(props, option) => {
-                // const { code, label, phone } = countries.filter(
-                //   (country) => country.label === option
-                // )[0];
+                      {option.label}
+                    </li>
+                  );
+                }}
+              />
+            )}
+            {selectedStepType === "Servicing" && (
+              <RHFAutocomplete
+                name="service"
+                label="Service"
+                fullWidth
+                // options={services.map(
+                //   (service: ITransporterServiceItem) => service.name
+                // )}
+                options={services?.map((service: IServiceItem) => ({
+                  label: service?.name,
+                  value: service?.id,
+                }))}
+                // getOptionLabel={(service) => service.name}
+                // isOptionEqualToValue={(option, value) => option === value}
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
+                renderOption={(props, option) => {
+                  // const { code, label, phone } = countries.filter(
+                  //   (country) => country.label === option
+                  // )[0];
 
-                // if (!label) {
-                //   return null;
-                // }
+                  // if (!label) {
+                  //   return null;
+                  // }
 
-                return (
-                  <li {...props} key={option}>
-                    {/* <Iconify
+                  return (
+                    <li {...props} key={option.value}>
+                      {/* <Iconify
                       key={label}
                       icon={`circle-flags:${code.toLowerCase()}`}
                       width={28}
                       sx={{ mr: 1 }}
                     /> */}
-                    {option}
-                  </li>
-                );
-              }}
-            />
+                      {option.label}
+                    </li>
+                  );
+                }}
+              />
+            )}
+            {/* <Stack direction="row">
+              <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
+                Quantity
+              </Typography>
+
+              <Stack spacing={1}>
+                <IncrementerButton
+                  name="quantity"
+                  quantity={values.quantity}
+                  disabledDecrease={values.quantity <= 1}
+                  disabledIncrease={values.quantity >= available}
+                  onIncrease={() => setValue("quantity", values.quantity + 1)}
+                  onDecrease={() => setValue("quantity", values.quantity - 1)}
+                />
+
+                <Typography
+                  variant="caption"
+                  component="div"
+                  sx={{ textAlign: "right" }}
+                >
+                  Available: {available}
+                </Typography>
+              </Stack>
+            </Stack> */}
+            {/* <RHFTextField
+              name="quantity"
+              label="Quantity(in units)"
+              placeholder="0"
+              type="number"
+              InputLabelProps={{ shrink: true }}
+            /> */}
             {/* <Autocomplete
+              componentName="stepType"
               fullWidth
               options={from}
+              onChange={handleStepTypeChange}
               getOptionLabel={(option) => option.title}
               renderInput={(params) => (
                 <TextField {...params} label="From" margin="none" />
@@ -339,7 +449,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
             Cancel
           </Button>
 
-          <LoadingButton type="submit" variant="contained">
+          <LoadingButton onClick={onSubmit} variant="contained">
             Add Step
           </LoadingButton>
         </DialogActions>

@@ -47,7 +47,6 @@ export default function ServiceItem({ service }: Props) {
   const popover = usePopover();
 
   const linkTo = paths.dashboard.shopservice.details(id);
-  console.log(user);
 
   const handleAddCart = async () => {
     const newService = {
@@ -160,8 +159,8 @@ export default function ServiceItem({ service }: Props) {
             handleAddCart();
           }}
         >
-          <Iconify icon="solar:pen-bold" />
-          Add to Card
+          <Iconify icon="solar:cart-plus-bold" />
+          Add to Cart
         </MenuItem>
       </CustomPopover>
     </>

@@ -8,6 +8,7 @@ import { useRouter } from "src/routes/hooks";
 // types
 import { ISupplyChainItem } from "src/types/supplychain";
 import SupplyChainItem from "./supplychain-item";
+import { deleteSupplychain } from "src/api/supplychain";
 
 type Props = {
   supplyChains: ISupplyChainItem[];
@@ -20,18 +21,19 @@ export default function SupplyChainList({ supplyChains }: Props) {
     (id: string) => {
       router.push(paths.dashboard.supplychain.details(id));
     },
-    [router],
+    [router]
   );
 
   const handleEdit = useCallback(
     (id: string) => {
       router.push(paths.dashboard.supplychain.edit(id));
     },
-    [router],
+    [router]
   );
 
   const handleDelete = useCallback((id: string) => {
     console.info("DELETE", id);
+    deleteSupplychain(id);
   }, []);
 
   return (

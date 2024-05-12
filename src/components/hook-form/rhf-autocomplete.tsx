@@ -27,6 +27,7 @@ export default function RHFAutocomplete<
   label,
   placeholder,
   helperText,
+
   ...other
 }: Omit<Props<T, Multiple, DisableClearable, FreeSolo>, "renderInput">) {
   const { control, setValue } = useFormContext();

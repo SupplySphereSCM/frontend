@@ -17,6 +17,7 @@ import { TableHeadCustom } from "src/components/table";
 import {
   ISupplyChainSchema,
   ISupplyChainStepItem,
+  ISupplyChainStepLabel,
 } from "src/types/supplychain";
 
 // ----------------------------------------------------------------------
@@ -29,6 +30,7 @@ type RowProps = {
   rawMaterial: string;
   service: string;
   product: string;
+  quantity: number;
 };
 
 interface Props extends CardProps {
@@ -55,7 +57,7 @@ export default function SupplychainStepsTable({
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
-              {tableData.map((row: ISupplyChainStepItem) => (
+              {tableData?.map((row: ISupplyChainStepLabel) => (
                 <SupplychainStepsTableRow key={row.from} row={row} />
               ))}
             </TableBody>
@@ -83,8 +85,12 @@ function SupplychainStepsTableRow({ row }: SupplychainStepsTableRowProps) {
 
       <TableCell align="center">{row.transport}</TableCell>
 
-      <TableCell align="right">{row.rawMaterial}</TableCell>
-      <TableCell align="right">{row.service}</TableCell>
+      {row.stepType === "Procuring" ? (
+        <TableCell align="right">{row.rawMaterial}</TableCell>
+      ) : (
+        <TableCell align="right">{row.service}</TableCell>
+      )}
+
       <TableCell align="right">{row.stepType}</TableCell>
     </TableRow>
   );

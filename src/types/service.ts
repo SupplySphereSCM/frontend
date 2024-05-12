@@ -95,7 +95,7 @@ export type ITransporterServiceItem = {
   updatedAt: Date;
   transactionHash: string;
   coverUrl: string;
-
+  user: IUser;
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
@@ -119,6 +119,7 @@ export type ITransporterServiceSchema = {
   updatedAt: Date;
   transactionHash: string;
   coverUrl: string;
+  user: IUser;
 };
 
 export type IServiceTableFilterValue = string | string[];

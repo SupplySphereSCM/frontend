@@ -22,6 +22,9 @@ import CheckoutSteps from "./checkout-steps";
 import CheckoutSelectItems from "./checkout-select-items";
 import CheckoutPreviewSteps from "./checkout-preview-steps";
 import CheckoutConfigureSteps from "./checkout-configure-steps";
+import { Button } from "@mui/base/Button";
+import { useAuthContext } from "src/auth/hooks";
+import { createSupplyChain } from "src/api/supplychain";
 
 // ----------------------------------------------------------------------
 
@@ -38,17 +41,34 @@ enum StepType {
 }
 // ----------------------------------------------------------------------
 
-export const NewStepSchema = Yup.object<ISupplyChainStepItem>({
-  from: Yup.string().required("From is required"),
-  to: Yup.string().required("To is required"),
-  product: Yup.string(),
-  service: Yup.string(),
-  rawMaterial: Yup.string(),
+export const NewStepSchema = Yup.object().shape({
+  from: Yup.object()
+    .shape({ label: Yup.string(), value: Yup.string() })
+    .required("From is required"),
+  to: Yup.object()
+    .shape({ label: Yup.string(), value: Yup.string() })
+    .required("To is required"),
   stepType: Yup.string()
     .oneOf(Object.values(StepType).map((role) => role.toString()))
     .required("Step Type is required"),
-  transport: Yup.string().required("Transporter is required"),
+  transport: Yup.object()
+    .shape({ label: Yup.string(), value: Yup.string() })
+    .required("Transporter is required"),
+  product: Yup.object().shape({ label: Yup.string(), value: Yup.string() }),
+  service: Yup.object().shape({ label: Yup.string(), value: Yup.string() }),
+  rawMaterial: Yup.object().shape({ label: Yup.string(), value: Yup.string() }),
 });
+// export const NewStepSchema = Yup.object.shape({
+//   from: Yup.string().required("From is required"),
+//   to: Yup.string().required("To is required"),
+//   product: Yup.string(),
+//   service: Yup.string(),
+//   rawMaterial: Yup.string(),
+//   stepType: Yup.string()
+//     .oneOf(Object.values(StepType).map((role) => role.toString()))
+//     .required("Step Type is required"),
+//   transport: Yup.string().required("Transporter is required"),
+// });
 
 export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
   id: Yup.string(),
@@ -67,7 +87,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const router = useRouter();
 
   const checkout = useCheckoutContext();
-
+  const { onReset } = useCheckoutContext();
   const { enqueueSnackbar } = useSnackbar();
 
   const defaultValues: ISupplyChainSchema = useMemo(
@@ -76,12 +96,25 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       name: currentProduct?.name || "",
       description: currentProduct?.description || "",
       steps: currentProduct?.steps || [],
+      // const defaultSteps: ISupplyChainStepItem[] = currentProduct?.steps || [];
+
+      // return {
+      //   ...currentProduct,
+      // steps: defaultSteps,
+      // from: { label: "", value: "" },
+      // to: { label: "", value: "" },
+      // transport: { label: "", value: "" },
+      // service: { label: "", value: "" },
+      // rawMaterial: { label: "", value: "" },
+      // stepType: "",
+      // }
     }),
     [currentProduct]
   );
 
   const methods = useForm({
-    resolver: yupResolver(NewSupplyChainSchema),
+    // This was the problem for submit not working
+    // resolver: yupResolver(NewSupplyChainSchema),
     defaultValues,
   });
 
@@ -93,28 +126,43 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
     }
   }, [currentProduct, defaultValues, reset]);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     try {
-      console.log("DATA: ", data);
-      reset();
+      console.log("Data", data);
+      createSupplyChain(data);
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
-      router.push(paths.dashboard.product.root);
+      onReset();
+      router.push(paths.dashboard.supplychain.root);
     } catch (error) {
       console.error(error);
     }
   });
 
+  // const onSubmit = handleSubmit(
+  //   async (data) => {
+  //     try {
+  //       console.log("DATA: ", data);
+  //       // createSupplyChain(data);
+  //       // reset();
+  //       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
+  //       router.push(paths.dashboard.product.root);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  //   () => {
+  //     console.log("something");
+  //   }
+  // );
+
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <CheckoutSteps activeStep={checkout.activeStep} steps={STEPS} />
-
       {checkout.activeStep === 0 && <CheckoutBasic />}
-
       {checkout.activeStep === 1 && <CheckoutSelectItems />}
-
       {checkout.activeStep === 2 && <CheckoutConfigureSteps />}
-
       {checkout.activeStep === 3 && <CheckoutPreviewSteps />}
+      {/* <Button type="submit">Submit</Button> */}
     </FormProvider>
   );
 }

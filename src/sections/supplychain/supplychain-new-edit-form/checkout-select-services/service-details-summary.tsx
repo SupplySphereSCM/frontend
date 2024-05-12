@@ -41,17 +41,11 @@ import { useCheckoutContext } from "../context";
 
 type Props = {
   service: IServiceItem;
-  items?: ICheckoutItem[];
   disabledActions?: boolean;
-  onGotoStep?: (step: number) => void;
-  onAddCart?: (cartItem: ICheckoutItem) => void;
 };
 
 export default function ServiceDetailsSummary({
-  items,
   service,
-  onAddCart,
-  onGotoStep,
   disabledActions,
   ...other
 }: Props) {
@@ -84,14 +78,14 @@ export default function ServiceDetailsSummary({
   } = service;
   // console.log("Services supply:", service);
 
-  const existService =
-    !!items?.length && items.map((item) => item.id).includes(id);
+  // const existService =
+  //   !!items?.length && items.map((item) => item.id).includes(id);
 
-  const isMaxQuantity =
-    !!items?.length &&
-    items.filter((item) => item.id === id).map((item) => item.quantity)[0] >=
-      available;
-  // quantity;
+  // const isMaxQuantity =
+  //   !!items?.length &&
+  //   items.filter((item) => item.id === id).map((item) => item.quantity)[0] >=
+  //     available;
+  // // quantity;
 
   const defaultValues = {
     id,
@@ -121,21 +115,21 @@ export default function ServiceDetailsSummary({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [service]);
 
-  const onSubmit = handleSubmit(async (data: ICheckoutItem) => {
-    try {
-      if (!existService) {
-        onAddCart?.({
-          ...data,
-          subTotal: data.price * data.quantity,
-        } as ICheckoutItem);
-      }
+  // const onSubmit = handleSubmit(async (data: ICheckoutItem) => {
+  //   try {
+  //     if (!existService) {
+  //       onAddCart?.({
+  //         ...data,
+  //         subTotal: data.price * data.quantity,
+  //       } as ICheckoutItem);
+  //     }
 
-      onGotoStep?.(0);
-      router.push(paths.service.checkout);
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  //     onGotoStep?.(0);
+  //     router.push(paths.service.checkout);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
 
   const handleAddCart = async () => {
     const newService = {
@@ -397,7 +391,7 @@ export default function ServiceDetailsSummary({
     <Stack direction="column" spacing={2} sx={{ mt: 3 }}>
       <Button
         fullWidth
-        disabled={isMaxQuantity || disabledActions}
+        // disabled={isMaxQuantity || disabledActions}
         size="large"
         color="warning"
         variant="contained"

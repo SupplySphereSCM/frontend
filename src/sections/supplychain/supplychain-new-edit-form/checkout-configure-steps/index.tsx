@@ -15,6 +15,7 @@ import { useFormContext } from "react-hook-form";
 import {
   ISupplyChainSchema,
   ISupplyChainStepItem,
+  ISupplyChainStepLabel,
 } from "src/types/supplychain";
 import { Typography } from "@mui/material";
 import SupplychainStepsTable from "./step-card";
@@ -57,8 +58,11 @@ export default function CheckoutConfigureSteps() {
 
   const { watch } = useFormContext<ISupplyChainSchema>();
 
+  const stepArray = watch("stepArray");
+  console.log("stepArray:", stepArray);
+
   const steps = watch("steps");
-  console.log(steps);
+  console.log("steps:", steps);
 
   return (
     <>
@@ -67,13 +71,12 @@ export default function CheckoutConfigureSteps() {
       <Grid xs={12} md={6} lg={8}>
         <SupplychainStepsTable
           title="Supplychain Steps"
-          tableData={steps as ISupplyChainStepItem[]}
+          tableData={stepArray as ISupplyChainStepLabel[]}
           tableLabels={[
             { id: "from", label: "From" },
             { id: "to", label: "To" },
             { id: "transport", label: "Transporter", align: "center" },
-            { id: "product", label: "Product", align: "right" },
-            { id: "service", label: "Service", align: "right" },
+            { id: "particulars", label: "Particulars", align: "right" },
             { id: "stepType", label: "Step Type", align: "right" },
           ]}
         />

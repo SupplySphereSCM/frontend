@@ -36,27 +36,21 @@ import IncrementerButton from "../../common/incrementer-button";
 import { fDate } from "src/utils/format-time";
 import { useAuthContext } from "src/auth/hooks";
 import { useCheckoutContext } from "../context";
+import dashboard from "src/layouts/dashboard";
 
 // ----------------------------------------------------------------------
 
 type Props = {
   service: ITransporterServiceItem;
-  items?: ICheckoutItem[];
   disabledActions?: boolean;
-  onGotoStep?: (step: number) => void;
-  onAddCart?: (cartItem: ICheckoutItem) => void;
 };
 
 export default function ServiceDetailsSummary({
-  items,
   service,
-  onAddCart,
-  onGotoStep,
   disabledActions,
   ...other
 }: Props) {
   const router = useRouter();
-  const { user } = useAuthContext();
   const {
     id,
     name,
@@ -64,6 +58,7 @@ export default function ServiceDetailsSummary({
     coverUrl,
     // sizes,
     // images,
+    user,
     createdAt,
     updatedAt,
     priceWithinState,
@@ -92,6 +87,7 @@ export default function ServiceDetailsSummary({
     name,
     description,
     coverUrl,
+    user,
     // available,
     priceWithinState,
     priceInterState,
@@ -140,9 +136,11 @@ export default function ServiceDetailsSummary({
       name,
       // quantity: 1,
       priceWithinState,
-    };
+      user,
+    } as ITransporterServiceItem;
     try {
       onAddLogistics(newLogistics);
+      router.push(paths.dashboard.supplychain.new);
     } catch (error) {
       console.error(error);
     }
@@ -395,7 +393,7 @@ export default function ServiceDetailsSummary({
       <Button
         fullWidth
         // disabled={isMaxQuantity || disabledActions}
-        disabled={disabledActions}
+        // disabled={disabledActions}
         size="large"
         color="warning"
         variant="contained"

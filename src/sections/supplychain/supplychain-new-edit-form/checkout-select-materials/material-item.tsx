@@ -27,7 +27,7 @@ export default function MaterialItem({ product }: Props) {
   const { onAddMaterial } = useCheckoutContext();
 
   const { id, name, price, available, images, user } = product;
-  console.log(user);
+ 
 
   const linkTo = paths.product.details(id);
 
