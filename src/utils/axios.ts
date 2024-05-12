@@ -49,6 +49,11 @@ export const endpoints = {
     latest: "/api/post/latest",
     search: "/api/post/search",
   },
+  user: {
+    root: "/api/users",
+    details: (id: string) => `/api/users/${id}`,
+  },
+
   rawMaterials: {
     root: "api/raw-materials",
     user: "api/raw-materials/user",
@@ -86,7 +91,7 @@ export const endpoints = {
   },
   supplychain: {
     root: "/api/supplychains",
-    details: (id: string) => `/api/services/${id}`,
+    details: (id: string) => `/api/supplychains/${id}`,
   },
   upload: {
     file: "/api/upload/file",

@@ -27,6 +27,9 @@ import FormProvider, {
 } from "src/components/hook-form";
 import { ConfirmDialog } from "src/components/custom-dialog";
 import { Chip, TextField } from "@mui/material";
+import { dataTagSymbol } from "@tanstack/react-query";
+import { updateUser } from "src/api/users";
+import { paths } from "src/routes/paths";
 
 // ----------------------------------------------------------------------
 
@@ -42,18 +45,20 @@ export default function AccountGeneral() {
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string(),
+    address: Yup.string().required("Address is required"),
+    phoneNumber: Yup.string().required("Phone NUmber is required").min(10),
     email: Yup.string()
       .required("Email is required")
       .email("Email must be a valid email address"),
-    ethAddress: Yup.string().required("Address is required"),
-    profilePictureUrl: Yup.mixed<any>()
-      .nullable()
-      .required("Avatar is required"),
+    ethAddress: Yup.string(),
+    profilePictureUrl: Yup.mixed<any>().nullable(),
   });
 
   const defaultValues = {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
+    address: user?.address || "",
+    phoneNumber: user?.phoneNumber || "",
     email: user?.email || "",
     ethAddress: user?.ethAddress || "",
     profilePictureUrl: user?.profilePictureUrl || "",
@@ -70,11 +75,17 @@ export default function AccountGeneral() {
     formState: { isSubmitting },
   } = methods;
 
+  console.log(user);
+
   const onSubmit = handleSubmit(async (data) => {
+    // const id = user?.id;
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       enqueueSnackbar("Update success!");
-      console.info("DATA", data);
+
+      updateUser(data, user?.id as string);
+      router.push(paths.dashboard.root);
+      console.log("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -152,6 +163,8 @@ export default function AccountGeneral() {
                 <RHFTextField name="firstName" label="First Name" />
                 <RHFTextField name="lastName" label="Last Name" />
                 <RHFTextField name="email" label="Email Address" disabled />
+                <RHFTextField name="address" label="Address" />
+                <RHFTextField name="phoneNumber" label="Pbone Number" />
               </Box>
               <Box display="flex" sx={{ pt: 3 }} flex={1}>
                 <TextField
@@ -164,7 +177,7 @@ export default function AccountGeneral() {
                 {/* <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}> */}
                 <LoadingButton
                   sx={{ ml: 2, width: 210 }}
-                  type="submit"
+                  // type="submit"
                   variant="contained"
                   loading={isSubmitting}
                 >

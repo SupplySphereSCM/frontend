@@ -19,6 +19,8 @@ export type IUser = {
   lastName: string;
   email: string;
   password: string;
+  address: string;
+  phoneNumber: string;
   isEmailVerified: boolean;
   profilePictureUrl: string;
   googleId: string;

@@ -1,5 +1,10 @@
 // ----------------------------------------------------------------------
 
+import { url } from "inspector";
+import { IUser } from "src/types/user";
+import axiosInstance, { endpoints } from "src/utils/axios";
+import { mutate } from "swr";
+
 export function useGetUserRoles() {
   return {
     roles: ["OWNER", "PRODUCER", "MANUFACTURER", "WHOLESELLER", "RETAILER"],
@@ -9,6 +14,33 @@ export function useGetUserRoles() {
 }
 
 // ----------------------------------------------------------------------
+
+export async function updateUser(user: Partial<IUser>, id: string) {
+  const URL = endpoints.user.details(`${id}`);
+  console.log("URL", URL);
+
+  /**
+   * Work on server
+   */
+  const data = { ...user };
+  await axiosInstance.patch(URL, data);
+  // console.log(data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentUser: any) => {
+      const updatedUsers = currentUser.user.map((p: IUser) => {
+        return p.id === user.id ? { ...p, ...user } : p;
+      });
+
+      return { ...currentUser, users: updatedUsers };
+    },
+    false
+  );
+}
 
 // export async function clickConversation(conversationId: string) {
 //   const URL = endpoints.chat;
