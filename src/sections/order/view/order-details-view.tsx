@@ -14,6 +14,8 @@ import OrderDetailsInfo from "../order-details-info";
 import OrderDetailsItems from "../order-details-item";
 import OrderDetailsToolbar from "../order-details-toolbar";
 import OrderDetailsHistory from "../order-details-history";
+import { useGetOrder } from "src/api/orders";
+import { IOrderItem, IOrderProductItem } from "src/types/order";
 
 // ----------------------------------------------------------------------
 
@@ -23,21 +25,27 @@ type Props = {
 
 export default function OrderDetailsView({ id }: Props) {
   const settings = useSettingsContext();
+  // console.log(id);
 
-  const currentOrder = _orders.filter((order) => order.id === id)[0];
+  const { order, orderLoading, orderError } = useGetOrder(id);
+  console.log("order-details-view", order);
 
-  const [status, setStatus] = useState(currentOrder.status);
+  // const currentOrder = order.filter((order) => order.id === id)[0];
+  // const currentOrder = order;
+
+  const [status, setStatus] = useState(order?.orderStatus);
 
   const handleChangeStatus = useCallback((newValue: string) => {
     setStatus(newValue);
   }, []);
 
-  return (
-    <Container maxWidth={settings.themeStretch ? false : "lg"}>
+  const renderOrderDetails = order && (
+    <>
       <OrderDetailsToolbar
         backLink={paths.dashboard.order.root}
-        orderNumber={currentOrder.orderNumber}
-        createdAt={currentOrder.createdAt}
+        // stepType={order?.stepType}
+        orderNumber={order?.id}
+        createdAt={order?.createdAt}
         status={status}
         onChangeStatus={handleChangeStatus}
         statusOptions={ORDER_STATUS_OPTIONS}
@@ -47,27 +55,36 @@ export default function OrderDetailsView({ id }: Props) {
         <Grid xs={12} md={8}>
           <Stack spacing={3} direction={{ xs: "column-reverse", md: "column" }}>
             <OrderDetailsItems
-              items={currentOrder.items}
-              taxes={currentOrder.taxes}
-              shipping={currentOrder.shipping}
-              discount={currentOrder.discount}
-              subTotal={currentOrder.subTotal}
-              totalAmount={currentOrder.totalAmount}
+              item={
+                order?.rawMaterial == null ? order?.service : order?.rawMaterial
+              }
+              taxes={order?.tax}
+              shipping={order?.deliveryCharges}
+              quantity={order?.quantity}
+              // discount={currentOrder.discount}
+              // subTotal={currentOrder.subTotal}
+              totalAmount={order?.total}
             />
 
-            <OrderDetailsHistory history={currentOrder.history} />
+            {/* <OrderDetailsHistory history={order.history} /> */}
           </Stack>
         </Grid>
 
         <Grid xs={12} md={4}>
           <OrderDetailsInfo
-            customer={currentOrder.customer}
-            delivery={currentOrder.delivery}
-            payment={currentOrder.payment}
-            shippingAddress={currentOrder.shippingAddress}
+            customer={order?.to}
+            delivery={order?.transport}
+            // payment={currentOrder.payment}
+            shippingTo={order?.to}
           />
         </Grid>
       </Grid>
+    </>
+  );
+
+  return (
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
+      {order && renderOrderDetails}
     </Container>
   );
 }

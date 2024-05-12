@@ -41,15 +41,8 @@ export default function OrderTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const {
-    items,
-    status,
-    orderNumber,
-    createdAt,
-    customer,
-    totalQuantity,
-    subTotal,
-  } = row;
+  const { items, orderStatus, id, createdAt, to, quantity, total } = row;
+  console.log(row);
 
   const confirm = useBoolean();
 
@@ -73,16 +66,20 @@ export default function OrderTableRow({
             },
           }}
         >
-          {orderNumber}
+          #{id.slice(0, 5)}
         </Box>
       </TableCell>
 
       <TableCell sx={{ display: "flex", alignItems: "center" }}>
-        <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} />
+        <Avatar
+          alt={to?.firstName}
+          src={to?.profilePictureUrl}
+          sx={{ mr: 2 }}
+        />
 
         <ListItemText
-          primary={customer.name}
-          secondary={customer.email}
+          primary={to?.firstName}
+          secondary={to?.email}
           primaryTypographyProps={{ typography: "body2" }}
           secondaryTypographyProps={{
             component: "span",
@@ -104,26 +101,26 @@ export default function OrderTableRow({
         />
       </TableCell>
 
-      <TableCell align="center"> {totalQuantity} </TableCell>
+      <TableCell align="center"> {quantity} </TableCell>
 
-      <TableCell> {fCurrency(subTotal)} </TableCell>
+      <TableCell> {fCurrency(total)} </TableCell>
 
       <TableCell>
         <Label
           variant="soft"
           color={
-            (status === "completed" && "success") ||
-            (status === "pending" && "warning") ||
-            (status === "cancelled" && "error") ||
+            (orderStatus === "completed" && "success") ||
+            (orderStatus === "pending" && "warning") ||
+            (orderStatus === "cancelled" && "error") ||
             "default"
           }
         >
-          {status}
+          {orderStatus}
         </Label>
       </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: "nowrap" }}>
-        <IconButton
+        {/* <IconButton
           color={collapse.value ? "inherit" : "default"}
           onClick={collapse.onToggle}
           sx={{
@@ -133,7 +130,7 @@ export default function OrderTableRow({
           }}
         >
           <Iconify icon="eva:arrow-ios-downward-fill" />
-        </IconButton>
+        </IconButton> */}
 
         <IconButton
           color={popover.open ? "inherit" : "default"}
@@ -155,7 +152,7 @@ export default function OrderTableRow({
           sx={{ bgcolor: "background.neutral" }}
         >
           <Stack component={Paper} sx={{ m: 1.5 }}>
-            {items.map((item) => (
+            {/* {items.map((item) => (
               <Stack
                 key={item.id}
                 direction="row"
@@ -193,7 +190,7 @@ export default function OrderTableRow({
                   {fCurrency(item.price)}
                 </Box>
               </Stack>
-            ))}
+            ))} */}
           </Stack>
         </Collapse>
       </TableCell>

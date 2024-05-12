@@ -89,6 +89,13 @@ export const endpoints = {
     search: "/api/services/search",
     details: (id: string) => `/api/services/${id}`,
   },
+  order: {
+    shop: "/api/orders/shop",
+    root: "/api/orders",
+    user: "/api/orders/user",
+    search: "/api/orders/search",
+    details: (id: string) => `/api/orders/${id}`,
+  },
   supplychain: {
     root: "/api/supplychains",
     details: (id: string) => `/api/supplychains/${id}`,

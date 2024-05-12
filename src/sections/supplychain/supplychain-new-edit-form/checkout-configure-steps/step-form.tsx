@@ -104,14 +104,16 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
 
   const onSubmit = methods.handleSubmit((data) => {
     console.log("Clicked", data);
-    // const { to } = data;
 
-    // const serviceQuantity = services.find(
-    //   (item) => item.id === data.service.value
-    // );
-    // const materialQuantity = materials.find(
-    //   (item) => item.id === data.service.value
-    // );
+    const selectedService = services.find(
+      (service: IServiceItem) => service.id === data.service?.value
+    );
+    const serviceQuantity = selectedService?.quantity || 0;
+
+    const selectedMaterial = materials.find(
+      (material: IServiceItem) => material.id === data?.rawMaterial?.value
+    );
+    const MaterialQuantity = selectedMaterial?.quantity || 0;
 
     append({
       from: data?.from?.value,
@@ -123,9 +125,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
         data.stepType === "Servicing" ? null : data.rawMaterial?.value,
       product: data.product?.value,
       quantity:
-        data.stepType === "Servicing"
-          ? services[0].quantity
-          : materials[0].quantity,
+        data.stepType === "Servicing" ? serviceQuantity : MaterialQuantity,
     } as ISupplyChainStepItem);
 
     stepArrayAppend({
@@ -138,9 +138,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
         data.stepType === "Servicing" ? null : data.rawMaterial?.label,
       product: data.product?.label,
       quantity:
-        data.stepType === "Servicing"
-          ? services[0].quantity
-          : materials[0].quantity,
+        data.stepType === "Servicing" ? serviceQuantity : MaterialQuantity,
     } as ISupplyChainStepLabel);
 
     onClose();

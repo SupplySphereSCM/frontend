@@ -4,26 +4,50 @@ import { useMemo } from "react";
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
 import { IProductItem } from "src/types/product";
+import { IOrderItem } from "src/types/order";
 
 // ----------------------------------------------------------------------
 
-export function useGetOrders() {
-  const URL = endpoints.product.list;
+export function useGetOrder(ordertId: string) {
+  // const URL = ordertId
+  //   ? [`${endpoints.order.details}/${ordertId}`, { params: { ordertId } }]
+  //   : null;
+  const URL = endpoints.order.details(ordertId);
+  console.log(URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
+  console.log("Get Order by ID:", data);
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data as IProductItem[]) || [],
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.length,
+      order: data as IOrderItem,
+      orderLoading: isLoading,
+      orderError: error,
+      orderValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
-  // console.log(memoizedValue);
+
+  return memoizedValue;
+}
+// ----------------------------------------------------------------------
+
+export function useGetOrders() {
+  const URL = endpoints.order.user;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // console.log("Order Data:", data); // Check if data is being fetched
+
+  const memoizedValue = useMemo(
+    () => ({
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      ordersError: error,
+      ordersValidating: isValidating,
+      ordersEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
 
   return memoizedValue;
 }
@@ -31,45 +55,20 @@ export function useGetOrders() {
 // ----------------------------------------------------------------------
 
 export function useGetShopOrders() {
-  const URL = endpoints.product.shop;
+  const URL = endpoints.order.shop;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data as IProductItem[]) || [],
-      productsLoading: isLoading,
-      productsError: error,
-      productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.length,
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      ordersError: error,
+      ordersValidating: isValidating,
+      ordersEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
-  );
-  // console.log(memoizedValue);
-
-  return memoizedValue;
-}
-
-// ----------------------------------------------------------------------
-
-export function useGetOrder(productId: string) {
-  const URL = productId
-    ? [`${endpoints.product.details}/${productId}`, { params: { productId } }]
-    : null;
-  // console.log(URL);
-
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log(data);
-
-  const memoizedValue = useMemo(
-    () => ({
-      product: data as IProductItem,
-      productLoading: isLoading,
-      productError: error,
-      productValidating: isValidating,
-    }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -78,7 +77,7 @@ export function useGetOrder(productId: string) {
 // ----------------------------------------------------------------------
 
 export function useSearchOrders(query: string) {
-  const URL = query ? [endpoints.product.search, { params: { query } }] : null;
+  const URL = query ? [endpoints.order.search, { params: { query } }] : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, {
     keepPreviousData: true,
@@ -86,13 +85,13 @@ export function useSearchOrders(query: string) {
 
   const memoizedValue = useMemo(
     () => ({
-      searchResults: (data?.results as IProductItem[]) || [],
+      searchResults: (data?.results as IOrderItem[]) || [],
       searchLoading: isLoading,
       searchError: error,
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating],
+    [data?.results, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -100,12 +99,12 @@ export function useSearchOrders(query: string) {
 
 // ----------------------------------------------------------------------
 
-export async function createOrder(product: Partial<IProductItem>) {
-  const URL = endpoints.product.root;
+export async function createOrder(order: Partial<IOrderItem>) {
+  const URL = endpoints.order.root;
   /**
    * Work on server
    */
-  const data = { ...product };
+  const data = { ...order };
   await axiosInstance.post(URL, data);
   // console.log(data);
 
@@ -117,13 +116,28 @@ export async function createOrder(product: Partial<IProductItem>) {
   //   (currentData: any) => {
   //     console.log(currentData);
 
-  //     const products: IProductItem[] = [...currentData?.products, product];
+  //     const orders: IOrderItem[] = [...currentData?.orders, IOrderItem];
 
   //     return {
   //       ...currentData,
-  //       products,
+  //       orders,
   //     };
   //   },
   //   false
   // );
+}
+
+export async function deleteOrders(ids: string | string[]) {
+  try {
+    // if (Array.isArray(ids) && ids.length > 1) {
+    //   return await axiosInstance.delete(endpoints.service.root, {
+    //     data: [...ids],
+    //   });
+    // }
+
+    return await axiosInstance.delete(endpoints.order.details(ids as string));
+  } catch (error) {
+    console.error("Failed to delete orders:", error);
+    // Optionally, handle errors more gracefully here
+  }
 }

@@ -17,6 +17,7 @@ import CustomPopover, { usePopover } from "src/components/custom-popover";
 
 type Props = {
   status: string;
+  // stepType: string;
   backLink: string;
   orderNumber: string;
   createdAt: Date;
@@ -29,6 +30,7 @@ type Props = {
 
 export default function OrderDetailsToolbar({
   status,
+  // stepType,
   backLink,
   createdAt,
   orderNumber,
@@ -36,6 +38,13 @@ export default function OrderDetailsToolbar({
   onChangeStatus,
 }: Props) {
   const popover = usePopover();
+
+  const handleOrderSender = () => {
+    console.log("Order sent");
+  };
+  const handleOrderReceiver = () => {
+    console.log("Order Received");
+  };
 
   return (
     <>
@@ -53,7 +62,10 @@ export default function OrderDetailsToolbar({
 
           <Stack spacing={0.5}>
             <Stack spacing={1} direction="row" alignItems="center">
-              <Typography variant="h4"> Order {orderNumber} </Typography>
+              <Typography variant="h4">
+                {" "}
+                Order #{orderNumber.slice(0, 5)}
+              </Typography>
               <Label
                 variant="soft"
                 color={
@@ -89,22 +101,32 @@ export default function OrderDetailsToolbar({
           >
             {status}
           </Button>
-
+          {/* {stepType === "Servicing" && ( */}
           <Button
+            onClick={handleOrderReceiver}
             color="inherit"
             variant="outlined"
-            startIcon={<Iconify icon="solar:printer-minimalistic-bold" />}
+            startIcon={<Iconify icon="eva:diagonal-arrow-left-down-fill" />}
           >
-            Print
+            Confirm Receiver
+          </Button>
+          {/* )} */}
+          <Button
+            onClick={handleOrderSender}
+            color="inherit"
+            variant="outlined"
+            startIcon={<Iconify icon="eva:diagonal-arrow-right-up-fill" />}
+          >
+            Confirm Sender
           </Button>
 
-          <Button
+          {/* <Button
             color="inherit"
             variant="contained"
             startIcon={<Iconify icon="solar:pen-bold" />}
           >
             Edit
-          </Button>
+          </Button> */}
         </Stack>
       </Stack>
 

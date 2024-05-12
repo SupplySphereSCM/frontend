@@ -16,6 +16,7 @@ type Props = {
 
 export default function SupplyChainList({ supplyChains }: Props) {
   const router = useRouter();
+  console.log(supplyChains);
 
   const handleView = useCallback(
     (id: string) => {

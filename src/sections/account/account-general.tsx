@@ -75,7 +75,7 @@ export default function AccountGeneral() {
     formState: { isSubmitting },
   } = methods;
 
-  console.log(user);
+  console.log("Authcontext user :", user);
 
   const onSubmit = handleSubmit(async (data) => {
     // const id = user?.id;

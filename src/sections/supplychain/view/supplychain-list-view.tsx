@@ -41,6 +41,7 @@ export default function SupplyChainListView() {
   const openFilters = useBoolean();
 
   const { supplyChains } = useGetSupplyChains();
+  
 
   const [sortBy, setSortBy] = useState("latest");
 

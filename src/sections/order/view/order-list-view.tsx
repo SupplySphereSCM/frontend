@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
@@ -36,6 +36,7 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
+  TableSkeleton,
 } from "src/components/table";
 // types
 import {
@@ -47,7 +48,8 @@ import {
 import OrderTableRow from "../order-table-row";
 import OrderTableToolbar from "../order-table-toolbar";
 import OrderTableFiltersResult from "../order-table-filters-result";
-
+// api
+import { deleteOrders, useGetOrders } from "src/api/orders";
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [
@@ -83,14 +85,24 @@ export default function OrderListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_orders);
+  // const [tableData, setTableData] = useState(_orders);
+  const [tableData, setTableData] = useState<IOrderItem[]>([]);
 
   const [filters, setFilters] = useState(defaultFilters);
+
+  const { orders, ordersLoading, ordersEmpty } = useGetOrders();
+  console.log("Order-list-view", orders);
 
   const dateError =
     filters.startDate && filters.endDate
       ? filters.startDate.getTime() > filters.endDate.getTime()
       : false;
+
+  useEffect(() => {
+    if (orders.length) {
+      setTableData(orders);
+    }
+  }, [orders]);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -101,7 +113,7 @@ export default function OrderListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage,
+    table.page * table.rowsPerPage + table.rowsPerPage
   );
 
   const denseHeight = table.dense ? 52 : 72;
@@ -121,22 +133,25 @@ export default function OrderListView() {
         [name]: value,
       }));
     },
-    [table],
+    [table]
   );
 
   const handleDeleteRow = useCallback(
-    (id: string) => {
+    async (id: string) => {
+      await deleteOrders(id);
       const deleteRow = tableData.filter((row) => row.id !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData],
+    [dataInPage.length, table, tableData]
   );
 
-  const handleDeleteRows = useCallback(() => {
+  const handleDeleteRows = useCallback(async () => {
+    await deleteOrders(table.selected);
+
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id),
+      (row) => !table.selected.includes(row.id)
     );
     setTableData(deleteRows);
 
@@ -155,14 +170,14 @@ export default function OrderListView() {
     (id: string) => {
       router.push(paths.dashboard.order.details(id));
     },
-    [router],
+    [router]
   );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       handleFilters("status", newValue);
     },
-    [handleFilters],
+    [handleFilters]
   );
 
   return (
@@ -216,7 +231,7 @@ export default function OrderListView() {
                       "default"
                     }
                   >
-                    {tab.value === "all" && _orders.length}
+                    {tab.value === "all" && orders.length}
                     {tab.value === "completed" &&
                       _orders.filter((order) => order.status === "completed")
                         .length}
@@ -264,7 +279,7 @@ export default function OrderListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id),
+                  tableData.map((row) => row.id)
                 )
               }
               action={
@@ -291,34 +306,42 @@ export default function OrderListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id),
+                      tableData.map((row) => row.id)
                     )
                   }
                 />
 
                 <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage,
-                    )
-                    .map((row) => (
-                      <OrderTableRow
-                        key={row.id}
-                        row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
-                      />
-                    ))}
+                  {ordersLoading ? (
+                    [...Array(table.rowsPerPage)].map((i, index) => (
+                      <TableSkeleton key={index} sx={{ height: denseHeight }} />
+                    ))
+                  ) : (
+                    <>
+                      {dataFiltered
+                        .slice(
+                          table.page * table.rowsPerPage,
+                          table.page * table.rowsPerPage + table.rowsPerPage
+                        )
+                        .map((row) => (
+                          <OrderTableRow
+                            key={row.id}
+                            row={row}
+                            selected={table.selected.includes(row.id)}
+                            onSelectRow={() => table.onSelectRow(row.id)}
+                            onDeleteRow={() => handleDeleteRow(row.id)}
+                            onViewRow={() => handleViewRow(row.id)}
+                          />
+                        ))}
+                    </>
+                  )}
 
                   <TableEmptyRows
                     height={denseHeight}
                     emptyRows={emptyRows(
                       table.page,
                       table.rowsPerPage,
-                      tableData.length,
+                      tableData.length
                     )}
                   />
 
@@ -397,13 +420,13 @@ function applyFilter({
     inputData = inputData.filter(
       (order) =>
         order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1,
+        order.to.firstName.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        order.to.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
   if (status !== "all") {
-    inputData = inputData.filter((order) => order.status === status);
+    inputData = inputData.filter((order) => order.orderStatus === status);
   }
 
   if (!dateError) {
@@ -411,7 +434,7 @@ function applyFilter({
       inputData = inputData.filter(
         (order) =>
           fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate),
+          fTimestamp(order.createdAt) <= fTimestamp(endDate)
       );
     }
   }
