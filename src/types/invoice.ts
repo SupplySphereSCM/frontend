@@ -1,4 +1,5 @@
 import { IAddressItem } from "./address";
+import { IOrderItem } from "./order";
 import { IUser } from "./user";
 
 // ----------------------------------------------------------------------
@@ -19,15 +20,22 @@ export type IInvoiceItem = {
   id: string;
   from: IUser;
   to?: IUser;
+  total: number;
+  order: IOrderItem;
+  logistics: string;
+  particular: string;
+  quantity: number;
+  price: number;
+  deliveryCharges: number;
+  tax: number;
+  createdAt: Date;
+  updateAt: Date;
+
+  // -------------------------------
   cgst: number;
   sgst: number;
-  total: number;
-
   title: string;
-  price: number;
-
   service: string;
-  quantity: number;
   description: string;
 };
 
@@ -35,10 +43,20 @@ export type IInvoice = {
   id: string;
   from: IUser;
   to?: IUser;
+  total: number;
+  order: IOrderItem;
+  // -------------------------------
+  logistics: string;
+  particular: string;
+  quantity: number;
+  price: number;
+  deliveryCharges: number;
+  tax: number;
+  createdAt: Date;
+  updateAt: Date;
+
   cgst: number;
   sgst: number;
-  total: number;
-
   sent: number;
   dueDate: Date;
   taxes: number;

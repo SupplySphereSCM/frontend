@@ -12,6 +12,7 @@ import { fDateTime } from "src/utils/format-time";
 import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { updateOrder } from "src/api/orders";
 
 // ----------------------------------------------------------------------
 
@@ -41,9 +42,15 @@ export default function OrderDetailsToolbar({
 
   const handleOrderSender = () => {
     console.log("Order sent");
+    // updateOrder({
+    //   ...order,
+    //   orderStatus = "TRANSIT",
+    // });
+    // Update the Order STATUS
   };
   const handleOrderReceiver = () => {
     console.log("Order Received");
+    // Update the Order STATUS
   };
 
   return (
@@ -101,7 +108,7 @@ export default function OrderDetailsToolbar({
           >
             {status}
           </Button>
-          {/* {stepType === "Servicing" && ( */}
+          {/* {stepType === "SERVICING" && ( */}
           <Button
             onClick={handleOrderReceiver}
             color="inherit"

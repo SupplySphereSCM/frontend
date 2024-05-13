@@ -3,15 +3,39 @@ import { useMemo } from "react";
 // utils
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
-import { IInvoiceItem } from "src/types/invoice";
+import { IInvoice, IInvoiceItem } from "src/types/invoice";
 
 // ----------------------------------------------------------------------
 
 export function useGetInvoices() {
-  const URL = endpoints.invoice.list;
+  const URL = endpoints.invoice.root;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
   // console.log("Data:", data); // Check if data is being fetched
+  console.log("useGetInvoices", data);
+
+  const memoizedValue = useMemo(
+    () => ({
+      invoices: (data as IInvoice[]) || [],
+      invoicesLoading: isLoading,
+      invoicesError: error,
+      invoicesValidating: isValidating,
+      invoicesEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+  // console.log(memoizedValue);
+
+  return memoizedValue;
+}
+// ----------------------------------------------------------------------
+
+export function useGetUserInvoices() {
+  const URL = endpoints.invoice.user;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // console.log("Data:", data); // Check if data is being fetched
+  console.log("useGetUserInvoices", data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -21,7 +45,7 @@ export function useGetInvoices() {
       invoicesValidating: isValidating,
       invoicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
   // console.log(memoizedValue);
 
@@ -44,7 +68,7 @@ export function useGetShopInvoices() {
       invoicesValidating: isValidating,
       invoicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
   // console.log(memoizedValue);
 
@@ -57,16 +81,16 @@ export function useGetInvoice(invoiceId: string) {
   const URL = endpoints.invoice.details(invoiceId);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  console.log(data);
+  console.log("useGetInvoice:", data);
 
   const memoizedValue = useMemo(
     () => ({
-      invoice: data as IInvoiceItem,
+      invoice: data as IInvoice,
       invoiceLoading: isLoading,
       invoiceError: error,
       invoiceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -89,7 +113,7 @@ export function useSearchInvoices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating],
+    [data?.results, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -118,7 +142,7 @@ export async function createInvoice(invoice: Partial<IInvoiceItem>) {
         invoices,
       };
     },
-    false,
+    false
   );
 }
 // ----------------------------------------------------------------------
@@ -144,7 +168,7 @@ export async function updateInvoice(invoice: Partial<IInvoiceItem>) {
 
       return { ...currentData, invoices: updatedinvoices };
     },
-    false,
+    false
   );
 }
 

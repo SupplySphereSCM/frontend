@@ -44,18 +44,22 @@ type Props = {
 };
 
 export default function InvoiceDetails({ invoice }: Props) {
-  const [currentStatus, setCurrentStatus] = useState(invoice.status);
+  const [currentStatus, setCurrentStatus] = useState(
+    invoice?.order?.orderStatus
+  );
+
+  console.log("invoice-details:", invoice?.order);
 
   const handleChangeStatus = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentStatus(event.target.value);
+      setCurrentStatus(event?.target?.value);
     },
-    [],
+    []
   );
 
   const renderTotal = (
     <>
-      <StyledTableRow>
+      {/* <StyledTableRow>
         <TableCell colSpan={3} />
         <TableCell sx={{ color: "text.secondary" }}>
           <Box sx={{ mt: 2 }} />
@@ -63,9 +67,10 @@ export default function InvoiceDetails({ invoice }: Props) {
         </TableCell>
         <TableCell width={120} sx={{ typography: "subtitle2" }}>
           <Box sx={{ mt: 2 }} />
-          {fCurrency(invoice.subTotal)}
+
+          {fCurrency(invoice?.total)}
         </TableCell>
-      </StyledTableRow>
+      </StyledTableRow> */}
 
       <StyledTableRow>
         <TableCell colSpan={3} />
@@ -74,11 +79,11 @@ export default function InvoiceDetails({ invoice }: Props) {
           width={120}
           sx={{ color: "error.main", typography: "body2" }}
         >
-          {fCurrency(-invoice.shipping)}
+          {fCurrency(invoice?.deliveryCharges)}
         </TableCell>
       </StyledTableRow>
 
-      <StyledTableRow>
+      {/* <StyledTableRow>
         <TableCell colSpan={3} />
         <TableCell sx={{ color: "text.secondary" }}>Discount</TableCell>
         <TableCell
@@ -87,19 +92,21 @@ export default function InvoiceDetails({ invoice }: Props) {
         >
           {fCurrency(-invoice.discount)}
         </TableCell>
-      </StyledTableRow>
+      </StyledTableRow> */}
 
       <StyledTableRow>
         <TableCell colSpan={3} />
         <TableCell sx={{ color: "text.secondary" }}>Taxes</TableCell>
-        <TableCell width={120}>{fCurrency(invoice.taxes)}</TableCell>
+        <TableCell width={120}>{fCurrency(invoice?.tax)}</TableCell>
+        {/* <TableCell width={120}>{fCurrency(invoice.tax)}</TableCell> */}
       </StyledTableRow>
 
       <StyledTableRow>
         <TableCell colSpan={3} />
         <TableCell sx={{ typography: "subtitle1" }}>Total</TableCell>
         <TableCell width={140} sx={{ typography: "subtitle1" }}>
-          {fCurrency(invoice.totalAmount)}
+          {fCurrency(invoice?.total)}
+          {/* {fCurrency(invoice.total)} */}
         </TableCell>
       </StyledTableRow>
     </>
@@ -145,33 +152,35 @@ export default function InvoiceDetails({ invoice }: Props) {
           </TableHead>
 
           <TableBody>
-            {invoice.items.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{index + 1}</TableCell>
+            {/* {invoice.order.map((row, index) => ( */}
+            <TableRow>
+              <TableCell>{invoice?.particular ? 1 : 0}</TableCell>
 
-                <TableCell>
-                  <Box sx={{ maxWidth: 560 }}>
-                    <Typography variant="subtitle2">{row.title}</Typography>
+              <TableCell>
+                <Box sx={{ maxWidth: 560 }}>
+                  <Typography variant="subtitle2">
+                    {invoice?.particular}
+                  </Typography>
 
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                      noWrap
-                    >
-                      {row.description}
-                    </Typography>
-                  </Box>
-                </TableCell>
+                  {/* <Typography
+                  variant="body2"
+                  sx={{ color: "text.secondary" }}
+                  noWrap
+                >
+                  {invoice?.order?.description}
+                </Typography> */}
+                </Box>
+              </TableCell>
 
-                <TableCell>{row.quantity}</TableCell>
+              <TableCell>{invoice?.quantity}</TableCell>
 
-                <TableCell align="right">{fCurrency(row.price)}</TableCell>
+              <TableCell align="right">{fCurrency(invoice?.price)}</TableCell>
 
-                <TableCell align="right">
-                  {fCurrency(row.price * row.quantity)}
-                </TableCell>
-              </TableRow>
-            ))}
+              <TableCell align="right">
+                {fCurrency(invoice?.price * invoice?.quantity)}
+              </TableCell>
+            </TableRow>
+            {/* ))} */}
 
             {renderTotal}
           </TableBody>
@@ -207,7 +216,7 @@ export default function InvoiceDetails({ invoice }: Props) {
           />
 
           <Stack spacing={1} alignItems={{ xs: "flex-start", md: "flex-end" }}>
-            <Label
+            {/* <Label
               variant="soft"
               color={
                 (currentStatus === "paid" && "success") ||
@@ -217,20 +226,20 @@ export default function InvoiceDetails({ invoice }: Props) {
               }
             >
               {currentStatus}
-            </Label>
+            </Label> */}
 
-            <Typography variant="h6">{invoice.invoiceNumber}</Typography>
+            <Typography variant="h6">INV-{invoice?.id.slice(0, 5)}</Typography>
           </Stack>
 
           <Stack sx={{ typography: "body2" }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Invoice From
             </Typography>
-            {invoice.invoiceFrom.name}
+            {invoice?.from?.firstName}
             <br />
-            {invoice.invoiceFrom.fullAddress}
+            {invoice?.from?.address}
             <br />
-            Phone: {invoice.invoiceFrom.phoneNumber}
+            Phone: {invoice?.from?.phoneNumber}
             <br />
           </Stack>
 
@@ -238,11 +247,13 @@ export default function InvoiceDetails({ invoice }: Props) {
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Invoice To
             </Typography>
-            {invoice.invoiceTo.name}
+            {invoice?.to?.firstName}
+            {/* {invoice.invoiceTo.firstName} */}
             <br />
-            {invoice.invoiceTo.fullAddress}
+            {invoice?.to?.address}
+            {/* {invoice.invoiceTo.address} */}
             <br />
-            Phone: {invoice.invoiceTo.phoneNumber}
+            Phone: {invoice?.to?.phoneNumber}
             <br />
           </Stack>
 
@@ -250,15 +261,15 @@ export default function InvoiceDetails({ invoice }: Props) {
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Date Create
             </Typography>
-            {fDate(invoice.createDate)}
+            {fDate(invoice?.createdAt)}
           </Stack>
 
-          <Stack sx={{ typography: "body2" }}>
+          {/* <Stack sx={{ typography: "body2" }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Due Date
             </Typography>
             {fDate(invoice.dueDate)}
-          </Stack>
+          </Stack> */}
         </Box>
 
         {renderList}

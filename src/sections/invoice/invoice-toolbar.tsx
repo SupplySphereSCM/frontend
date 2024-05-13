@@ -46,8 +46,8 @@ export default function InvoiceToolbar({
   const view = useBoolean();
 
   const handleEdit = useCallback(() => {
-    router.push(paths.dashboard.invoice.edit(invoice.id));
-  }, [invoice.id, router]);
+    router.push(paths.dashboard.invoice.edit(invoice?.id));
+  }, [invoice?.id, router]);
 
   return (
     <>
@@ -74,7 +74,7 @@ export default function InvoiceToolbar({
             document={
               <InvoicePDF invoice={invoice} currentStatus={currentStatus} />
             }
-            fileName={invoice.invoiceNumber}
+            fileName={invoice?.id}
             style={{ textDecoration: "none" }}
           >
             {({ loading }) => (
@@ -109,7 +109,7 @@ export default function InvoiceToolbar({
           </Tooltip>
         </Stack>
 
-        <TextField
+        {/* <TextField
           fullWidth
           select
           label="Status"
@@ -124,10 +124,19 @@ export default function InvoiceToolbar({
               {option.label}
             </MenuItem>
           ))}
-        </TextField>
+        </TextField> */}
+        <Button
+          size="medium"
+          // onClick={handleOrderReceiver}
+          color="primary"
+          variant="outlined"
+          // startIcon={<Iconify icon="eva:diagonal-arrow-left-down-fill" />}
+        >
+          Confirm
+        </Button>
       </Stack>
 
-      <Dialog fullScreen open={view.value}>
+      {/* <Dialog fullScreen open={view.value}>
         <Box sx={{ height: 1, display: "flex", flexDirection: "column" }}>
           <DialogActions
             sx={{
@@ -145,7 +154,7 @@ export default function InvoiceToolbar({
             </PDFViewer>
           </Box>
         </Box>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }

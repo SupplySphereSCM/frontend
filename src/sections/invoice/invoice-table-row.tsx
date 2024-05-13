@@ -44,13 +44,15 @@ export default function InvoiceTableRow({
 }: Props) {
   const {
     sent,
-    invoiceNumber,
-    createDate,
-    dueDate,
-    status,
-    invoiceTo,
-    totalAmount,
+    id,
+    particular,
+    createdAt,
+    // dueDate,
+    order,
+    to,
+    total,
   } = row;
+  console.log("invoice-table-row", row);
 
   const confirm = useBoolean();
 
@@ -64,15 +66,15 @@ export default function InvoiceTableRow({
         </TableCell>
 
         <TableCell sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar alt={invoiceTo.name} sx={{ mr: 2 }}>
-            {invoiceTo.name.charAt(0).toUpperCase()}
+          <Avatar alt={to?.firstName} sx={{ mr: 2 }}>
+            {to?.firstName.charAt(0).toUpperCase()}
           </Avatar>
 
           <ListItemText
             disableTypography
             primary={
               <Typography variant="body2" noWrap>
-                {invoiceTo.name}
+                {to?.firstName}
               </Typography>
             }
             secondary={
@@ -82,7 +84,7 @@ export default function InvoiceTableRow({
                 onClick={onViewRow}
                 sx={{ color: "text.disabled", cursor: "pointer" }}
               >
-                {invoiceNumber}
+                INV-{id.slice(0, 5)}
               </Link>
             }
           />
@@ -90,8 +92,8 @@ export default function InvoiceTableRow({
 
         <TableCell>
           <ListItemText
-            primary={format(new Date(createDate), "dd MMM yyyy")}
-            secondary={format(new Date(createDate), "p")}
+            primary={format(new Date(createdAt), "dd MMM yyyy")}
+            secondary={format(new Date(createdAt), "p")}
             primaryTypographyProps={{ typography: "body2", noWrap: true }}
             secondaryTypographyProps={{
               mt: 0.5,
@@ -101,7 +103,7 @@ export default function InvoiceTableRow({
           />
         </TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <ListItemText
             primary={format(new Date(dueDate), "dd MMM yyyy")}
             secondary={format(new Date(dueDate), "p")}
@@ -112,24 +114,25 @@ export default function InvoiceTableRow({
               typography: "caption",
             }}
           />
-        </TableCell>
+        </TableCell> */}
 
-        <TableCell>{fCurrency(totalAmount)}</TableCell>
+        <TableCell>{fCurrency(total)}</TableCell>
 
-        <TableCell align="center">{sent}</TableCell>
+        {/* <TableCell align="center">{sent}</TableCell> */}
 
         <TableCell>
-          <Label
+          {particular}
+          {/* <Label
             variant="soft"
             color={
-              (status === "paid" && "success") ||
-              (status === "pending" && "warning") ||
-              (status === "overdue" && "error") ||
+              (order.orderStatus === "paid" && "success") ||
+              (order.orderStatus === "pending" && "warning") ||
+              (order.orderStatus === "overdue" && "error") ||
               "default"
             }
           >
-            {status}
-          </Label>
+            {order.orderStatus}
+          </Label> */}
         </TableCell>
 
         <TableCell align="right" sx={{ px: 1 }}>

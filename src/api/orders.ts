@@ -36,7 +36,7 @@ export function useGetOrders() {
   const URL = endpoints.order.user;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Order Data:", data); // Check if data is being fetched
+  console.log("Order Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
@@ -113,18 +113,45 @@ export async function createOrder(order: Partial<IOrderItem>) {
    */
   // mutate(
   //   URL,
-  //   (currentData: any) => {
-  //     console.log(currentData);
+  //   (currentOrder: any) => {
+  //     console.log(currentOrder);
 
-  //     const orders: IOrderItem[] = [...currentData?.orders, IOrderItem];
+  //     const orders: IOrderItem[] = [...currentOrder?.orders, IOrderItem];
 
   //     return {
-  //       ...currentData,
+  //       ...currentOrder,
   //       orders,
   //     };
   //   },
   //   false
   // );
+}
+
+// ----------------------------------------------------------------------
+
+export async function updateOrder(order: Partial<IOrderItem>) {
+  const URL = endpoints.order.details(`${order.id}`);
+  /**
+   * Work on server
+   */
+  const data = { ...order };
+  await axiosInstance.patch(URL, data);
+  // console.log(data);
+
+  /**
+   * Work in local
+   */
+  mutate(
+    URL,
+    (currentOrder: any) => {
+      const updatedOrders = currentOrder.orderss.map((p: IProductItem) => {
+        return p.id === order.id ? { ...p, ...order } : p;
+      });
+
+      return { ...currentOrder, orders: updatedOrders };
+    },
+    false
+  );
 }
 
 export async function deleteOrders(ids: string | string[]) {

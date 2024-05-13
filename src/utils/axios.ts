@@ -83,11 +83,11 @@ export const endpoints = {
     details: (id: string) => `/api/transporter/${id}`,
   },
   invoice: {
-    shop: "/api/services/shop",
-    root: "/api/services",
-    list: "/api/services/user",
-    search: "/api/services/search",
-    details: (id: string) => `/api/services/${id}`,
+    shop: "/api/invoice/shop",
+    root: "/api/invoice",
+    user: "/api/invoice/user",
+    search: "/api/invoice/search",
+    details: (id: string) => `/api/invoice/${id}`,
   },
   order: {
     shop: "/api/orders/shop",

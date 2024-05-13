@@ -103,6 +103,7 @@ export type IOrderItem = {
   to: IUser;
   product: IProductItem;
   service: IServiceItem;
+  stepType: string;
   rawMaterial: IRawMaterialItem;
   transport: ITransporterServiceItem;
   total: number;
