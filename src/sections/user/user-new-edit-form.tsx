@@ -79,7 +79,7 @@ export default function UserNewEditForm({ currentUser }: Props) {
       phoneNumber: currentUser?.phoneNumber || "",
       isVerified: currentUser?.isVerified || true,
     }),
-    [currentUser]
+    [currentUser],
   );
 
   const methods = useForm({
@@ -122,7 +122,7 @@ export default function UserNewEditForm({ currentUser }: Props) {
         setValue("avatarUrl", newFile, { shouldValidate: true });
       }
     },
-    [setValue]
+    [setValue],
   );
 
   return (
@@ -179,7 +179,7 @@ export default function UserNewEditForm({ currentUser }: Props) {
                         checked={field.value !== "active"}
                         onChange={(event) =>
                           field.onChange(
-                            event.target.checked ? "banned" : "active"
+                            event.target.checked ? "banned" : "active",
                           )
                         }
                       />
@@ -260,7 +260,7 @@ export default function UserNewEditForm({ currentUser }: Props) {
                 isOptionEqualToValue={(option, value) => option === value}
                 renderOption={(props, option) => {
                   const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
+                    (country) => country.label === option,
                   )[0];
 
                   if (!label) {

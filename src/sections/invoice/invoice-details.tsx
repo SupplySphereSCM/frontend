@@ -45,7 +45,7 @@ type Props = {
 
 export default function InvoiceDetails({ invoice }: Props) {
   const [currentStatus, setCurrentStatus] = useState(
-    invoice?.order?.orderStatus
+    invoice?.order?.orderStatus,
   );
 
   console.log("invoice-details:", invoice?.order);
@@ -54,7 +54,7 @@ export default function InvoiceDetails({ invoice }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentStatus(event?.target?.value);
     },
-    []
+    [],
   );
 
   const renderTotal = (

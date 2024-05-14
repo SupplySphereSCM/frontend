@@ -70,7 +70,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   // });
   const handleStepTypeChange = (
     event: React.ChangeEvent<{}>,
-    value: string | null
+    value: string | null,
   ) => {
     setSelectedStepType(value || "");
   };
@@ -106,12 +106,12 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     console.log("Clicked", data);
 
     const selectedService = services.find(
-      (service: IServiceItem) => service.id === data.service?.value
+      (service: IServiceItem) => service.id === data.service?.value,
     );
     const serviceQuantity = selectedService?.quantity || 0;
 
     const selectedMaterial = materials.find(
-      (material: IServiceItem) => material.id === data?.rawMaterial?.value
+      (material: IServiceItem) => material.id === data?.rawMaterial?.value,
     );
     const MaterialQuantity = selectedMaterial?.quantity || 0;
 

@@ -21,7 +21,7 @@ export function useGetInvoices() {
       invoicesValidating: isValidating,
       invoicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -44,7 +44,7 @@ export function useGetUserInvoices() {
       invoicesValidating: isValidating,
       invoicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -67,7 +67,7 @@ export function useGetShopInvoices() {
       invoicesValidating: isValidating,
       invoicesEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
   // console.log(memoizedValue);
 
@@ -89,7 +89,7 @@ export function useGetInvoice(invoiceId: string) {
       invoiceError: error,
       invoiceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -112,7 +112,7 @@ export function useSearchInvoices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -141,7 +141,7 @@ export async function createInvoice(invoice: Partial<IInvoiceItem>) {
         invoices,
       };
     },
-    false
+    false,
   );
 }
 // ----------------------------------------------------------------------
@@ -167,7 +167,7 @@ export async function updateInvoice(invoice: Partial<IInvoiceItem>) {
 
       return { ...currentData, invoices: updatedinvoices };
     },
-    false
+    false,
   );
 }
 

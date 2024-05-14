@@ -21,7 +21,7 @@ export function useGetServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data?.data, error, isLoading, isValidating]
+    [data?.data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -42,7 +42,7 @@ export function useGetShopServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -55,7 +55,6 @@ export function useGetShopTransporterServices() {
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
-
   const memoizedValue = useMemo(
     () => ({
       services: (data?.data as ITransporterServiceItem[]) || [],
@@ -64,7 +63,7 @@ export function useGetShopTransporterServices() {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !data?.data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -86,7 +85,7 @@ export function useGetShopService(serviceId: string) {
       serviceValidating: isValidating,
       serviceEmpty: !isLoading && !data?.data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -118,7 +117,7 @@ export function useGetService({ serviceId, role }: UseGetServiceProps) {
       serviceError: error,
       serviceValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -156,7 +155,7 @@ export function useGetUserServices({ role }: UseGetUserServicesProps) {
       servicesValidating: isValidating,
       servicesEmpty: !isLoading && !services?.length,
     }),
-    [error, isLoading, isValidating]
+    [error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -179,7 +178,7 @@ export function useSearchServices(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -209,13 +208,13 @@ export async function createService(service: Partial<IServiceItem>) {
         services,
       };
     },
-    false
+    false,
   );
 }
 // ----------------------------------------------------------------------
 
 export async function createTransportService(
-  service: Partial<ITransporterServiceItem>
+  service: Partial<ITransporterServiceItem>,
 ) {
   const URL = endpoints.transporter.root;
   /**
@@ -241,7 +240,7 @@ export async function createTransportService(
         services,
       };
     },
-    false
+    false,
   );
 }
 
@@ -268,13 +267,13 @@ export async function updateService(service: Partial<IServiceItem>) {
 
       return { ...currentData, services: updatedServices };
     },
-    false
+    false,
   );
 }
 // ----------------------------------------------------------------------
 
 export async function updateTransporterService(
-  service: Partial<ITransporterServiceItem>
+  service: Partial<ITransporterServiceItem>,
 ) {
   const URL = endpoints.transporter.details(`${service.id}`);
   /**
@@ -293,12 +292,12 @@ export async function updateTransporterService(
       const updatedServices = currentData.services.map(
         (p: ITransporterServiceItem) => {
           return p.id === service.id ? { ...p, ...service } : p;
-        }
+        },
       );
 
       return { ...currentData, services: updatedServices };
     },
-    false
+    false,
   );
 }
 

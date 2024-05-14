@@ -22,14 +22,14 @@ export default function SupplyChainList({ supplyChains }: Props) {
     (id: string) => {
       router.push(paths.dashboard.supplychain.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleEdit = useCallback(
     (id: string) => {
       router.push(paths.dashboard.supplychain.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleDelete = useCallback((id: string) => {

@@ -113,7 +113,7 @@ export default function OrderListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 52 : 72;
@@ -133,7 +133,7 @@ export default function OrderListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -144,14 +144,14 @@ export default function OrderListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(async () => {
     await deleteOrders(table.selected);
 
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id)
+      (row) => !table.selected.includes(row.id),
     );
     setTableData(deleteRows);
 
@@ -170,14 +170,14 @@ export default function OrderListView() {
     (id: string) => {
       router.push(paths.dashboard.order.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       handleFilters("status", newValue);
     },
-    [handleFilters]
+    [handleFilters],
   );
 
   return (
@@ -279,7 +279,7 @@ export default function OrderListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -306,7 +306,7 @@ export default function OrderListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -321,7 +321,7 @@ export default function OrderListView() {
                       {dataFiltered
                         .slice(
                           table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage
+                          table.page * table.rowsPerPage + table.rowsPerPage,
                         )
                         .map((row) => (
                           <OrderTableRow
@@ -341,7 +341,7 @@ export default function OrderListView() {
                     emptyRows={emptyRows(
                       table.page,
                       table.rowsPerPage,
-                      tableData.length
+                      tableData.length,
                     )}
                   />
 
@@ -421,7 +421,7 @@ function applyFilter({
       (order) =>
         order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
         order.to.firstName.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.to.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.to.email.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
@@ -434,7 +434,7 @@ function applyFilter({
       inputData = inputData.filter(
         (order) =>
           fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
+          fTimestamp(order.createdAt) <= fTimestamp(endDate),
       );
     }
   }
