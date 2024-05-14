@@ -20,7 +20,7 @@ export function useGetSupplyChains() {
       supplyChainsValidating: isValidating,
       supplyChainsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -40,7 +40,7 @@ export function useGetSupplyChain(id: string) {
       supplyChainError: error,
       supplyChainValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -49,7 +49,7 @@ export function useGetSupplyChain(id: string) {
 // ----------------------------------------------------------------------
 
 export async function createSupplyChain(
-  supplyChain: Partial<ISupplyChainItem>
+  supplyChain: Partial<ISupplyChainItem>,
 ) {
   const URL = endpoints.supplychain.root;
   /**
@@ -76,13 +76,13 @@ export async function createSupplyChain(
         supplyChains,
       };
     },
-    false
+    false,
   );
 }
 // ----------------------------------------------------------------------
 
 export async function updateSupplyChain(
-  supplyChain: Partial<ISupplyChainItem>
+  supplyChain: Partial<ISupplyChainItem>,
 ) {
   const URL = endpoints.supplychain.details(`${supplyChain.id}`);
   /**
@@ -101,12 +101,12 @@ export async function updateSupplyChain(
       const updatedServices = currentData.supplyChains.map(
         (p: ISupplyChainItem) => {
           return p.id === supplyChain.id ? { ...p, ...supplyChain } : p;
-        }
+        },
       );
 
       return { ...currentData, services: updatedServices };
     },
-    false
+    false,
   );
 }
 
@@ -119,7 +119,7 @@ export async function deleteSupplychain(ids: string) {
     // }
 
     return await axiosInstance.delete(
-      endpoints.supplychain.details(ids as string)
+      endpoints.supplychain.details(ids as string),
     );
   } catch (error) {
     console.error("Failed to delete services:", error);

@@ -25,7 +25,7 @@ export function useGetOrder(ordertId: string) {
       orderError: error,
       orderValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -46,7 +46,7 @@ export function useGetOrders() {
       ordersValidating: isValidating,
       ordersEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -67,7 +67,7 @@ export function useGetUserOrders() {
       ordersValidating: isValidating,
       ordersEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -89,7 +89,7 @@ export function useGetShopOrders() {
       ordersValidating: isValidating,
       ordersEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -112,7 +112,7 @@ export function useSearchOrders(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating]
+    [data?.results, error, isLoading, isValidating],
   );
 
   return memoizedValue;
@@ -152,7 +152,7 @@ export async function createOrder(order: Partial<IOrderItem>) {
 
 export async function updateOrder(
   order: Partial<IOrderItem>,
-  orderStatus: string
+  orderStatus: string,
 ) {
   const URL = endpoints.order.details(`${order.id}`);
   /**
@@ -180,7 +180,7 @@ export async function updateOrder(
       }
       return currentOrder;
     },
-    false
+    false,
   );
 }
 

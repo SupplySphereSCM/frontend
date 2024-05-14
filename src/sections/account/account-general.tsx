@@ -20,16 +20,22 @@ import axios, { endpoints } from "src/utils/axios";
 
 // components
 import { useSnackbar } from "src/components/snackbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
 import FormProvider, {
   RHFSwitch,
   RHFTextField,
   RHFUploadAvatar,
 } from "src/components/hook-form";
-import { ConfirmDialog } from "src/components/custom-dialog";
 import { Chip, TextField } from "@mui/material";
 import { dataTagSymbol } from "@tanstack/react-query";
-import { updateUser } from "src/api/users";
+import { updateUser, verifyEthUserAddr } from "src/api/users";
 import { paths } from "src/routes/paths";
+
+import { useAccount, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "src/web3/wagmi.config";
+import supplySphereABI, { ROLES } from "src/abi/supplysphere.abi";
+import supplysphere from "src/abi/SupplySphere.json";
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +47,10 @@ export default function AccountGeneral() {
   const { user, logout } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const { address } = useAccount();
+
+  const { writeContractAsync } = useWriteContract();
 
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -75,7 +85,26 @@ export default function AccountGeneral() {
     formState: { isSubmitting },
   } = methods;
 
-  console.log("Authcontext user :", user);
+  const updateUserEthAddress = useCallback(async () => {
+    try {
+      const hash = await writeContractAsync({
+        abi: supplySphereABI,
+        address: supplysphere.address as `0x${string}`,
+        functionName: "registerUser",
+        // @ts-ignore
+        args: [ROLES[`${user!.roles[0]}`] as `0x${string}`],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
+      await verifyEthUserAddr({ ethAddr: address, transactionHash });
+      enqueueSnackbar("Address verified successfully", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar("Address verification un-successfully", {
+        variant: "error",
+      });
+    }
+  }, [user?.roles, enqueueSnackbar]);
 
   const onSubmit = handleSubmit(async (data) => {
     // const id = user?.id;
@@ -103,7 +132,7 @@ export default function AccountGeneral() {
         setValue("profilePictureUrl", newFile, { shouldValidate: true });
       }
     },
-    [setValue]
+    [setValue],
   );
 
   const handleDeleteUser = async () => {
@@ -170,20 +199,20 @@ export default function AccountGeneral() {
                 <TextField
                   // variant={variant}
                   disabled
+                  value={user?.ethAddress}
                   fullWidth
                   label="Disabled"
                   defaultValue="0xEthaddress"
                 />
-                {/* <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}> */}
                 <LoadingButton
                   sx={{ ml: 2, width: 210 }}
+                  onClick={updateUserEthAddress}
                   // type="submit"
                   variant="contained"
                   loading={isSubmitting}
                 >
                   Verify Address
                 </LoadingButton>
-                {/* </Stack> */}
               </Box>
               <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
                 <RHFTextField name="about" multiline rows={4} label="About" />

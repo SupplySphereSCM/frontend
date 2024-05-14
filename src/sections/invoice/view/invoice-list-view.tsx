@@ -121,7 +121,7 @@ export default function InvoiceListView() {
 
   const dataInPage = dataFiltered.slice(
     table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
+    table.page * table.rowsPerPage + table.rowsPerPage,
   );
 
   const denseHeight = table.dense ? 56 : 76;
@@ -182,7 +182,7 @@ export default function InvoiceListView() {
         [name]: value,
       }));
     },
-    [table]
+    [table],
   );
 
   const handleDeleteRow = useCallback(
@@ -193,13 +193,13 @@ export default function InvoiceListView() {
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
-    [dataInPage.length, table, tableData]
+    [dataInPage.length, table, tableData],
   );
 
   const handleDeleteRows = useCallback(async () => {
     await deleteInvoices(table.selected);
     const deleteRows = tableData.filter(
-      (row) => !table.selected.includes(row.id)
+      (row) => !table.selected.includes(row.id),
     );
     setTableData(deleteRows);
 
@@ -214,21 +214,21 @@ export default function InvoiceListView() {
     (id: string) => {
       router.push(paths.dashboard.invoice.edit(id));
     },
-    [router]
+    [router],
   );
 
   const handleViewRow = useCallback(
     (id: string) => {
       router.push(paths.dashboard.invoice.details(id));
     },
-    [router]
+    [router],
   );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       handleFilters("status", newValue);
     },
-    [handleFilters]
+    [handleFilters],
   );
 
   const handleResetFilters = useCallback(() => {
@@ -341,7 +341,7 @@ export default function InvoiceListView() {
               px: 2.5,
               boxShadow: `inset 0 -2px 0 0 ${alpha(
                 theme.palette.grey[500],
-                0.08
+                0.08,
               )}`,
             }}
           >
@@ -373,7 +373,7 @@ export default function InvoiceListView() {
             //
             dateError={dateError}
             serviceOptions={INVOICE_SERVICE_OPTIONS.map(
-              (option) => option.name
+              (option) => option.name,
             )}
           />
 
@@ -397,7 +397,7 @@ export default function InvoiceListView() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row.id),
                 )
               }
               action={
@@ -444,7 +444,7 @@ export default function InvoiceListView() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row.id),
                     )
                   }
                 />
@@ -459,7 +459,7 @@ export default function InvoiceListView() {
                       {dataFiltered
                         .slice(
                           table.page * table.rowsPerPage,
-                          table.page * table.rowsPerPage + table.rowsPerPage
+                          table.page * table.rowsPerPage + table.rowsPerPage,
                         )
                         .map((row) => (
                           <InvoiceTableRow
@@ -480,7 +480,7 @@ export default function InvoiceListView() {
                     emptyRows={emptyRows(
                       table.page,
                       table.rowsPerPage,
-                      tableData.length
+                      tableData.length,
                     )}
                   />
 
@@ -560,7 +560,7 @@ function applyFilter({
       (invoice) =>
         invoice.invoiceNumber.toLowerCase().indexOf(name.toLowerCase()) !==
           -1 ||
-        invoice.invoiceTo.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        invoice.invoiceTo.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
     );
   }
 
@@ -570,7 +570,7 @@ function applyFilter({
 
   if (service.length) {
     inputData = inputData.filter((invoice) =>
-      invoice.items.some((filterItem) => service.includes(filterItem.service))
+      invoice.items.some((filterItem) => service.includes(filterItem.service)),
     );
   }
 
@@ -579,7 +579,7 @@ function applyFilter({
       inputData = inputData.filter(
         (invoice) =>
           fTimestamp(invoice.createDate) >= fTimestamp(startDate) &&
-          fTimestamp(invoice.createDate) <= fTimestamp(endDate)
+          fTimestamp(invoice.createDate) <= fTimestamp(endDate),
       );
     }
   }
