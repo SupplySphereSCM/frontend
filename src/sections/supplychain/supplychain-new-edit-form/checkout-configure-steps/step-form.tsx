@@ -54,20 +54,12 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   const methods = useForm({
     resolver: yupResolver(NewStepSchema),
   });
-
   const { control } = useFormContext<ISupplyChainSchema>();
-  const { reset } = useFormContext();
+  // const { reset } = useFormContext();
   const { user } = useAuthContext();
   const [selectedStepType, setSelectedStepType] = useState<string>("");
-  // const [formValues, setFormValues] = useState<ISupplyChainStepItem>({
-  //   from: "",
-  //   to: "",
-  //   transport: "",
-  //   stepType: "",
-  //   service: "",
-  //   rawMaterial: "",
-  //   product: "",
-  // });
+
+  const { reset } = methods;
   const handleStepTypeChange = (
     event: React.ChangeEvent<{}>,
     value: string | null
@@ -140,8 +132,8 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
       quantity:
         data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
     } as ISupplyChainStepLabel);
-
     onClose();
+    reset();
   });
 
   return (
