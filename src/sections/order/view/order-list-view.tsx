@@ -49,7 +49,7 @@ import OrderTableRow from "../order-table-row";
 import OrderTableToolbar from "../order-table-toolbar";
 import OrderTableFiltersResult from "../order-table-filters-result";
 // api
-import { deleteOrders, useGetOrders } from "src/api/orders";
+import { deleteOrders, useGetOrders, useGetUserOrders } from "src/api/orders";
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [
@@ -61,7 +61,7 @@ const TABLE_HEAD = [
   { id: "orderNumber", label: "Order", width: 116 },
   { id: "name", label: "Customer" },
   { id: "createdAt", label: "Date", width: 140 },
-  { id: "totalQuantity", label: "Items", width: 120, align: "center" },
+  { id: "totalQuantity", label: "Quantity", width: 120, align: "center" },
   { id: "totalAmount", label: "Price", width: 140 },
   { id: "status", label: "Status", width: 110 },
   { id: "", width: 88 },
@@ -90,7 +90,7 @@ export default function OrderListView() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { orders, ordersLoading, ordersEmpty } = useGetOrders();
+  const { orders, ordersLoading, ordersEmpty } = useGetUserOrders();
   console.log("Order-list-view", orders);
 
   const dateError =

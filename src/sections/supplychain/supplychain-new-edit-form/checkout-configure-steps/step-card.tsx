@@ -85,7 +85,7 @@ function SupplychainStepsTableRow({ row }: SupplychainStepsTableRowProps) {
 
       <TableCell align="center">{row.transport}</TableCell>
 
-      {row.stepType === "Procuring" ? (
+      {row.stepType === "PROCURING" ? (
         <TableCell align="right">{row.rawMaterial}</TableCell>
       ) : (
         <TableCell align="right">{row.service}</TableCell>

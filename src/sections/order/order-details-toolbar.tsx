@@ -13,15 +13,15 @@ import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
 import { updateOrder } from "src/api/orders";
+import { useAuthContext } from "src/auth/hooks";
+import { IOrderItem } from "src/types/order";
 
 // ----------------------------------------------------------------------
 
 type Props = {
+  order: Partial<IOrderItem>; // Add order prop here
   status: string;
-  // stepType: string;
   backLink: string;
-  orderNumber: string;
-  createdAt: Date;
   onChangeStatus: (newValue: string) => void;
   statusOptions: {
     value: string;
@@ -30,27 +30,50 @@ type Props = {
 };
 
 export default function OrderDetailsToolbar({
+  order,
   status,
-  // stepType,
   backLink,
-  createdAt,
-  orderNumber,
   statusOptions,
   onChangeStatus,
 }: Props) {
   const popover = usePopover();
+  const { user } = useAuthContext();
 
-  const handleOrderSender = () => {
+  const handleOrderSender = async () => {
     console.log("Order sent");
-    // updateOrder({
-    //   ...order,
-    //   orderStatus = "TRANSIT",
-    // });
-    // Update the Order STATUS
+    try {
+      await updateOrder(order, "PROCESSING");
+      console.log("Order Sent");
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+    }
   };
-  const handleOrderReceiver = () => {
-    console.log("Order Received");
-    // Update the Order STATUS
+  // const handleOrderReceiver = async () => {
+  //   console.log("Order Received");
+  //   try {
+  //     await updateOrder(order, "DELIVERED");
+  //     console.log("Order Received");
+  //   } catch (error) {
+  //     console.error("Failed to update order status:", error);
+  //   }
+  // };
+
+  const handleTransporterOrderSender = async () => {
+    console.log("Order Off loaded");
+    try {
+      await updateOrder(order, "DELIVERED"); // Pass the order object and orderStatus directly
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+    }
+  };
+
+  const handleTransporterOrderReceiver = async () => {
+    console.log("Order on loaded");
+    try {
+      await updateOrder(order, "TRANSIT");
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+    }
   };
 
   return (
@@ -71,7 +94,7 @@ export default function OrderDetailsToolbar({
             <Stack spacing={1} direction="row" alignItems="center">
               <Typography variant="h4">
                 {" "}
-                Order #{orderNumber.slice(0, 5)}
+                Order #{order?.id?.slice(0, 5)}
               </Typography>
               <Label
                 variant="soft"
@@ -87,7 +110,7 @@ export default function OrderDetailsToolbar({
             </Stack>
 
             <Typography variant="body2" sx={{ color: "text.disabled" }}>
-              {fDateTime(createdAt)}
+              {fDateTime(order?.createdAt)}
             </Typography>
           </Stack>
         </Stack>
@@ -108,24 +131,49 @@ export default function OrderDetailsToolbar({
           >
             {status}
           </Button>
-          {/* {stepType === "SERVICING" && ( */}
-          <Button
-            onClick={handleOrderReceiver}
-            color="inherit"
-            variant="outlined"
-            startIcon={<Iconify icon="eva:diagonal-arrow-left-down-fill" />}
-          >
-            Confirm Receiver
-          </Button>
-          {/* )} */}
-          <Button
-            onClick={handleOrderSender}
-            color="inherit"
-            variant="outlined"
-            startIcon={<Iconify icon="eva:diagonal-arrow-right-up-fill" />}
-          >
-            Confirm Sender
-          </Button>
+
+          {user?.roles[0] === "TRANSPORTER" ? (
+            <>
+              <Button
+                onClick={handleTransporterOrderReceiver}
+                color="inherit"
+                variant="outlined"
+                startIcon={<Iconify icon="eva:diagonal-arrow-right-up-fill" />}
+              >
+                OnLoad
+              </Button>
+              <Button
+                onClick={handleTransporterOrderSender}
+                color="inherit"
+                variant="outlined"
+                startIcon={<Iconify icon="eva:diagonal-arrow-right-up-fill" />}
+              >
+                OffLoad
+              </Button>
+            </>
+          ) : (
+            // <>
+            // {order?.stepType && order?.stepType === "SERVICING" && (
+            //   <Button
+            //     onClick={handleOrderReceiver}
+            //     color="inherit"
+            //     variant="outlined"
+            //     startIcon={
+            //       <Iconify icon="eva:diagonal-arrow-left-down-fill" />
+            //     }
+            //   >
+            //     Confirm Receiver
+            //   </Button>
+            // )}
+            <Button
+              onClick={handleOrderSender}
+              color="inherit"
+              variant="outlined"
+              startIcon={<Iconify icon="eva:diagonal-arrow-right-up-fill" />}
+            >
+              Confirm Sender
+            </Button>
+          )}
 
           {/* <Button
             color="inherit"

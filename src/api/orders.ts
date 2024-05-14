@@ -33,6 +33,27 @@ export function useGetOrder(ordertId: string) {
 // ----------------------------------------------------------------------
 
 export function useGetOrders() {
+  const URL = endpoints.order.root;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  // console.log("Order Data:", data); // Check if data is being fetched
+
+  const memoizedValue = useMemo(
+    () => ({
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      ordersError: error,
+      ordersValidating: isValidating,
+      ordersEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+// ----------------------------------------------------------------------
+
+export function useGetUserOrders() {
   const URL = endpoints.order.user;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);

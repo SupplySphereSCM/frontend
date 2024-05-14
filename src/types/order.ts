@@ -76,13 +76,13 @@ export type IOrderCustomer = {
 
 export type IOrderProductItem = {
   id: string;
-  sku: string;
+  // sku: string;
   name: string;
   price: number;
   coverUrl: string;
   quantity: number;
   available: number;
-  discount: number;
+  // discount: number;
   code: number;
   createdAt: Date;
   // ---------

@@ -28,7 +28,6 @@ export default function OrderDetailsView({ id }: Props) {
   // console.log(id);
 
   const { order, orderLoading, orderError } = useGetOrder(id);
-  console.log("order-details-view", order);
 
   // const currentOrder = order.filter((order) => order.id === id)[0];
   // const currentOrder = order;
@@ -41,15 +40,15 @@ export default function OrderDetailsView({ id }: Props) {
 
   const renderOrderDetails = order && (
     <>
-      <OrderDetailsToolbar
-        backLink={paths.dashboard.order.root}
-        // stepType={order?.stepType}
-        orderNumber={order?.id}
-        createdAt={order?.createdAt}
-        status={status}
-        onChangeStatus={handleChangeStatus}
-        statusOptions={ORDER_STATUS_OPTIONS}
-      />
+      {order && (
+        <OrderDetailsToolbar
+          order={order}
+          backLink={paths.dashboard.order.root}
+          status={status}
+          onChangeStatus={handleChangeStatus}
+          statusOptions={ORDER_STATUS_OPTIONS}
+        />
+      )}
 
       <Grid container spacing={3}>
         <Grid xs={12} md={8}>

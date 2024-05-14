@@ -25,7 +25,11 @@ import { fTimestamp } from "src/utils/format-time";
 // _mock
 import { _invoices, INVOICE_SERVICE_OPTIONS } from "src/_mock";
 // api
-import { deleteInvoices, useGetInvoices } from "src/api/invoice";
+import {
+  deleteInvoices,
+  useGetInvoices,
+  useGetUserInvoices,
+} from "src/api/invoice";
 // components
 import Label from "src/components/label";
 import Iconify from "src/components/iconify";
@@ -94,8 +98,7 @@ export default function InvoiceListView() {
   const [tableData, setTableData] = useState<IInvoice[]>([]);
 
   const [filters, setFilters] = useState(defaultFilters);
-  const { invoices, invoicesLoading, invoicesEmpty } = useGetInvoices();
-  // const { invoices, invoicesLoading, invoicesEmpty } = useGetOrders();
+  const { invoices, invoicesLoading, invoicesEmpty } = useGetUserInvoices();
   console.log("Invoices-list-view", invoices);
 
   const dateError =

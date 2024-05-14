@@ -48,7 +48,7 @@ type Props = {
   onCreate: (step: ISupplyChainStepItem) => void;
 };
 
-const stepType = [{ title: "Procuring" }, { title: "Servicing" }];
+const stepType = [{ title: "PROCURING" }, { title: "SERVICING" }];
 
 export default function StepForm({ open, onClose, onCreate }: Props) {
   const methods = useForm({
@@ -120,12 +120,12 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
       to: data.to.value,
       transport: data.transport.value,
       stepType: data.stepType,
-      service: data.stepType === "Procuring" ? null : data.service?.value,
+      service: data.stepType === "PROCURING" ? null : data.service?.value,
       rawMaterial:
-        data.stepType === "Servicing" ? null : data.rawMaterial?.value,
+        data.stepType === "SERVICING" ? null : data.rawMaterial?.value,
       product: data.product?.value,
       quantity:
-        data.stepType === "Servicing" ? serviceQuantity : MaterialQuantity,
+        data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
     } as ISupplyChainStepItem);
 
     stepArrayAppend({
@@ -133,12 +133,12 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
       to: data?.to.label,
       transport: data.transport.label,
       stepType: data.stepType,
-      service: data.stepType === "Procuring" ? null : data.service?.label,
+      service: data.stepType === "PROCURING" ? null : data.service?.label,
       rawMaterial:
-        data.stepType === "Servicing" ? null : data.rawMaterial?.label,
+        data.stepType === "SERVICING" ? null : data.rawMaterial?.label,
       product: data.product?.label,
       quantity:
-        data.stepType === "Servicing" ? serviceQuantity : MaterialQuantity,
+        data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
     } as ISupplyChainStepLabel);
 
     onClose();
@@ -272,7 +272,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
               }}
             />
 
-            {selectedStepType === "Procuring" && (
+            {selectedStepType === "PROCURING" && (
               <RHFAutocomplete
                 name="rawMaterial"
                 label="Raw Material"
@@ -312,7 +312,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
                 }}
               />
             )}
-            {selectedStepType === "Servicing" && (
+            {selectedStepType === "SERVICING" && (
               <RHFAutocomplete
                 name="service"
                 label="Service"

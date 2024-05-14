@@ -136,7 +136,7 @@ export function useNavData() {
 
           // PRODUCT
           ...(user?.roles.some((role) =>
-            ["SELLER", "MANUFACTURER"].includes(role),
+            ["SELLER", "MANUFACTURER"].includes(role)
           )
             ? [
                 {
@@ -153,7 +153,7 @@ export function useNavData() {
 
           // SERVICES
           ...(user?.roles.some((role) =>
-            ["SELLER", "TRANSPORTER"].includes(role),
+            ["SELLER", "TRANSPORTER"].includes(role)
           )
             ? [
                 {
@@ -186,7 +186,7 @@ export function useNavData() {
             icon: ICONS.invoice,
             children: [
               { title: "list", path: paths.dashboard.invoice.root },
-              { title: "create", path: paths.dashboard.invoice.new },
+              // { title: "create", path: paths.dashboard.invoice.new },
             ],
           },
         ],
@@ -279,7 +279,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    [],
+    []
   );
 
   return data;

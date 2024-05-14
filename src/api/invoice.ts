@@ -11,8 +11,7 @@ export function useGetInvoices() {
   const URL = endpoints.invoice.root;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
-  console.log("useGetInvoices", data);
+  // console.log("useGetInvoices", data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -39,7 +38,7 @@ export function useGetUserInvoices() {
 
   const memoizedValue = useMemo(
     () => ({
-      invoices: (data as IInvoiceItem[]) || [],
+      invoices: (data as IInvoice[]) || [],
       invoicesLoading: isLoading,
       invoicesError: error,
       invoicesValidating: isValidating,

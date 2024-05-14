@@ -36,8 +36,8 @@ export const STEPS = [
 ];
 
 enum StepType {
-  Procurement = "Procuring",
-  Servicing = "Servicing",
+  Procurement = "PROCURING",
+  Servicing = "SERVICING",
 }
 // ----------------------------------------------------------------------
 
