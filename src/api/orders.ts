@@ -13,10 +13,10 @@ export function useGetOrder(ordertId: string) {
   //   ? [`${endpoints.order.details}/${ordertId}`, { params: { ordertId } }]
   //   : null;
   const URL = endpoints.order.details(ordertId);
-  console.log(URL);
+  // console.log(URL);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  console.log("Get Order by ID:", data);
+  // console.log("Get Order by ID:", data);
 
   const memoizedValue = useMemo(
     () => ({
@@ -36,7 +36,7 @@ export function useGetOrders() {
   const URL = endpoints.order.user;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  console.log("Order Data:", data); // Check if data is being fetched
+  // console.log("Order Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
@@ -129,13 +129,19 @@ export async function createOrder(order: Partial<IOrderItem>) {
 
 // ----------------------------------------------------------------------
 
-export async function updateOrder(order: Partial<IOrderItem>) {
+export async function updateOrder(
+  order: Partial<IOrderItem>,
+  orderStatus: string
+) {
   const URL = endpoints.order.details(`${order.id}`);
   /**
    * Work on server
    */
-  const data = { ...order };
-  await axiosInstance.patch(URL, data);
+  // const data = { ...order };
+  const updatedOrder = { ...order, orderStatus };
+  console.log("updateOrder:", updatedOrder);
+
+  await axiosInstance.patch(URL, updatedOrder);
   // console.log(data);
 
   /**
@@ -144,11 +150,14 @@ export async function updateOrder(order: Partial<IOrderItem>) {
   mutate(
     URL,
     (currentOrder: any) => {
-      const updatedOrders = currentOrder.orderss.map((p: IProductItem) => {
-        return p.id === order.id ? { ...p, ...order } : p;
-      });
-
-      return { ...currentOrder, orders: updatedOrders };
+      console.log("updateOrder:", currentOrder);
+      if (currentOrder && currentOrder.orders) {
+        const updatedOrders = currentOrder?.orders.map((p: IOrderItem) => {
+          return p.id === order.id ? { ...p, ...order } : p;
+        });
+        return { ...currentOrder, orders: updatedOrders };
+      }
+      return currentOrder;
     },
     false
   );
