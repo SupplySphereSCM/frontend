@@ -35,6 +35,7 @@ export type IProductReview = {
 
 export type IProductSchema = {
   id?: string;
+  eid: string;
   user: IUser;
   name: string;
   subDescription: string;
@@ -53,6 +54,7 @@ export type IProductSchema = {
 
 export type IProductItem = {
   id: string;
+  eid: string;
   user: IUser;
   name: string;
   description: string;

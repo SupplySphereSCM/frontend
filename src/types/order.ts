@@ -113,6 +113,8 @@ export type IOrderItem = {
   quantity: number;
   subTotal: number;
   orderNumber: string;
+  transactionHash: string;
+
   // shipping: number;
   // discount: number;
   // totalAmount: number;

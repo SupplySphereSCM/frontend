@@ -44,6 +44,13 @@ import {
 } from "src/types/service";
 
 import axiosInstance, { endpoints } from "src/utils/axios";
+// wagmi
+// import { toUint256 } from "@wagmi/core";
+import { useAccount, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "src/web3/wagmi.config";
+import logistics from "src/abi/Logistics.json";
+import logisticsABI from "src/abi/logistics.abi";
 
 // ----------------------------------------------------------------------
 
@@ -59,6 +66,7 @@ export default function TransporterServiceNewEditForm({
   const mdUp = useResponsive("up", "md");
 
   const { enqueueSnackbar } = useSnackbar();
+  const { writeContractAsync } = useWriteContract();
 
   const NewServiceSchema = Yup.object<ITransporterServiceSchema>().shape({
     id: Yup.string(),
@@ -81,7 +89,7 @@ export default function TransporterServiceNewEditForm({
       transactionHash:
         currentTransportService?.transactionHash || Date.now().toString(),
     }),
-    [currentTransportService],
+    [currentTransportService]
   );
 
   const methods = useForm({
@@ -116,15 +124,30 @@ export default function TransporterServiceNewEditForm({
   const onSubmit = handleSubmit(async (data) => {
     try {
       // await new Promise((resolve) => setTimeout(resolve, 500));
-      // currentTransportService?
-      // If condn currentTransportService.id?
-      if (currentTransportService?.id)
-        updateTransporterService(data as ITransporterServiceItem);
-      else createTransportService(data as ITransporterServiceItem);
+
+      if (currentTransportService?.id) {
+        await updateTransporterService(data as ITransporterServiceItem);
+      } else {
+        // const hash = await writeContractAsync({
+        //   abi: logisticsABI,
+        //   address: logistics?.address as `0x${string}`,
+        //   functionName: "addLogistics",
+        //   args: [data.name, toUint256(data.priceWithinState)],
+        //   // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
+        //   // @ts-ignore
+        // });
+        // const { transactionHash } = await waitForTransactionReceipt(config, {
+        //   hash,
+        // });
+        // data.eid = hash;
+        // data.transactionHash = transactionHash;
+
+        await createTransportService(data as ITransporterServiceItem);
+      }
 
       reset();
       enqueueSnackbar(
-        currentTransportService ? "Update success!" : "Create success!",
+        currentTransportService ? "Update success!" : "Create success!"
       );
       router.push(paths.dashboard.service.root);
       console.info("DATA", data);

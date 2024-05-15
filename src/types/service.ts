@@ -37,6 +37,7 @@ export type IServiceReview = {
 
 export type IServiceSchema = {
   id?: string;
+  eid: string;
   type: string;
   name: string;
   subDescription: string;
@@ -49,13 +50,14 @@ export type IServiceSchema = {
   tax: number;
   createdAt: Date;
   updatedAt: Date;
-  transactionHash: string;
   user: IUser;
+  transactionHash: string;
 };
 
 export type IServiceItem = {
   length: any;
   id: string;
+  eid: string;
   type: string;
   name: string;
   description: string;
@@ -86,6 +88,7 @@ export type IServiceItem = {
 
 export type ITransporterServiceItem = {
   id?: string;
+  eid: string;
   name: string;
   description: string;
   priceWithinState: number;
@@ -93,9 +96,9 @@ export type ITransporterServiceItem = {
   priceInternationl: number;
   createdAt: Date;
   updatedAt: Date;
-  transactionHash: string;
   coverUrl: string;
   user: IUser;
+  transactionHash: string;
   // totalSold: number;
   // totalRatings: number;
   // totalReviews: number;
@@ -110,6 +113,7 @@ export type ITransporterServiceItem = {
 
 export type ITransporterServiceSchema = {
   id?: string;
+  eid: string;
   name: string;
   description: string;
   priceWithinState: number;

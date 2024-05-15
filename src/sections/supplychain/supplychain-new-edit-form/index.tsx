@@ -24,7 +24,14 @@ import CheckoutPreviewSteps from "./checkout-preview-steps";
 import CheckoutConfigureSteps from "./checkout-configure-steps";
 import { Button } from "@mui/base/Button";
 import { useAuthContext } from "src/auth/hooks";
-import { createSupplyChain } from "src/api/supplychain";
+import { createSupplyChain, updateSupplyChain } from "src/api/supplychain";
+// wagmi
+// import { toUint256 } from "@wagmi/core";
+import { useAccount, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "src/web3/wagmi.config";
+import supplychain from "src/abi/SupplyChain.json";
+import supplychainABI from "src/abi/supplychain.abi";
 
 // ----------------------------------------------------------------------
 
@@ -89,13 +96,16 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const checkout = useCheckoutContext();
   const { onReset } = useCheckoutContext();
   const { enqueueSnackbar } = useSnackbar();
+  const { writeContractAsync } = useWriteContract();
 
   const defaultValues: ISupplyChainSchema = useMemo(
     () => ({
       id: currentProduct?.id,
+      // eid: currentProduct?.eid,
       name: currentProduct?.name || "",
       description: currentProduct?.description || "",
       steps: currentProduct?.steps || [],
+      transactionHash: currentProduct?.transactionHash || "",
       // const defaultSteps: ISupplyChainStepItem[] = currentProduct?.steps || [];
 
       // return {
@@ -109,7 +119,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       // stepType: "",
       // }
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   const methods = useForm({
@@ -126,10 +136,27 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
     }
   }, [currentProduct, defaultValues, reset]);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     try {
       console.log("Data", data);
-      createSupplyChain(data);
+      if (data?.id) {
+        await updateSupplyChain(data);
+      } else {
+        // const hash = await writeContractAsync({
+        //   abi: supplychainABI,
+        //   address: supplychain.address as `0x${string}`,
+        //   functionName: "createSupplyChain",
+        //   // @ts-ignore
+        //   args: [data.name, data.description, data.steps],
+        // });
+        // const { transactionHash } = await waitForTransactionReceipt(config, {
+        //   hash,
+        // });
+        // // Include hash and transactionHash in the data object
+        // data.eid = hash;
+        // data.transactionHash = transactionHash;
+        await createSupplyChain(data);
+      }
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       onReset();
       router.push(paths.dashboard.supplychain.root);

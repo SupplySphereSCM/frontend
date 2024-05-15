@@ -38,6 +38,13 @@ import {
   IServiceSchema,
   ITransporterServiceItem,
 } from "src/types/service";
+// wagmi
+// import { toUint256 } from "@wagmi/core";
+import { useAccount, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "src/web3/wagmi.config";
+import service from "src/abi/Services.json";
+import servicesABI from "src/abi/services.abi";
 
 // ----------------------------------------------------------------------
 
@@ -51,6 +58,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
   const mdUp = useResponsive("up", "md");
 
   const { enqueueSnackbar } = useSnackbar();
+  const { writeContractAsync } = useWriteContract();
 
   const [quantity, setQuantity] = useState("");
 
@@ -84,7 +92,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       type: currentService?.type || "Quantity",
       transactionHash: currentService?.transactionHash || Date.now().toString(),
     }),
-    [currentService],
+    [currentService]
   );
 
   const methods = useForm({
@@ -118,10 +126,32 @@ export default function ServiceNewEditForm({ currentService }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      if (currentService?.id) updateService(data as IServiceItem);
+      if (currentService?.id) {
+        await updateService(data as IServiceItem);
+      }
       // console.log(data);
-      else createService(data as IServiceItem);
-
+      else {
+        // const hash = await writeContractAsync({
+        //   abi: servicesABI,
+        //   address: service?.address as `0x${string}`,
+        //   functionName: "addService",
+        //   args: [
+        //     data.name,
+        //     toUint256(data.price),
+        //     toUint256(data.tax),
+        //     toUint256(data.quantity),
+        //     toUint256(data.volume),
+        //   ],
+        //   // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
+        //   // @ts-ignore
+        // });
+        // const { transactionHash } = await waitForTransactionReceipt(config, {
+        //   hash,
+        // });
+        // data.eid = hash;
+        // data.transactionHash = transactionHash;
+        await createService(data as IServiceItem);
+      }
       reset();
       enqueueSnackbar(currentService ? "Update success!" : "Create success!");
       router.push(paths.dashboard.service.root);
@@ -164,7 +194,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   // const handleImageUpload = async () => {
@@ -201,7 +231,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <RHFTextField name="name" label="Service Name" />
-            <RHFTextField name="transactionHash" label="Transaction Hash" />
+            {/* <RHFTextField name="transactionHash" label="Transaction Hash" /> */}
 
             <RHFTextField
               name="subDescription"

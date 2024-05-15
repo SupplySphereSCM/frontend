@@ -35,6 +35,7 @@ export type IRawMaterialReview = {
 
 export type IRawMaterialSchema = {
   id?: string;
+  eid: string;
   name: string;
   description: string;
   subDescription: string;
@@ -43,14 +44,15 @@ export type IRawMaterialSchema = {
   quantity: number;
   price: number;
   tax: number;
-  transactionHash: string;
   user: IUser;
   createdAt: Date;
   updatedAt: Date;
+  transactionHash: string;
 };
 
 export type IRawMaterialItem = {
   id: string;
+  eid: string;
   name: string;
   description: string;
   subDescription: string;

@@ -3,10 +3,11 @@ import { IServiceItem } from "./service";
 
 export type ISupplyChainItem = {
   id: string;
+  eid: string;
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
-
+  transactionHash: string;
   createdAt: Date;
 };
 
@@ -22,9 +23,11 @@ export const SUPPLYCHAIN_SORT_OPTIONS = [
 
 export type ISupplyChainSchema = {
   id?: string;
+  // eid: string;
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
+  transactionHash: string;
 };
 
 export type CheckoutContextProps = {
