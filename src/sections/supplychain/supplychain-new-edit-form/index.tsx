@@ -119,7 +119,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       // stepType: "",
       // }
     }),
-    [currentProduct]
+    [currentProduct],
   );
 
   const methods = useForm({
