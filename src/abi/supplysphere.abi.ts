@@ -1189,9 +1189,14 @@ export default [
   },
 ] as const;
 
+export const supplySphereAddress = "";
+
 export const ROLES = {
-  RETAILER: "",
-  SELLER: "",
-  MANUFACTURER: "",
-  TRANSPORTER: "",
+  SELLER: "0x43f25613eb2f15fb17222a5d424ca2655743e71265d98e4b93c05e5fb589ecde",
+  TRANSPORTER:
+    "0xddaa901e2fe3bda354fe0ede2785152d5c109282a613fe024a056a3e66c41bb3",
+  MANUFACTURER:
+    "0xeefb95e842a3287179d933b4460be539a1d5af11aa8b325bb45c5c8dc92de4ed",
+  RETAILER:
+    "0x2a5f906c256a5d799494fcd066e1f6c077689de1cdb65052a1624de4bace99bf",
 };

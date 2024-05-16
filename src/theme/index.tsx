@@ -52,6 +52,9 @@ export default function ThemeProvider({ children }: Props) {
       customShadows: customShadows("light"),
       typography,
       shape: { borderRadius: 8 },
+      zIndex: {
+        appBar: 888,
+      },
     }),
     [],
   );

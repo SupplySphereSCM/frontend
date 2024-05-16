@@ -1,7 +1,7 @@
 import { defaultWagmiConfig } from "@web3modal/wagmi";
-import { hardhat, localhost } from "viem/chains";
+import { hardhat, localhost, polygonAmoy } from "viem/chains";
 
-const projectId = "17291c9d7c4cef59c5b58268c3b1c3e6";
+export const projectId = "17291c9d7c4cef59c5b58268c3b1c3e6";
 
 // 2. Create wagmiConfig
 const metadata = {
@@ -11,7 +11,7 @@ const metadata = {
   icons: ["http://localhost:3000/favicon.ico"],
 };
 
-const chains = [hardhat, localhost] as const;
+const chains = [hardhat, localhost, polygonAmoy] as const;
 export const config = defaultWagmiConfig({
   chains,
   projectId,

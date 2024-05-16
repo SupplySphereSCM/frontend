@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 // @mui
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -43,6 +44,8 @@ export default function AccountGeneral() {
   const confirm = useBoolean();
 
   const router = useRouter();
+
+  const { open } = useWeb3Modal();
 
   const { user, logout } = useAuthContext();
 
@@ -100,11 +103,20 @@ export default function AccountGeneral() {
       await verifyEthUserAddr({ ethAddr: address, transactionHash });
       enqueueSnackbar("Address verified successfully", { variant: "success" });
     } catch (error) {
+      console.error(error);
       enqueueSnackbar("Address verification un-successfully", {
         variant: "error",
       });
     }
   }, [user?.roles, enqueueSnackbar]);
+
+  const handleVerifyClick = () => {
+    if (!address) {
+      open();
+    } else {
+      return updateUserEthAddress();
+    }
+  };
 
   const onSubmit = handleSubmit(async (data) => {
     // const id = user?.id;
@@ -206,12 +218,13 @@ export default function AccountGeneral() {
                 />
                 <LoadingButton
                   sx={{ ml: 2, width: 210 }}
-                  onClick={updateUserEthAddress}
+                  size="medium"
+                  onClick={handleVerifyClick}
                   // type="submit"
                   variant="contained"
                   loading={isSubmitting}
                 >
-                  Verify Address
+                  {address ? "Verify Address" : "Connect Wallet"}
                 </LoadingButton>
               </Box>
               <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
