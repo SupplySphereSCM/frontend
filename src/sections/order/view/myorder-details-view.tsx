@@ -16,9 +16,6 @@ import OrderDetailsToolbar from "../order-details-toolbar";
 import OrderDetailsHistory from "../order-details-history";
 import { useGetOrder } from "src/api/orders";
 import { IOrderItem, IOrderProductItem } from "src/types/order";
-import { IRawMaterialItem } from "src/types/raw-materials";
-import { IProductItem } from "src/types/product";
-import { IServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
@@ -26,11 +23,12 @@ type Props = {
   id: string;
 };
 
-export default function OrderDetailsView({ id }: Props) {
+export default function MyOrderDetailsView({ id }: Props) {
   const settings = useSettingsContext();
   // console.log(id);
 
   const { order, orderLoading, orderError } = useGetOrder(id);
+  console.log("my-orders-details-viwe", order);
 
   // const currentOrder = order.filter((order) => order.id === id)[0];
   // const currentOrder = order;
@@ -46,7 +44,7 @@ export default function OrderDetailsView({ id }: Props) {
       {order && (
         <OrderDetailsToolbar
           order={order}
-          backLink={paths.dashboard.order.root}
+          backLink={paths.dashboard.myOrder.root}
           status={status}
           onChangeStatus={handleChangeStatus}
           statusOptions={ORDER_STATUS_OPTIONS}
@@ -74,10 +72,10 @@ export default function OrderDetailsView({ id }: Props) {
 
         <Grid xs={12} md={4}>
           <OrderDetailsInfo
-            customer={order?.to}
+            customer={order?.from}
             delivery={order?.transport}
             // payment={currentOrder.payment}
-            shippingTo={order?.to}
+            shippingTo={order?.from}
           />
         </Grid>
       </Grid>

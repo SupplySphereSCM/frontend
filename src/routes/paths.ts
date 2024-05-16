@@ -182,5 +182,12 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/order/${MOCK_ID}`,
       },
     },
+    myOrder: {
+      root: `${ROOTS.DASHBOARD}/myorder`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/myorder/${id}`,
+      demo: {
+        details: `${ROOTS.DASHBOARD}/myorder/${MOCK_ID}`,
+      },
+    },
   },
 };

@@ -14,6 +14,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 import { useRouter, useSearchParams } from "src/routes/hooks";
+import { useSnackbar } from "src/components/snackbar";
 
 import { useBoolean } from "src/hooks/use-boolean";
 
@@ -27,7 +28,14 @@ import FormProvider, {
   RHFTextField,
 } from "src/components/hook-form";
 import { Menu, MenuItem, Select } from "@mui/material";
+// wagmi
+import { updateUser, verifyEthUserAddr } from "src/api/users";
 
+import { useAccount, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "src/web3/wagmi.config";
+import supplySphereABI, { ROLES } from "src/abi/supplysphere.abi";
+import supplysphere from "src/abi/SupplySphere.json";
 // ----------------------------------------------------------------------
 
 export default function JwtRegisterView() {
@@ -40,6 +48,11 @@ export default function JwtRegisterView() {
   const searchParams = useSearchParams();
 
   const returnTo = searchParams.get("returnTo");
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { address } = useAccount();
+  const { writeContractAsync } = useWriteContract();
 
   const password = useBoolean();
 
@@ -83,6 +96,17 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      const hash = await writeContractAsync({
+        abi: supplySphereABI,
+        address: supplysphere.address as `0x${string}`,
+        functionName: "registerUser",
+        // @ts-ignore
+        args: [ROLES[`${user!.roles[0]}`] as `0x${string}`],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
+
       // await register?.(data.email, data.password, data.firstName, data.lastName);
       await register?.(data.email, data.password, data.role);
 

@@ -178,6 +178,19 @@ export function useNavData() {
               // { title: "details", path: paths.dashboard.order.demo.details },
             ],
           },
+          // PRODUCT
+          ...(user?.roles.some((role) => ["MANUFACTURER"].includes(role))
+            ? [
+                {
+                  title: "My Orders",
+                  path: paths.dashboard.product.root,
+                  icon: ICONS.product,
+                  children: [
+                    { title: "list", path: paths.dashboard.myOrder.root },
+                  ],
+                },
+              ]
+            : []),
 
           // INVOICE
           {

@@ -23,6 +23,7 @@ import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import { ConfirmDialog } from "src/components/custom-dialog";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +42,7 @@ export default function OrderTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { items, orderStatus, id, createdAt, to, quantity, total } = row;
+  const { items, orderStatus, id, from, createdAt, to, quantity, total } = row;
   console.log(row);
 
   const confirm = useBoolean();
@@ -49,6 +50,7 @@ export default function OrderTableRow({
   const collapse = useBoolean();
 
   const popover = usePopover();
+  const { user } = useAuthContext();
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -71,21 +73,42 @@ export default function OrderTableRow({
       </TableCell>
 
       <TableCell sx={{ display: "flex", alignItems: "center" }}>
-        <Avatar
-          alt={to?.firstName}
-          src={to?.profilePictureUrl}
-          sx={{ mr: 2 }}
-        />
-
-        <ListItemText
-          primary={to?.firstName}
-          secondary={to?.email}
-          primaryTypographyProps={{ typography: "body2" }}
-          secondaryTypographyProps={{
-            component: "span",
-            color: "text.disabled",
-          }}
-        />
+        {user?.roles[0] === "MANUFACTURER" ? (
+          <>
+            <Avatar
+              alt={from?.firstName}
+              src={from?.profilePictureUrl}
+              sx={{ mr: 2 }}
+            />
+            <ListItemText
+              primary={from?.firstName}
+              secondary={from?.email}
+              primaryTypographyProps={{ typography: "body2" }}
+              secondaryTypographyProps={{
+                component: "span",
+                color: "text.disabled",
+              }}
+            />
+          </>
+        ) : (
+          <>
+            {" "}
+            <Avatar
+              alt={to?.firstName}
+              src={to?.profilePictureUrl}
+              sx={{ mr: 2 }}
+            />
+            <ListItemText
+              primary={to?.firstName}
+              secondary={to?.email}
+              primaryTypographyProps={{ typography: "body2" }}
+              secondaryTypographyProps={{
+                component: "span",
+                color: "text.disabled",
+              }}
+            />
+          </>
+        )}
       </TableCell>
 
       <TableCell>

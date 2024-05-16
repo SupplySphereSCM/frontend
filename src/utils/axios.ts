@@ -91,11 +91,13 @@ export const endpoints = {
   },
   order: {
     shop: "/api/orders/shop",
+    myorder: "/api/orders/user/to",
     root: "/api/orders",
     user: "/api/orders/user",
     search: "/api/orders/search",
     details: (id: string) => `/api/orders/${id}`,
   },
+
   supplychain: {
     root: "/api/supplychains",
     details: (id: string) => `/api/supplychains/${id}`,

@@ -48,20 +48,20 @@ export default function OrderDetailsToolbar({
       console.error("Failed to update order status:", error);
     }
   };
-  // const handleOrderReceiver = async () => {
-  //   console.log("Order Received");
-  //   try {
-  //     await updateOrder(order, "DELIVERED");
-  //     console.log("Order Received");
-  //   } catch (error) {
-  //     console.error("Failed to update order status:", error);
-  //   }
-  // };
+  const handleOrderReceiver = async () => {
+    console.log("Order Received");
+    try {
+      await updateOrder(order, "DELIVERED");
+      console.log("Order Received");
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+    }
+  };
 
   const handleTransporterOrderSender = async () => {
     console.log("Order Off loaded");
     try {
-      await updateOrder(order, "DELIVERED"); // Pass the order object and orderStatus directly
+      await updateOrder(order, "OFFLOADED"); // Pass the order object and orderStatus directly
     } catch (error) {
       console.error("Failed to update order status:", error);
     }
@@ -122,7 +122,7 @@ export default function OrderDetailsToolbar({
           alignItems="center"
           justifyContent="flex-end"
         >
-          <Button
+          {/* <Button
             color="inherit"
             variant="outlined"
             endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
@@ -130,7 +130,7 @@ export default function OrderDetailsToolbar({
             sx={{ textTransform: "capitalize" }}
           >
             {status}
-          </Button>
+          </Button> */}
 
           {user?.roles[0] === "TRANSPORTER" ? (
             <>
@@ -152,27 +152,32 @@ export default function OrderDetailsToolbar({
               </Button>
             </>
           ) : (
-            // <>
-            // {order?.stepType && order?.stepType === "SERVICING" && (
-            //   <Button
-            //     onClick={handleOrderReceiver}
-            //     color="inherit"
-            //     variant="outlined"
-            //     startIcon={
-            //       <Iconify icon="eva:diagonal-arrow-left-down-fill" />
-            //     }
-            //   >
-            //     Confirm Receiver
-            //   </Button>
-            // )}
-            <Button
-              onClick={handleOrderSender}
-              color="inherit"
-              variant="outlined"
-              startIcon={<Iconify icon="eva:diagonal-arrow-right-up-fill" />}
-            >
-              Confirm Sender
-            </Button>
+            <>
+              {order?.stepType && order?.stepType === "SERVICING" && (
+                <Button
+                  onClick={handleOrderReceiver}
+                  color="inherit"
+                  variant="outlined"
+                  startIcon={
+                    <Iconify icon="eva:diagonal-arrow-left-down-fill" />
+                  }
+                >
+                  Confirm Receiver
+                </Button>
+              )}
+              {user?.roles[0] !== "MANUFACTURER" && (
+                <Button
+                  onClick={handleOrderSender}
+                  color="inherit"
+                  variant="outlined"
+                  startIcon={
+                    <Iconify icon="eva:diagonal-arrow-right-up-fill" />
+                  }
+                >
+                  Confirm Sender
+                </Button>
+              )}
+            </>
           )}
 
           {/* <Button

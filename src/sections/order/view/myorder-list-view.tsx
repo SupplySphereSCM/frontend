@@ -49,7 +49,12 @@ import OrderTableRow from "../order-table-row";
 import OrderTableToolbar from "../order-table-toolbar";
 import OrderTableFiltersResult from "../order-table-filters-result";
 // api
-import { deleteOrders, useGetOrders, useGetUserOrders } from "src/api/orders";
+import {
+  deleteOrders,
+  useGetOrders,
+  useGetMyOrders,
+  useGetUserOrders,
+} from "src/api/orders";
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [
@@ -76,7 +81,7 @@ const defaultFilters: IOrderTableFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function OrderListView() {
+export default function MyOrderListView() {
   const table = useTable({ defaultOrderBy: "orderNumber" });
 
   const settings = useSettingsContext();
@@ -90,8 +95,8 @@ export default function OrderListView() {
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { orders, ordersLoading, ordersEmpty } = useGetUserOrders();
-  // console.log("Order-list-view", orders);
+  const { orders, ordersLoading, ordersEmpty } = useGetMyOrders();
+  console.log("My-Order-list-view", orders);
 
   const dateError =
     filters.startDate && filters.endDate
@@ -168,7 +173,7 @@ export default function OrderListView() {
 
   const handleViewRow = useCallback(
     (id: string) => {
-      router.push(paths.dashboard.order.details(id));
+      router.push(paths.dashboard.myOrder.details(id));
     },
     [router],
   );
@@ -191,8 +196,8 @@ export default function OrderListView() {
               href: paths.dashboard.root,
             },
             {
-              name: "Order",
-              href: paths.dashboard.order.root,
+              name: "MyOrder",
+              href: paths.dashboard.myOrder.root,
             },
             { name: "List" },
           ]}
