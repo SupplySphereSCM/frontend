@@ -24,14 +24,23 @@ import CheckoutPreviewSteps from "./checkout-preview-steps";
 import CheckoutConfigureSteps from "./checkout-configure-steps";
 import { Button } from "@mui/base/Button";
 import { useAuthContext } from "src/auth/hooks";
-import { createSupplyChain, updateSupplyChain } from "src/api/supplychain";
+import {
+  createSupplyChain,
+  updateSupplyChain,
+  useGetToUser,
+} from "src/api/supplychain";
 // wagmi
 // import { toUint256 } from "@wagmi/core";
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
-import supplychain from "src/abi/SupplyChain.json";
-import supplychainABI from "src/abi/supplychain.abi";
+import {
+  SupplyChainABI,
+  addresses as supplyChainAddress,
+} from "src/abi/supplychain";
+import { getStorage } from "src/hooks/use-local-storage";
+import { IServiceItem } from "src/types/service";
+import { IRawMaterialItem } from "src/types/raw-materials";
 
 // ----------------------------------------------------------------------
 
@@ -41,11 +50,18 @@ export const STEPS = [
   "Configure Steps",
   "Preview",
 ];
+const STORAGE_KEY = "checkout";
 
 enum StepType {
   Procurement = "PROCURING",
   Servicing = "SERVICING",
 }
+
+const stepTypeMap = {
+  PROCURING: 0,
+  SERVICING: 1,
+};
+
 // ----------------------------------------------------------------------
 
 export const NewStepSchema = Yup.object().shape({
@@ -81,6 +97,7 @@ export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
   id: Yup.string(),
   name: Yup.string().required("Name is required"),
   description: Yup.string().required("Description is required"),
+
   steps: Yup.array().of(NewStepSchema),
 });
 
@@ -97,6 +114,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const { onReset } = useCheckoutContext();
   const { enqueueSnackbar } = useSnackbar();
   const { writeContractAsync } = useWriteContract();
+  const { chainId } = useAccount();
 
   const defaultValues: ISupplyChainSchema = useMemo(
     () => ({
@@ -105,7 +123,10 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       name: currentProduct?.name || "",
       description: currentProduct?.description || "",
       steps: currentProduct?.steps || [],
+
       transactionHash: currentProduct?.transactionHash || "",
+      eid: currentProduct?.eid || "",
+
       // const defaultSteps: ISupplyChainStepItem[] = currentProduct?.steps || [];
 
       // return {
@@ -119,7 +140,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       // stepType: "",
       // }
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   const methods = useForm({
@@ -129,6 +150,17 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   });
 
   const { reset, handleSubmit } = methods;
+  const value = getStorage(STORAGE_KEY);
+  console.log("value", value);
+
+  if (value !== null) {
+    var { materials, services, logistics } = value;
+  }
+
+  // const productsAndServices: (IServiceItem | IRawMaterialItem)[] = [
+  //   ...materials,
+  //   ...services,
+  // ];
 
   useEffect(() => {
     if (currentProduct) {
@@ -138,24 +170,64 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      console.log("Data", data);
       if (data?.id) {
         await updateSupplyChain(data);
       } else {
-        // const hash = await writeContractAsync({
-        //   abi: supplychainABI,
-        //   address: supplychain.address as `0x${string}`,
-        //   functionName: "createSupplyChain",
-        //   // @ts-ignore
-        //   args: [data.name, data.description, data.steps],
-        // });
-        // const { transactionHash } = await waitForTransactionReceipt(config, {
-        //   hash,
-        // });
-        // // Include hash and transactionHash in the data object
-        // data.eid = hash;
-        // data.transactionHash = transactionHash;
-        await createSupplyChain(data);
+        // Clone the steps array to avoid modifying the original data
+
+        const smartContractSteps = data.steps.map((step) => ({
+          ...step,
+          logisticsId: BigInt(`0x${step.transport.replace(/-/g, "")}`),
+          receiver: "",
+          itemId: 0n,
+        }));
+
+        // console.log("smartContractSteps:", smartContractSteps);
+
+        // Map stepType values to be compatible with the smart contract
+        const smartContractStepType: any = smartContractSteps.map((step) => {
+          step.stepType = stepTypeMap[step.stepType];
+          if (step.rawMaterial !== null) {
+            var receiver = materials.find(
+              (item) => item.id === step?.rawMaterial
+            );
+
+            step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
+          } else {
+            var receiver = services.find((item) => item.id === step.service);
+            step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
+          }
+          // console.log("reeiver", receiver);
+          step.receiver = receiver.user.ethAddress;
+
+          delete step.product;
+          delete step.service;
+          delete step.rawMaterial;
+          delete step.to;
+          delete step.from;
+          delete step.transport;
+          return step;
+        });
+
+        console.log("smartContractStepType", smartContractStepType);
+
+        console.log("Data", data);
+
+        const hash = await writeContractAsync({
+          abi: SupplyChainABI,
+          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+          functionName: "createSupplyChain",
+          // @ts-ignore
+          args: [data.name, data.description, smartContractStepType],
+        });
+        const { transactionHash } = await waitForTransactionReceipt(config, {
+          hash,
+        });
+
+        // Include hash and transactionHash in the data object
+        data.eid = hash;
+        data.transactionHash = transactionHash;
+        // await createSupplyChain(data);
       }
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       onReset();
