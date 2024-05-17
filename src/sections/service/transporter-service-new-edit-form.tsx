@@ -45,12 +45,11 @@ import {
 
 import axiosInstance, { endpoints } from "src/utils/axios";
 // wagmi
-// import { toUint256 } from "@wagmi/core";
+// import { BigInt } from "@wagmi/core";
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
-import logistics from "src/abi/Logistics.json";
-import logisticsABI from "src/abi/logistics.abi";
+import { LogisticsABI, addresses as logisticsAddress } from "src/abi/logistics";
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +65,10 @@ export default function TransporterServiceNewEditForm({
   const mdUp = useResponsive("up", "md");
 
   const { enqueueSnackbar } = useSnackbar();
+
   const { writeContractAsync } = useWriteContract();
+
+  const { chainId } = useAccount();
 
   const NewServiceSchema = Yup.object<ITransporterServiceSchema>().shape({
     id: Yup.string(),
@@ -76,6 +78,7 @@ export default function TransporterServiceNewEditForm({
     priceInterState: Yup.number().moreThan(0, "Price should not be $0.00"),
     priceInternationl: Yup.number().moreThan(0, "Price should not be $0.00"),
     transactionHash: Yup.string(),
+    eid: Yup.string(),
   });
 
   const defaultValues = useMemo(
@@ -83,13 +86,14 @@ export default function TransporterServiceNewEditForm({
       id: currentTransportService?.id,
       name: currentTransportService?.name || "",
       description: currentTransportService?.description || "",
+      eid: currentTransportService?.eid || "",
       priceWithinState: currentTransportService?.priceWithinState || 0,
       priceInterState: currentTransportService?.priceInterState || 0,
       priceInternationl: currentTransportService?.priceInternationl || 0,
       transactionHash:
         currentTransportService?.transactionHash || Date.now().toString(),
     }),
-    [currentTransportService],
+    [currentTransportService]
   );
 
   const methods = useForm({
@@ -128,26 +132,26 @@ export default function TransporterServiceNewEditForm({
       if (currentTransportService?.id) {
         await updateTransporterService(data as ITransporterServiceItem);
       } else {
-        // const hash = await writeContractAsync({
-        //   abi: logisticsABI,
-        //   address: logistics?.address as `0x${string}`,
-        //   functionName: "addLogistics",
-        //   args: [data.name, toUint256(data.priceWithinState)],
-        //   // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
-        //   // @ts-ignore
-        // });
-        // const { transactionHash } = await waitForTransactionReceipt(config, {
-        //   hash,
-        // });
-        // data.eid = hash;
-        // data.transactionHash = transactionHash;
+        const hash = await writeContractAsync({
+          abi: LogisticsABI,
+          address: logisticsAddress[`${chainId}`] as `0x${string}`,
+          functionName: "addLogistics",
+          args: [data.name, BigInt(data?.priceWithinState!)],
+          // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
+          // @ts-ignore
+        });
+        const { transactionHash } = await waitForTransactionReceipt(config, {
+          hash,
+        });
+        data.eid = hash;
+        data.transactionHash = transactionHash;
 
         await createTransportService(data as ITransporterServiceItem);
       }
 
       reset();
       enqueueSnackbar(
-        currentTransportService ? "Update success!" : "Create success!",
+        currentTransportService ? "Update success!" : "Create success!"
       );
       router.push(paths.dashboard.service.root);
       console.info("DATA", data);

@@ -43,10 +43,13 @@ import {} from "@wagmi/core";
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
-import product from "src/abi/Products.json";
-import productsABI from "src/abi/product.abi";
-import rawMaterial from "src/abi/RawMaterials.json";
-import rawMaterialsABI from "src/abi/raw-material.abi";
+
+import { ProductsABI, addresses as productAddress } from "src/abi/products";
+import {
+  RawMaterialABI,
+  addresses as rawMaterialAddress,
+} from "src/abi/rawMaterials";
+
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -63,6 +66,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const { writeContractAsync } = useWriteContract();
+  const { chainId } = useAccount();
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
@@ -98,7 +102,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       price: currentProduct?.price || 0,
       tax: currentProduct?.tax || 0,
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   console.log("product-new-edit-form: defaultValues ", defaultValues);
@@ -144,8 +148,8 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           await updateRawMaterial(data as IRawMaterialItem);
         } else {
           const hash = await writeContractAsync({
-            abi: rawMaterialsABI,
-            address: rawMaterial?.address as `0x${string}`,
+            abi: RawMaterialABI,
+            address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
             functionName: "addRawMaterial",
             args: [
               data.name,
@@ -172,8 +176,8 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           await updateProduct(data as IProductItem);
         } else {
           const hash = await writeContractAsync({
-            abi: productsABI,
-            address: product.address as `0x${string}`,
+            abi: ProductsABI,
+            address: productAddress[`${chainId}`] as `0x${string}`,
             functionName: "addProduct",
             // @ts-ignore
             args: [
@@ -214,12 +218,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
+        })
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveFile = useCallback(
@@ -228,7 +232,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -239,7 +243,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   const handleImageUpload = async () => {
@@ -260,7 +264,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       console.log(results);
 
@@ -271,7 +275,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         `Image Upload Failed: ${
           error.response ? error.response.data.message : error.message
         }`,
-        { variant: "error" },
+        { variant: "error" }
       );
     }
   };

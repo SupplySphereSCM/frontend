@@ -136,7 +136,7 @@ export function useNavData() {
 
           // PRODUCT
           ...(user?.roles.some((role) =>
-            ["SELLER", "MANUFACTURER"].includes(role),
+            ["SELLER", "MANUFACTURER"].includes(role)
           )
             ? [
                 {
@@ -153,7 +153,7 @@ export function useNavData() {
 
           // SERVICES
           ...(user?.roles.some((role) =>
-            ["SELLER", "TRANSPORTER"].includes(role),
+            ["SELLER", "TRANSPORTER"].includes(role)
           )
             ? [
                 {
@@ -177,6 +177,16 @@ export function useNavData() {
               { title: "list", path: paths.dashboard.order.root },
               // { title: "details", path: paths.dashboard.order.demo.details },
             ],
+          },
+          // faucet
+          {
+            title: "faucet",
+            path: paths.dashboard.faucet.root,
+            icon: ICONS.banking,
+            // children: [
+            //   { title: "list", path: paths.dashboard.faucet.root },
+            //   // { title: "details", path: paths.dashboard.order.demo.details },
+            // ],
           },
           // PRODUCT
           ...(user?.roles.some((role) => ["MANUFACTURER"].includes(role))
@@ -292,7 +302,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    [],
+    []
   );
 
   return data;
