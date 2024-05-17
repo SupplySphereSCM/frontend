@@ -1,4 +1,4 @@
-export default [
+export const SupplySphereABI = [
   {
     inputs: [
       {
@@ -147,6 +147,19 @@ export default [
   {
     inputs: [],
     name: "MANUFACTURER_ROLE",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "RETAILER_ROLE",
     outputs: [
       {
         internalType: "bytes32",
@@ -1049,6 +1062,24 @@ export default [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+    ],
+    name: "orderProduct",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "paymentToken",
     outputs: [
@@ -1189,9 +1220,12 @@ export default [
   },
 ] as const;
 
-export const supplySphereAddress = "";
+export const addresses: Record<string, `0x${string}`> = {
+  "1337": "0xBC5DBA256B8DEdc33c15B195cD85345DBE01d7dD",
+  "80002": "0xBC5DBA256B8DEdc33c15B195cD85345DBE01d7dD",
+};
 
-export const ROLES = {
+export const ROLES: Record<string, `0x${string}`> = {
   SELLER: "0x43f25613eb2f15fb17222a5d424ca2655743e71265d98e4b93c05e5fb589ecde",
   TRANSPORTER:
     "0xddaa901e2fe3bda354fe0ede2785152d5c109282a613fe024a056a3e66c41bb3",

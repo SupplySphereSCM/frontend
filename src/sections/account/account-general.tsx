@@ -1,13 +1,17 @@
 import * as Yup from "yup";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { useAccount, useWriteContract } from "wagmi";
+import { dataTagSymbol } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { waitForTransactionReceipt } from "@wagmi/core";
 // @mui
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { Chip, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -18,7 +22,8 @@ import { useBoolean } from "src/hooks/use-boolean";
 // utils
 import { fData } from "src/utils/format-number";
 import axios, { endpoints } from "src/utils/axios";
-
+//
+import { paths } from "src/routes/paths";
 // components
 import { useSnackbar } from "src/components/snackbar";
 import { ConfirmDialog } from "src/components/custom-dialog";
@@ -27,31 +32,25 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from "src/components/hook-form";
-import { Chip, TextField } from "@mui/material";
-import { dataTagSymbol } from "@tanstack/react-query";
 import { updateUser, verifyEthUserAddr } from "src/api/users";
-import { paths } from "src/routes/paths";
 
-import { useAccount, useWriteContract } from "wagmi";
-import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
-import supplySphereABI, { ROLES } from "src/abi/supplysphere.abi";
-import supplysphere from "src/abi/SupplySphere.json";
+import { SupplySphereABI, addresses, ROLES } from "src/abi/supplysphere";
 
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
-  const confirm = useBoolean();
-
   const router = useRouter();
 
+  const confirm = useBoolean();
+
   const { open } = useWeb3Modal();
+
+  const { address, chainId } = useAccount();
 
   const { user, logout } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
-
-  const { address } = useAccount();
 
   const { writeContractAsync } = useWriteContract();
 
@@ -91,11 +90,10 @@ export default function AccountGeneral() {
   const updateUserEthAddress = useCallback(async () => {
     try {
       const hash = await writeContractAsync({
-        abi: supplySphereABI,
-        address: supplysphere.address as `0x${string}`,
+        abi: SupplySphereABI,
+        address: addresses[`${chainId}`],
         functionName: "registerUser",
-        // @ts-ignore
-        args: [ROLES[`${user!.roles[0]}`] as `0x${string}`],
+        args: [ROLES[`${user!.roles[0]}`]],
       });
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,

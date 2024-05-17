@@ -1,4 +1,4 @@
-export default [
+export const ProductsABI = [
   {
     inputs: [],
     name: "AccessControlBadConfirmation",
@@ -19,6 +19,31 @@ export default [
     ],
     name: "AccessControlUnauthorizedAccount",
     type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "productId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "buyer",
+        type: "address",
+      },
+    ],
+    name: "OrderProduct",
+    type: "event",
   },
   {
     anonymous: false,
@@ -120,8 +145,18 @@ export default [
         name: "price",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "tax",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
     ],
-    name: "addLogistics",
+    name: "addProduct",
     outputs: [
       {
         internalType: "uint256",
@@ -134,7 +169,7 @@ export default [
   },
   {
     inputs: [],
-    name: "getAllLogistics",
+    name: "getAllProducts",
     outputs: [
       {
         components: [
@@ -149,17 +184,32 @@ export default [
             type: "string",
           },
           {
-            internalType: "address",
-            name: "owner",
-            type: "address",
+            internalType: "uint256",
+            name: "quantity",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "available",
+            type: "uint256",
           },
           {
             internalType: "uint256",
             name: "price",
             type: "uint256",
           },
+          {
+            internalType: "uint256",
+            name: "tax",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
         ],
-        internalType: "struct Logistics.Logistic[]",
+        internalType: "struct Products.Product[]",
         name: "",
         type: "tuple[]",
       },
@@ -175,7 +225,7 @@ export default [
         type: "uint256",
       },
     ],
-    name: "getLogistic",
+    name: "getProduct",
     outputs: [
       {
         components: [
@@ -190,17 +240,32 @@ export default [
             type: "string",
           },
           {
-            internalType: "address",
-            name: "owner",
-            type: "address",
+            internalType: "uint256",
+            name: "quantity",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "available",
+            type: "uint256",
           },
           {
             internalType: "uint256",
             name: "price",
             type: "uint256",
           },
+          {
+            internalType: "uint256",
+            name: "tax",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
         ],
-        internalType: "struct Logistics.Logistic",
+        internalType: "struct Products.Product",
         name: "",
         type: "tuple",
       },
@@ -273,39 +338,23 @@ export default [
     inputs: [
       {
         internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "logistics",
-    outputs: [
-      {
-        internalType: "uint256",
         name: "id",
         type: "uint256",
       },
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
         internalType: "uint256",
-        name: "price",
+        name: "qty",
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    name: "orderProduct",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [],
-    name: "logisticsIdCounter",
+    name: "productIdCounter",
     outputs: [
       {
         internalType: "uint256",
@@ -320,11 +369,84 @@ export default [
     inputs: [
       {
         internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "products",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "available",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "tax",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+    ],
+    name: "reduceQuantity",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "id",
         type: "uint256",
       },
     ],
-    name: "removeLogistic",
+    name: "removeProduct",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -384,4 +506,9 @@ export default [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+];
+
+export const addresses: Record<string, string> = {
+  "1337": "0x2e7E82e2B2177DAD4a40c291b1ae05C3291e4001",
+  "80002": "0x2e7E82e2B2177DAD4a40c291b1ae05C3291e4001",
+};

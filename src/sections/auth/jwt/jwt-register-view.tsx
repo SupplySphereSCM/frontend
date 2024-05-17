@@ -34,8 +34,7 @@ import { updateUser, verifyEthUserAddr } from "src/api/users";
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
-import supplySphereABI, { ROLES } from "src/abi/supplysphere.abi";
-import supplysphere from "src/abi/SupplySphere.json";
+import { SupplySphereABI, addresses, ROLES } from "src/abi/supplysphere";
 // ----------------------------------------------------------------------
 
 export default function JwtRegisterView() {
@@ -51,7 +50,7 @@ export default function JwtRegisterView() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const { writeContractAsync } = useWriteContract();
 
   const password = useBoolean();
@@ -96,17 +95,6 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const hash = await writeContractAsync({
-        abi: supplySphereABI,
-        address: supplysphere.address as `0x${string}`,
-        functionName: "registerUser",
-        // @ts-ignore
-        args: [ROLES[`${user!.roles[0]}`] as `0x${string}`],
-      });
-      const { transactionHash } = await waitForTransactionReceipt(config, {
-        hash,
-      });
-
       // await register?.(data.email, data.password, data.firstName, data.lastName);
       await register?.(data.email, data.password, data.role);
 

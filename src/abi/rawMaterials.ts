@@ -1,4 +1,4 @@
-export default [
+export const RawMaterialABI = [
   {
     inputs: [],
     name: "AccessControlBadConfirmation",
@@ -378,6 +378,30 @@ export default [
         name: "id",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+    ],
+    name: "reduceQuantity",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
     ],
     name: "removeRawMaterial",
     outputs: [],
@@ -439,4 +463,9 @@ export default [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+];
+
+export const addresses: Record<string, string> = {
+  "1337": "0x6f757F3ab0765ffbCc0EAf9220241815135B5c86",
+  "80002": "0x6f757F3ab0765ffbCc0EAf9220241815135B5c86",
+};
