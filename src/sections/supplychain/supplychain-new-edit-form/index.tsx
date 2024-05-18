@@ -140,7 +140,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       // stepType: "",
       // }
     }),
-    [currentProduct]
+    [currentProduct],
   );
 
   const methods = useForm({
@@ -189,7 +189,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
           step.stepType = stepTypeMap[step.stepType];
           if (step.rawMaterial !== null) {
             var receiver = materials.find(
-              (item) => item.id === step?.rawMaterial
+              (item) => item.id === step?.rawMaterial,
             );
 
             step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);

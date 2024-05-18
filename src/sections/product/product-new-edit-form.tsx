@@ -102,7 +102,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       price: currentProduct?.price || 0,
       tax: currentProduct?.tax || 0,
     }),
-    [currentProduct]
+    [currentProduct],
   );
 
   console.log("product-new-edit-form: defaultValues ", defaultValues);
@@ -218,12 +218,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images]
+    [setValue, values.images],
   );
 
   const handleRemoveFile = useCallback(
@@ -232,7 +232,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images]
+    [setValue, values.images],
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -243,7 +243,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    []
+    [],
   );
 
   const handleImageUpload = async () => {
@@ -264,7 +264,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       console.log(results);
 
@@ -275,7 +275,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         `Image Upload Failed: ${
           error.response ? error.response.data.message : error.message
         }`,
-        { variant: "error" }
+        { variant: "error" },
       );
     }
   };

@@ -136,7 +136,7 @@ export function useNavData() {
 
           // PRODUCT
           ...(user?.roles.some((role) =>
-            ["SELLER", "MANUFACTURER"].includes(role)
+            ["SELLER", "MANUFACTURER"].includes(role),
           )
             ? [
                 {
@@ -153,7 +153,7 @@ export function useNavData() {
 
           // SERVICES
           ...(user?.roles.some((role) =>
-            ["SELLER", "TRANSPORTER"].includes(role)
+            ["SELLER", "TRANSPORTER"].includes(role),
           )
             ? [
                 {
@@ -302,7 +302,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    []
+    [],
   );
 
   return data;

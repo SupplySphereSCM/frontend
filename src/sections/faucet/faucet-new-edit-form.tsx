@@ -1,54 +1,33 @@
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback, useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 // @mui
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
-import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Unstable_Grid2";
 import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControlLabel from "@mui/material/FormControlLabel";
-// routes
-import { paths } from "src/routes/paths";
 // hooks
 import { useResponsive } from "src/hooks/use-responsive";
 // API
-import {
-  createProduct,
-  createRawMaterial,
-  updateProduct,
-  updateRawMaterial,
-} from "src/api/product";
 // components
 import { useSnackbar } from "src/components/snackbar";
-import { useRouter } from "src/routes/hooks";
-import FormProvider, {
-  RHFEditor,
-  RHFUpload,
-  RHFTextField,
-} from "src/components/hook-form";
+import FormProvider, { RHFTextField } from "src/components/hook-form";
 // types
-import { IProductItem, IProductSchema } from "src/types/product";
+import { IProductItem } from "src/types/product";
 // utils
-import axiosInstance, { endpoints } from "src/utils/axios";
-import { useAuthContext } from "src/auth/hooks";
-import { IRawMaterialItem } from "src/types/raw-materials";
 // wagmi
-import {} from "@wagmi/core";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount, useBalance, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
 
-import {
-  SupplyChainABI,
-  addresses as supplyChainAddress,
-} from "src/abi/supplychain";
 import { IFaucetItem } from "src/types/faucet";
+
+import { INRABI, addresses as inrAddresses } from "src/abi/inr";
 
 // ----------------------------------------------------------------------
 
@@ -57,14 +36,19 @@ type Props = {
 };
 
 export default function FaucetNewEditForm() {
-  const router = useRouter();
-
   const mdUp = useResponsive("up", "md");
 
   const { enqueueSnackbar } = useSnackbar();
 
   const { writeContractAsync } = useWriteContract();
-  const { chainId } = useAccount();
+  const { address, chainId } = useAccount();
+
+  const { data } = useBalance({
+    address,
+    token: inrAddresses[`${chainId}`] as `0x${string}`,
+  });
+
+  const { value } = data as { value: bigint };
 
   const NewProductSchema = Yup.object<IFaucetItem>().shape({
     address: Yup.string().required("Eth address is required"),
@@ -73,10 +57,10 @@ export default function FaucetNewEditForm() {
 
   const defaultValues = useMemo(
     () => ({
-      address: "",
+      address: address as string,
       amount: 0,
     }),
-    []
+    [],
   );
 
   const methods = useForm({
@@ -86,13 +70,9 @@ export default function FaucetNewEditForm() {
 
   const {
     reset,
-    watch,
-    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  const values = watch();
 
   useEffect(() => {
     if (defaultValues) {
@@ -103,21 +83,20 @@ export default function FaucetNewEditForm() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const hash = await writeContractAsync({
-        abi: SupplyChainABI,
-        address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+        abi: INRABI,
+        address: inrAddresses[`${chainId}`] as `0x${string}`,
         functionName: "mint",
-        args: [address, amount],
+        args: [data.address as `0x${string}`, BigInt(data.amount)],
       });
-      const { transactionHash } = await waitForTransactionReceipt(config, {
+      await waitForTransactionReceipt(config, {
         hash,
       });
 
       reset();
-      enqueueSnackbar("Faucet added success", { variant: "success" });
-      router.push(paths.dashboard.product.root);
+      enqueueSnackbar("Money send Successfully", { variant: "success" });
     } catch (error) {
       console.error(error);
-      enqueueSnackbar("Faucet added un-success", {
+      enqueueSnackbar("Mint Failed", {
         variant: "error",
       });
     }
@@ -131,7 +110,7 @@ export default function FaucetNewEditForm() {
             Details
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Title, short description, image...
+            Enter Address...
           </Typography>
         </Grid>
       )}
@@ -140,51 +119,11 @@ export default function FaucetNewEditForm() {
         <Card>
           {!mdUp && <CardHeader title="Details" />}
 
-          <Stack spacing={3} sx={{ p: 3 }}>
+          <Stack spacing={2} sx={{ p: 3 }}>
             <RHFTextField name="address" label="Eth address" />
-          </Stack>
-        </Card>
-      </Grid>
-    </>
-  );
-
-  const renderProperties = (
-    <>
-      {mdUp && (
-        <Grid md={4}>
-          <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Properties
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Additional functions and attributes...
-          </Typography>
-        </Grid>
-      )}
-
-      <Grid xs={12} md={8}>
-        <Card>
-          {!mdUp && <CardHeader title="Properties" />}
-
-          <Stack spacing={3} sx={{ p: 3 }}>
-            <Box
-              columnGap={2}
-              rowGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-              }}
-            >
-              <RHFTextField name="code" label="Product Code" />
-
-              <RHFTextField
-                name="quantity"
-                label="Quantity"
-                placeholder="0"
-                type="number"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Box>
+            <Typography variant="caption">
+              Balance: {value.toString()}
+            </Typography>
           </Stack>
         </Card>
       </Grid>
@@ -196,10 +135,10 @@ export default function FaucetNewEditForm() {
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Pricing
+            Amount
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Price related inputs
+            Enter Amount to Mint
           </Typography>
         </Grid>
       )}
