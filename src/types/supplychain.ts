@@ -23,7 +23,7 @@ export const SUPPLYCHAIN_SORT_OPTIONS = [
 
 export type ISupplyChainSchema = {
   id?: string;
-  // eid: string;
+  eid: string;
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
@@ -67,6 +67,7 @@ export type CheckoutContextProps = {
 // };
 
 export type ISupplyChainStepItem = {
+  eid: string;
   from: string;
   to: string;
   stepType: string;
@@ -78,6 +79,7 @@ export type ISupplyChainStepItem = {
 };
 
 export type ISupplyChainStepLabel = {
+  eid: string;
   from: string;
   to: string;
   stepType: string;

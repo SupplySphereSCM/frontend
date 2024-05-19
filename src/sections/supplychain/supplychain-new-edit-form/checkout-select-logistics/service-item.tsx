@@ -34,6 +34,7 @@ type Props = {
 
 export default function ServiceItem({ service }: Props) {
   const {
+    eid,
     id,
     name,
     coverUrl,
@@ -55,6 +56,7 @@ export default function ServiceItem({ service }: Props) {
 
   const handleAddCart = async () => {
     const newLogistics = {
+      eid,
       id,
       name,
       // quantity: 1,

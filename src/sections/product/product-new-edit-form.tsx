@@ -49,7 +49,9 @@ import {
   RawMaterialABI,
   addresses as rawMaterialAddress,
 } from "src/abi/rawMaterials";
-
+// import { useSimulateContract } from "wagmi";
+import { simulateContract } from "@wagmi/core";
+// import { has } from "lodash";
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -67,6 +69,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
 
   const { writeContractAsync } = useWriteContract();
   const { chainId } = useAccount();
+  // const simulateContract = useSimulateContract();
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
@@ -102,7 +105,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       price: currentProduct?.price || 0,
       tax: currentProduct?.tax || 0,
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   console.log("product-new-edit-form: defaultValues ", defaultValues);
@@ -136,6 +139,20 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     }
   }, [currentProduct?.tax, includeTaxes, setValue]);
 
+  // const handleSimulate = async (data) => {
+  //   const result = await useSimulateContract({
+  //     abi: RawMaterialABI,
+  //     address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
+  //     functionName: "addRawMaterial",
+  //     args: [
+  //       data.name,
+  //       BigInt(data?.price!),
+  //       BigInt(data?.tax!),
+  //       BigInt(data.quantity),
+  //     ],
+  //   });
+  //   return result;
+  // };
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!data.images) {
@@ -147,52 +164,56 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           // Update ?
           await updateRawMaterial(data as IRawMaterialItem);
         } else {
+          // const materialId = handleSimulate(data);
+          const { result } = await simulateContract(config, {
+            abi: RawMaterialABI,
+            address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
+            functionName: "addRawMaterial",
+            args: [data.name, data?.price, data?.tax, data.quantity],
+          });
+          console.log("material eid:", result);
+          // ----------------------------------------------------------------------
+
           const hash = await writeContractAsync({
             abi: RawMaterialABI,
             address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
             functionName: "addRawMaterial",
-            args: [
-              data.name,
-              BigInt(data?.price!),
-              BigInt(data?.tax!),
-              BigInt(data.quantity),
-            ],
-            // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
-            // @ts-ignore
+            args: [data.name, data?.price, data?.tax, data?.quantity],
           });
 
           const { transactionHash } = await waitForTransactionReceipt(config, {
             hash,
           });
-          data.eid = hash;
-          data.transactionHash = transactionHash;
+          data.eid = String(result);
+          data.transactionHash = String(transactionHash);
           await createRawMaterial(data as IRawMaterialItem);
-          // enqueueSnackbar("Raw Material Created successfully", {
-          //   variant: "success",
-          // });
         }
       } else if (user?.roles.includes("MANUFACTURER")) {
         if (currentProduct?.id) {
           await updateProduct(data as IProductItem);
         } else {
+          const { result } = await simulateContract(config, {
+            abi: ProductsABI,
+            address: productAddress[`${chainId}`] as `0x${string}`,
+            functionName: "addProduct",
+            args: [data.name, data?.price, data?.tax, data.quantity],
+          });
+          console.log("product eid:", result);
+          // ----------------------------------------------------------------------
+
           const hash = await writeContractAsync({
             abi: ProductsABI,
             address: productAddress[`${chainId}`] as `0x${string}`,
             functionName: "addProduct",
             // @ts-ignore
-            args: [
-              data.name,
-              BigInt(data?.price!),
-              BigInt(data?.tax!),
-              BigInt(data.quantity),
-            ],
+            args: [data.name, data?.price, data?.tax, data.quantity],
           });
           const { transactionHash } = await waitForTransactionReceipt(config, {
             hash,
           });
           // Include hash and transactionHash in the data object
-          data.eid = hash;
-          data.transactionHash = transactionHash;
+          data.eid = String(result);
+          data.transactionHash = String(transactionHash);
           await createProduct(data as IProductItem);
           // enqueueSnackbar("Product Created successfully", {
           //   variant: "success",
@@ -218,12 +239,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
+        })
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveFile = useCallback(
@@ -232,7 +253,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -243,7 +264,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   const handleImageUpload = async () => {
@@ -264,7 +285,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       console.log(results);
 
@@ -275,7 +296,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         `Image Upload Failed: ${
           error.response ? error.response.data.message : error.message
         }`,
-        { variant: "error" },
+        { variant: "error" }
       );
     }
   };

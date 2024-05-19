@@ -52,6 +52,7 @@ export default function ServiceDetailsSummary({
   const router = useRouter();
   // const { user } = useAuthContext();
   const {
+    eid,
     id,
     name,
     user,
@@ -88,6 +89,7 @@ export default function ServiceDetailsSummary({
   // // quantity;
 
   const defaultValues = {
+    eid,
     id,
     name,
     // coverUrl,
@@ -133,6 +135,7 @@ export default function ServiceDetailsSummary({
 
   const handleAddCart = async () => {
     const newService = {
+      eid,
       id,
       name,
       quantity: 1,

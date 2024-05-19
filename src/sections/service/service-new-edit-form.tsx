@@ -45,6 +45,7 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
 
 import { ServicesABI, addresses as servicesAddress } from "src/abi/services";
+import { simulateContract } from "@wagmi/core";
 
 // ----------------------------------------------------------------------
 
@@ -95,7 +96,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       transactionHash: currentService?.transactionHash || Date.now().toString(),
       eid: currentService?.eid || "",
     }),
-    [currentService],
+    [currentService]
   );
 
   const methods = useForm({
@@ -134,6 +135,21 @@ export default function ServiceNewEditForm({ currentService }: Props) {
       }
       // console.log(data);
       else {
+        const { result } = await simulateContract(config, {
+          abi: ServicesABI,
+          address: servicesAddress[`${chainId}`] as `0x${string}`,
+          functionName: "addService",
+          args: [
+            data.name,
+            BigInt(data?.price!),
+            BigInt(data?.tax!),
+            BigInt(data?.quantity),
+            BigInt(data?.volume),
+          ],
+        });
+        console.log("service eid:", result);
+        // ----------------------------------------------------------------------
+
         const hash = await writeContractAsync({
           abi: ServicesABI,
           address: servicesAddress[`${chainId}`] as `0x${string}`,
@@ -145,14 +161,12 @@ export default function ServiceNewEditForm({ currentService }: Props) {
             BigInt(data?.quantity),
             BigInt(data?.volume),
           ],
-          // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
-          // @ts-ignore
         });
         const { transactionHash } = await waitForTransactionReceipt(config, {
           hash,
         });
-        data.eid = hash;
-        data.transactionHash = transactionHash;
+        data.eid = String(result);
+        data.transactionHash = String(transactionHash);
         await createService(data as IServiceItem);
       }
       reset();
@@ -197,7 +211,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   // const handleImageUpload = async () => {

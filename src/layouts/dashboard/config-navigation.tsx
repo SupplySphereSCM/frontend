@@ -136,7 +136,7 @@ export function useNavData() {
 
           // PRODUCT
           ...(user?.roles.some((role) =>
-            ["SELLER", "MANUFACTURER"].includes(role),
+            ["SELLER", "MANUFACTURER"].includes(role)
           )
             ? [
                 {
@@ -153,7 +153,7 @@ export function useNavData() {
 
           // SERVICES
           ...(user?.roles.some((role) =>
-            ["SELLER", "TRANSPORTER"].includes(role),
+            ["SELLER", "TRANSPORTER"].includes(role)
           )
             ? [
                 {
@@ -193,7 +193,7 @@ export function useNavData() {
             ? [
                 {
                   title: "My Orders",
-                  path: paths.dashboard.product.root,
+                  path: paths.dashboard.myOrder.root,
                   icon: ICONS.product,
                   children: [
                     { title: "list", path: paths.dashboard.myOrder.root },
@@ -302,7 +302,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    [],
+    []
   );
 
   return data;

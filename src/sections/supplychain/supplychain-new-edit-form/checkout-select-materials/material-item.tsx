@@ -26,12 +26,13 @@ type Props = {
 export default function MaterialItem({ product }: Props) {
   const { onAddMaterial } = useCheckoutContext();
 
-  const { id, name, price, available, images, user } = product;
+  const { eid, id, name, price, available, images, user } = product;
 
   const linkTo = paths.product.details(id);
 
   const handleAddCart = async () => {
     const newProduct = {
+      eid,
       id,
       name,
       available,

@@ -50,6 +50,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
 import { LogisticsABI, addresses as logisticsAddress } from "src/abi/logistics";
+import { simulateContract } from "@wagmi/core";
 
 // ----------------------------------------------------------------------
 
@@ -93,7 +94,7 @@ export default function TransporterServiceNewEditForm({
       transactionHash:
         currentTransportService?.transactionHash || Date.now().toString(),
     }),
-    [currentTransportService],
+    [currentTransportService]
   );
 
   const methods = useForm({
@@ -132,26 +133,34 @@ export default function TransporterServiceNewEditForm({
       if (currentTransportService?.id) {
         await updateTransporterService(data as ITransporterServiceItem);
       } else {
+        const { result } = await simulateContract(config, {
+          abi: LogisticsABI,
+          address: logisticsAddress[`${chainId}`] as `0x${string}`,
+          functionName: "addLogistics",
+          args: [data.name, BigInt(data?.priceWithinState!)],
+        });
+        console.log("transporter eid:", result);
+        // ----------------------------------------------------------------------
+
         const hash = await writeContractAsync({
           abi: LogisticsABI,
           address: logisticsAddress[`${chainId}`] as `0x${string}`,
           functionName: "addLogistics",
           args: [data.name, BigInt(data?.priceWithinState!)],
-          // args: [data?.name, BigInt(data?.price), data?.tax, data?.quantity],
-          // @ts-ignore
         });
         const { transactionHash } = await waitForTransactionReceipt(config, {
           hash,
         });
-        data.eid = hash;
-        data.transactionHash = transactionHash;
+
+        data.eid = String(result);
+        data.transactionHash = String(transactionHash);
 
         await createTransportService(data as ITransporterServiceItem);
       }
 
       reset();
       enqueueSnackbar(
-        currentTransportService ? "Update success!" : "Create success!",
+        currentTransportService ? "Update success!" : "Create success!"
       );
       router.push(paths.dashboard.service.root);
       console.info("DATA", data);

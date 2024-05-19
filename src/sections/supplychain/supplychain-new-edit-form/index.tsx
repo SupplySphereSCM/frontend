@@ -27,7 +27,7 @@ import { useAuthContext } from "src/auth/hooks";
 import {
   createSupplyChain,
   updateSupplyChain,
-  useGetToUser,
+  // useGetToUser,
 } from "src/api/supplychain";
 // wagmi
 // import { toUint256 } from "@wagmi/core";
@@ -41,6 +41,8 @@ import {
 import { getStorage } from "src/hooks/use-local-storage";
 import { IServiceItem } from "src/types/service";
 import { IRawMaterialItem } from "src/types/raw-materials";
+import { simulateContract } from "@wagmi/core";
+import { steps } from "framer-motion";
 
 // ----------------------------------------------------------------------
 
@@ -140,7 +142,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       // stepType: "",
       // }
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   const methods = useForm({
@@ -151,11 +153,14 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
 
   const { reset, handleSubmit } = methods;
   const value = getStorage(STORAGE_KEY);
-  console.log("value", value);
+  // console.log("value", value);
 
   if (value !== null) {
     var { materials, services, logistics } = value;
   }
+
+  // console.log("materials:", materials);
+  // console.log("services:", services);
 
   // const productsAndServices: (IServiceItem | IRawMaterialItem)[] = [
   //   ...materials,
@@ -174,31 +179,51 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
         await updateSupplyChain(data);
       } else {
         // Clone the steps array to avoid modifying the original data
+        console.log("Data steps:", data.steps);
 
         const smartContractSteps = data.steps.map((step) => ({
           ...step,
-          logisticsId: BigInt(`0x${step.transport.replace(/-/g, "")}`),
-          receiver: "",
           itemId: 0n,
+          logisticsId: 0n,
+          receiver: "",
+          // quantity: 0n,
         }));
 
-        // console.log("smartContractSteps:", smartContractSteps);
+        console.log("smartContractSteps:", smartContractSteps);
 
         // Map stepType values to be compatible with the smart contract
         const smartContractStepType: any = smartContractSteps.map((step) => {
+          // StepType
           step.stepType = stepTypeMap[step.stepType];
+          // Logistic ID
+          const logistic = logistics.find(
+            (item) => item.id === step?.transport
+          );
+          console.log("Logistics:", logistic);
+
+          step.logisticsId = logistic?.eid;
+
+          // Item Id
+          // step.quantity = (step.quantity);
           if (step.rawMaterial !== null) {
             var receiver = materials.find(
-              (item) => item.id === step?.rawMaterial,
+              (item) => item.id === step?.rawMaterial
             );
+            step.itemId = receiver?.eid;
+            // console.log("Receiver:", receiver);
+            // console.log("rawmaterial:", step.rawMaterial.replace(/-/g, ""));
 
-            step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
+            // step.itemId = BigInt(step.rawMaterial.replace(/-/g, ""));
+            // step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
           } else {
             var receiver = services.find((item) => item.id === step.service);
-            step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
+            step.itemId = receiver?.eid;
+            // step.itemId = BigInt(step.service.replace(/-/g, ""));
+            // step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
           }
-          // console.log("reeiver", receiver);
-          step.receiver = receiver.user.ethAddress;
+
+          // Receiver ETH Address
+          step.receiver = receiver?.user?.ethAddress;
 
           delete step.product;
           delete step.service;
@@ -209,15 +234,28 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
           return step;
         });
 
-        console.log("smartContractStepType", smartContractStepType);
+        // console.log("smartContractStepType", smartContractStepType);
+        console.log("Data to be sent to contract:", {
+          name: data.name,
+          description: data.description,
+          steps: smartContractStepType,
+        });
 
-        console.log("Data", data);
+        // console.log("Data", data);
+        const result = await simulateContract(config, {
+          abi: SupplyChainABI,
+          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+          functionName: "createSupplyChain",
+          args: [data.name, data.description, smartContractStepType],
+        });
+        console.log("Supplychain eid:", result);
+        // ----------------------------------------------------------------------
 
         const hash = await writeContractAsync({
           abi: SupplyChainABI,
           address: supplyChainAddress[`${chainId}`] as `0x${string}`,
           functionName: "createSupplyChain",
-          // @ts-ignore
+
           args: [data.name, data.description, smartContractStepType],
         });
         const { transactionHash } = await waitForTransactionReceipt(config, {
@@ -225,9 +263,9 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
         });
 
         // Include hash and transactionHash in the data object
-        data.eid = hash;
-        data.transactionHash = transactionHash;
-        // await createSupplyChain(data);
+        data.eid = String(result);
+        data.transactionHash = String(transactionHash);
+        await createSupplyChain(data);
       }
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       onReset();

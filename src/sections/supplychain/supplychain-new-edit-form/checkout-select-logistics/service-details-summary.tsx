@@ -52,6 +52,7 @@ export default function ServiceDetailsSummary({
 }: Props) {
   const router = useRouter();
   const {
+    eid,
     id,
     name,
     description,
@@ -83,6 +84,7 @@ export default function ServiceDetailsSummary({
   // quantity;
 
   const defaultValues = {
+    eid,
     id,
     name,
     description,
@@ -132,6 +134,7 @@ export default function ServiceDetailsSummary({
 
   const handleAddCart = async () => {
     const newLogistics = {
+      eid,
       id,
       name,
       // quantity: 1,

@@ -48,7 +48,10 @@ export default function FaucetNewEditForm() {
     token: inrAddresses[`${chainId}`] as `0x${string}`,
   });
 
-  const { value } = data as { value: bigint };
+  console.log(data);
+
+  // const { value } = data ? (data as { value: bigint }) : 0;
+  const value = data ? (data as { value: bigint }).value : 0n;
 
   const NewProductSchema = Yup.object<IFaucetItem>().shape({
     address: Yup.string().required("Eth address is required"),
@@ -60,7 +63,7 @@ export default function FaucetNewEditForm() {
       address: address as string,
       amount: 0,
     }),
-    [],
+    []
   );
 
   const methods = useForm({

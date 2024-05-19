@@ -8,7 +8,7 @@ export default function FaucetPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Create a new invoice</title>
+        <title> Dashboard: Create a new faucet</title>
       </Helmet>
 
       <FaucetNewEditForm />
