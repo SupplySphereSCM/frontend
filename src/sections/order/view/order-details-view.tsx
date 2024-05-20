@@ -31,6 +31,7 @@ export default function OrderDetailsView({ id }: Props) {
   // console.log(id);
 
   const { order, orderLoading, orderError } = useGetOrder(id);
+  console.log("order-details-view:", order);
 
   // const currentOrder = order.filter((order) => order.id === id)[0];
   // const currentOrder = order;

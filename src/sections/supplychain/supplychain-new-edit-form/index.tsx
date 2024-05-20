@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 //routes
 import { paths } from "src/routes/paths";
@@ -34,16 +34,20 @@ import {
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
-import {
-  SupplyChainABI,
-  addresses as supplyChainAddress,
-} from "src/abi/supplychain";
 import { getStorage } from "src/hooks/use-local-storage";
 import { IServiceItem } from "src/types/service";
 import { IRawMaterialItem } from "src/types/raw-materials";
 import { simulateContract } from "@wagmi/core";
-import { steps } from "framer-motion";
-
+import { readContract } from "@wagmi/core";
+// ABI
+import {
+  SupplySphereABI,
+  addresses as supplysphereAddress,
+} from "src/abi/supplysphere";
+import {
+  SupplyChainABI,
+  addresses as supplyChainAddress,
+} from "src/abi/supplychain";
 // ----------------------------------------------------------------------
 
 export const STEPS = [
@@ -112,11 +116,13 @@ type Props = {
 export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const router = useRouter();
 
+  const { chainId } = useAccount();
   const checkout = useCheckoutContext();
   const { onReset } = useCheckoutContext();
   const { enqueueSnackbar } = useSnackbar();
   const { writeContractAsync } = useWriteContract();
-  const { chainId } = useAccount();
+  const [supplyChainID, setSupplyChainID] = useState<string>("");
+  // console.log("supplychain ID:", supplyChainID);
 
   const defaultValues: ISupplyChainSchema = useMemo(
     () => ({
@@ -175,98 +181,15 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      if (data?.id) {
-        await updateSupplyChain(data);
-      } else {
-        // Clone the steps array to avoid modifying the original data
-        console.log("Data steps:", data.steps);
-
-        const smartContractSteps = data.steps.map((step) => ({
-          ...step,
-          itemId: 0n,
-          logisticsId: 0n,
-          receiver: "",
-          // quantity: 0n,
-        }));
-
-        console.log("smartContractSteps:", smartContractSteps);
-
-        // Map stepType values to be compatible with the smart contract
-        const smartContractStepType: any = smartContractSteps.map((step) => {
-          // StepType
-          step.stepType = stepTypeMap[step.stepType];
-          // Logistic ID
-          const logistic = logistics.find(
-            (item) => item.id === step?.transport
-          );
-          console.log("Logistics:", logistic);
-
-          step.logisticsId = logistic?.eid;
-
-          // Item Id
-          // step.quantity = (step.quantity);
-          if (step.rawMaterial !== null) {
-            var receiver = materials.find(
-              (item) => item.id === step?.rawMaterial
-            );
-            step.itemId = receiver?.eid;
-            // console.log("Receiver:", receiver);
-            // console.log("rawmaterial:", step.rawMaterial.replace(/-/g, ""));
-
-            // step.itemId = BigInt(step.rawMaterial.replace(/-/g, ""));
-            // step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
-          } else {
-            var receiver = services.find((item) => item.id === step.service);
-            step.itemId = receiver?.eid;
-            // step.itemId = BigInt(step.service.replace(/-/g, ""));
-            // step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
-          }
-
-          // Receiver ETH Address
-          step.receiver = receiver?.user?.ethAddress;
-
-          delete step.product;
-          delete step.service;
-          delete step.rawMaterial;
-          delete step.to;
-          delete step.from;
-          delete step.transport;
-          return step;
-        });
-
-        // console.log("smartContractStepType", smartContractStepType);
-        console.log("Data to be sent to contract:", {
-          name: data.name,
-          description: data.description,
-          steps: smartContractStepType,
-        });
-
-        // console.log("Data", data);
-        const result = await simulateContract(config, {
-          abi: SupplyChainABI,
-          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-          functionName: "createSupplyChain",
-          args: [data.name, data.description, smartContractStepType],
-        });
-        console.log("Supplychain eid:", result);
-        // ----------------------------------------------------------------------
-
-        const hash = await writeContractAsync({
-          abi: SupplyChainABI,
-          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-          functionName: "createSupplyChain",
-
-          args: [data.name, data.description, smartContractStepType],
-        });
-        const { transactionHash } = await waitForTransactionReceipt(config, {
-          hash,
-        });
-
-        // Include hash and transactionHash in the data object
-        data.eid = String(result);
-        data.transactionHash = String(transactionHash);
-        await createSupplyChain(data);
-      }
+      const hash = await writeContractAsync({
+        abi: SupplySphereABI,
+        address: supplysphereAddress[`${chainId}`] as `0x${string}`,
+        functionName: "fundChain",
+        args: [BigInt(supplyChainID)],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       onReset();
       router.push(paths.dashboard.supplychain.root);
@@ -298,7 +221,9 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       {checkout.activeStep === 0 && <CheckoutBasic />}
       {checkout.activeStep === 1 && <CheckoutSelectItems />}
       {checkout.activeStep === 2 && <CheckoutConfigureSteps />}
-      {checkout.activeStep === 3 && <CheckoutPreviewSteps />}
+      {checkout.activeStep === 3 && (
+        <CheckoutPreviewSteps handleSupplychainId={setSupplyChainID} />
+      )}
       {/* <Button type="submit">Submit</Button> */}
     </FormProvider>
   );

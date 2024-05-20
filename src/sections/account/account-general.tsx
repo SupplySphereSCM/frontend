@@ -1,11 +1,8 @@
 import * as Yup from "yup";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useAccount, useWriteContract } from "wagmi";
 import { dataTagSymbol } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { waitForTransactionReceipt } from "@wagmi/core";
 // @mui
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -32,8 +29,12 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from "src/components/hook-form";
-import { updateUser, verifyEthUserAddr } from "src/api/users";
 
+// @wagmi
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { useAccount, useWriteContract } from "wagmi";
+import { updateUser, verifyEthUserAddr } from "src/api/users";
 import { config } from "src/web3/wagmi.config";
 import { SupplySphereABI, addresses, ROLES } from "src/abi/supplysphere";
 
@@ -46,11 +47,11 @@ export default function AccountGeneral() {
 
   const { open } = useWeb3Modal();
 
-  const { address, chainId } = useAccount();
-
   const { user, logout } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const { address, chainId } = useAccount();
 
   const { writeContractAsync } = useWriteContract();
 
@@ -142,7 +143,7 @@ export default function AccountGeneral() {
         setValue("profilePictureUrl", newFile, { shouldValidate: true });
       }
     },
-    [setValue],
+    [setValue]
   );
 
   const handleDeleteUser = async () => {

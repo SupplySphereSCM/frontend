@@ -62,7 +62,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   const { reset } = methods;
   const handleStepTypeChange = (
     event: React.ChangeEvent<{}>,
-    value: string | null,
+    value: string | null
   ) => {
     setSelectedStepType(value || "");
   };
@@ -95,17 +95,30 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   });
 
   const onSubmit = methods.handleSubmit((data) => {
-    console.log("Clicked", data);
+    // console.log("Clicked", data);
 
     const selectedService = services.find(
-      (service: IServiceItem) => service.id === data.service?.value,
+      (service: IServiceItem) => service.id === data.service?.value
     );
+    // console.log("selectedService:", selectedService);
+
     const serviceQuantity = selectedService?.quantity || 0;
+    const serviceCost = selectedService?.price * serviceQuantity;
 
     const selectedMaterial = materials.find(
-      (material: IServiceItem) => material.id === data?.rawMaterial?.value,
+      (material: IServiceItem) => material.id === data?.rawMaterial?.value
     );
+    // console.log("selectedMaterial:", selectedMaterial);
+
     const MaterialQuantity = selectedMaterial?.quantity || 0;
+    const materialCost = selectedMaterial?.price * MaterialQuantity;
+
+    const selectedLogistics = logistics.find(
+      (logistic: ITransporterServiceItem) =>
+        logistic.id === data?.transport?.value
+    );
+    const logisticCost = selectedLogistics?.priceWithinState;
+    // console.log("selectedLogistics:", selectedLogistics);
 
     append({
       from: data?.from?.value,
@@ -131,6 +144,10 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
       product: data.product?.label,
       quantity:
         data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
+      totalStepAmount:
+        data.stepType === "SERVICING"
+          ? serviceCost + logisticCost
+          : materialCost + logisticCost,
     } as ISupplyChainStepLabel);
     onClose();
     reset();

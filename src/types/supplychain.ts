@@ -76,6 +76,7 @@ export type ISupplyChainStepItem = {
   rawMaterial: string;
   product: string;
   quantity: number;
+  totalStepAmount: number;
 };
 
 export type ISupplyChainStepLabel = {
@@ -88,4 +89,5 @@ export type ISupplyChainStepLabel = {
   rawMaterial: string;
   product: string;
   quantity: number;
+  totalStepAmount: number;
 };

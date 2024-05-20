@@ -12,9 +12,15 @@ import { fDateTime } from "src/utils/format-time";
 import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
+import { useSnackbar } from "src/components/snackbar";
 import { updateOrder } from "src/api/orders";
 import { useAuthContext } from "src/auth/hooks";
 import { IOrderItem } from "src/types/order";
+// @wagmi
+import { config } from "src/web3/wagmi.config";
+import { useAccount, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { SupplySphereABI, addresses, ROLES } from "src/abi/supplysphere";
 
 // ----------------------------------------------------------------------
 
@@ -38,10 +44,26 @@ export default function OrderDetailsToolbar({
 }: Props) {
   const popover = usePopover();
   const { user } = useAuthContext();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { address, chainId } = useAccount();
+
+  const { writeContractAsync } = useWriteContract();
+  console.log("order-details-toolbar:", order.stepEid);
 
   const handleOrderSender = async () => {
     console.log("Order sent");
     try {
+      const hash = await writeContractAsync({
+        abi: SupplySphereABI,
+        address: addresses[`${chainId}`],
+        functionName: "confirmSender",
+        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
+      order.transactionHash = transactionHash;
       await updateOrder(order, "PROCESSING");
       console.log("Order Sent");
     } catch (error) {
@@ -51,6 +73,16 @@ export default function OrderDetailsToolbar({
   const handleOrderReceiver = async () => {
     console.log("Order Received");
     try {
+      const hash = await writeContractAsync({
+        abi: SupplySphereABI,
+        address: addresses[`${chainId}`],
+        functionName: "confirmReceiver",
+        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
+      order.transactionHash = transactionHash;
       await updateOrder(order, "DELIVERED");
       console.log("Order Received");
     } catch (error) {
@@ -61,6 +93,16 @@ export default function OrderDetailsToolbar({
   const handleTransporterOrderSender = async () => {
     console.log("Order Off loaded");
     try {
+      const hash = await writeContractAsync({
+        abi: SupplySphereABI,
+        address: addresses[`${chainId}`],
+        functionName: "confirmTransporterDelivered",
+        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
+      order.transactionHash = transactionHash;
       await updateOrder(order, "OFFLOADED"); // Pass the order object and orderStatus directly
     } catch (error) {
       console.error("Failed to update order status:", error);
@@ -70,6 +112,16 @@ export default function OrderDetailsToolbar({
   const handleTransporterOrderReceiver = async () => {
     console.log("Order on loaded");
     try {
+      const hash = await writeContractAsync({
+        abi: SupplySphereABI,
+        address: addresses[`${chainId}`],
+        functionName: "confirmTransporterReceived",
+        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+      });
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
+      order.transactionHash = transactionHash;
       await updateOrder(order, "TRANSIT");
     } catch (error) {
       console.error("Failed to update order status:", error);
@@ -153,7 +205,8 @@ export default function OrderDetailsToolbar({
             </>
           ) : (
             <>
-              {order?.stepType && order?.stepType === "SERVICING" && (
+              {((order?.stepType && order?.stepType === "SERVICING") ||
+                user?.roles[0] === "SELLER") && (
                 <Button
                   onClick={handleOrderReceiver}
                   color="inherit"

@@ -76,6 +76,8 @@ export type IOrderCustomer = {
 
 export type IOrderProductItem = {
   id: string;
+  supplyChainEId: string;
+  stepEid: string;
   // sku: string;
   name: string;
   price: number;
@@ -101,6 +103,8 @@ export type IOrderItem = {
   from: IUser;
   via: IUser;
   to: IUser;
+  supplyChainEId: string;
+  stepEid: string;
   product: IProductItem;
   service: IServiceItem;
   stepType: string;
