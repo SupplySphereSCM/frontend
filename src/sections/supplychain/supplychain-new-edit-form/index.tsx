@@ -63,14 +63,9 @@ enum StepType {
   Servicing = "SERVICING",
 }
 
-const stepTypeMap = {
-  PROCURING: 0,
-  SERVICING: 1,
-};
-
 // ----------------------------------------------------------------------
 
-export const NewStepSchema = Yup.object().shape({
+export const NewStepSchema = Yup.object<ISupplyChainStepItem>().shape({
   from: Yup.object()
     .shape({ label: Yup.string(), value: Yup.string() })
     .required("From is required"),
@@ -83,27 +78,22 @@ export const NewStepSchema = Yup.object().shape({
   transport: Yup.object()
     .shape({ label: Yup.string(), value: Yup.string() })
     .required("Transporter is required"),
-  product: Yup.object().shape({ label: Yup.string(), value: Yup.string() }),
-  service: Yup.object().shape({ label: Yup.string(), value: Yup.string() }),
-  rawMaterial: Yup.object().shape({ label: Yup.string(), value: Yup.string() }),
+  product: Yup.object()
+    .shape({ label: Yup.string(), value: Yup.string() })
+    .optional(),
+  service: Yup.object()
+    .shape({ label: Yup.string(), value: Yup.string() })
+    .optional(),
+  rawMaterial: Yup.object()
+    .shape({ label: Yup.string(), value: Yup.string() })
+    .optional(),
 });
-// export const NewStepSchema = Yup.object.shape({
-//   from: Yup.string().required("From is required"),
-//   to: Yup.string().required("To is required"),
-//   product: Yup.string(),
-//   service: Yup.string(),
-//   rawMaterial: Yup.string(),
-//   stepType: Yup.string()
-//     .oneOf(Object.values(StepType).map((role) => role.toString()))
-//     .required("Step Type is required"),
-//   transport: Yup.string().required("Transporter is required"),
-// });
 
 export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
-  id: Yup.string(),
+  id: Yup.string().optional(),
+  eid: Yup.string().optional(),
   name: Yup.string().required("Name is required"),
   description: Yup.string().required("Description is required"),
-
   steps: Yup.array().of(NewStepSchema),
 });
 
@@ -122,42 +112,27 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const { writeContractAsync } = useWriteContract();
   const [supplyChainID, setSupplyChainID] = useState<string>("");
-  // console.log("supplychain ID:", supplyChainID);
+  console.log("supplychain ID:", supplyChainID);
 
   const defaultValues: ISupplyChainSchema = useMemo(
     () => ({
       id: currentProduct?.id,
-      // eid: currentProduct?.eid,
+      eid: currentProduct?.eid,
       name: currentProduct?.name || "",
       description: currentProduct?.description || "",
       steps: currentProduct?.steps || [],
-
-      transactionHash: currentProduct?.transactionHash || "",
-      eid: currentProduct?.eid || "",
-
-      // const defaultSteps: ISupplyChainStepItem[] = currentProduct?.steps || [];
-
-      // return {
-      //   ...currentProduct,
-      // steps: defaultSteps,
-      // from: { label: "", value: "" },
-      // to: { label: "", value: "" },
-      // transport: { label: "", value: "" },
-      // service: { label: "", value: "" },
-      // rawMaterial: { label: "", value: "" },
-      // stepType: "",
-      // }
     }),
-    [currentProduct]
+    [currentProduct],
   );
 
   const methods = useForm({
     // This was the problem for submit not working
-    // resolver: yupResolver(NewSupplyChainSchema),
+    resolver: yupResolver(NewSupplyChainSchema),
     defaultValues,
   });
 
   const { reset, handleSubmit } = methods;
+
   const value = getStorage(STORAGE_KEY);
   // console.log("value", value);
 
@@ -181,6 +156,8 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      console.log("On submit function clicked");
+
       const hash = await writeContractAsync({
         abi: SupplySphereABI,
         address: supplysphereAddress[`${chainId}`] as `0x${string}`,
@@ -190,6 +167,7 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,
       });
+
       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
       onReset();
       router.push(paths.dashboard.supplychain.root);

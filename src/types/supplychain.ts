@@ -1,5 +1,5 @@
 import { IRawMaterialItem } from "./raw-materials";
-import { IServiceItem } from "./service";
+import { IServiceItem, ITransporterServiceItem } from "./service";
 
 export type ISupplyChainItem = {
   id: string;
@@ -7,8 +7,8 @@ export type ISupplyChainItem = {
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
-  transactionHash: string;
-  createdAt: Date;
+  // transactionHash: string;
+  // createdAt: Date;
 };
 
 export type ISupplyChainFilterValue = {};
@@ -23,11 +23,11 @@ export const SUPPLYCHAIN_SORT_OPTIONS = [
 
 export type ISupplyChainSchema = {
   id?: string;
-  eid: string;
+  eid?: string;
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
-  transactionHash: string;
+  transactionHash?: string;
 };
 
 export type CheckoutContextProps = {
@@ -66,17 +66,56 @@ export type CheckoutContextProps = {
 //   product: typeField;
 // };
 
+export type IvalueItem = {
+  activeStep: number;
+  billing: any | null; // Adjust as necessary
+  discount: number;
+  items: any[]; // Adjust as necessary
+  logistics: ITransporterServiceItem[];
+  materials: IRawMaterialItem[];
+  services: IServiceItem[];
+  shipping: number;
+  subTotal: number;
+  total: number;
+  totalItems: number;
+};
+
+type IStepObj = {
+  lable: string;
+  value: string;
+};
+
 export type ISupplyChainStepItem = {
-  eid: string;
-  from: string;
-  to: string;
-  stepType: string;
-  transport: string;
-  service: string;
-  rawMaterial: string;
-  product: string;
+  from: IStepObj;
+  to: IStepObj;
+  stepType: StepType;
+  transport: IStepObj;
+  service: IStepObj;
+  rawMaterial: IStepObj;
+  product: IStepObj;
+};
+
+export type ISupply = ISupplyChainStepItem & {
+  eid?: string;
   quantity: number;
   totalStepAmount: number;
+};
+
+export enum StepType {
+  PROCURING = "PROCURING",
+  SERVICING = "SERVICING",
+}
+export type IStepInput = {
+  stepType: number;
+  itemId: bigint;
+  logisticsId: bigint;
+  quantity: bigint;
+  receiver: `0x${string}`;
+
+  //---------------
+  // transport: string;
+  // rawMaterial: string;
+  // service: string;
 };
 
 export type ISupplyChainStepLabel = {

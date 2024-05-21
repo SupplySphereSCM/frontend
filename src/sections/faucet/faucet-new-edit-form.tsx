@@ -63,7 +63,7 @@ export default function FaucetNewEditForm() {
       address: address as string,
       amount: 0,
     }),
-    []
+    [],
   );
 
   const methods = useForm({
@@ -89,7 +89,7 @@ export default function FaucetNewEditForm() {
         abi: INRABI,
         address: inrAddresses[`${chainId}`] as `0x${string}`,
         functionName: "mint",
-        args: [data.address as `0x${string}`, BigInt(data.amount)],
+        args: [data.address as `0x${string}`, BigInt(data.amount * 100)],
       });
       await waitForTransactionReceipt(config, {
         hash,

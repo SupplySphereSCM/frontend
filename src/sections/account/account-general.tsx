@@ -143,7 +143,7 @@ export default function AccountGeneral() {
         setValue("profilePictureUrl", newFile, { shouldValidate: true });
       }
     },
-    [setValue]
+    [setValue],
   );
 
   const handleDeleteUser = async () => {

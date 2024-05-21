@@ -62,7 +62,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   const { reset } = methods;
   const handleStepTypeChange = (
     event: React.ChangeEvent<{}>,
-    value: string | null
+    value: string | null,
   ) => {
     setSelectedStepType(value || "");
   };
@@ -85,10 +85,12 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     steps: ISupplyChainStepItem[];
     stepArray: ISupplyChainStepLabel[]; // Add your new property here
   };
+
   const { append } = useFieldArray({
     control,
     name: "steps",
   });
+
   const { append: stepArrayAppend } = useFieldArray({
     control,
     name: "stepArray",
@@ -98,7 +100,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     // console.log("Clicked", data);
 
     const selectedService = services.find(
-      (service: IServiceItem) => service.id === data.service?.value
+      (service: IServiceItem) => service.id === data.service?.value,
     );
     // console.log("selectedService:", selectedService);
 
@@ -106,7 +108,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     const serviceCost = selectedService?.price * serviceQuantity;
 
     const selectedMaterial = materials.find(
-      (material: IServiceItem) => material.id === data?.rawMaterial?.value
+      (material: IServiceItem) => material.id === data?.rawMaterial?.value,
     );
     // console.log("selectedMaterial:", selectedMaterial);
 
@@ -115,7 +117,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
 
     const selectedLogistics = logistics.find(
       (logistic: ITransporterServiceItem) =>
-        logistic.id === data?.transport?.value
+        logistic.id === data?.transport?.value,
     );
     const logisticCost = selectedLogistics?.priceWithinState;
     // console.log("selectedLogistics:", selectedLogistics);

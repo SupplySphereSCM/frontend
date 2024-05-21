@@ -19,14 +19,19 @@ import {
 } from "src/api/supplychain";
 // types
 import {
+  IStepInput,
+  ISupply,
   ISupplyChainSchema,
   ISupplyChainStepItem,
   ISupplyChainStepLabel,
+  IvalueItem,
+  StepType,
 } from "src/types/supplychain";
 // form
 import { useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // wagmi
+import { parseUnits } from "viem";
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
@@ -37,7 +42,7 @@ import {
 import { INRABI, addresses as inrAddresses } from "src/abi/inr";
 import { addresses as supplysphereAddresses } from "src/abi/supplysphere";
 import { getStorage } from "src/hooks/use-local-storage";
-import { IServiceItem } from "src/types/service";
+import { IServiceItem, ITransporterServiceItem } from "src/types/service";
 import { IRawMaterialItem } from "src/types/raw-materials";
 import { simulateContract } from "@wagmi/core";
 import { readContract } from "@wagmi/core";
@@ -45,7 +50,17 @@ import { useState } from "react";
 
 const STORAGE_KEY = "checkout";
 
-const stepTypeMap = {
+// const stepTypeMap = {
+//   PROCURING: 0,
+//   SERVICING: 1,
+// };
+
+// const stepTypeMap: { [key in StepType]: number } = {
+//   [StepType.PROCURING]: 0,
+//   [StepType.SERVICING]: 1,
+// };
+
+const stepTypeMap: Record<StepType, number> = {
   PROCURING: 0,
   SERVICING: 1,
 };
@@ -66,8 +81,9 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
 
   // var totalFundedAmount = 0;
 
-  const value = getStorage(STORAGE_KEY);
-  // console.log("value", value);
+  const value = getStorage(STORAGE_KEY) as IvalueItem;
+
+  console.log("value", value);
 
   if (value !== null) {
     var { materials, services, logistics } = value;
@@ -80,7 +96,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
 
   let totalSupplyChainAmount = 0;
   stepArray?.map((step) => {
-    totalSupplyChainAmount += step?.totalStepAmount;
+    totalSupplyChainAmount += (step as ISupply).totalStepAmount;
   });
 
   console.log("totalFunded amount:", totalSupplyChainAmount);
@@ -90,138 +106,160 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
   //   name: "steps",
   // });
 
-  const handleCreateSupplyChain = handleSubmit(async (data) => {
-    console.log("DATA:", data);
-    var totalFundedAmount;
-    try {
-      if (data?.id) {
-        await updateSupplyChain(data);
-      } else {
-        // Clone the steps array to avoid modifying the original data
-        // console.log("Data steps:", data.steps);
+  const handleCreateSupplyChain = handleSubmit(
+    async (data: ISupplyChainSchema) => {
+      console.log("DATA:", data);
+      var totalFundedAmount;
+      try {
+        if (data?.id) {
+          await updateSupplyChain(data);
+        } else {
+          // Clone the steps array to avoid modifying the original data
+          // console.log("Data steps:", data.steps);
 
-        const smartContractSteps = data.steps.map((step) => ({
-          ...step,
-          itemId: 0n,
-          logisticsId: 0n,
-          receiver: "",
-          // quantity: 0n,
-        }));
-
-        const backendSteps = data.steps;
-
-        console.log("smartContractSteps:", smartContractSteps);
-
-        // Map stepType values to be compatible with the smart contract
-        const smartContractStepType: any = smartContractSteps.map((step) => {
-          // StepType
-          step.stepType = stepTypeMap[step.stepType];
-          // Logistic ID
-          const logistic = logistics.find(
-            (item) => item.id === step?.transport
-          );
-          // totalFundedAmount += logistic?.priceWithinState;
-          step.logisticsId = BigInt(logistic?.eid);
-
-          // Item Id
-          // step.quantity = (step.quantity);
-          if (step.rawMaterial !== null) {
-            var receiver = materials.find(
-              (item) => item.id === step?.rawMaterial
+          const smartContractSteps: IStepInput[] = data.steps.map((step) => {
+            // ...step,
+            const logistic = logistics.find(
+              (item: ITransporterServiceItem) => item.id === step?.transport,
             );
-            step.itemId = BigInt(receiver?.eid);
 
-            // console.log("Receiver:", receiver);
-            // console.log("rawmaterial:", step.rawMaterial.replace(/-/g, ""));
+            let receiver: IRawMaterialItem | IServiceItem;
+            if (step.rawMaterial !== null) {
+              receiver = materials.find(
+                (item) => item.id === step?.rawMaterial,
+              ) as IRawMaterialItem;
+            } else {
+              receiver = services.find(
+                (item) => item.id === step.service,
+              ) as IServiceItem;
+            }
+            // step.stepType = stepTypeMap[step.stepType];
+            return {
+              stepType: stepTypeMap[step.stepType],
+              itemId: BigInt(receiver.eid),
+              quantity: BigInt(step.quantity),
+              logisticsId: BigInt(logistic!.eid),
+              receiver: receiver.user.ethAddress as `0x${string}`,
+            };
+          });
 
-            // step.itemId = BigInt(step.rawMaterial.replace(/-/g, ""));
-            // step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
-          } else {
-            var receiver = services.find((item) => item.id === step.service);
-            step.itemId = BigInt(receiver?.eid);
-            // step.itemId = BigInt(step.service.replace(/-/g, ""));
-            // step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
+          const backendSteps = data.steps;
+          console.log("smartContractStepType", smartContractSteps);
+
+          // Map stepType values to be compatible with the smart contract
+          // const smartContractStepType = smartContractSteps.map((step) => {
+          //   // StepType
+
+          //   step.stepType = stepTypeMap[step.stepType];
+          //   // Logistic ID
+          //   const logistic = logistics.find(
+          //     (item: ITransporterServiceItem) => item.id === step?.transport
+          //   ) as ITransporterServiceItem;
+          //   // totalFundedAmount += logistic?.priceWithinState;
+          //   step.logisticsId = BigInt(logistic?.eid);
+
+          //   // Item Id
+          //   // step.quantity = (step.quantity);
+          //   let receiver: IRawMaterialItem | IServiceItem;
+          //   if (step.rawMaterial !== null) {
+          //     receiver = materials.find(
+          //       (item) => item.id === step?.rawMaterial
+          //     ) as IRawMaterialItem;
+          //     step.itemId = BigInt(receiver?.eid);
+
+          //     // console.log("Receiver:", receiver);
+          //     // console.log("rawmaterial:", step.rawMaterial.replace(/-/g, ""));
+
+          //     // step.itemId = BigInt(step.rawMaterial.replace(/-/g, ""));
+          //     // step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
+          //   } else {
+          //     receiver = services.find(
+          //       (item) => item.id === step.service
+          //     ) as IServiceItem;
+          //     step.itemId = BigInt(receiver?.eid);
+          //     // step.itemId = BigInt(step.service.replace(/-/g, ""));
+          //     // step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
+          //   }
+
+          //   // Receiver ETH Address
+          //   step.receiver = receiver?.user?.ethAddress as `0x${string}`;
+
+          //   // delete step.product;
+          //   // delete step.service;
+          //   // delete step.rawMaterial;
+          //   // delete step.to;
+          //   // delete step.from;
+          //   // delete step.transport;
+          //   return step;
+          // });
+
+          // console.log("Data to be sent to contract:", {
+          //   name: data.name,
+          //   description: data.description,
+          //   steps: smartContractStepType,
+          // });
+
+          // console.log("Data", data);
+
+          const { result } = await simulateContract(config, {
+            abi: SupplyChainABI,
+            address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+            functionName: "createSupplyChain",
+            args: [data.name, data.description, smartContractSteps],
+          });
+          const supplychainEid = result;
+          handleSupplychainId(String(supplychainEid));
+          console.log("Supplychain eid:", supplychainEid);
+
+          // ----------------------------------------------------------------------
+
+          const hash = await writeContractAsync({
+            abi: SupplyChainABI,
+            address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+            functionName: "createSupplyChain",
+
+            args: [data.name, data.description, smartContractSteps],
+          });
+          const { transactionHash } = await waitForTransactionReceipt(config, {
+            hash,
+          });
+
+          // ----------------------------------------------------------------------
+
+          // Read Contract for supplychain object
+          const stepResult = await readContract(config, {
+            abi: SupplyChainABI,
+            address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+            functionName: "getSupplyChain",
+            args: [supplychainEid],
+          });
+          console.log("Get Supplychain Result:", stepResult);
+
+          const stepsObject = stepResult?.steps;
+          // totalFundedAmount = stepsObject?.totalFundedAmount;
+
+          // console.log("StepObject: ", stepsObject);
+          // supplyChainID = supplychainEid;
+
+          // ----------------------------------------------------------------------
+
+          for (let i = 0; i < backendSteps.length; i++) {
+            backendSteps[i].eid = String(stepsObject[i].stepId);
           }
+          data.steps = backendSteps;
 
-          // Receiver ETH Address
-          step.receiver = receiver?.user?.ethAddress;
+          // // Include hash and transactionHash in the data object
+          data.eid = String(supplychainEid);
+          data.transactionHash = String(transactionHash);
+          console.log("DATA:", data);
 
-          delete step.product;
-          delete step.service;
-          delete step.rawMaterial;
-          delete step.to;
-          delete step.from;
-          delete step.transport;
-          return step;
-        });
-
-        console.log("smartContractStepType", smartContractStepType);
-        // console.log("Data to be sent to contract:", {
-        //   name: data.name,
-        //   description: data.description,
-        //   steps: smartContractStepType,
-        // });
-
-        // console.log("Data", data);
-
-        const { result } = await simulateContract(config, {
-          abi: SupplyChainABI,
-          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-          functionName: "createSupplyChain",
-          args: [data.name, data.description, smartContractStepType],
-        });
-        const supplychainEid = result;
-        handleSupplychainId(supplychainEid);
-        console.log("Supplychain eid:", supplychainEid);
-
-        // ----------------------------------------------------------------------
-
-        const hash = await writeContractAsync({
-          abi: SupplyChainABI,
-          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-          functionName: "createSupplyChain",
-
-          args: [data.name, data.description, smartContractStepType],
-        });
-        const { transactionHash } = await waitForTransactionReceipt(config, {
-          hash,
-        });
-
-        // ----------------------------------------------------------------------
-
-        // Read Contract for supplychain object
-        const stepResult = await readContract(config, {
-          abi: SupplyChainABI,
-          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-          functionName: "getSupplyChain",
-          args: [supplychainEid],
-        });
-        console.log("Get Supplychain Result:", stepResult);
-
-        const stepsObject = stepResult?.steps;
-        // totalFundedAmount = stepsObject?.totalFundedAmount;
-
-        // console.log("StepObject: ", stepsObject);
-        // supplyChainID = supplychainEid;
-
-        // ----------------------------------------------------------------------
-
-        for (let i = 0; i < backendSteps.length; i++) {
-          backendSteps[i].eid = String(stepsObject[i].stepId);
+          await createSupplyChain(data);
         }
-        data.steps = backendSteps;
-
-        // // Include hash and transactionHash in the data object
-        data.eid = String(supplychainEid);
-        data.transactionHash = String(transactionHash);
-        console.log("DATA:", data);
-
-        await createSupplyChain(data);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  });
+    },
+  );
 
   const handleApproveINR = async () => {
     // console.log("Approve INR");
@@ -232,7 +270,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
       functionName: "approve",
       args: [
         supplysphereAddresses[`${chainId}`] as `0x${string}`,
-        BigInt(totalSupplyChainAmount),
+        parseUnits(String(totalSupplyChainAmount), 2),
       ],
     });
     const { transactionHash } = await waitForTransactionReceipt(config, {
