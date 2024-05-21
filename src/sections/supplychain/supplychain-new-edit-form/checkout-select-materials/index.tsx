@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 // @mui
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 // hooks
 import { useBoolean } from "src/hooks/use-boolean";
 import { useDebounce } from "src/hooks/use-debounce";
@@ -18,11 +17,7 @@ import {
   IProductItem,
 } from "src/types/product";
 //apis
-import {
-  useGetProducts,
-  useGetRawMaterials,
-  useSearchProducts,
-} from "src/api/product";
+import { useGetRawMaterials, useSearchProducts } from "src/api/product";
 //
 import {
   PRODUCT_CATEGORY_OPTIONS,

@@ -2,8 +2,8 @@ import { IRawMaterialItem } from "./raw-materials";
 import { IServiceItem, ITransporterServiceItem } from "./service";
 
 export type ISupplyChainItem = {
-  id: string;
-  eid: string;
+  id?: string;
+  eid?: string;
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
@@ -51,21 +51,6 @@ export type CheckoutContextProps = {
   onReset: VoidFunction;
 };
 
-// type typeField = {
-//   label: string;
-//   value: string;
-// };
-
-// export type ISupplyChainStepItem = {
-//   from: typeField;
-//   to: typeField;
-//   stepType: string;
-//   transport: typeField;
-//   service: typeField;
-//   rawMaterial: typeField;
-//   product: typeField;
-// };
-
 export type IvalueItem = {
   activeStep: number;
   billing: any | null; // Adjust as necessary
@@ -81,7 +66,7 @@ export type IvalueItem = {
 };
 
 type IStepObj = {
-  lable: string;
+  label: string;
   value: string;
 };
 

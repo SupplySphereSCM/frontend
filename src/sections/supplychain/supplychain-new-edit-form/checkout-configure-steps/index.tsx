@@ -1,6 +1,6 @@
+import { useFormContext } from "react-hook-form";
 // @mui
 import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2";
 // _mock
@@ -9,47 +9,17 @@ import { _addressBooks, _mock } from "src/_mock";
 import { useBoolean } from "src/hooks/use-boolean";
 // components
 import Iconify from "src/components/iconify";
-import { useCheckoutContext } from "../context";
-import StepForm from "./step-form";
-import { useFormContext } from "react-hook-form";
+//types
 import {
   ISupplyChainSchema,
-  ISupplyChainStepItem,
   ISupplyChainStepLabel,
 } from "src/types/supplychain";
-import { Typography } from "@mui/material";
+
+import StepForm from "./step-form";
 import SupplychainStepsTable from "./step-card";
 
+import { useCheckoutContext } from "../context";
 // ----------------------------------------------------------------------
-
-// export const _ecommerceBestSalesman = [...Array(5)].map((_, index) => {
-//   const category = [
-//     "CAP",
-//     "Branded Shoes",
-//     "Headphone",
-//     "Cell Phone",
-//     "Earings",
-//   ][index];
-
-//   const flag = [
-//     "flagpack:de",
-//     "flagpack:gb-nir",
-//     "flagpack:fr",
-//     "flagpack:kr",
-//     "flagpack:us",
-//   ][index];
-
-//   return {
-//     id: _mock.id(index),
-//     flag,
-//     category,
-//     rank: `Top ${index + 1}`,
-//     email: _mock.email(index),
-//     name: _mock.fullName(index),
-//     totalAmount: _mock.number.price(index),
-//     avatarUrl: _mock.image.avatar(index + 8),
-//   };
-// });
 
 export default function CheckoutConfigureSteps() {
   const checkout = useCheckoutContext();
@@ -58,11 +28,7 @@ export default function CheckoutConfigureSteps() {
 
   const { watch } = useFormContext<ISupplyChainSchema>();
 
-  const stepArray = watch("stepArray");
-  console.log("stepArray:", stepArray);
-
   const steps = watch("steps");
-  console.log("steps:", steps);
 
   return (
     <>
@@ -71,7 +37,7 @@ export default function CheckoutConfigureSteps() {
       <Grid xs={12} md={6} lg={8}>
         <SupplychainStepsTable
           title="Supplychain Steps"
-          tableData={stepArray as ISupplyChainStepLabel[]}
+          tableData={steps}
           tableLabels={[
             { id: "from", label: "From" },
             { id: "to", label: "To" },
@@ -81,13 +47,6 @@ export default function CheckoutConfigureSteps() {
           ]}
         />
       </Grid>
-      {/* <Typography>{step.from}</Typography>
-          <Typography>{step.to}</Typography>
-          <Typography>{step.transport}</Typography>
-          <Typography>{step.rawMaterial}</Typography>
-          <Typography>{step.service}</Typography> */}
-      {/* </> */}
-      {/* ))} */}
       <Button
         fullWidth
         onClick={stepForm.onTrue}

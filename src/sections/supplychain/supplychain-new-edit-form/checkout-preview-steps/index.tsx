@@ -11,7 +11,6 @@ import SupplychainStepsTable from "../checkout-configure-steps/step-card";
 import FormProvider from "src/components/hook-form";
 //hooks
 import { useCheckoutContext } from "../context";
-import { NewSupplyChainSchema } from "..";
 import {
   createSupplyChain,
   updateSupplyChain,
@@ -50,16 +49,6 @@ import { useState } from "react";
 
 const STORAGE_KEY = "checkout";
 
-// const stepTypeMap = {
-//   PROCURING: 0,
-//   SERVICING: 1,
-// };
-
-// const stepTypeMap: { [key in StepType]: number } = {
-//   [StepType.PROCURING]: 0,
-//   [StepType.SERVICING]: 1,
-// };
-
 const stepTypeMap: Record<StepType, number> = {
   PROCURING: 0,
   SERVICING: 1,
@@ -70,45 +59,36 @@ type Props = {
 };
 
 export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
-  const { onReset, onBackStep } = useCheckoutContext();
-  const { watch, control, handleSubmit } = useFormContext<ISupplyChainSchema>();
-  const { enqueueSnackbar } = useSnackbar();
-  const { writeContractAsync } = useWriteContract();
   const { chainId } = useAccount();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { writeContractAsync } = useWriteContract();
+
   const [funcdChain, setFundChain] = useState(false);
-  const stepArray = watch("stepArray");
-  // console.log("stepArray:", stepArray);
 
-  // var totalFundedAmount = 0;
+  const { onReset, onBackStep } = useCheckoutContext();
 
-  const value = getStorage(STORAGE_KEY) as IvalueItem;
+  const { watch, handleSubmit } = useFormContext<ISupplyChainSchema>();
 
-  console.log("value", value);
+  const steps = watch("steps");
 
-  if (value !== null) {
-    var { materials, services, logistics } = value;
-  }
+  const { materials, services, logistics } = getStorage(
+    STORAGE_KEY,
+  ) as IvalueItem;
 
   const handleReset = () => {
-    console.log("clicked");
     onReset();
   };
 
   let totalSupplyChainAmount = 0;
-  stepArray?.map((step) => {
+
+  steps?.map((step) => {
     totalSupplyChainAmount += (step as ISupply).totalStepAmount;
   });
 
-  console.log("totalFunded amount:", totalSupplyChainAmount);
-
-  // const { append } = useFieldArray({
-  //   control,
-  //   name: "steps",
-  // });
-
   const handleCreateSupplyChain = handleSubmit(
     async (data: ISupplyChainSchema) => {
-      console.log("DATA:", data);
       var totalFundedAmount;
       try {
         if (data?.id) {
@@ -144,62 +124,6 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           });
 
           const backendSteps = data.steps;
-          console.log("smartContractStepType", smartContractSteps);
-
-          // Map stepType values to be compatible with the smart contract
-          // const smartContractStepType = smartContractSteps.map((step) => {
-          //   // StepType
-
-          //   step.stepType = stepTypeMap[step.stepType];
-          //   // Logistic ID
-          //   const logistic = logistics.find(
-          //     (item: ITransporterServiceItem) => item.id === step?.transport
-          //   ) as ITransporterServiceItem;
-          //   // totalFundedAmount += logistic?.priceWithinState;
-          //   step.logisticsId = BigInt(logistic?.eid);
-
-          //   // Item Id
-          //   // step.quantity = (step.quantity);
-          //   let receiver: IRawMaterialItem | IServiceItem;
-          //   if (step.rawMaterial !== null) {
-          //     receiver = materials.find(
-          //       (item) => item.id === step?.rawMaterial
-          //     ) as IRawMaterialItem;
-          //     step.itemId = BigInt(receiver?.eid);
-
-          //     // console.log("Receiver:", receiver);
-          //     // console.log("rawmaterial:", step.rawMaterial.replace(/-/g, ""));
-
-          //     // step.itemId = BigInt(step.rawMaterial.replace(/-/g, ""));
-          //     // step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
-          //   } else {
-          //     receiver = services.find(
-          //       (item) => item.id === step.service
-          //     ) as IServiceItem;
-          //     step.itemId = BigInt(receiver?.eid);
-          //     // step.itemId = BigInt(step.service.replace(/-/g, ""));
-          //     // step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
-          //   }
-
-          //   // Receiver ETH Address
-          //   step.receiver = receiver?.user?.ethAddress as `0x${string}`;
-
-          //   // delete step.product;
-          //   // delete step.service;
-          //   // delete step.rawMaterial;
-          //   // delete step.to;
-          //   // delete step.from;
-          //   // delete step.transport;
-          //   return step;
-          // });
-
-          // console.log("Data to be sent to contract:", {
-          //   name: data.name,
-          //   description: data.description,
-          //   steps: smartContractStepType,
-          // });
-
-          // console.log("Data", data);
 
           const { result } = await simulateContract(config, {
             abi: SupplyChainABI,
@@ -209,7 +133,6 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           });
           const supplychainEid = result;
           handleSupplychainId(String(supplychainEid));
-          console.log("Supplychain eid:", supplychainEid);
 
           // ----------------------------------------------------------------------
 
@@ -233,13 +156,8 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
             functionName: "getSupplyChain",
             args: [supplychainEid],
           });
-          console.log("Get Supplychain Result:", stepResult);
 
           const stepsObject = stepResult?.steps;
-          // totalFundedAmount = stepsObject?.totalFundedAmount;
-
-          // console.log("StepObject: ", stepsObject);
-          // supplyChainID = supplychainEid;
 
           // ----------------------------------------------------------------------
 
@@ -248,10 +166,8 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           }
           data.steps = backendSteps;
 
-          // // Include hash and transactionHash in the data object
           data.eid = String(supplychainEid);
           data.transactionHash = String(transactionHash);
-          console.log("DATA:", data);
 
           await createSupplyChain(data);
         }
@@ -262,8 +178,6 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
   );
 
   const handleApproveINR = async () => {
-    // console.log("Approve INR");
-
     const hash = await writeContractAsync({
       abi: INRABI,
       address: inrAddresses[`${chainId}`] as `0x${string}`,
@@ -273,11 +187,10 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
         parseUnits(String(totalSupplyChainAmount), 2),
       ],
     });
-    const { transactionHash } = await waitForTransactionReceipt(config, {
+    await waitForTransactionReceipt(config, {
       hash,
     });
     setFundChain(true);
-    console.log("transactionHash", transactionHash);
   };
 
   return (
@@ -286,7 +199,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
       <Grid xs={12} md={6} lg={8}>
         <SupplychainStepsTable
           title="Supplychain Steps"
-          tableData={stepArray as ISupplyChainStepLabel[]}
+          tableData={steps}
           tableLabels={[
             { id: "from", label: "From" },
             { id: "to", label: "To" },

@@ -13,6 +13,7 @@ import {
   ISupplyChainItem,
   ISupplyChainSchema,
   ISupplyChainStepItem,
+  StepType,
 } from "src/types/supplychain";
 
 import { useCheckoutContext } from "./context";
@@ -56,37 +57,37 @@ export const STEPS = [
   "Configure Steps",
   "Preview",
 ];
-const STORAGE_KEY = "checkout";
-
-enum StepType {
-  Procurement = "PROCURING",
-  Servicing = "SERVICING",
-}
 
 // ----------------------------------------------------------------------
 
 export const NewStepSchema = Yup.object<ISupplyChainStepItem>().shape({
-  from: Yup.object()
-    .shape({ label: Yup.string(), value: Yup.string() })
-    .required("From is required"),
-  to: Yup.object()
-    .shape({ label: Yup.string(), value: Yup.string() })
-    .required("To is required"),
+  from: Yup.object({
+    label: Yup.string(),
+    value: Yup.string(),
+  }).required("From is required"),
+  to: Yup.object({
+    label: Yup.string(),
+    value: Yup.string(),
+  }).required("To is required"),
   stepType: Yup.string()
-    .oneOf(Object.values(StepType).map((role) => role.toString()))
+    .oneOf(Object.values(StepType).map((type) => type.toString()))
     .required("Step Type is required"),
-  transport: Yup.object()
-    .shape({ label: Yup.string(), value: Yup.string() })
-    .required("Transporter is required"),
-  product: Yup.object()
-    .shape({ label: Yup.string(), value: Yup.string() })
-    .optional(),
-  service: Yup.object()
-    .shape({ label: Yup.string(), value: Yup.string() })
-    .optional(),
-  rawMaterial: Yup.object()
-    .shape({ label: Yup.string(), value: Yup.string() })
-    .optional(),
+  transport: Yup.object({
+    label: Yup.string(),
+    value: Yup.string(),
+  }).required("Transporter is required"),
+  product: Yup.object({
+    label: Yup.string(),
+    value: Yup.string(),
+  }),
+  service: Yup.object({
+    label: Yup.string(),
+    value: Yup.string(),
+  }),
+  rawMaterial: Yup.object({
+    label: Yup.string(),
+    value: Yup.string(),
+  }),
 });
 
 export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
@@ -98,12 +99,12 @@ export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
 });
 
 type Props = {
-  currentProduct?: ISupplyChainItem;
+  currentSupplyChain?: ISupplyChainItem;
 };
 
 // ----------------------------------------------------------------------
 
-export default function SupplyChainNewEditForm({ currentProduct }: Props) {
+export default function SupplyChainNewEditForm({ currentSupplyChain }: Props) {
   const router = useRouter();
 
   const { chainId } = useAccount();
@@ -112,86 +113,54 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const { writeContractAsync } = useWriteContract();
   const [supplyChainID, setSupplyChainID] = useState<string>("");
-  console.log("supplychain ID:", supplyChainID);
 
   const defaultValues: ISupplyChainSchema = useMemo(
     () => ({
-      id: currentProduct?.id,
-      eid: currentProduct?.eid,
-      name: currentProduct?.name || "",
-      description: currentProduct?.description || "",
-      steps: currentProduct?.steps || [],
+      id: currentSupplyChain?.id || "",
+      eid: currentSupplyChain?.eid || "",
+      name: currentSupplyChain?.name || "",
+      description: currentSupplyChain?.description || "",
+      steps: currentSupplyChain?.steps || [],
     }),
-    [currentProduct],
+    [currentSupplyChain],
   );
 
+  // Main Form
   const methods = useForm({
-    // This was the problem for submit not working
     resolver: yupResolver(NewSupplyChainSchema),
     defaultValues,
   });
 
   const { reset, handleSubmit } = methods;
 
-  const value = getStorage(STORAGE_KEY);
-  // console.log("value", value);
-
-  if (value !== null) {
-    var { materials, services, logistics } = value;
-  }
-
-  // console.log("materials:", materials);
-  // console.log("services:", services);
-
-  // const productsAndServices: (IServiceItem | IRawMaterialItem)[] = [
-  //   ...materials,
-  //   ...services,
-  // ];
-
   useEffect(() => {
-    if (currentProduct) {
+    if (currentSupplyChain) {
       reset(defaultValues);
     }
-  }, [currentProduct, defaultValues, reset]);
+  }, [currentSupplyChain, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      console.log("On submit function clicked");
-
       const hash = await writeContractAsync({
         abi: SupplySphereABI,
         address: supplysphereAddress[`${chainId}`] as `0x${string}`,
         functionName: "fundChain",
         args: [BigInt(supplyChainID)],
       });
-      const { transactionHash } = await waitForTransactionReceipt(config, {
+
+      await waitForTransactionReceipt(config, {
         hash,
       });
 
-      enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
+      enqueueSnackbar(
+        currentSupplyChain ? "Update success!" : "Create success!",
+      );
       onReset();
       router.push(paths.dashboard.supplychain.root);
     } catch (error) {
       console.error(error);
     }
   });
-
-  // const onSubmit = handleSubmit(
-  //   async (data) => {
-  //     try {
-  //       console.log("DATA: ", data);
-  //       // createSupplyChain(data);
-  //       // reset();
-  //       enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
-  //       router.push(paths.dashboard.product.root);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   },
-  //   () => {
-  //     console.log("something");
-  //   }
-  // );
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -202,7 +171,6 @@ export default function SupplyChainNewEditForm({ currentProduct }: Props) {
       {checkout.activeStep === 3 && (
         <CheckoutPreviewSteps handleSupplychainId={setSupplyChainID} />
       )}
-      {/* <Button type="submit">Submit</Button> */}
     </FormProvider>
   );
 }
