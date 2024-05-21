@@ -463,7 +463,7 @@ export const RawMaterialABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const addresses: Record<string, string> = {
   "1337": "0x6f757F3ab0765ffbCc0EAf9220241815135B5c86",

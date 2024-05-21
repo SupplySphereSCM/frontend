@@ -506,7 +506,7 @@ export const ProductsABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const addresses: Record<string, string> = {
   "1337": "0x2e7E82e2B2177DAD4a40c291b1ae05C3291e4001",

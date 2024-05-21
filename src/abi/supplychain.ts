@@ -457,7 +457,7 @@ export const SupplyChainABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const addresses: Record<string, string> = {
   "1337": "0xa6C898E7FeD4Ee140B1260a87d20dE6058D392e4",

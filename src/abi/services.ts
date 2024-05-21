@@ -444,7 +444,7 @@ export const ServicesABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const addresses: Record<string, string> = {
   "1337": "0xd501F292b7A8f77329B50f02565a178ADa4C86B9",

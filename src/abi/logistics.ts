@@ -384,7 +384,7 @@ export const LogisticsABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const addresses: Record<string, string> = {
   "1337": "0x9beeD5049070C852b43d82C57FA71062a8531872",

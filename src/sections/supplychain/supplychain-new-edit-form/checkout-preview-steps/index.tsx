@@ -62,9 +62,9 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
   const { chainId } = useAccount();
   const [funcdChain, setFundChain] = useState(false);
   const stepArray = watch("stepArray");
-  console.log("stepArray:", stepArray);
+  // console.log("stepArray:", stepArray);
 
-  var totalFundedAmount = 0;
+  // var totalFundedAmount = 0;
 
   const value = getStorage(STORAGE_KEY);
   // console.log("value", value);
@@ -90,21 +90,9 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
   //   name: "steps",
   // });
 
-  // const onSubmit = (data: ISupplyChainSchema) => {
-  //   try {
-  //     console.log("DATA: ", data);
-  //     // createSupplyChain(data);
-  //     // reset();
-  //     // enqueueSnackbar(currentProduct ? "Update success!" : "Create success!");
-  //     // router.push(paths.dashboard.product.root);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleCreateSupplyChain = handleSubmit(async (data) => {
-    // console.log("DATA:", data);
-
+    console.log("DATA:", data);
+    var totalFundedAmount;
     try {
       if (data?.id) {
         await updateSupplyChain(data);
@@ -133,7 +121,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
             (item) => item.id === step?.transport
           );
           // totalFundedAmount += logistic?.priceWithinState;
-          step.logisticsId = logistic?.eid;
+          step.logisticsId = BigInt(logistic?.eid);
 
           // Item Id
           // step.quantity = (step.quantity);
@@ -141,7 +129,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
             var receiver = materials.find(
               (item) => item.id === step?.rawMaterial
             );
-            step.itemId = receiver?.eid;
+            step.itemId = BigInt(receiver?.eid);
 
             // console.log("Receiver:", receiver);
             // console.log("rawmaterial:", step.rawMaterial.replace(/-/g, ""));
@@ -150,7 +138,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
             // step.itemId = BigInt(`0x${step.rawMaterial.replace(/-/g, "")}`);
           } else {
             var receiver = services.find((item) => item.id === step.service);
-            step.itemId = receiver?.eid;
+            step.itemId = BigInt(receiver?.eid);
             // step.itemId = BigInt(step.service.replace(/-/g, ""));
             // step.itemId = BigInt(`0x${step.service.replace(/-/g, "")}`);
           }
@@ -167,7 +155,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           return step;
         });
 
-        // console.log("smartContractStepType", smartContractStepType);
+        console.log("smartContractStepType", smartContractStepType);
         // console.log("Data to be sent to contract:", {
         //   name: data.name,
         //   description: data.description,
@@ -175,6 +163,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
         // });
 
         // console.log("Data", data);
+
         const { result } = await simulateContract(config, {
           abi: SupplyChainABI,
           address: supplyChainAddress[`${chainId}`] as `0x${string}`,
@@ -183,7 +172,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
         });
         const supplychainEid = result;
         handleSupplychainId(supplychainEid);
-        // console.log("Supplychain eid:", supplychainEid);
+        console.log("Supplychain eid:", supplychainEid);
 
         // ----------------------------------------------------------------------
 
@@ -207,11 +196,12 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           functionName: "getSupplyChain",
           args: [supplychainEid],
         });
-        console.log("Step eid:", stepResult);
+        console.log("Get Supplychain Result:", stepResult);
 
         const stepsObject = stepResult?.steps;
+        // totalFundedAmount = stepsObject?.totalFundedAmount;
+
         // console.log("StepObject: ", stepsObject);
-        totalFundedAmount = stepsObject?.totalFundedAmount;
         // supplyChainID = supplychainEid;
 
         // ----------------------------------------------------------------------
@@ -221,7 +211,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
         }
         data.steps = backendSteps;
 
-        // Include hash and transactionHash in the data object
+        // // Include hash and transactionHash in the data object
         data.eid = String(supplychainEid);
         data.transactionHash = String(transactionHash);
         console.log("DATA:", data);
@@ -242,7 +232,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
       functionName: "approve",
       args: [
         supplysphereAddresses[`${chainId}`] as `0x${string}`,
-        BigInt(totalFundedAmount),
+        BigInt(totalSupplyChainAmount),
       ],
     });
     const { transactionHash } = await waitForTransactionReceipt(config, {
