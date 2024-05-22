@@ -1,5 +1,6 @@
 import { IRawMaterialItem } from "./raw-materials";
 import { IServiceItem, ITransporterServiceItem } from "./service";
+import { IUser } from "./user";
 
 export type ISupplyChainItem = {
   id?: string;
@@ -7,8 +8,18 @@ export type ISupplyChainItem = {
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
+  stepArray: ISupplyChainStepLabel[];
   // transactionHash: string;
-  // createdAt: Date;
+  createdAt: Date;
+};
+export type ISupplyCard = ISupplyChainItem & {
+  transactionHash: string;
+  createdAt: Date;
+};
+
+export type IUserSupplychains = {
+  id: string;
+  name: string;
 };
 
 export type ISupplyChainFilterValue = {};
@@ -27,6 +38,7 @@ export type ISupplyChainSchema = {
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
+  stepArray: ISupplyChainStepLabel[];
   transactionHash?: string;
 };
 
@@ -78,6 +90,27 @@ export type ISupplyChainStepItem = {
   service: IStepObj;
   rawMaterial: IStepObj;
   product: IStepObj;
+  quantity: number;
+};
+
+export type ISupplyChainQRItem = {
+  id?: string;
+  eid?: string;
+  name: string;
+  description: string;
+  steps: ISupplyChainQRStepItem[];
+  // transactionHash: string;
+  createdAt: Date;
+};
+
+export type ISupplyChainQRStepItem = {
+  eid: string;
+  id: string;
+  from: IUser;
+  to: IUser;
+  stepType: StepType;
+  orderStatus: string;
+  quantity: number;
 };
 
 export type ISupply = ISupplyChainStepItem & {
@@ -104,7 +137,7 @@ export type IStepInput = {
 };
 
 export type ISupplyChainStepLabel = {
-  eid: string;
+  eid?: string;
   from: string;
   to: string;
   stepType: string;

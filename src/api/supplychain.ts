@@ -1,9 +1,14 @@
+import { removeStorage } from "./../hooks/use-local-storage";
 import useSWR, { mutate } from "swr";
 import { useMemo } from "react";
 // utils
 import axiosInstance, { fetcher, endpoints } from "src/utils/axios";
 // types
-import { ISupplyChainItem } from "src/types/supplychain";
+import {
+  ISupplyChainItem,
+  ISupplyChainQRItem,
+  IUserSupplychains,
+} from "src/types/supplychain";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +25,27 @@ export function useGetSupplyChains() {
       supplyChainsValidating: isValidating,
       supplyChainsEmpty: !isLoading && !data?.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+// ----------------------------------------------------------------------
+
+export function useGetUserSupplyChains() {
+  const URL = endpoints.supplychain.user;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      supplyChains: (data as IUserSupplychains[]) || [],
+      supplyChainsLoading: isLoading,
+      supplyChainsError: error,
+      supplyChainsValidating: isValidating,
+      supplyChainsEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -32,15 +57,17 @@ export function useGetSupplyChain(id: string) {
   const URL = endpoints.supplychain.details(id);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+  data?.steps?.reverse();
+  console.log("useGetSupplyChain:", data);
 
   const memoizedValue = useMemo(
     () => ({
-      supplyChain: data as ISupplyChainItem,
+      supplyChain: data as ISupplyChainQRItem,
       supplyChainLoading: isLoading,
       supplyChainError: error,
       supplyChainValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -49,7 +76,7 @@ export function useGetSupplyChain(id: string) {
 // ----------------------------------------------------------------------
 
 export async function createSupplyChain(
-  supplyChain: Partial<ISupplyChainItem>,
+  supplyChain: Partial<ISupplyChainItem>
 ) {
   const URL = endpoints.supplychain.root;
   /**
@@ -76,13 +103,13 @@ export async function createSupplyChain(
         supplyChains,
       };
     },
-    false,
+    false
   );
 }
 // ----------------------------------------------------------------------
 
 export async function updateSupplyChain(
-  supplyChain: Partial<ISupplyChainItem>,
+  supplyChain: Partial<ISupplyChainItem>
 ) {
   const URL = endpoints.supplychain.details(`${supplyChain.id}`);
   /**
@@ -101,12 +128,12 @@ export async function updateSupplyChain(
       const updatedServices = currentData.supplyChains.map(
         (p: ISupplyChainItem) => {
           return p.id === supplyChain.id ? { ...p, ...supplyChain } : p;
-        },
+        }
       );
 
       return { ...currentData, services: updatedServices };
     },
-    false,
+    false
   );
 }
 
@@ -119,7 +146,7 @@ export async function deleteSupplychain(ids: string) {
     // }
 
     return await axiosInstance.delete(
-      endpoints.supplychain.details(ids as string),
+      endpoints.supplychain.details(ids as string)
     );
   } catch (error) {
     console.error("Failed to delete services:", error);

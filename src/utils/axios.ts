@@ -10,8 +10,8 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   (error) =>
     Promise.reject(
-      (error.response && error.response.data) || "Something went wrong",
-    ),
+      (error.response && error.response.data) || "Something went wrong"
+    )
 );
 
 export default axiosInstance;
@@ -100,6 +100,7 @@ export const endpoints = {
 
   supplychain: {
     root: "/api/supplychains",
+    user: "/api/supplychains/user",
     details: (id: string) => `/api/supplychains/${id}`,
   },
   upload: {

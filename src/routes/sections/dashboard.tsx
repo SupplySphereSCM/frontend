@@ -20,37 +20,48 @@ const IndexPage = lazy(() => import("src/pages/dashboard/app"));
 // const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 // PRODUCT
 const ProductDetailsPage = lazy(
-  () => import("src/pages/dashboard/product/details"),
+  () => import("src/pages/dashboard/product/details")
 );
+// PRODUCT
 const ProductListPage = lazy(() => import("src/pages/dashboard/product/list"));
 const ProductCreatePage = lazy(() => import("src/pages/dashboard/product/new"));
 const ProductEditPage = lazy(() => import("src/pages/dashboard/product/edit"));
 // SERIVCE
 const ServiceDetailsPage = lazy(
-  () => import("src/pages/dashboard/service/details"),
+  () => import("src/pages/dashboard/service/details")
 );
 const ServiceListPage = lazy(() => import("src/pages/dashboard/service/list"));
 const ServiceCreatePage = lazy(() => import("src/pages/dashboard/service/new"));
 const ServiceEditPage = lazy(() => import("src/pages/dashboard/service/edit"));
 // FAUCET
 const FaucetPage = lazy(() => import("src/pages/dashboard/faucet/faucet-view"));
+// SHOP
+
+const ShopPage = lazy(() => import("src/pages/dashboard/shop/list"));
+const ProductShopDetailsPage = lazy(
+  () => import("src/pages/dashboard/shop/details")
+);
+const ProductCheckoutPage = lazy(
+  () => import("src/pages/dashboard/shop/checkout")
+);
+// const ShopPage = lazy(() => import("src/pages/dashboard/shop/shop-view"));
 
 // ORDER
 const OrderListPage = lazy(() => import("src/pages/dashboard/order/list"));
 const OrderDetailsPage = lazy(
-  () => import("src/pages/dashboard/order/details"),
+  () => import("src/pages/dashboard/order/details")
 );
 // MY-ORDER
 const MyOrderListPage = lazy(
-  () => import("src/pages/dashboard/order/my-order-list"),
+  () => import("src/pages/dashboard/order/my-order-list")
 );
 const MyOrderDetailsPage = lazy(
-  () => import("src/pages/dashboard/order/my-order-details"),
+  () => import("src/pages/dashboard/order/my-order-details")
 );
 // INVOICE
 const InvoiceListPage = lazy(() => import("src/pages/dashboard/invoice/list"));
 const InvoiceDetailsPage = lazy(
-  () => import("src/pages/dashboard/invoice/details"),
+  () => import("src/pages/dashboard/invoice/details")
 );
 const InvoiceCreatePage = lazy(() => import("src/pages/dashboard/invoice/new"));
 const InvoiceEditPage = lazy(() => import("src/pages/dashboard/invoice/edit"));
@@ -68,24 +79,24 @@ const UserAccountPage = lazy(() => import("src/pages/dashboard/user/account"));
 // const BlogEditPostPage = lazy(() => import('src/pages/dashboard/post/edit'));
 // SUPPLYCHAIN
 const SupplyChainDetailsPage = lazy(
-  () => import("src/pages/dashboard/supplychain/details"),
+  () => import("src/pages/dashboard/supplychain/details")
 );
 const SupplyChainListPage = lazy(
-  () => import("src/pages/dashboard/supplychain/list"),
+  () => import("src/pages/dashboard/supplychain/list")
 );
 const SupplyChainCreatePage = lazy(
-  () => import("src/pages/dashboard/supplychain/new"),
+  () => import("src/pages/dashboard/supplychain/new")
 );
 const SupplyChainEditPage = lazy(
-  () => import("src/pages/dashboard/supplychain/edit"),
+  () => import("src/pages/dashboard/supplychain/edit")
 );
 
 const LogisticsDetailsPage = lazy(
-  () => import("src/pages/dashboard/supplychain/logistics/details"),
+  () => import("src/pages/dashboard/supplychain/logistics/details")
 );
 
 const ServicesShopDetailsPage = lazy(
-  () => import("src/pages/dashboard/supplychain/services/details"),
+  () => import("src/pages/dashboard/supplychain/services/details")
 );
 // TOUR
 // const TourDetailsPage = lazy(() => import('src/pages/dashboard/tour/details'));
@@ -101,12 +112,12 @@ const ServicesShopDetailsPage = lazy(
 // const KanbanPage = lazy(() => import('src/pages/dashboard/kanban'));
 // TEST RENDER PAGE BY ROLE
 const PermissionDeniedPage = lazy(
-  () => import("src/pages/dashboard/permission"),
+  () => import("src/pages/dashboard/permission")
 );
 
 // SUpplychain QR
 const SupplychainQRPage = lazy(
-  () => import("src/pages/SupplyChainQR/supplychainQR"),
+  () => import("src/pages/SupplyChainQR/supplychainQR")
 );
 // BLANK PAGE
 // const BlankPage = lazy(() => import('src/pages/dashboard/blank'));
@@ -167,6 +178,15 @@ export const dashboardRoutes = [
       {
         path: "faucet",
         children: [{ element: <FaucetPage />, index: true }],
+      },
+      {
+        path: "shop",
+        children: [
+          { element: <ShopPage />, index: true },
+          { path: "list", element: <ShopPage /> },
+          { path: ":id", element: <ProductShopDetailsPage /> },
+          { path: "checkout", element: <ProductCheckoutPage /> },
+        ],
       },
       {
         path: "order",
@@ -265,6 +285,10 @@ export const dashboardRoutes = [
   },
   {
     path: "supplychain",
-    children: [{ element: <SupplychainQRPage />, index: true }],
+    element: <SupplychainQRPage />,
+    children: [
+      // { element: <SupplychainQRPage />, index: true },
+      { path: ":id", element: <SupplychainQRPage /> },
+    ],
   },
 ];

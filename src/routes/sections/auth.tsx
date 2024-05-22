@@ -12,8 +12,8 @@ import { SplashScreen } from "src/components/loading-screen";
 // JWT
 const JwtLoginPage = lazy(() => import("src/pages/auth/jwt/login"));
 const JwtRegisterPage = lazy(() => import("src/pages/auth/jwt/register"));
-const SupplyChainDisplayPage = lazy(
-  () => import("src/pages/auth/jwt/register"),
+const SupplychainQR = lazy(
+  () => import("src/pages/SupplyChainQR/supplychainQR")
 );
 
 // ----------------------------------------------------------------------
@@ -38,7 +38,7 @@ const authJwt = {
     },
     {
       path: "supplychain",
-      element: <JwtRegisterPage />,
+      element: <SupplychainQR />,
     },
     {
       path: "register",
