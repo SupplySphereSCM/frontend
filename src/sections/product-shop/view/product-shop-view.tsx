@@ -17,7 +17,6 @@ import {
   PRODUCT_GENDER_OPTIONS,
   PRODUCT_RATING_OPTIONS,
   PRODUCT_CATEGORY_OPTIONS,
-  ROLE_OPTIONS,
 } from "src/_mock";
 // api
 import { useGetProducts, useSearchProducts } from "src/api/product";
@@ -67,6 +66,7 @@ export default function ProductShopView() {
   const [filters, setFilters] = useState(defaultFilters);
 
   const { products, productsLoading, productsEmpty } = useGetProducts();
+  console.log("product-shop:", productsEmpty);
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 
@@ -87,8 +87,10 @@ export default function ProductShopView() {
   });
 
   const canReset = !isEqual(defaultFilters, filters);
+  console.log("datafiltered", dataFiltered);
 
   const notFound = !dataFiltered.length && canReset;
+  console.log("not found:", notFound);
 
   const handleSortBy = useCallback((newValue: string) => {
     setSortBy(newValue);
@@ -114,7 +116,7 @@ export default function ProductShopView() {
         results={searchResults}
         onSearch={handleSearch}
         loading={searchLoading}
-        hrefItem={(id: string) => paths.product.details(id)}
+        hrefItem={(id: string) => paths.dashboard.shop.details(id)}
       />
 
       <Stack direction="row" spacing={1} flexShrink={0}>
@@ -131,7 +133,7 @@ export default function ProductShopView() {
           //
           colorOptions={PRODUCT_COLOR_OPTIONS}
           ratingOptions={PRODUCT_RATING_OPTIONS}
-          genderOptions={ROLE_OPTIONS}
+          genderOptions={PRODUCT_GENDER_OPTIONS}
           categoryOptions={["all", ...PRODUCT_CATEGORY_OPTIONS]}
         />
 
@@ -235,28 +237,27 @@ function applyFilter({
   //   inputData = inputData.filter((product) => gender.includes(product.gender));
   // }
 
-  // if (category !== "all") {
-  //   inputData = inputData.filter((product) => product.category === category);
-  // }
-
-  // if (colors.length) {
-  //   inputData = inputData.filter((product) =>
-  //     product.colors.some((color) => colors.includes(color)),
-  //   );
-  // }
-
   if (min !== 0 || max !== 200) {
     inputData = inputData.filter(
       (product) => product.price >= min && product.price <= max
     );
   }
+  // if (category !== 'all') {
+  //   inputData = inputData.filter((product) => product.category === category);
+  // }
+
+  // if (colors.length) {
+  //   inputData = inputData.filter((product) =>
+  //     product.colors.some((color) => colors.includes(color))
+  //   );
+  // }
 
   // if (rating) {
   //   inputData = inputData.filter((product) => {
   //     const convertRating = (value: string) => {
-  //       if (value === "up4Star") return 4;
-  //       if (value === "up3Star") return 3;
-  //       if (value === "up2Star") return 2;
+  //       if (value === 'up4Star') return 4;
+  //       if (value === 'up3Star') return 3;
+  //       if (value === 'up2Star') return 2;
   //       return 1;
   //     };
   //     return product.totalRatings > convertRating(rating);

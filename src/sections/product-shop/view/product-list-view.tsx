@@ -18,11 +18,7 @@ import { useBoolean } from "src/hooks/use-boolean";
 // _mock
 import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
 // api
-import {
-  deleteProducts,
-  useGetProducts,
-  useGetUserProducts,
-} from "src/api/product";
+import { useGetProducts } from "src/api/product";
 // components
 import { useSettingsContext } from "src/components/settings";
 import {
@@ -57,15 +53,15 @@ import { useAuthContext } from "src/auth/hooks";
 const TABLE_HEAD = [
   { id: "name", label: "Product" },
   { id: "createdAt", label: "Create at", width: 160 },
-  // { id: "inventoryType", label: "Stock", width: 160 },
+  { id: "inventoryType", label: "Stock", width: 160 },
   { id: "price", label: "Price", width: 140 },
-  // { id: "publish", label: "Publish", width: 110 },
+  { id: "publish", label: "Publish", width: 110 },
   { id: "", width: 88 },
 ];
 
 // const PUBLISH_OPTIONS = [
-//   { value: "published", label: "Published" },
-//   { value: "draft", label: "Draft" },
+//   { value: 'published', label: 'Published' },
+//   { value: 'draft', label: 'Draft' },
 // ];
 
 const defaultFilters: IProductTableFilters = {
@@ -81,18 +77,15 @@ export default function ProductListView() {
 
   const table = useTable();
 
-  const { user } = useAuthContext();
-
   const settings = useSettingsContext();
 
-  const [filters, setFilters] = useState(defaultFilters);
+  const { user } = useAuthContext();
 
   const [tableData, setTableData] = useState<IProductItem[]>([]);
 
-  const { products, productsLoading, productsEmpty } = useGetUserProducts({
-    role: user?.roles[0] as any,
-  });
-  console.log("product-list-view:", products);
+  const [filters, setFilters] = useState(defaultFilters);
+
+  const { products, productsLoading, productsEmpty } = useGetProducts();
 
   const confirm = useBoolean();
 
@@ -117,7 +110,7 @@ export default function ProductListView() {
 
   const canReset = !isEqual(defaultFilters, filters);
 
-  const notFound = productsEmpty || (!dataFiltered.length && canReset);
+  const notFound = (!dataFiltered.length && canReset) || productsEmpty;
 
   const handleFilters = useCallback(
     (name: string, value: IProductTableFilterValue) => {
@@ -131,8 +124,7 @@ export default function ProductListView() {
   );
 
   const handleDeleteRow = useCallback(
-    async (id: string) => {
-      await deleteProducts(id);
+    (id: string) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
       setTableData(deleteRow);
 
@@ -141,9 +133,7 @@ export default function ProductListView() {
     [dataInPage.length, table, tableData]
   );
 
-  const handleDeleteRows = useCallback(async () => {
-    await deleteProducts(table.selected);
-
+  const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter(
       (row) => !table.selected.includes(row.id)
     );
@@ -182,21 +172,21 @@ export default function ProductListView() {
           links={[
             { name: "Dashboard", href: paths.dashboard.root },
             {
-              name: "Product",
-              href: paths.dashboard.product.root,
+              name: "Shop",
+              href: paths.dashboard.shop.root,
             },
             { name: "List" },
           ]}
-          action={
-            <Button
-              component={RouterLink}
-              href={paths.dashboard.product.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              New Product
-            </Button>
-          }
+          // action={
+          //   <Button
+          //     component={RouterLink}
+          //     href={paths.dashboard.product.new}
+          //     variant="contained"
+          //     startIcon={<Iconify icon="mingcute:add-line" />}
+          //   >
+          //     New Product
+          //   </Button>
+          // }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
@@ -204,6 +194,7 @@ export default function ProductListView() {
           <ProductTableToolbar
             filters={filters}
             onFilters={handleFilters}
+            //
             stockOptions={PRODUCT_STOCK_OPTIONS}
             // publishOptions={PUBLISH_OPTIONS}
           />
@@ -369,6 +360,18 @@ function applyFilter({
       (product) => product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
+
+  // if (stock.length) {
+  //   inputData = inputData.filter((product) =>
+  //     stock.includes(product.inventoryType)
+  //   );
+  // }
+
+  // if (publish.length) {
+  //   inputData = inputData.filter((product) =>
+  //     publish.includes(product.publish)
+  //   );
+  // }
 
   return inputData;
 }

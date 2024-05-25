@@ -12,6 +12,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 //type
 import {
+  ISupply,
   ISupplyChainSchema,
   ISupplyChainStepItem,
   ISupplyChainStepLabel,
@@ -62,7 +63,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   const { reset } = methods;
   const handleStepTypeChange = (
     event: React.ChangeEvent<{}>,
-    value: string | null,
+    value: string | null
   ) => {
     setSelectedStepType(value || "");
   };
@@ -100,7 +101,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     // console.log("Clicked", data);
 
     const selectedService = services.find(
-      (service: IServiceItem) => service.id === data.service?.value,
+      (service: IServiceItem) => service.id === data.service?.value
     );
     // console.log("selectedService:", selectedService);
 
@@ -108,7 +109,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     const serviceCost = selectedService?.price * serviceQuantity;
 
     const selectedMaterial = materials.find(
-      (material: IServiceItem) => material.id === data?.rawMaterial?.value,
+      (material: IServiceItem) => material.id === data?.rawMaterial?.value
     );
     // console.log("selectedMaterial:", selectedMaterial);
 
@@ -117,23 +118,29 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
 
     const selectedLogistics = logistics.find(
       (logistic: ITransporterServiceItem) =>
-        logistic.id === data?.transport?.value,
+        logistic.id === data?.transport?.value
     );
     const logisticCost = selectedLogistics?.priceWithinState;
     // console.log("selectedLogistics:", selectedLogistics);
+    // console.log(materialCost);
+    // console.log(serviceCost);
+    // console.log(logisticCost);
 
     append({
-      from: data?.from?.value,
-      to: data.to.value,
-      transport: data.transport.value,
+      from: data.from,
+      to: data.to,
+      transport: data.transport,
       stepType: data.stepType,
-      service: data.stepType === "PROCURING" ? null : data.service?.value,
-      rawMaterial:
-        data.stepType === "SERVICING" ? null : data.rawMaterial?.value,
-      product: data.product?.value,
+      service: data.stepType === "PROCURING" ? null : data.service,
+      rawMaterial: data.stepType === "SERVICING" ? null : data.rawMaterial,
+      product: data.product,
       quantity:
         data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
-    } as ISupplyChainStepItem);
+      totalStepAmount:
+        data.stepType === "SERVICING"
+          ? serviceCost + logisticCost
+          : materialCost + logisticCost,
+    } as ISupply);
 
     stepArrayAppend({
       from: data?.from?.label,
@@ -265,9 +272,9 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
               // options={logistics.map(
               //   (logistic: ITransporterServiceItem) => logistic.name
               // )}
-              options={logistics?.map((logistic: ITransporterServiceItem) => ({
-                label: logistic?.name,
-                value: logistic?.id,
+              options={logistics.map((logistic: ITransporterServiceItem) => ({
+                label: logistic.name,
+                value: logistic.id,
               }))}
               // getOptionLabel={(service) => service.name}
               // isOptionEqualToValue={(option, value) => option === value}

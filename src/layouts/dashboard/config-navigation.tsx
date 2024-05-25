@@ -136,7 +136,7 @@ export function useNavData() {
 
           // PRODUCT
           ...(user?.roles.some((role) =>
-            ["SELLER", "MANUFACTURER"].includes(role),
+            ["SELLER", "MANUFACTURER"].includes(role)
           )
             ? [
                 {
@@ -148,12 +148,36 @@ export function useNavData() {
                     { title: "create", path: paths.dashboard.product.new },
                   ],
                 },
+                // faucet
+                {
+                  title: "faucet",
+                  path: paths.dashboard.faucet.root,
+                  icon: ICONS.banking,
+                  // children: [
+                  //   { title: "list", path: paths.dashboard.faucet.root },
+                  //   // { title: "details", path: paths.dashboard.order.demo.details },
+                  // ],
+                },
+              ]
+            : []),
+
+          // SHOP
+          ...(user?.roles.some((role) => ["RETAILER"].includes(role))
+            ? [
+                {
+                  title: "shop",
+                  path: paths.dashboard.shop.root,
+                  icon: ICONS.product,
+                  // children: [
+                  //   { title: "list", path: paths.dashboard.shop.root },
+                  // ],
+                },
               ]
             : []),
 
           // SERVICES
           ...(user?.roles.some((role) =>
-            ["SELLER", "TRANSPORTER"].includes(role),
+            ["SELLER", "TRANSPORTER"].includes(role)
           )
             ? [
                 {
@@ -178,16 +202,7 @@ export function useNavData() {
               // { title: "details", path: paths.dashboard.order.demo.details },
             ],
           },
-          // faucet
-          {
-            title: "faucet",
-            path: paths.dashboard.faucet.root,
-            icon: ICONS.banking,
-            // children: [
-            //   { title: "list", path: paths.dashboard.faucet.root },
-            //   // { title: "details", path: paths.dashboard.order.demo.details },
-            // ],
-          },
+
           // MY ORDERS
           {
             title: "My Orders",
@@ -296,7 +311,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    [],
+    []
   );
 
   return data;

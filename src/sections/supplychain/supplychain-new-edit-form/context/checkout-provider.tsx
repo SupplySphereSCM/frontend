@@ -47,7 +47,7 @@ export function CheckoutProvider({ children }: Props) {
     (step: number) => {
       update("activeStep", step);
     },
-    [update],
+    [update]
   );
 
   // console.log("Steps length", STEPS.length);
@@ -76,11 +76,11 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return supplychain;
-        },
+        }
       );
       if (
         !UpdatedSteps.some(
-          (supplyChain: ICheckoutItem) => supplyChain.id === newStep.id,
+          (supplyChain: ICheckoutItem) => supplyChain.id === newStep.id
         )
       ) {
         UpdatedSteps.push(newStep);
@@ -88,7 +88,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("steps", UpdatedSteps);
     },
-    [update, state.steps],
+    [update, state.steps]
   );
 
   const onAddMaterial = useCallback(
@@ -102,7 +102,7 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return item;
-        },
+        }
       );
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
@@ -111,7 +111,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("materials", updatedItems);
     },
-    [update, state.materials],
+    [update, state.materials]
   );
 
   const onAddService = useCallback(
@@ -125,7 +125,7 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return item;
-        },
+        }
       );
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
@@ -134,7 +134,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("services", updatedItems);
     },
-    [update, state.services],
+    [update, state.services]
   );
 
   const onAddLogistics = useCallback(
@@ -148,7 +148,7 @@ export function CheckoutProvider({ children }: Props) {
             };
           }
           return item;
-        },
+        }
       );
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
@@ -157,7 +157,7 @@ export function CheckoutProvider({ children }: Props) {
 
       update("logistics", updatedItems);
     },
-    [update, state.logistics],
+    [update, state.logistics]
   );
 
   const memoizedValue = useMemo(
@@ -187,7 +187,7 @@ export function CheckoutProvider({ children }: Props) {
       onAddLogistics,
       //
       onReset,
-    ],
+    ]
   );
 
   return (

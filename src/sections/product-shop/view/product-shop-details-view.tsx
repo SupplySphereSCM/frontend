@@ -72,7 +72,7 @@ export default function ProductShopDetailsView({ id }: Props) {
     },
     []
   );
-  console.log(checkout);
+  console.log("This is product shop details view");
 
   const renderSkeleton = <ProductDetailsSkeleton />;
 
@@ -83,7 +83,7 @@ export default function ProductShopDetailsView({ id }: Props) {
       action={
         <Button
           component={RouterLink}
-          href={paths.product.root}
+          href={paths.dashboard.shop.root}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
@@ -101,7 +101,7 @@ export default function ProductShopDetailsView({ id }: Props) {
           { name: "Home", href: "/" },
           {
             name: "Shop",
-            href: paths.product.root,
+            href: paths.dashboard.shop.root,
           },
           { name: product?.name },
         ]}
@@ -166,10 +166,11 @@ export default function ProductShopDetailsView({ id }: Props) {
               value: "description",
               label: "Description",
             },
-            // {
-            //   value: "reviews",
-            //   label: `Reviews (${product.reviews.length})`,
-            // },
+            {
+              value: "reviews",
+              label: `Reviews (9)`,
+              // label: `Reviews (${product.reviews.length})`,
+            },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
           ))}

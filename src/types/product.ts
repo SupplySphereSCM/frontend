@@ -55,6 +55,7 @@ export type IProductSchema = {
 export type IProductItem = {
   id: string;
   eid: string;
+  supplychainId?: string;
   user: IUser;
   name: string;
   description: string;

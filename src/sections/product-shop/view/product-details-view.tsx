@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
@@ -9,23 +9,24 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
+// _mock
+import { PRODUCT_PUBLISH_OPTIONS } from "src/_mock";
 // routes
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
+// api
 import { useGetProduct } from "src/api/product";
 // components
 import Iconify from "src/components/iconify";
 import EmptyContent from "src/components/empty-content";
 import { useSettingsContext } from "src/components/settings";
-import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
 //
-import CartIcon from "../common/cart-icon";
-import ProductDetailsReview from "../product-details-review";
 import { ProductDetailsSkeleton } from "../product-skeleton";
+import ProductDetailsReview from "../product-details-review";
 import ProductDetailsSummary from "../product-details-summary";
+import ProductDetailsToolbar from "../product-details-toolbar";
 import ProductDetailsCarousel from "../product-details-carousel";
 import ProductDetailsDescription from "../product-details-description";
-import { useCheckoutContext } from "../../checkout/context";
 import { useAuthContext } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
@@ -54,17 +55,30 @@ type Props = {
   id: string;
 };
 
-export default function ProductShopDetailsView({ id }: Props) {
-  const settings = useSettingsContext();
-
-  const checkout = useCheckoutContext();
+export default function ProductDetailsView({ id }: Props) {
   const { user } = useAuthContext();
-  const [currentTab, setCurrentTab] = useState("description");
 
   const { product, productLoading, productError } = useGetProduct({
     productId: id,
     role: user?.roles[0] as any,
   });
+
+  const settings = useSettingsContext();
+
+  const [currentTab, setCurrentTab] = useState("description");
+
+  const [publish, setPublish] = useState("");
+  console.log("Shop Product detail view");
+
+  // useEffect(() => {
+  //   if (product) {
+  //     setPublish(product?.publish);
+  //   }
+  // }, [product]);
+
+  // const handleChangePublish = useCallback((newValue: string) => {
+  //   setPublish(newValue);
+  // }, []);
 
   const handleChangeTab = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -72,7 +86,6 @@ export default function ProductShopDetailsView({ id }: Props) {
     },
     []
   );
-  console.log(checkout);
 
   const renderSkeleton = <ProductDetailsSkeleton />;
 
@@ -83,7 +96,7 @@ export default function ProductShopDetailsView({ id }: Props) {
       action={
         <Button
           component={RouterLink}
-          href={paths.product.root}
+          href={paths.dashboard.product.root}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
@@ -96,16 +109,13 @@ export default function ProductShopDetailsView({ id }: Props) {
 
   const renderProduct = product && (
     <>
-      <CustomBreadcrumbs
-        links={[
-          { name: "Home", href: "/" },
-          {
-            name: "Shop",
-            href: paths.product.root,
-          },
-          { name: product?.name },
-        ]}
-        sx={{ mb: 5 }}
+      <ProductDetailsToolbar
+        backLink={paths.dashboard.shop.root}
+        editLink={paths.dashboard.shop.edit(`${product?.id}`)}
+        liveLink={paths.product.details(`${product?.id}`)}
+        // publish={publish || ""}
+        // onChangePublish={handleChangePublish}
+        // publishOptions={PRODUCT_PUBLISH_OPTIONS}
       />
 
       <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
@@ -114,12 +124,7 @@ export default function ProductShopDetailsView({ id }: Props) {
         </Grid>
 
         <Grid xs={12} md={6} lg={5}>
-          <ProductDetailsSummary
-            product={product}
-            items={checkout.items}
-            onAddCart={checkout.onAddToCart}
-            onGotoStep={checkout.onGotoStep}
-          />
+          <ProductDetailsSummary disabledActions product={product} />
         </Grid>
       </Grid>
 
@@ -166,10 +171,11 @@ export default function ProductShopDetailsView({ id }: Props) {
               value: "description",
               label: "Description",
             },
-            // {
-            //   value: "reviews",
-            //   label: `Reviews (${product.reviews.length})`,
-            // },
+            {
+              value: "reviews",
+              label: `Reviews (9)`,
+              // label: `Reviews (${product.reviews.length})`,
+            },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
           ))}
@@ -192,15 +198,7 @@ export default function ProductShopDetailsView({ id }: Props) {
   );
 
   return (
-    <Container
-      maxWidth={settings.themeStretch ? false : "lg"}
-      sx={{
-        mt: 5,
-        mb: 15,
-      }}
-    >
-      <CartIcon totalItems={checkout.totalItems} />
-
+    <Container maxWidth={settings.themeStretch ? false : "lg"}>
       {productLoading && renderSkeleton}
 
       {productError && renderError}

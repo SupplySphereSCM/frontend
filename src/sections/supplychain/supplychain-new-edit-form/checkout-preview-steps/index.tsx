@@ -65,134 +65,164 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
 
   const { writeContractAsync } = useWriteContract();
 
-  const [funcdChain, setFundChain] = useState(false);
+  const [fundChain, setFundChain] = useState(false);
 
   const { onReset, onBackStep } = useCheckoutContext();
 
-  const { watch, handleSubmit } = useFormContext<ISupplyChainSchema>();
+  const { watch } = useFormContext<ISupplyChainSchema>();
 
   const steps = watch("steps");
+  const data = watch();
+  // console.log("Data from watch:", data);
 
   const { materials, services, logistics } = getStorage(
-    STORAGE_KEY,
+    STORAGE_KEY
   ) as IvalueItem;
+
+  console.log("logistics:", logistics);
 
   const handleReset = () => {
     onReset();
   };
 
-  let totalSupplyChainAmount = 0;
+  var totalSupplyChainAmount = 0;
+  // console.log("steps:", steps);
 
-  steps?.map((step) => {
+  steps.map((step) => {
     totalSupplyChainAmount += (step as ISupply).totalStepAmount;
   });
 
-  const handleCreateSupplyChain = handleSubmit(
-    async (data: ISupplyChainSchema) => {
-      var totalFundedAmount;
-      try {
-        if (data?.id) {
-          await updateSupplyChain(data);
-        } else {
-          // Clone the steps array to avoid modifying the original data
-          // console.log("Data steps:", data.steps);
+  const handleCreateSupplyChain = async (data: ISupplyChainSchema) => {
+    var totalFundedAmount;
+    try {
+      if (data?.id) {
+        await updateSupplyChain(data);
+      } else {
+        // Clone the steps array to avoid modifying the original data
+        // console.log("Data steps:", data.steps);
+        console.log("Data:", data);
 
-          const smartContractSteps: IStepInput[] = data.steps.map((step) => {
-            // ...step,
-            const logistic = logistics.find(
-              (item: ITransporterServiceItem) => item.id === step?.transport,
-            );
+        const smartContractSteps: IStepInput[] = data.steps.map((step) => {
+          // ...step,
+          const logistic = logistics.find(
+            (item: ITransporterServiceItem) => item.id === step.transport.value
+          );
 
-            let receiver: IRawMaterialItem | IServiceItem;
-            if (step.rawMaterial !== null) {
-              receiver = materials.find(
-                (item) => item.id === step?.rawMaterial,
-              ) as IRawMaterialItem;
-            } else {
-              receiver = services.find(
-                (item) => item.id === step.service,
-              ) as IServiceItem;
-            }
-            // step.stepType = stepTypeMap[step.stepType];
-            return {
-              stepType: stepTypeMap[step.stepType],
-              itemId: BigInt(receiver.eid),
-              quantity: BigInt(step.quantity),
-              logisticsId: BigInt(logistic!.eid),
-              receiver: receiver.user.ethAddress as `0x${string}`,
-            };
-          });
-
-          const backendSteps = data.steps;
-
-          const { result } = await simulateContract(config, {
-            abi: SupplyChainABI,
-            address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-            functionName: "createSupplyChain",
-            args: [data.name, data.description, smartContractSteps],
-          });
-          const supplychainEid = result;
-          handleSupplychainId(String(supplychainEid));
-
-          // ----------------------------------------------------------------------
-
-          const hash = await writeContractAsync({
-            abi: SupplyChainABI,
-            address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-            functionName: "createSupplyChain",
-
-            args: [data.name, data.description, smartContractSteps],
-          });
-          const { transactionHash } = await waitForTransactionReceipt(config, {
-            hash,
-          });
-
-          // ----------------------------------------------------------------------
-
-          // Read Contract for supplychain object
-          const stepResult = await readContract(config, {
-            abi: SupplyChainABI,
-            address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-            functionName: "getSupplyChain",
-            args: [supplychainEid],
-          });
-
-          const stepsObject = stepResult?.steps;
-
-          // ----------------------------------------------------------------------
-
-          for (let i = 0; i < backendSteps.length; i++) {
-            backendSteps[i].eid = String(stepsObject[i].stepId);
+          let receiver: IRawMaterialItem | IServiceItem;
+          if (step.rawMaterial !== null) {
+            receiver = materials.find(
+              (item) => item.id === step.rawMaterial.value
+            ) as IRawMaterialItem;
+          } else {
+            receiver = services.find(
+              (item) => item.id === step.service.value
+            ) as IServiceItem;
           }
-          data.steps = backendSteps;
+          console.log("receiver: ", receiver);
 
-          data.eid = String(supplychainEid);
-          data.transactionHash = String(transactionHash);
+          // step.stepType = stepTypeMap[step.stepType];
+          return {
+            stepType: stepTypeMap[step.stepType],
+            itemId: BigInt(receiver.eid),
+            logisticsId: BigInt(logistic!.eid),
+            quantity: BigInt(step.quantity),
+            receiver: receiver.user.ethAddress as `0x${string}`,
+          };
+        });
 
-          await createSupplyChain(data);
+        const backendSteps = data.steps as ISupply[];
+        console.log("smartcontract steps:", smartContractSteps);
+        // try {
+        const { result } = await simulateContract(config, {
+          abi: SupplyChainABI,
+          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+          functionName: "createSupplyChain",
+          args: [data.name, data.description, smartContractSteps],
+        });
+        console.log("result:", result);
+        // } catch (error) {
+        //   console.error(error);
+        // }
+        // console.log("result:", result);
+
+        const supplychainEid = result;
+        console.log("supplychainEid:", supplychainEid);
+
+        handleSupplychainId(String(supplychainEid));
+
+        // ----------------------------------------------------------------------
+
+        const hash = await writeContractAsync({
+          abi: SupplyChainABI,
+          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+          functionName: "createSupplyChain",
+
+          args: [data.name, data.description, smartContractSteps],
+        });
+        const { transactionHash } = await waitForTransactionReceipt(config, {
+          hash,
+        });
+
+        // ----------------------------------------------------------------------
+
+        // Read Contract for supplychain object
+        const stepResult = await readContract(config, {
+          abi: SupplyChainABI,
+          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+          functionName: "getSupplyChain",
+          args: [supplychainEid],
+        });
+
+        const stepsObject = stepResult?.steps;
+
+        // ----------------------------------------------------------------------
+
+        for (let i = 0; i < backendSteps.length; i++) {
+          backendSteps[i].eid = String(stepsObject[i].stepId);
         }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  );
 
+        data.steps = backendSteps;
+
+        data.eid = String(supplychainEid);
+        data.transactionHash = String(transactionHash);
+        console.log("DATA:", data);
+        enqueueSnackbar("Supply chain Created successfully!", {
+          variant: "success",
+        });
+        // await createSupplyChain(data);
+      }
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar("Supply chain Creation un-successfully!", {
+        variant: "error",
+      });
+    }
+  };
   const handleApproveINR = async () => {
-    const hash = await writeContractAsync({
-      abi: INRABI,
-      address: inrAddresses[`${chainId}`] as `0x${string}`,
-      functionName: "approve",
-      args: [
-        supplysphereAddresses[`${chainId}`] as `0x${string}`,
-        parseUnits(String(totalSupplyChainAmount), 2),
-      ],
-    });
-    await waitForTransactionReceipt(config, {
-      hash,
-    });
-    setFundChain(true);
+    try {
+      const hash = await writeContractAsync({
+        abi: INRABI,
+        address: inrAddresses[`${chainId}`] as `0x${string}`,
+        functionName: "approve",
+        args: [
+          supplysphereAddresses[`${chainId}`] as `0x${string}`,
+          parseUnits(String(totalSupplyChainAmount), 18),
+        ],
+      });
+      await waitForTransactionReceipt(config, {
+        hash,
+      });
+      setFundChain(true);
+      enqueueSnackbar("Approve successfully!", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar("Approve un-successfully!", { variant: "error" });
+      console.error(error);
+    }
   };
 
+  // const handleSubmit = () => {
+  //   console.log("DATA:", data);
+  // };
   return (
     <>
       <Typography>Preview the Form</Typography>
@@ -227,7 +257,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
       >
         <Button
           color="primary"
-          onClick={handleCreateSupplyChain}
+          onClick={() => handleCreateSupplyChain(data)}
           variant="contained"
           size="large"
         >
@@ -242,7 +272,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           Approve
         </Button>
         <Button
-          disabled={!funcdChain}
+          disabled={!fundChain}
           color="primary"
           type="submit"
           variant="contained"

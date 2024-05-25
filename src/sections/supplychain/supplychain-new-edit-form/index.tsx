@@ -13,6 +13,7 @@ import {
   ISupplyChainItem,
   ISupplyChainSchema,
   ISupplyChainStepItem,
+  ISupplyChainStepLabel,
   StepType,
 } from "src/types/supplychain";
 
@@ -96,6 +97,20 @@ export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
   name: Yup.string().required("Name is required"),
   description: Yup.string().required("Description is required"),
   steps: Yup.array().of(NewStepSchema),
+  stepArray: Yup.array(
+    Yup.object<ISupplyChainStepLabel>({
+      eid: Yup.string(),
+      from: Yup.string(),
+      to: Yup.string(),
+      stepType: Yup.string(),
+      transport: Yup.string(),
+      service: Yup.string(),
+      rawMaterial: Yup.string(),
+      product: Yup.string(),
+      quantity: Yup.number(),
+      totalStepAmount: Yup.number(),
+    })
+  ),
 });
 
 type Props = {
@@ -121,8 +136,9 @@ export default function SupplyChainNewEditForm({ currentSupplyChain }: Props) {
       name: currentSupplyChain?.name || "",
       description: currentSupplyChain?.description || "",
       steps: currentSupplyChain?.steps || [],
+      stepArray: currentSupplyChain?.stepArray || [],
     }),
-    [currentSupplyChain],
+    [currentSupplyChain]
   );
 
   // Main Form
@@ -140,26 +156,50 @@ export default function SupplyChainNewEditForm({ currentSupplyChain }: Props) {
   }, [currentSupplyChain, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      const hash = await writeContractAsync({
-        abi: SupplySphereABI,
-        address: supplysphereAddress[`${chainId}`] as `0x${string}`,
-        functionName: "fundChain",
-        args: [BigInt(supplyChainID)],
-      });
+    console.log("clicked");
 
-      await waitForTransactionReceipt(config, {
-        hash,
-      });
+    console.log("DATA:", data);
 
-      enqueueSnackbar(
-        currentSupplyChain ? "Update success!" : "Create success!",
-      );
-      onReset();
-      router.push(paths.dashboard.supplychain.root);
-    } catch (error) {
-      console.error(error);
-    }
+    // const backendSUpplychain = data?.steps?.map((item) => {
+    //   return {
+    //     eid: item.eid,
+    //     from: item.from.value,
+    //     to: item.to.value,
+    //     transport: item.transport.value,
+    //     quantity: item.quantity,
+    //     stepType: item.stepType,
+    //     product: item?.product?.value,
+    //     service: item?.service?.value,
+    //     rawMaterial: item?.rawMaterial?.value,
+    //   };
+    // });
+
+    // console.log(backendSUpplychain);
+
+    // try {
+    //   const hash = await writeContractAsync({
+    //     abi: SupplySphereABI,
+    //     address: supplysphereAddress[`${chainId}`] as `0x${string}`,
+    //     functionName: "fundChain",
+    //     args: [BigInt(supplyChainID)],
+    //   });
+
+    //   await waitForTransactionReceipt(config, {
+    //     hash,
+    //   });
+    //    await createSupplyChain(data);
+    //   enqueueSnackbar(
+    //     "Fund chain success!", { variant: "success" }
+    //   );
+
+    //   onReset();
+    //   router.push(paths.dashboard.supplychain.root);
+    // } catch (error) {
+    //   enqueueSnackbar(
+    //     "Fund chain un-success!", { variant: "error" }
+    //   );
+    //   console.error(error);
+    // }
   });
 
   return (

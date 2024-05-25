@@ -37,6 +37,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { updateUser, verifyEthUserAddr } from "src/api/users";
 import { config } from "src/web3/wagmi.config";
 import { SupplySphereABI, addresses, ROLES } from "src/abi/supplysphere";
+import { IUser } from "src/types/user";
 
 // ----------------------------------------------------------------------
 
@@ -99,7 +100,10 @@ export default function AccountGeneral() {
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,
       });
-      await verifyEthUserAddr({ ethAddr: address, transactionHash });
+      await verifyEthUserAddr(
+        { ethAddr: address, transactionHash },
+        user as IUser
+      );
       enqueueSnackbar("Address verified successfully", { variant: "success" });
     } catch (error) {
       console.error(error);
@@ -143,7 +147,7 @@ export default function AccountGeneral() {
         setValue("profilePictureUrl", newFile, { shouldValidate: true });
       }
     },
-    [setValue],
+    [setValue]
   );
 
   const handleDeleteUser = async () => {

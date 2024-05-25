@@ -137,7 +137,7 @@ export type IStepInput = {
 };
 
 export type ISupplyChainStepLabel = {
-  eid?: string;
+  eid: string;
   from: string;
   to: string;
   stepType: string;

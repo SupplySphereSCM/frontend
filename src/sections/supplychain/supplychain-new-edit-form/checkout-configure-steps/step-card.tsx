@@ -30,7 +30,7 @@ type RowProps = {
   rawMaterial: string;
   service: string;
   product: string;
-  quantity: number;
+  // quantity: number;
 };
 
 interface Props extends CardProps {
@@ -57,8 +57,8 @@ export default function SupplychainStepsTable({
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
-              {tableData?.map((row: ISupplyChainStepLabel) => (
-                <SupplychainStepsTableRow key={row.from} row={row} />
+              {tableData?.map((row: ISupplyChainStepItem) => (
+                <SupplychainStepsTableRow key={row.from.value} row={row} />
               ))}
             </TableBody>
           </Table>
@@ -71,24 +71,24 @@ export default function SupplychainStepsTable({
 // ----------------------------------------------------------------------
 
 type SupplychainStepsTableRowProps = {
-  row: RowProps;
+  row: ISupplyChainStepItem;
 };
 
 function SupplychainStepsTableRow({ row }: SupplychainStepsTableRowProps) {
   return (
     <TableRow>
       <TableCell sx={{ display: "flex", alignItems: "center" }}>
-        {row.from}
+        {row.from.label}
       </TableCell>
 
-      <TableCell>{row.to}</TableCell>
+      <TableCell>{row.to.label}</TableCell>
 
-      <TableCell align="center">{row.transport}</TableCell>
+      <TableCell align="center">{row.transport.label}</TableCell>
 
       {row.stepType === "PROCURING" ? (
-        <TableCell align="right">{row.rawMaterial}</TableCell>
+        <TableCell align="right">{row.rawMaterial.label}</TableCell>
       ) : (
-        <TableCell align="right">{row.service}</TableCell>
+        <TableCell align="right">{row.service.label}</TableCell>
       )}
 
       <TableCell align="right">{row.stepType}</TableCell>

@@ -51,6 +51,9 @@ import {
 } from "src/abi/rawMaterials";
 // import { useSimulateContract } from "wagmi";
 import { simulateContract } from "@wagmi/core";
+import { readContract } from "@wagmi/core";
+
+import { useGetUserSupplyChains } from "src/api/supplychain";
 // import { has } from "lodash";
 // ----------------------------------------------------------------------
 
@@ -72,6 +75,8 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
   // const simulateContract = useSimulateContract();
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
+  // const { supplychainId } = useGetUserSupplyChains();
+  console.log();
 
   const [images, setImages] = useState<string[]>([]);
 
@@ -105,7 +110,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       price: currentProduct?.price || 0,
       tax: currentProduct?.tax || 0,
     }),
-    [currentProduct],
+    [currentProduct]
   );
 
   console.log("product-new-edit-form: defaultValues ", defaultValues);
@@ -165,20 +170,40 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           await updateRawMaterial(data as IRawMaterialItem);
         } else {
           // const materialId = handleSimulate(data);
-          const { result } = await simulateContract(config, {
+          const {result} = await simulateContract(config, {
             abi: RawMaterialABI,
             address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
             functionName: "addRawMaterial",
-            args: [data.name, data?.price, data?.tax, data.quantity],
+            args: [
+              data.name,
+              BigInt(data.price!),
+              BigInt(data.tax!),
+              BigInt(data.quantity),
+            ],
           });
           console.log("material eid:", result);
           // ----------------------------------------------------------------------
+
+          // Read Contract for supplychain object
+          // const materialResult = await readContract(config, {
+          //   abi: RawMaterialABI,
+          //   address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
+          //   functionName: "getRawMaterial",
+          //   args: [result.result],
+          // });
+
+          // console.log("raw material id:", materialResult);
 
           const hash = await writeContractAsync({
             abi: RawMaterialABI,
             address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
             functionName: "addRawMaterial",
-            args: [data.name, data?.price, data?.tax, data?.quantity],
+            args: [
+              data.name,
+              BigInt(data.price!),
+              BigInt(data.tax!),
+              BigInt(data.quantity),
+            ],
           });
 
           const { transactionHash } = await waitForTransactionReceipt(config, {
@@ -196,7 +221,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
             abi: ProductsABI,
             address: productAddress[`${chainId}`] as `0x${string}`,
             functionName: "addProduct",
-            args: [data.name, data?.price, data?.tax, data.quantity],
+            args: [
+              data.name,
+              BigInt(data.price!),
+              BigInt(data.tax!),
+              BigInt(data.quantity),
+            ],
           });
           console.log("product eid:", result);
           // ----------------------------------------------------------------------
@@ -205,8 +235,13 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
             abi: ProductsABI,
             address: productAddress[`${chainId}`] as `0x${string}`,
             functionName: "addProduct",
+            args: [
+              data.name,
+              BigInt(data.price!),
+              BigInt(data.tax!),
+              BigInt(data.quantity),
+            ],
             // @ts-ignore
-            args: [data.name, data?.price, data?.tax, data.quantity],
           });
           const { transactionHash } = await waitForTransactionReceipt(config, {
             hash,
@@ -214,6 +249,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           // Include hash and transactionHash in the data object
           data.eid = String(result);
           data.transactionHash = String(transactionHash);
+
           await createProduct(data as IProductItem);
           // enqueueSnackbar("Product Created successfully", {
           //   variant: "success",
@@ -239,12 +275,12 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
+        })
       );
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveFile = useCallback(
@@ -253,7 +289,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         values.images && values.images?.filter((file) => file !== inputFile);
       setValue("images", filtered);
     },
-    [setValue, values.images],
+    [setValue, values.images]
   );
 
   const handleRemoveAllFiles = useCallback(() => {
@@ -264,7 +300,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setIncludeTaxes(event.target.checked);
     },
-    [],
+    []
   );
 
   const handleImageUpload = async () => {
@@ -285,7 +321,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       console.log(results);
 
@@ -296,7 +332,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
         `Image Upload Failed: ${
           error.response ? error.response.data.message : error.message
         }`,
-        { variant: "error" },
+        { variant: "error" }
       );
     }
   };

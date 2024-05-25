@@ -147,6 +147,12 @@ export const paths = {
       details: (id: string) => `${ROOTS.DASHBOARD}/product/${id}`,
       edit: (id: string) => `${ROOTS.DASHBOARD}/product/${id}/edit`,
     },
+    shop: {
+      root: `${ROOTS.DASHBOARD}/shop`,
+      new: `${ROOTS.DASHBOARD}/shop/new`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/shop/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/shop/${id}/edit`,
+    },
     service: {
       root: `${ROOTS.DASHBOARD}/service`,
       new: `${ROOTS.DASHBOARD}/service/new`,

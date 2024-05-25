@@ -96,7 +96,7 @@ export default function Header() {
               Purchase Now
             </Button> */}
 
-            {mdUp && <LoginButton />}
+            {/* {mdUp && <LoginButton />} */}
 
             <SettingsButton
               sx={{

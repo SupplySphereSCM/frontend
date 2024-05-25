@@ -21,6 +21,7 @@ import FormProvider, { RHFTextField } from "src/components/hook-form";
 import { IProductItem } from "src/types/product";
 // utils
 // wagmi
+import { parseUnits } from "viem";
 import { useAccount, useBalance, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "src/web3/wagmi.config";
@@ -63,7 +64,7 @@ export default function FaucetNewEditForm() {
       address: address as string,
       amount: 0,
     }),
-    [],
+    []
   );
 
   const methods = useForm({
@@ -89,7 +90,11 @@ export default function FaucetNewEditForm() {
         abi: INRABI,
         address: inrAddresses[`${chainId}`] as `0x${string}`,
         functionName: "mint",
-        args: [data.address as `0x${string}`, BigInt(data.amount * 100)],
+        args: [
+          data.address as `0x${string}`,
+          parseUnits(String(data.amount), 18),
+        ],
+        // BigInt(data.amount * 100)],
       });
       await waitForTransactionReceipt(config, {
         hash,

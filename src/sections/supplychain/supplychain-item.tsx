@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import ListItemText from "@mui/material/ListItemText";
 // types
-import { ISupplyChainItem } from "src/types/supplychain";
+import { ISupplyCard, ISupplyChainItem } from "src/types/supplychain";
 // utils
 import { fDate } from "src/utils/format-time";
 // routes
@@ -34,7 +34,8 @@ export default function SupplyChainItem({
 }: Props) {
   const popover = usePopover();
 
-  const { id, name, image, createdAt } = supplyChain;
+  const { id, name, createdAt } = supplyChain;
+  // const { id, name, image, createdAt } = supplyChain;
 
   return (
     <>
@@ -47,21 +48,21 @@ export default function SupplyChainItem({
         </IconButton>
 
         <Stack sx={{ p: 3, pb: 2 }}>
-          {image && (
+          {/* {image && (
             <Avatar
               alt={name}
               src={image}
               variant="rounded"
               sx={{ width: 48, height: 48, mb: 2 }}
             />
-          )}
+          )} */}
 
           <ListItemText
             sx={{ mb: 1 }}
             primary={
               <Link
                 component={RouterLink}
-                href={paths.dashboard.supplychain.details(id)}
+                href={paths.dashboard.supplychain.details(id as string)}
                 color="inherit"
               >
                 {name}

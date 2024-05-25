@@ -19,7 +19,7 @@ export function useGetRawMaterials() {
 
   const { data, isLoading, error, isValidating } = useSWR<IRawMaterialRes>(
     URL,
-    fetcher,
+    fetcher
   );
 
   const memoizedValue = useMemo(
@@ -30,7 +30,7 @@ export function useGetRawMaterials() {
       materialsValidating: isValidating,
       materialsEmpty: !isLoading && !data?.data?.length,
     }),
-    [data?.data, error, isLoading, isValidating],
+    [data?.data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -41,17 +41,17 @@ export function useGetProducts() {
   const URL = endpoints.product.root;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  // console.log("Data:", data); // Check if data is being fetched
+  console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
-      products: (data as IProductItem[]) || [],
+      products: (data?.data as IProductItem[]) || [],
       productsLoading: isLoading,
       productsError: error,
       productsValidating: isValidating,
-      productsEmpty: !isLoading && !data?.length,
+      productsEmpty: !isLoading && !data?.data.length,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -73,6 +73,7 @@ export function useGetUserProducts({ role }: UseGetUserProductsProps) {
     error,
     isValidating,
   } = useSWR(URL, fetcher);
+  console.log("useGetUserProducts:", products);
 
   const memoizedValue = useMemo(
     () => ({
@@ -82,7 +83,7 @@ export function useGetUserProducts({ role }: UseGetUserProductsProps) {
       productsValidating: isValidating,
       productsEmpty: !isLoading && !products?.length,
     }),
-    [error, isLoading, isValidating],
+    [error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -91,7 +92,7 @@ export function useGetUserProducts({ role }: UseGetUserProductsProps) {
 // ----------------------------------------------------------------------
 
 type UseGetProductProps = {
-  role?: "SELLER" | "MANUFACTURER";
+  role?: "SELLER" | "MANUFACTURER" | "RETAILER";
   productId: string;
 };
 
@@ -110,7 +111,7 @@ export function useGetProduct({ productId, role }: UseGetProductProps) {
       productError: error,
       productValidating: isValidating,
     }),
-    [data, error, isLoading, isValidating],
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -133,7 +134,7 @@ export function useSearchProducts(query: string) {
       searchValidating: isValidating,
       searchEmpty: !isLoading && !data?.results.length,
     }),
-    [data?.results, error, isLoading, isValidating],
+    [data?.results, error, isLoading, isValidating]
   );
 
   return memoizedValue;
@@ -163,7 +164,7 @@ export async function createProduct(product: Partial<IProductItem>) {
         products,
       };
     },
-    false,
+    false
   );
 }
 
@@ -190,7 +191,7 @@ export async function updateProduct(product: Partial<IProductItem>) {
 
       return { ...currentData, products: updatedProducts };
     },
-    false,
+    false
   );
 }
 
@@ -235,7 +236,7 @@ export async function createRawMaterial(product: Partial<IRawMaterialItem>) {
         products,
       };
     },
-    false,
+    false
   );
 }
 
@@ -259,12 +260,12 @@ export async function updateRawMaterial(product: Partial<IRawMaterialItem>) {
       const updatedRawMaterials = currentData.products.map(
         (p: IRawMaterialItem) => {
           return p.id === product.id ? { ...p, ...product } : p;
-        },
+        }
       );
 
       return { ...currentData, products: updatedRawMaterials };
     },
-    false,
+    false
   );
 }
 

@@ -38,7 +38,7 @@ export async function updateUser(user: Partial<IUser>, id: string) {
 
       return { ...currentUser, users: updatedUsers };
     },
-    false,
+    false
   );
 }
 
@@ -77,32 +77,35 @@ export async function updateUser(user: Partial<IUser>, id: string) {
 
 // ----------------------------------------------------------------------
 
-export async function verifyEthUserAddr(data: {
-  ethAddr: `0x${string}` | undefined;
-  transactionHash: string;
-}) {
+export async function verifyEthUserAddr(
+  data: {
+    ethAddr: `0x${string}` | undefined;
+    transactionHash: string;
+  },
+  user: IUser
+) {
   console.log("verify data: ", data);
-  // const URL = endpoints.user.details(`${id}`);
+  const URL = endpoints.user.details(`${user?.id}`);
 
   /**
    * Work on server
    */
   // const data = { ...user };
-  // await axiosInstance.patch(URL, data);
+  await axiosInstance.patch(URL, data);
   // console.log(data);
 
   /**
    * Work in local
    */
-  // mutate(
-  //   URL,
-  //   (currentUser: any) => {
-  //     const updatedUsers = currentUser.user.map((p: IUser) => {
-  //       return p.id === user.id ? { ...p, ...user } : p;
-  //     });
+  mutate(
+    URL,
+    (currentUser: any) => {
+      const updatedUsers = currentUser.user.map((p: IUser) => {
+        return p.id === user.id ? { ...p, ...user } : p;
+      });
 
-  //     return { ...currentUser, users: updatedUsers };
-  //   },
-  //   false
-  // );
+      return { ...currentUser, users: updatedUsers };
+    },
+    false
+  );
 }

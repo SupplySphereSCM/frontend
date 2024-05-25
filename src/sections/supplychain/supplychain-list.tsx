@@ -22,14 +22,14 @@ export default function SupplyChainList({ supplyChains }: Props) {
     (id: string) => {
       router.push(paths.dashboard.supplychain.details(id));
     },
-    [router],
+    [router]
   );
 
   const handleEdit = useCallback(
     (id: string) => {
       router.push(paths.dashboard.supplychain.edit(id));
     },
-    [router],
+    [router]
   );
 
   const handleDelete = useCallback((id: string) => {
@@ -52,9 +52,9 @@ export default function SupplyChainList({ supplyChains }: Props) {
           <SupplyChainItem
             key={supplyChain.id}
             supplyChain={supplyChain}
-            onView={() => handleView(supplyChain.id)}
-            onEdit={() => handleEdit(supplyChain.id)}
-            onDelete={() => handleDelete(supplyChain.id)}
+            onView={() => handleView(supplyChain.id as string)}
+            onEdit={() => handleEdit(supplyChain.id as string)}
+            onDelete={() => handleDelete(supplyChain.id as string)}
           />
         ))}
       </Box>
