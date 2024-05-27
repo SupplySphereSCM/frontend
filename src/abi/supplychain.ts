@@ -461,5 +461,5 @@ export const SupplyChainABI = [
 
 export const addresses: Record<string, string> = {
   "1337": "0xa6C898E7FeD4Ee140B1260a87d20dE6058D392e4",
-  "80002": "0xa6C898E7FeD4Ee140B1260a87d20dE6058D392e4",
+  "80002": "0x60f9B3a89487d7C93c6dff7C707f3044E9c83c66",
 };

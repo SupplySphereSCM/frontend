@@ -84,7 +84,7 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
   // console.log("service", services);
   type ISupplyChainSchema = {
     steps: ISupplyChainStepItem[];
-    stepArray: ISupplyChainStepLabel[]; // Add your new property here
+    // stepArray: ISupplyChainStepLabel[]; // Add your new property here
   };
 
   const { append } = useFieldArray({
@@ -92,10 +92,10 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
     name: "steps",
   });
 
-  const { append: stepArrayAppend } = useFieldArray({
-    control,
-    name: "stepArray",
-  });
+  // const { append: stepArrayAppend } = useFieldArray({
+  //   control,
+  //   name: "stepArray",
+  // });
 
   const onSubmit = methods.handleSubmit((data) => {
     // console.log("Clicked", data);
@@ -142,22 +142,22 @@ export default function StepForm({ open, onClose, onCreate }: Props) {
           : materialCost + logisticCost,
     } as ISupply);
 
-    stepArrayAppend({
-      from: data?.from?.label,
-      to: data?.to.label,
-      transport: data.transport.label,
-      stepType: data.stepType,
-      service: data.stepType === "PROCURING" ? null : data.service?.label,
-      rawMaterial:
-        data.stepType === "SERVICING" ? null : data.rawMaterial?.label,
-      product: data.product?.label,
-      quantity:
-        data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
-      totalStepAmount:
-        data.stepType === "SERVICING"
-          ? serviceCost + logisticCost
-          : materialCost + logisticCost,
-    } as ISupplyChainStepLabel);
+    // stepArrayAppend({
+    //   from: data?.from?.label,
+    //   to: data?.to.label,
+    //   transport: data.transport.label,
+    //   stepType: data.stepType,
+    //   service: data.stepType === "PROCURING" ? null : data.service?.label,
+    //   rawMaterial:
+    //     data.stepType === "SERVICING" ? null : data.rawMaterial?.label,
+    //   product: data.product?.label,
+    //   quantity:
+    //     data.stepType === "SERVICING" ? serviceQuantity : MaterialQuantity,
+    //   totalStepAmount:
+    //     data.stepType === "SERVICING"
+    //       ? serviceCost + logisticCost
+    //       : materialCost + logisticCost,
+    // } as ISupplyChainStepLabel);
     onClose();
     reset();
   });

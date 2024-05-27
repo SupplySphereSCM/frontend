@@ -510,5 +510,5 @@ export const ProductsABI = [
 
 export const addresses: Record<string, string> = {
   "1337": "0x2e7E82e2B2177DAD4a40c291b1ae05C3291e4001",
-  "80002": "0x2e7E82e2B2177DAD4a40c291b1ae05C3291e4001",
+  "80002": "0x61DC02289B3BA30Da45C92Eb47e789704Bf6BFa1",
 };

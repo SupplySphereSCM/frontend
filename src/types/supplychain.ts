@@ -8,7 +8,7 @@ export type ISupplyChainItem = {
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
-  stepArray: ISupplyChainStepLabel[];
+  // stepArray: ISupplyChainStepLabel[];
   // transactionHash: string;
   createdAt: Date;
 };
@@ -38,7 +38,7 @@ export type ISupplyChainSchema = {
   name: string;
   description: string;
   steps: ISupplyChainStepItem[];
-  stepArray: ISupplyChainStepLabel[];
+  // stepArray: ISupplyChainStepLabel[];
   transactionHash?: string;
 };
 
@@ -90,7 +90,9 @@ export type ISupplyChainStepItem = {
   service: IStepObj;
   rawMaterial: IStepObj;
   product: IStepObj;
-  quantity: number;
+  eid?: string;
+  quantity?: number;
+  totalStepAmount?: number;
 };
 
 export type ISupplyChainQRItem = {

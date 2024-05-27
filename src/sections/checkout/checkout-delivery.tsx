@@ -10,11 +10,13 @@ import Paper, { PaperProps } from "@mui/material/Paper";
 import Iconify from "src/components/iconify";
 // types
 import { ICheckoutDeliveryOption } from "src/types/checkout";
+import { ITransporterServiceItem } from "src/types/service";
 
 // ----------------------------------------------------------------------
 
 type Props = CardProps & {
-  options: ICheckoutDeliveryOption[];
+  // options: ICheckoutDeliveryOption[];
+  options: ITransporterServiceItem[];
   onApplyShipping: (shipping: number) => void;
 };
 
@@ -24,6 +26,8 @@ export default function CheckoutDelivery({
   ...other
 }: Props) {
   const { control } = useFormContext();
+
+  console.log("options:", options);
 
   return (
     <Card {...other}>
@@ -45,9 +49,9 @@ export default function CheckoutDelivery({
           >
             {options.map((option) => (
               <OptionItem
-                key={option.label}
+                key={option.id}
                 option={option}
-                selected={field.value === option.value}
+                selected={field.value === option.priceInterState}
                 onClick={() => {
                   field.onChange(option.value);
                   onApplyShipping(option.value);

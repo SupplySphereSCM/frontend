@@ -58,7 +58,7 @@ export default function OrderDetailsToolbar({
         abi: SupplySphereABI,
         address: addresses[`${chainId}`],
         functionName: "confirmSender",
-        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+        args: [BigInt(order?.supplyChainEId!), BigInt(order?.stepEid!)],
       });
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,
@@ -77,7 +77,7 @@ export default function OrderDetailsToolbar({
         abi: SupplySphereABI,
         address: addresses[`${chainId}`],
         functionName: "confirmReceiver",
-        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+        args: [BigInt(order?.supplyChainEId!), BigInt(order?.stepEid!)],
       });
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,
@@ -97,7 +97,7 @@ export default function OrderDetailsToolbar({
         abi: SupplySphereABI,
         address: addresses[`${chainId}`],
         functionName: "confirmTransporterDelivered",
-        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+        args: [BigInt(order?.supplyChainEId!), BigInt(order?.stepEid!)],
       });
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,
@@ -116,7 +116,7 @@ export default function OrderDetailsToolbar({
         abi: SupplySphereABI,
         address: addresses[`${chainId}`],
         functionName: "confirmTransporterReceived",
-        args: [BigInt(order?.supplyChainEId), BigInt(order?.stepEid)],
+        args: [BigInt(order?.supplyChainEId!), BigInt(order?.stepEid!)],
       });
       const { transactionHash } = await waitForTransactionReceipt(config, {
         hash,

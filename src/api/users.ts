@@ -79,18 +79,18 @@ export async function updateUser(user: Partial<IUser>, id: string) {
 
 export async function verifyEthUserAddr(
   data: {
-    ethAddr: `0x${string}` | undefined;
+    ethAddress: `0x${string}` | undefined;
     transactionHash: string;
   },
   user: IUser
 ) {
   console.log("verify data: ", data);
   const URL = endpoints.user.details(`${user?.id}`);
-
   /**
    * Work on server
    */
   // const data = { ...user };
+
   await axiosInstance.patch(URL, data);
   // console.log(data);
 

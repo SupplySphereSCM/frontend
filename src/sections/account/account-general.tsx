@@ -101,7 +101,7 @@ export default function AccountGeneral() {
         hash,
       });
       await verifyEthUserAddr(
-        { ethAddr: address, transactionHash },
+        { ethAddress: address, transactionHash },
         user as IUser
       );
       enqueueSnackbar("Address verified successfully", { variant: "success" });

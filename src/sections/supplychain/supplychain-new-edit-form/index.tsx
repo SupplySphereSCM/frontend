@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import { useMemo, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 //routes
@@ -10,6 +10,7 @@ import FormProvider from "src/components/hook-form";
 import { useSnackbar } from "src/components/snackbar";
 //types
 import {
+  ISupply,
   ISupplyChainItem,
   ISupplyChainSchema,
   ISupplyChainStepItem,
@@ -80,15 +81,18 @@ export const NewStepSchema = Yup.object<ISupplyChainStepItem>().shape({
   product: Yup.object({
     label: Yup.string(),
     value: Yup.string(),
-  }),
+  }).optional(),
   service: Yup.object({
     label: Yup.string(),
     value: Yup.string(),
-  }),
+  }).optional(),
   rawMaterial: Yup.object({
     label: Yup.string(),
     value: Yup.string(),
-  }),
+  }).optional(),
+  eid: Yup.string().optional(),
+  quantity: Yup.number().optional(),
+  totalStepAmount: Yup.number().optional(),
 });
 
 export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
@@ -97,20 +101,20 @@ export const NewSupplyChainSchema = Yup.object<ISupplyChainSchema>().shape({
   name: Yup.string().required("Name is required"),
   description: Yup.string().required("Description is required"),
   steps: Yup.array().of(NewStepSchema),
-  stepArray: Yup.array(
-    Yup.object<ISupplyChainStepLabel>({
-      eid: Yup.string(),
-      from: Yup.string(),
-      to: Yup.string(),
-      stepType: Yup.string(),
-      transport: Yup.string(),
-      service: Yup.string(),
-      rawMaterial: Yup.string(),
-      product: Yup.string(),
-      quantity: Yup.number(),
-      totalStepAmount: Yup.number(),
-    })
-  ),
+  // stepArray: Yup.array(
+  //   Yup.object<ISupplyChainStepLabel>({
+      // eid: Yup.string(),
+      // from: Yup.string(),
+      // to: Yup.string(),
+      // stepType: Yup.string(),
+      // transport: Yup.string(),
+      // service: Yup.string().optional(),
+      // rawMaterial: Yup.string().optional(),
+      // product: Yup.string().optional(),
+      // quantity: Yup.number(),
+      // totalStepAmount: Yup.number(),
+  //   })
+  // ),
 });
 
 type Props = {
@@ -136,14 +140,14 @@ export default function SupplyChainNewEditForm({ currentSupplyChain }: Props) {
       name: currentSupplyChain?.name || "",
       description: currentSupplyChain?.description || "",
       steps: currentSupplyChain?.steps || [],
-      stepArray: currentSupplyChain?.stepArray || [],
+      // stepArray: currentSupplyChain?.stepArray || [],
     }),
     [currentSupplyChain]
   );
 
   // Main Form
   const methods = useForm({
-    resolver: yupResolver(NewSupplyChainSchema),
+    // resolver: yupResolver(NewSupplyChainSchema),
     defaultValues,
   });
 
@@ -155,51 +159,71 @@ export default function SupplyChainNewEditForm({ currentSupplyChain }: Props) {
     }
   }, [currentSupplyChain, defaultValues, reset]);
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log("clicked");
+  console.log("SupplychainId:", supplyChainID);
 
+  const onSubmit = handleSubmit(async (data: any) => {
+    console.log("clicked");
     console.log("DATA:", data);
 
-    // const backendSUpplychain = data?.steps?.map((item) => {
-    //   return {
-    //     eid: item.eid,
-    //     from: item.from.value,
-    //     to: item.to.value,
-    //     transport: item.transport.value,
-    //     quantity: item.quantity,
-    //     stepType: item.stepType,
-    //     product: item?.product?.value,
-    //     service: item?.service?.value,
-    //     rawMaterial: item?.rawMaterial?.value,
-    //   };
-    // });
+    const backendSUpplychain = data?.steps?.map((item: ISupply) => {
+      return {
+        eid: item.eid,
+        quantity: item.quantity,
+        to: item.to.value,
+        from: item.from.value,
+        stepType: item.stepType,
+        product: item?.product?.value,
+        service: item?.service?.value,
+        transport: item.transport.value,
+        rawMaterial: item?.rawMaterial?.value,
+      };
+    });
 
-    // console.log(backendSUpplychain);
+    console.log(backendSUpplychain);
 
-    // try {
-    //   const hash = await writeContractAsync({
-    //     abi: SupplySphereABI,
-    //     address: supplysphereAddress[`${chainId}`] as `0x${string}`,
-    //     functionName: "fundChain",
-    //     args: [BigInt(supplyChainID)],
-    //   });
+    try {
+      const hash = await writeContractAsync({
+        abi: SupplySphereABI,
+        address: supplysphereAddress[`${chainId}`] as `0x${string}`,
+        functionName: "fundChain",
+        args: [BigInt(supplyChainID)],
+      });
 
-    //   await waitForTransactionReceipt(config, {
-    //     hash,
-    //   });
-    //    await createSupplyChain(data);
-    //   enqueueSnackbar(
-    //     "Fund chain success!", { variant: "success" }
-    //   );
+      const { transactionHash } = await waitForTransactionReceipt(config, {
+        hash,
+      });
 
-    //   onReset();
-    //   router.push(paths.dashboard.supplychain.root);
-    // } catch (error) {
-    //   enqueueSnackbar(
-    //     "Fund chain un-success!", { variant: "error" }
-    //   );
-    //   console.error(error);
-    // }
+      // Read Contract for supplychain object
+      const stepResult = await readContract(config, {
+        abi: SupplyChainABI,
+        address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+        functionName: "getSupplyChain",
+        args: [BigInt(supplyChainID)],
+      });
+
+      const stepsObject = stepResult?.steps;
+
+      // ----------------------------------------------------------------------
+
+      for (let i = 0; i < backendSUpplychain.length; i++) {
+        backendSUpplychain[i].eid = String(stepsObject[i].stepId);
+      }
+
+      data.steps = backendSUpplychain;
+
+      data.eid = String(supplyChainID);
+      data.transactionHash = String(transactionHash);
+      console.log("Final DATA:", data);
+
+      await createSupplyChain(data);
+      enqueueSnackbar("Fund chain success!", { variant: "success" });
+
+      onReset();
+      router.push(paths.dashboard.supplychain.root);
+    } catch (error) {
+      enqueueSnackbar("Fund chain un-success!", { variant: "error" });
+      console.error(error);
+    }
   });
 
   return (
@@ -209,7 +233,10 @@ export default function SupplyChainNewEditForm({ currentSupplyChain }: Props) {
       {checkout.activeStep === 1 && <CheckoutSelectItems />}
       {checkout.activeStep === 2 && <CheckoutConfigureSteps />}
       {checkout.activeStep === 3 && (
-        <CheckoutPreviewSteps handleSupplychainId={setSupplyChainID} />
+        <CheckoutPreviewSteps
+          // handleFormSubmit={onSubmit}
+          handleSupplychainId={setSupplyChainID}
+        />
       )}
     </FormProvider>
   );

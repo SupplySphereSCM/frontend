@@ -388,5 +388,5 @@ export const LogisticsABI = [
 
 export const addresses: Record<string, string> = {
   "1337": "0x9beeD5049070C852b43d82C57FA71062a8531872",
-  "80002": "0x9beeD5049070C852b43d82C57FA71062a8531872",
+  "80002": "0x691e5A2B01EF39B81b9dA9BC5b38d95E5c822Cf4",
 };

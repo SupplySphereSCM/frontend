@@ -448,5 +448,5 @@ export const ServicesABI = [
 
 export const addresses: Record<string, string> = {
   "1337": "0xd501F292b7A8f77329B50f02565a178ADa4C86B9",
-  "80002": "0xd501F292b7A8f77329B50f02565a178ADa4C86B9",
+  "80002": "0xBF2167Ef64DA6698CBDd5283A6BE7c80DdfD75a1",
 };

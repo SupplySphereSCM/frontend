@@ -1222,7 +1222,7 @@ export const SupplySphereABI = [
 
 export const addresses: Record<string, `0x${string}`> = {
   "1337": "0xBC5DBA256B8DEdc33c15B195cD85345DBE01d7dD",
-  "80002": "0xBC5DBA256B8DEdc33c15B195cD85345DBE01d7dD",
+  "80002": "0xa0D751Ff96612F5966e7593833b7F13798872b7A",
 };
 
 export const ROLES: Record<string, `0x${string}`> = {

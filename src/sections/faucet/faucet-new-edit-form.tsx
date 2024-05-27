@@ -92,7 +92,7 @@ export default function FaucetNewEditForm() {
         functionName: "mint",
         args: [
           data.address as `0x${string}`,
-          parseUnits(String(data.amount), 18),
+          parseUnits(String(data.amount), 2),
         ],
         // BigInt(data.amount * 100)],
       });

@@ -467,5 +467,5 @@ export const RawMaterialABI = [
 
 export const addresses: Record<string, string> = {
   "1337": "0x6f757F3ab0765ffbCc0EAf9220241815135B5c86",
-  "80002": "0x6f757F3ab0765ffbCc0EAf9220241815135B5c86",
+  "80002": "0x0Bc2dF51A5475ba06CeD4581001fB24641469209",
 };

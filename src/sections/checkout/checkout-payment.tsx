@@ -20,6 +20,7 @@ import CheckoutSummary from "./checkout-summary";
 import CheckoutDelivery from "./checkout-delivery";
 import CheckoutBillingInfo from "./checkout-billing-info";
 import CheckoutPaymentMethods from "./checkout-payment-methods";
+import { useGetShopTransporterServices } from "src/api/service";
 
 // ----------------------------------------------------------------------
 
@@ -73,6 +74,9 @@ export default function CheckoutPayment() {
     payment: Yup.string().required("Payment is required"),
   });
 
+  const { services } = useGetShopTransporterServices();
+  console.log("logistics:", services);
+
   const defaultValues = {
     delivery: checkout.shipping,
     payment: "",
@@ -90,6 +94,7 @@ export default function CheckoutPayment() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      
       checkout.onNextStep();
       checkout.onReset();
       console.info("DATA", data);
@@ -104,7 +109,7 @@ export default function CheckoutPayment() {
         <Grid xs={12} md={8}>
           <CheckoutDelivery
             onApplyShipping={checkout.onApplyShipping}
-            options={DELIVERY_OPTIONS}
+            options={services}
           />
 
           <CheckoutPaymentMethods

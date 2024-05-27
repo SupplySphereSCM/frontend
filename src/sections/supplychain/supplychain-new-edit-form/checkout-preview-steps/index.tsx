@@ -27,7 +27,7 @@ import {
   StepType,
 } from "src/types/supplychain";
 // form
-import { useFieldArray, useForm, useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // wagmi
 import { parseUnits } from "viem";
@@ -46,6 +46,7 @@ import { IRawMaterialItem } from "src/types/raw-materials";
 import { simulateContract } from "@wagmi/core";
 import { readContract } from "@wagmi/core";
 import { useState } from "react";
+import {} from "../index";
 
 const STORAGE_KEY = "checkout";
 
@@ -55,10 +56,13 @@ const stepTypeMap: Record<StepType, number> = {
 };
 
 type Props = {
+  // handleFormSubmit: any;
   handleSupplychainId: (id: string) => void;
 };
 
-export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
+export default function CheckoutPreviewSteps({
+  handleSupplychainId, // handleFormSubmit,
+}: Props) {
   const { chainId } = useAccount();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -74,7 +78,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
   const steps = watch("steps");
   const data = watch();
   // console.log("Data from watch:", data);
-
+  const { handleSubmit } = useFormContext();
   const { materials, services, logistics } = getStorage(
     STORAGE_KEY
   ) as IvalueItem;
@@ -125,7 +129,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
             stepType: stepTypeMap[step.stepType],
             itemId: BigInt(receiver.eid),
             logisticsId: BigInt(logistic!.eid),
-            quantity: BigInt(step.quantity),
+            quantity: BigInt(step.quantity!),
             receiver: receiver.user.ethAddress as `0x${string}`,
           };
         });
@@ -166,26 +170,26 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
         // ----------------------------------------------------------------------
 
         // Read Contract for supplychain object
-        const stepResult = await readContract(config, {
-          abi: SupplyChainABI,
-          address: supplyChainAddress[`${chainId}`] as `0x${string}`,
-          functionName: "getSupplyChain",
-          args: [supplychainEid],
-        });
+        // const stepResult = await readContract(config, {
+        //   abi: SupplyChainABI,
+        //   address: supplyChainAddress[`${chainId}`] as `0x${string}`,
+        //   functionName: "getSupplyChain",
+        //   args: [supplychainEid],
+        // });
 
-        const stepsObject = stepResult?.steps;
+        // const stepsObject = stepResult?.steps;
 
-        // ----------------------------------------------------------------------
+        // // ----------------------------------------------------------------------
 
-        for (let i = 0; i < backendSteps.length; i++) {
-          backendSteps[i].eid = String(stepsObject[i].stepId);
-        }
+        // for (let i = 0; i < backendSteps.length; i++) {
+        //   backendSteps[i].eid = String(stepsObject[i].stepId);
+        // }
 
-        data.steps = backendSteps;
+        // data.steps = backendSteps;
 
-        data.eid = String(supplychainEid);
-        data.transactionHash = String(transactionHash);
-        console.log("DATA:", data);
+        // data.eid = String(supplychainEid);
+        // data.transactionHash = String(transactionHash);
+        // console.log("DATA:", data);
         enqueueSnackbar("Supply chain Created successfully!", {
           variant: "success",
         });
@@ -198,6 +202,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
       });
     }
   };
+
   const handleApproveINR = async () => {
     try {
       const hash = await writeContractAsync({
@@ -206,7 +211,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
         functionName: "approve",
         args: [
           supplysphereAddresses[`${chainId}`] as `0x${string}`,
-          parseUnits(String(totalSupplyChainAmount), 18),
+          parseUnits(String(totalSupplyChainAmount), 2),
         ],
       });
       await waitForTransactionReceipt(config, {
@@ -220,6 +225,9 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
     }
   };
 
+  // const handelSubmitFun = async (data) => {
+  //   console.log("DATA:", data);
+  // };
   // const handleSubmit = () => {
   //   console.log("DATA:", data);
   // };
@@ -275,6 +283,7 @@ export default function CheckoutPreviewSteps({ handleSupplychainId }: Props) {
           disabled={!fundChain}
           color="primary"
           type="submit"
+          // onClick={handleSubmit(handelSubmitFun)}
           variant="contained"
           size="large"
         >
