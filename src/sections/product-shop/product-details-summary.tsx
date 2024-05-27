@@ -48,6 +48,8 @@ export default function ProductDetailsSummary({
 
   const {
     id,
+    tax,
+    user,
     name,
     price,
     coverUrl,
@@ -73,10 +75,12 @@ export default function ProductDetailsSummary({
 
   const defaultValues = {
     id,
+    tax,
+    user,
     name,
+    price,
     coverUrl,
     available,
-    price,
     // colors: colors[0],
     // size: sizes[4],
     quantity: available < 1 ? 0 : 1,

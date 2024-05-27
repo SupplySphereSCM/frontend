@@ -66,7 +66,7 @@ export default function ProductShopView() {
   const [filters, setFilters] = useState(defaultFilters);
 
   const { products, productsLoading, productsEmpty } = useGetProducts();
-  console.log("product-shop:", productsEmpty);
+  // console.log("product-shop:", products);
 
   const { searchResults, searchLoading } = useSearchProducts(debouncedQuery);
 
@@ -87,10 +87,10 @@ export default function ProductShopView() {
   });
 
   const canReset = !isEqual(defaultFilters, filters);
-  console.log("datafiltered", dataFiltered);
+  // console.log("datafiltered", dataFiltered);
 
   const notFound = !dataFiltered.length && canReset;
-  console.log("not found:", notFound);
+  // console.log("not found:", notFound);
 
   const handleSortBy = useCallback((newValue: string) => {
     setSortBy(newValue);

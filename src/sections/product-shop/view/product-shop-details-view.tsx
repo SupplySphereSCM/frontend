@@ -65,6 +65,7 @@ export default function ProductShopDetailsView({ id }: Props) {
     productId: id,
     role: user?.roles[0] as any,
   });
+  // console.log("product-shop-details:", product);
 
   const handleChangeTab = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -72,7 +73,7 @@ export default function ProductShopDetailsView({ id }: Props) {
     },
     []
   );
-  console.log("This is product shop details view");
+
 
   const renderSkeleton = <ProductDetailsSkeleton />;
 

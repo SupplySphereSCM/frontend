@@ -172,6 +172,16 @@ export function useNavData() {
                   //   { title: "list", path: paths.dashboard.shop.root },
                   // ],
                 },
+                // faucet
+                {
+                  title: "faucet",
+                  path: paths.dashboard.faucet.root,
+                  icon: ICONS.banking,
+                  // children: [
+                  //   { title: "list", path: paths.dashboard.faucet.root },
+                  //   // { title: "details", path: paths.dashboard.order.demo.details },
+                  // ],
+                },
               ]
             : []),
 

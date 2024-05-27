@@ -17,11 +17,13 @@ import { ITransporterServiceItem } from "src/types/service";
 type Props = CardProps & {
   // options: ICheckoutDeliveryOption[];
   options: ITransporterServiceItem[];
+  setSelectedTransportId: (id: string) => void;
   onApplyShipping: (shipping: number) => void;
 };
 
 export default function CheckoutDelivery({
   options,
+  setSelectedTransportId,
   onApplyShipping,
   ...other
 }: Props) {
@@ -51,10 +53,11 @@ export default function CheckoutDelivery({
               <OptionItem
                 key={option.id}
                 option={option}
-                selected={field.value === option.priceInterState}
+                selected={field.value === option.priceWithinState}
                 onClick={() => {
-                  field.onChange(option.value);
-                  onApplyShipping(option.value);
+                  field.onChange(option.priceWithinState);
+                  onApplyShipping(option.priceWithinState);
+                  setSelectedTransportId(option?.id!);
                 }}
               />
             ))}
@@ -68,17 +71,17 @@ export default function CheckoutDelivery({
 // ----------------------------------------------------------------------
 
 type OptionItemProps = PaperProps & {
-  option: ICheckoutDeliveryOption;
+  option: ITransporterServiceItem;
   selected: boolean;
 };
 
 function OptionItem({ option, selected, ...other }: OptionItemProps) {
-  const { value, label, description } = option;
+  const { name, id, priceWithinState, description } = option;
 
   return (
     <Paper
       variant="outlined"
-      key={value}
+      key={id}
       sx={{
         p: 2.5,
         cursor: "pointer",
@@ -89,18 +92,21 @@ function OptionItem({ option, selected, ...other }: OptionItemProps) {
       }}
       {...other}
     >
-      {label === "Free" && <Iconify icon="carbon:bicycle" width={32} />}
+      {/* {label === "Free" && <Iconify icon="carbon:bicycle" width={32} />}
       {label === "Standard" && <Iconify icon="carbon:delivery" width={32} />}
-      {label === "Express" && <Iconify icon="carbon:rocket" width={32} />}
+      {label === "Express" && <Iconify icon="carbon:rocket" width={32} />} */}
 
       <ListItemText
         sx={{ ml: 2 }}
         primary={
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ flexGrow: 1 }}>
-              {label}
+              {name}
             </Box>
-            <Box component="span" sx={{ typography: "h6" }}>{`$${value}`}</Box>
+            <Box
+              component="span"
+              sx={{ typography: "h6" }}
+            >{`$${priceWithinState}`}</Box>
           </Stack>
         }
         secondary={description}

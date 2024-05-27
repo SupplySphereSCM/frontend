@@ -1,8 +1,10 @@
 import { IAddressItem } from "./address";
+import { IUser } from "./user";
 
 // ----------------------------------------------------------------------
 
 export type ICheckoutItem = {
+  tax: number;
   id: string;
   name: string;
   coverUrl: string;
@@ -10,6 +12,7 @@ export type ICheckoutItem = {
   price: number;
   quantity: number;
   subTotal: number;
+  user: IUser;
 };
 // colors: string[];
 // size: string;

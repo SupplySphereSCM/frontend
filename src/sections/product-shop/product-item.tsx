@@ -28,8 +28,9 @@ type Props = {
 
 export default function ProductItem({ product }: Props) {
   const { onAddToCart } = useCheckoutContext();
+  console.log("ptoduct item:", product);
 
-  const { id, name, coverUrl, price, available } = product;
+  const { id, name, coverUrl, price, available, user, tax } = product;
   // const { id, name, coverUrl, price, colors, available, sizes, priceSale, newLabel, saleLabel } =
   //   product;
 
@@ -38,10 +39,12 @@ export default function ProductItem({ product }: Props) {
   const handleAddCart = async () => {
     const newProduct = {
       id,
+      tax,
+      user,
       name,
+      price,
       coverUrl,
       available,
-      price,
       // colors: [colors[0]],
       // size: sizes[0],
       quantity: 1,

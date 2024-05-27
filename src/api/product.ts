@@ -41,7 +41,7 @@ export function useGetProducts() {
   const URL = endpoints.product.root;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  console.log("Data:", data); // Check if data is being fetched
+  // console.log("Data:", data); // Check if data is being fetched
 
   const memoizedValue = useMemo(
     () => ({
@@ -73,7 +73,7 @@ export function useGetUserProducts({ role }: UseGetUserProductsProps) {
     error,
     isValidating,
   } = useSWR(URL, fetcher);
-  console.log("useGetUserProducts:", products);
+  // console.log("useGetUserProducts:", products);
 
   const memoizedValue = useMemo(
     () => ({

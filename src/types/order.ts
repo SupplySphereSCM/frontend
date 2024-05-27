@@ -100,16 +100,16 @@ export type IOrderProductItem = {
 export type IOrderItem = {
   discount: number;
   id: string;
-  from: IUser;
-  via: IUser;
-  to: IUser;
+  from: string;
+  via: string;
+  to: string;
   supplyChainEId: string;
   stepEid: string;
-  product: IProductItem;
+  product: string;
   service: IServiceItem;
   stepType: string;
   rawMaterial: IRawMaterialItem;
-  transport: ITransporterServiceItem;
+  transport: string;
   total: number;
   deliveryCharges: number;
   tax: number;
