@@ -116,7 +116,7 @@ export default function ServiceItem({ service }: Props) {
             }}
           />
           <Stack direction="row">
-            <Typography variant="h4">$</Typography>
+            <Typography variant="h4">₹</Typography>
 
             <Typography variant="h2">{priceWithinState}</Typography>
 

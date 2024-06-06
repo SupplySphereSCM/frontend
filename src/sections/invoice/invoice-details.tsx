@@ -45,7 +45,7 @@ type Props = {
 
 export default function InvoiceDetails({ invoice }: Props) {
   const [currentStatus, setCurrentStatus] = useState(
-    invoice?.order?.orderStatus,
+    invoice?.order?.orderStatus
   );
 
   console.log("invoice-details:", invoice?.order);
@@ -54,7 +54,7 @@ export default function InvoiceDetails({ invoice }: Props) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentStatus(event?.target?.value);
     },
-    [],
+    []
   );
 
   const renderTotal = (
@@ -79,7 +79,7 @@ export default function InvoiceDetails({ invoice }: Props) {
           width={120}
           sx={{ color: "error.main", typography: "body2" }}
         >
-          {fCurrency(invoice?.deliveryCharges)}
+          ₹ {invoice?.deliveryCharges}
         </TableCell>
       </StyledTableRow>
 
@@ -97,7 +97,7 @@ export default function InvoiceDetails({ invoice }: Props) {
       <StyledTableRow>
         <TableCell colSpan={3} />
         <TableCell sx={{ color: "text.secondary" }}>Taxes</TableCell>
-        <TableCell width={120}>{fCurrency(invoice?.tax)}</TableCell>
+        <TableCell width={120}>₹ {invoice?.tax}</TableCell>
         {/* <TableCell width={120}>{fCurrency(invoice.tax)}</TableCell> */}
       </StyledTableRow>
 
@@ -105,7 +105,7 @@ export default function InvoiceDetails({ invoice }: Props) {
         <TableCell colSpan={3} />
         <TableCell sx={{ typography: "subtitle1" }}>Total</TableCell>
         <TableCell width={140} sx={{ typography: "subtitle1" }}>
-          {fCurrency(invoice?.total)}
+          ₹ {invoice?.total}
           {/* {fCurrency(invoice.total)} */}
         </TableCell>
       </StyledTableRow>
@@ -174,10 +174,10 @@ export default function InvoiceDetails({ invoice }: Props) {
 
               <TableCell>{invoice?.quantity}</TableCell>
 
-              <TableCell align="right">{fCurrency(invoice?.price)}</TableCell>
+              <TableCell align="right">₹ {invoice?.price}</TableCell>
 
               <TableCell align="right">
-                {fCurrency(invoice?.price * invoice?.quantity)}
+                ₹ {invoice?.price * invoice?.quantity}
               </TableCell>
             </TableRow>
             {/* ))} */}

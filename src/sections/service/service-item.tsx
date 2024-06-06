@@ -225,7 +225,7 @@ export default function ServiceItem({
           />
 
           <Stack direction="row">
-            <Typography variant="h4">$</Typography>
+            <Typography variant="h4">₹</Typography>
 
             <Typography variant="h2">{price}</Typography>
 

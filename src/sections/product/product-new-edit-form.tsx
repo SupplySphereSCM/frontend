@@ -160,7 +160,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
   // };
   const onSubmit = handleSubmit(async (data) => {
     try {
-      if (!data.images) {
+      if (data.images) {
         data.images = images;
       }
 
@@ -170,7 +170,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           await updateRawMaterial(data as IRawMaterialItem);
         } else {
           // const materialId = handleSimulate(data);
-          const {result} = await simulateContract(config, {
+          const { result } = await simulateContract(config, {
             abi: RawMaterialABI,
             address: rawMaterialAddress[`${chainId}`] as `0x${string}`,
             functionName: "addRawMaterial",
@@ -211,6 +211,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           });
           data.eid = String(result);
           data.transactionHash = String(transactionHash);
+
           await createRawMaterial(data as IRawMaterialItem);
         }
       } else if (user?.roles.includes("MANUFACTURER")) {
@@ -277,6 +278,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
           preview: URL.createObjectURL(file),
         })
       );
+      console.log(newFiles);
 
       setValue("images", [...files, ...newFiles], { shouldValidate: true });
     },
@@ -459,7 +461,7 @@ export default function ProductNewEditForm({ currentProduct }: Props) {
                 startAdornment: (
                   <InputAdornment position="start">
                     <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
+                      ₹
                     </Box>
                   </InputAdornment>
                 ),

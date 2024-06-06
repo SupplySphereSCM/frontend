@@ -94,7 +94,7 @@ export default function TransporterServiceNewEditForm({
       transactionHash:
         currentTransportService?.transactionHash || Date.now().toString(),
     }),
-    [currentTransportService],
+    [currentTransportService]
   );
 
   const methods = useForm({
@@ -160,7 +160,7 @@ export default function TransporterServiceNewEditForm({
 
       reset();
       enqueueSnackbar(
-        currentTransportService ? "Update success!" : "Create success!",
+        currentTransportService ? "Update success!" : "Create success!"
       );
       router.push(paths.dashboard.service.root);
       console.info("DATA", data);
@@ -363,7 +363,7 @@ export default function TransporterServiceNewEditForm({
                 startAdornment: (
                   <InputAdornment position="start">
                     <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
+                      ₹
                     </Box>
                   </InputAdornment>
                 ),
@@ -381,7 +381,7 @@ export default function TransporterServiceNewEditForm({
                 startAdornment: (
                   <InputAdornment position="start">
                     <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
+                      ₹
                     </Box>
                   </InputAdornment>
                 ),
@@ -399,7 +399,7 @@ export default function TransporterServiceNewEditForm({
                 startAdornment: (
                   <InputAdornment position="start">
                     <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
+                      ₹
                     </Box>
                   </InputAdornment>
                 ),

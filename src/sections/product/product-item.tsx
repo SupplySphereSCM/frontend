@@ -34,8 +34,8 @@ export default function ProductItem({ product }: Props) {
     name,
     coverUrl,
     price,
-    // colors,
     available,
+    // colors,
     // sizes,
     // priceSale,
     // newLabel,
@@ -150,7 +150,7 @@ export default function ProductItem({ product }: Props) {
             </Box>
           )} */}
 
-          <Box component="span">{fCurrency(price)}</Box>
+          <Box component="span">₹ {price}</Box>
         </Stack>
       </Stack>
     </Stack>

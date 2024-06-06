@@ -19,6 +19,7 @@ import { ColorPreview } from "src/components/color-utils";
 import { IProductItem } from "src/types/product";
 //
 import { useCheckoutContext } from "../checkout/context";
+import image from "src/components/image";
 
 // ----------------------------------------------------------------------
 
@@ -39,12 +40,14 @@ export default function ProductItem({ product }: Props) {
   const handleAddCart = async () => {
     const newProduct = {
       id,
+      image,
       tax,
       user,
       name,
       price,
       coverUrl,
       available,
+
       // colors: [colors[0]],
       // size: sizes[0],
       quantity: 1,
@@ -143,7 +146,7 @@ export default function ProductItem({ product }: Props) {
             </Box>
           )} */}
 
-          <Box component="span">{fCurrency(price)}</Box>
+          <Box component="span">₹ {price}</Box>
         </Stack>
       </Stack>
     </Stack>

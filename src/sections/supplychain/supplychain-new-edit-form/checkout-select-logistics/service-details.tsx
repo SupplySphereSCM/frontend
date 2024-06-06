@@ -85,7 +85,7 @@ export default function TransportServiceDetails({ id }: Props) {
     (event: React.SyntheticEvent, newValue: string) => {
       setCurrentTab(newValue);
     },
-    [],
+    []
   );
 
   const renderSkeleton = <ServiceDetailsSkeleton />;
@@ -137,7 +137,11 @@ export default function TransportServiceDetails({ id }: Props) {
   const renderService = service && (
     <Container maxWidth={settings.themeStretch ? false : "lg"}>
       <ServiceDetailsToolbar
-        backLink={paths.dashboard.supplychain.new}
+        backLink={
+          user?.roles[0] === "TRANSPORTER"
+            ? paths.dashboard.service.root
+            : paths.dashboard.supplychain.new
+        }
         liveLink={paths.dashboard.transporter.details(`${service?.id}`)}
         // publish={publish || ""}
         // onChangePublish={handleChangePublish}

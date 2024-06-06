@@ -254,17 +254,17 @@ export default function ServiceDetailsSummary({
         // },
         {
           label: "Price With in State",
-          value: fCurrency(priceWithinState),
+          value: `₹ ${priceWithinState}`,
           icon: <Iconify icon="solar:wad-of-money-bold" />,
         },
         {
           label: "Price Inter State",
-          value: fCurrency(priceInterState),
+          value: `₹ ${priceInterState}`,
           icon: <Iconify icon="solar:wad-of-money-bold" />,
         },
         {
           label: "Price International",
-          value: fCurrency(priceInternationl),
+          value: `₹ ${priceInternationl}`,
           icon: <Iconify icon="solar:wad-of-money-bold" />,
         },
       ].map((item) => (

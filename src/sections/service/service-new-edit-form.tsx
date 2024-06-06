@@ -373,7 +373,7 @@ export default function ServiceNewEditForm({ currentService }: Props) {
                 startAdornment: (
                   <InputAdornment position="start">
                     <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
+                      ₹
                     </Box>
                   </InputAdornment>
                 ),

@@ -254,7 +254,7 @@ export default function CheckoutPreviewSteps({
       >
         <Stack direction="row" sx={{ typography: "subtitle1", mr: 3 }}>
           <Box>Total Amount</Box>
-          <Box sx={{ width: 160 }}>$ {totalSupplyChainAmount}</Box>
+          <Box sx={{ width: 160 }}>₹ {totalSupplyChainAmount}</Box>
         </Stack>
       </Stack>
       <Stack

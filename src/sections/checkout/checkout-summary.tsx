@@ -60,7 +60,7 @@ export default function CheckoutSummary({
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Sub Total
             </Typography>
-            <Typography variant="subtitle2">{fCurrency(subTotal)}</Typography>
+            <Typography variant="subtitle2">₹ {subTotal}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between">
@@ -68,7 +68,7 @@ export default function CheckoutSummary({
               Discount
             </Typography>
             <Typography variant="subtitle2">
-              {discount ? fCurrency(-discount) : "-"}
+              {discount ? `₹ ${-discount}` : "-"}
             </Typography>
           </Stack>
 
@@ -77,7 +77,7 @@ export default function CheckoutSummary({
               Shipping
             </Typography>
             <Typography variant="subtitle2">
-              {shipping ? fCurrency(shipping) : displayShipping}
+              {shipping ? `₹ ${shipping}` : displayShipping}
             </Typography>
           </Stack>
 
@@ -87,7 +87,7 @@ export default function CheckoutSummary({
             <Typography variant="subtitle1">Total</Typography>
             <Box sx={{ textAlign: "right" }}>
               <Typography variant="subtitle1" sx={{ color: "error.main" }}>
-                {fCurrency(total)}
+                ₹ {total}
               </Typography>
               <Typography variant="caption" sx={{ fontStyle: "italic" }}>
                 (VAT included if applicable)

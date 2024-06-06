@@ -126,7 +126,7 @@ export default function OrderTableRow({
 
       <TableCell align="center"> {quantity} </TableCell>
 
-      <TableCell> {fCurrency(total)} </TableCell>
+      <TableCell> ₹ {total} </TableCell>
 
       <TableCell>
         <Label

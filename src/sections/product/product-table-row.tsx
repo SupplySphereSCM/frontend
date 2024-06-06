@@ -124,7 +124,7 @@ function ProductTableRow({
           {!!available && available} {inventoryType}
         </TableCell> */}
 
-        <TableCell>{fCurrency(price)}</TableCell>
+        <TableCell>₹ {price}</TableCell>
 
         <TableCell align="right">
           <IconButton

@@ -226,7 +226,7 @@ export default function TransporterItem({
           />
 
           <Stack direction="row">
-            <Typography variant="h4">$</Typography>
+            <Typography variant="h4">₹</Typography>
 
             <Typography variant="h2">{priceWithinState}</Typography>
 
@@ -243,7 +243,7 @@ export default function TransporterItem({
             </Typography>
           </Stack>
           <Stack direction="row">
-            <Typography variant="h4">$</Typography>
+            <Typography variant="h4">₹</Typography>
 
             <Typography variant="h2">{priceInterState}</Typography>
 
@@ -260,7 +260,7 @@ export default function TransporterItem({
             </Typography>
           </Stack>
           <Stack direction="row">
-            <Typography variant="h4">$</Typography>
+            <Typography variant="h4">₹</Typography>
 
             <Typography variant="h2">{priceInternationl}</Typography>
 
@@ -298,7 +298,7 @@ export default function TransporterItem({
             //   ),
             // },
             {
-              label: service.volume != 0 ? `${volume} KG` : `${quantity} units`,
+              label: service.volume != 0 ? `₹{volume} KG` : `₹{quantity} units`,
               icon: (
                 <Iconify
                   width={16}

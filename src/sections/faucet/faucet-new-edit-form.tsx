@@ -130,7 +130,7 @@ export default function FaucetNewEditForm() {
           <Stack spacing={2} sx={{ p: 3 }}>
             <RHFTextField name="address" label="Eth address" />
             <Typography variant="caption">
-              Balance: {value.toString()}
+              Balance: ₹ {value.toString()}
             </Typography>
           </Stack>
         </Card>
@@ -166,7 +166,7 @@ export default function FaucetNewEditForm() {
                 startAdornment: (
                   <InputAdornment position="start">
                     <Box component="span" sx={{ color: "text.disabled" }}>
-                      $
+                      ₹
                     </Box>
                   </InputAdornment>
                 ),

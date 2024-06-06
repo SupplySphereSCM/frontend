@@ -116,7 +116,7 @@ export default function InvoiceTableRow({
           />
         </TableCell> */}
 
-        <TableCell>{fCurrency(total)}</TableCell>
+        <TableCell>₹ {total}</TableCell>
 
         {/* <TableCell align="center">{sent}</TableCell> */}
 

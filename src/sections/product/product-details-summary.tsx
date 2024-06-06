@@ -145,8 +145,7 @@ export default function ProductDetailsSummary({
           {fCurrency(price)}
         </Box>
       )} */}
-
-      {fCurrency(price)}
+      ₹ {price}
     </Box>
   );
 

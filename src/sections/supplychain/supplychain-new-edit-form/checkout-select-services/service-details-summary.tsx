@@ -258,12 +258,12 @@ export default function ServiceDetailsSummary({
         // },
         {
           label: "Price",
-          value: fCurrency(price),
+          value: `₹ ${price}`,
           icon: <Iconify icon="solar:wad-of-money-bold" />,
         },
         {
           label: type == "Volume" ? "Volume" : "Quantity",
-          value: type == "Volume" ? `${volume} Kg` : `${quantity} units`,
+          value: volume !== 0 ? `${volume} Kg` : `${quantity} units`,
           icon: <Iconify icon="carbon:skill-level-basic" />,
         },
       ].map((item) => (

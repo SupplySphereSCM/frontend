@@ -28,11 +28,10 @@ export default function OrderDetailsItems({
   item,
   shipping,
   quantity,
-  // discount,
   taxes,
-  // subTotal,
-  totalAmount,
-}: Props) {
+  totalAmount, // discount,
+} // subTotal,
+: Props) {
   const renderTotal = (
     <Stack
       spacing={2}
@@ -54,7 +53,7 @@ export default function OrderDetailsItems({
             ...(shipping && { color: "error.main" }),
           }}
         >
-          {shipping ? `${fCurrency(shipping)}` : "-"}
+          {shipping ? `₹ ${shipping}` : "-"}
         </Box>
       </Stack>
 
@@ -72,12 +71,12 @@ export default function OrderDetailsItems({
 
       <Stack direction="row">
         <Box sx={{ color: "text.secondary" }}>Taxes</Box>
-        <Box sx={{ width: 160 }}>{taxes ? fCurrency(taxes) : "-"}</Box>
+        <Box sx={{ width: 160 }}>{taxes ? `₹ ${taxes}` : "-"}</Box>
       </Stack>
 
       <Stack direction="row" sx={{ typography: "subtitle1" }}>
         <Box>Total</Box>
-        <Box sx={{ width: 160 }}>{fCurrency(totalAmount) || "-"}</Box>
+        <Box sx={{ width: 160 }}>₹ {totalAmount || "-"}</Box>
       </Stack>
     </Stack>
   );
@@ -128,7 +127,7 @@ export default function OrderDetailsItems({
             <Box
               sx={{ width: 110, textAlign: "right", typography: "subtitle2" }}
             >
-              {fCurrency(item?.price)}
+              ₹ {item?.price}
             </Box>
           </Stack>
           {/* ))} */}

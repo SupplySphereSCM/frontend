@@ -57,8 +57,8 @@ export function useGetSupplyChain(id: string) {
   const URL = endpoints.supplychain.details(id);
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
-  data?.steps?.reverse();
-  console.log("useGetSupplyChain:", data);
+  // data?.steps?.reverse();
+  // console.log("useGetSupplyChain:", data);
 
   const memoizedValue = useMemo(
     () => ({

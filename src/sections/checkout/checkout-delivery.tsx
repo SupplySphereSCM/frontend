@@ -106,7 +106,7 @@ function OptionItem({ option, selected, ...other }: OptionItemProps) {
             <Box
               component="span"
               sx={{ typography: "h6" }}
-            >{`$${priceWithinState}`}</Box>
+            >{`₹ ${priceWithinState}`}</Box>
           </Stack>
         }
         secondary={description}

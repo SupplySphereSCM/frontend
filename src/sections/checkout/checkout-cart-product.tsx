@@ -65,7 +65,7 @@ export default function CheckoutCartProduct({
         </Stack>
       </TableCell>
 
-      <TableCell>{fCurrency(price)}</TableCell>
+      <TableCell>₹ {price}</TableCell>
 
       <TableCell>
         <Box sx={{ width: 88, textAlign: "right" }}>
@@ -87,7 +87,7 @@ export default function CheckoutCartProduct({
         </Box>
       </TableCell>
 
-      <TableCell align="right">{fCurrency(price * quantity)}</TableCell>
+      <TableCell align="right">₹ {price * quantity}</TableCell>
 
       <TableCell align="right" sx={{ px: 1 }}>
         <IconButton onClick={onDelete}>

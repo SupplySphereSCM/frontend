@@ -121,6 +121,7 @@ export default function CheckoutPayment() {
       // console.log("total :", checkout.total);
 
       const recipient = checkout.items[0]?.user?.ethAddress;
+      console.log(recipient);
 
       const hash = await writeContractAsync({
         abi: INRABI,

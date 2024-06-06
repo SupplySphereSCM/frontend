@@ -102,7 +102,7 @@ export default function MaterialItem({ product }: Props) {
       </Link>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Box component="span">{fCurrency(price)}</Box>
+        <Box component="span">₹ {price}</Box>
       </Stack>
     </Stack>
   );

@@ -118,7 +118,7 @@ export default function ServiceItem({ service }: Props) {
         </Stack>
 
         <Stack direction="row" sx={{ p: 3, pb: 2 }}>
-          <Typography variant="h4">$</Typography>
+          <Typography variant="h4">₹</Typography>
 
           <Typography variant="h2">
             {(price / (service.volume != 0 ? volume : quantity)).toFixed(2)}
